@@ -1,0 +1,86 @@
+<?php
+require_once('../../odoo/odoo-conexion.php');
+
+$id = $_POST['id'];
+
+$kwargs = ['fields' => [
+    'id',
+    'name',
+    'store_id',
+    'sequence_id',
+    'waybill_category',
+    'x_codigo_postal',
+    'date_start',
+    'x_date_arrival_shed',
+    'x_modo_bel',
+    'x_barras_logisticas',
+    'x_seguro',
+    'x_desconsolidacion',
+    'x_pesaje',
+    'x_almacenaje',
+    'x_reparto',
+    'x_fumigacion',
+    'x_resguardo',
+    'x_prueba_covid',
+    'x_sello',
+    'x_conexion_refrigerado',
+    'x_maniobra_carga_descarga',
+    'x_nombre_agencia',
+    'x_email_aa',
+    'x_telefono_aa',
+    'upload_point',
+    'download_point',
+    'x_ruta_autorizada',
+    'x_paradas_autorizadas',
+    'x_tipo_bel',
+    'x_reference_owr',
+    'dangerous_cargo',
+    'x_tipo2_bel',
+    'x_nombre_custodios',
+    'x_telefono_custodios',
+    'x_empresa_custodia',
+    'x_datos_unidad',
+    'x_ruta_destino',
+    'international_shipping',
+    'merchandice_country_origin_id',
+    'tipo_transporte_entrada_salida_id',
+    'shipping_complement_type',
+    'waybill_pedimento',
+    'x_especificaciones_especiales',
+    'x_custodia_bel',
+    'client_order_ref',
+    'x_subcliente_bel',
+    'x_contacto_subcliente',
+    'x_telefono_subcliente',
+    'x_correo_subcliente',
+    'x_epp',
+    'x_numero_cotizacion',
+    'x_tarifa',
+    'partner_id',
+    'state',
+    'departure_address_id',
+    'arrival_address_id',
+    'x_ejecutivo',
+    'x_reference',
+    'x_ejecutivo_viaje_bel',
+    'x_ruta_bel',
+    'date_order',
+    'expected_date_delivery',
+    'x_medida_bel',
+    'x_clase_bel'
+], 'limit' => 1];
+
+$ids = $models->execute_kw(
+    $db,
+    $uid,
+    $password,
+    'tms.waybill',
+    'search_read',
+    array(array(
+        array('id', '=', $id),
+    ),),
+    $kwargs
+);
+
+$json = json_encode($ids);
+print($json);

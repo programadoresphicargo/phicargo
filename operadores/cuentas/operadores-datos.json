@@ -1,0 +1,800 @@
+{
+    "name": {
+        "type": "char",
+        "string": "Name"
+    },
+    "user_id": {
+        "type": "many2one",
+        "help": "Related user name for the resource to manage its access.",
+        "string": "User"
+    },
+    "active": {
+        "type": "boolean",
+        "help": "If the active field is set to False, it will allow you to hide the resource record without removing it.",
+        "string": "Active"
+    },
+    "address_home_id": {
+        "type": "many2one",
+        "help": "Enter here the private address of the employee, not the one linked to your company.",
+        "string": "Private Address"
+    },
+    "is_address_home_a_company": {
+        "type": "boolean",
+        "string": "The employee adress has a company linked"
+    },
+    "country_id": {
+        "type": "many2one",
+        "string": "Nationality (Country)"
+    },
+    "gender": {
+        "type": "selection",
+        "string": "Gender"
+    },
+    "marital": {
+        "type": "selection",
+        "string": "Marital Status"
+    },
+    "spouse_complete_name": {
+        "type": "char",
+        "string": "Spouse Complete Name"
+    },
+    "spouse_birthdate": {
+        "type": "date",
+        "string": "Spouse Birthdate"
+    },
+    "children": {
+        "type": "integer",
+        "string": "Number of Children"
+    },
+    "place_of_birth": {
+        "type": "char",
+        "string": "Place of Birth"
+    },
+    "country_of_birth": {
+        "type": "many2one",
+        "string": "Country of Birth"
+    },
+    "birthday": {
+        "type": "date",
+        "string": "Date of Birth"
+    },
+    "ssnid": {
+        "type": "char",
+        "help": "Social Security Number",
+        "string": "SSN No"
+    },
+    "sinid": {
+        "type": "char",
+        "help": "Social Insurance Number",
+        "string": "SIN No"
+    },
+    "identification_id": {
+        "type": "char",
+        "string": "Identification No"
+    },
+    "passport_id": {
+        "type": "char",
+        "string": "Passport No"
+    },
+    "bank_account_id": {
+        "type": "many2one",
+        "help": "Employee bank salary account",
+        "string": "Bank Account Number"
+    },
+    "permit_no": {
+        "type": "char",
+        "string": "Work Permit No"
+    },
+    "visa_no": {
+        "type": "char",
+        "string": "Visa No"
+    },
+    "visa_expire": {
+        "type": "date",
+        "string": "Visa Expire Date"
+    },
+    "additional_note": {
+        "type": "text",
+        "string": "Additional Note"
+    },
+    "certificate": {
+        "type": "selection",
+        "string": "Certificate Level"
+    },
+    "study_field": {
+        "type": "char",
+        "string": "Field of Study"
+    },
+    "study_school": {
+        "type": "char",
+        "string": "School"
+    },
+    "emergency_contact": {
+        "type": "char",
+        "string": "Emergency Contact"
+    },
+    "emergency_phone": {
+        "type": "char",
+        "string": "Emergency Phone"
+    },
+    "km_home_work": {
+        "type": "integer",
+        "string": "Km home-work"
+    },
+    "google_drive_link": {
+        "type": "char",
+        "string": "Employee Documents"
+    },
+    "job_title": {
+        "type": "char",
+        "string": "Job Title"
+    },
+    "image": {
+        "type": "binary",
+        "help": "This field holds the image used as photo for the employee, limited to 1024x1024px.",
+        "string": "Photo"
+    },
+    "image_medium": {
+        "type": "binary",
+        "help": "Medium-sized photo of the employee. It is automatically resized as a 128x128px image, with aspect ratio preserved. Use this field in form views or some kanban views.",
+        "string": "Medium-sized photo"
+    },
+    "image_small": {
+        "type": "binary",
+        "help": "Small-sized photo of the employee. It is automatically resized as a 64x64px image, with aspect ratio preserved. Use this field anywhere a small image is required.",
+        "string": "Small-sized photo"
+    },
+    "address_id": {
+        "type": "many2one",
+        "string": "Work Address"
+    },
+    "work_phone": {
+        "type": "char",
+        "string": "Work Phone"
+    },
+    "mobile_phone": {
+        "type": "char",
+        "string": "Work Mobile"
+    },
+    "work_email": {
+        "type": "char",
+        "string": "Work Email"
+    },
+    "work_location": {
+        "type": "char",
+        "string": "Work Location"
+    },
+    "job_id": {
+        "type": "many2one",
+        "string": "Job Position"
+    },
+    "department_id": {
+        "type": "many2one",
+        "string": "Department"
+    },
+    "parent_id": {
+        "type": "many2one",
+        "string": "Manager"
+    },
+    "child_ids": {
+        "type": "one2many",
+        "string": "Subordinates"
+    },
+    "coach_id": {
+        "type": "many2one",
+        "string": "Coach"
+    },
+    "category_ids": {
+        "type": "many2many",
+        "string": "Tags"
+    },
+    "notes": {
+        "type": "text",
+        "string": "Notes"
+    },
+    "color": {
+        "type": "integer",
+        "string": "Color Index"
+    },
+    "remaining_leaves": {
+        "type": "float",
+        "help": "Total number of legal leaves allocated to this employee, change this value to create allocation\/leave request. Total based on all the leave types without overriding limit.",
+        "string": "Remaining Legal Leaves"
+    },
+    "current_leave_state": {
+        "type": "selection",
+        "string": "Current Leave Status"
+    },
+    "current_leave_id": {
+        "type": "many2one",
+        "string": "Current Leave Type"
+    },
+    "leave_date_from": {
+        "type": "date",
+        "string": "From Date"
+    },
+    "leave_date_to": {
+        "type": "date",
+        "string": "To Date"
+    },
+    "leaves_count": {
+        "type": "float",
+        "string": "Number of Leaves"
+    },
+    "show_leaves": {
+        "type": "boolean",
+        "string": "Able to see Remaining Leaves"
+    },
+    "is_absent_totay": {
+        "type": "boolean",
+        "string": "Absent Today"
+    },
+    "child_all_count": {
+        "type": "integer",
+        "string": "Indirect Surbordinates Count"
+    },
+    "newly_hired_employee": {
+        "type": "boolean",
+        "string": "Newly hired employee"
+    },
+    "tms_driver_license_id": {
+        "type": "char",
+        "string": "License ID"
+    },
+    "tms_driver_license_type": {
+        "type": "char",
+        "string": "License Type"
+    },
+    "tms_driver_license_days_to_expire": {
+        "type": "integer",
+        "string": "Days to expire"
+    },
+    "tms_driver_additional_certifications": {
+        "type": "char",
+        "string": "Certifications"
+    },
+    "tms_driver_license_expiration": {
+        "type": "date",
+        "string": "License Expiration"
+    },
+    "tms_category": {
+        "type": "selection",
+        "help": "You can set this property in Jobs",
+        "string": "Fleet Category"
+    },
+    "wage_per_hour": {
+        "type": "float",
+        "string": "Hourly Salary"
+    },
+    "mro_supervisor": {
+        "type": "boolean",
+        "string": "Maintenance Supervisor"
+    },
+    "timesheet_cost": {
+        "type": "monetary",
+        "string": "Timesheet Cost"
+    },
+    "currency_id": {
+        "type": "many2one",
+        "string": "Currency"
+    },
+    "timesheet_validated": {
+        "type": "date",
+        "help": "Date until which the employee's timesheets have been validated",
+        "string": "Timesheets Validation Date"
+    },
+    "timesheet_manager_id": {
+        "type": "many2one",
+        "help": "User responsible of timesheet validation. Should be Timesheet Manager.",
+        "string": "Timesheet Responsible"
+    },
+    "tms_advance_account_id": {
+        "type": "many2one",
+        "string": "Advance Account"
+    },
+    "tms_expense_negative_balance_account_id": {
+        "type": "many2one",
+        "string": "Negative Balance Account"
+    },
+    "tms_supplier_driver": {
+        "type": "boolean",
+        "string": "Supplier Driver"
+    },
+    "tms_supplier_id": {
+        "type": "many2one",
+        "string": "Supplier"
+    },
+    "tms_salary_tax_prod_id": {
+        "type": "many2one",
+        "help": "Product to use for Salary Tax",
+        "string": "Salary Tax Retention"
+    },
+    "tms_salary_tax_discount": {
+        "type": "float",
+        "string": "Amount Tax Discount"
+    },
+    "tms_social_security_prod_id": {
+        "type": "many2one",
+        "help": "Product to use for Social Security Discounts",
+        "string": "Social Security"
+    },
+    "tms_social_security_discount": {
+        "type": "float",
+        "string": "Amount to discount for Social Security"
+    },
+    "tms_house_rent_prod_id": {
+        "type": "many2one",
+        "help": "Product to use for Mortgage Discounts",
+        "string": "Mortgage"
+    },
+    "tms_house_rent_discount_perc": {
+        "type": "float",
+        "string": "Discount (%) for Mortgage"
+    },
+    "tms_alimony_prod_id": {
+        "type": "many2one",
+        "help": "Product to use for Alimony Discounts",
+        "string": "Alimony Product"
+    },
+    "tms_alimony": {
+        "type": "float",
+        "string": "Discount for Alimony"
+    },
+    "tms_credit_charge_prod_id": {
+        "type": "many2one",
+        "help": "Product to use for Other Discounts like Loans, Credits, etc.",
+        "string": "Product for Other Charges"
+    },
+    "tms_credit_charge_discount": {
+        "type": "float",
+        "string": "Discount for Other Charges"
+    },
+    "x_comprobante_date_stop": {
+        "type": "date",
+        "string": "Vigencia de Comprobante Dom."
+    },
+    "x_comprobante_days_to": {
+        "type": "integer",
+        "string": "Dias por vencer"
+    },
+    "is_driver": {
+        "type": "boolean",
+        "string": "Es un Operador"
+    },
+    "x_exmedic": {
+        "type": "char",
+        "string": "No. de Expediente"
+    },
+    "x_exmedic_aptitud": {
+        "type": "selection",
+        "string": "Aptitud"
+    },
+    "x_exmedic_start": {
+        "type": "date",
+        "string": "Inicio de vigencia"
+    },
+    "x_exmedic_end": {
+        "type": "date",
+        "string": "Fin de vigencia"
+    },
+    "x_exmedic_notas": {
+        "type": "text",
+        "string": "Notas Medicas"
+    },
+    "x_poligrafo_date": {
+        "type": "date",
+        "string": "Pol\u00edgrafo"
+    },
+    "x_poligrafo_apto": {
+        "type": "selection",
+        "string": "Apto"
+    },
+    "x_antidoping_date": {
+        "type": "date",
+        "string": "Antidoping"
+    },
+    "x_antidoping_apto": {
+        "type": "selection",
+        "string": "Apto"
+    },
+    "x_socioeconomico_date": {
+        "type": "date",
+        "string": "Socioecon\u00f3mico"
+    },
+    "x_socioeconomico_apto": {
+        "type": "selection",
+        "string": "Apto"
+    },
+    "x_aduana_control": {
+        "type": "char",
+        "string": "R. Control"
+    },
+    "x_aduana_gafete": {
+        "type": "char",
+        "string": "Gafete \u00fanico"
+    },
+    "x_aduana_control_inicio": {
+        "type": "date",
+        "string": "R.C. Inicio"
+    },
+    "x_aduana_control_fin": {
+        "type": "date",
+        "string": "R.C. Final"
+    },
+    "x_aduana_gafete_inicio": {
+        "type": "date",
+        "string": "G.U. Inicio"
+    },
+    "x_aduana_gafete_fin": {
+        "type": "date",
+        "string": "G.U. Final"
+    },
+    "x_ex_medic_days_to": {
+        "type": "integer",
+        "help": "Dias por Vencer",
+        "string": "E.M. Dias x V."
+    },
+    "x_r_control_days_to": {
+        "type": "integer",
+        "help": "Dias por Vencer",
+        "string": "R.C. Dias x V."
+    },
+    "x_r_control_gafete_days_to": {
+        "type": "integer",
+        "help": "Dias por Vencer",
+        "string": "G.U. Dias x V."
+    },
+    "no_ex_medico": {
+        "type": "char",
+        "string": "No. de Expediente"
+    },
+    "aptitud_id": {
+        "type": "many2one",
+        "string": "Aptitud"
+    },
+    "ex_medic_start": {
+        "type": "date",
+        "string": "Inicio de vigencia"
+    },
+    "ex_medic_stop": {
+        "type": "date",
+        "string": "Fin de vigencia"
+    },
+    "exmedic_notas": {
+        "type": "text",
+        "string": "Notas Medicas"
+    },
+    "r_control": {
+        "type": "char",
+        "string": "R. Control"
+    },
+    "r_control_start": {
+        "type": "date",
+        "string": "R. Control inicio"
+    },
+    "r_control_stop": {
+        "type": "date",
+        "string": "R. Control final"
+    },
+    "r_control_gafete": {
+        "type": "char",
+        "string": "Gafete unico"
+    },
+    "r_control_gafete_start": {
+        "type": "date",
+        "string": "Gafete unico inicio"
+    },
+    "r_control_gafete_stop": {
+        "type": "date",
+        "string": "Gafete unico final"
+    },
+    "r_control_tz": {
+        "type": "selection",
+        "string": "Zona Horaria"
+    },
+    "ex_medic_days_to": {
+        "type": "integer",
+        "help": "Dias por vencer",
+        "string": "E.M. Dias x V."
+    },
+    "r_control_days_to": {
+        "type": "integer",
+        "help": "Dias por vencer",
+        "string": "R.C. Dias x V."
+    },
+    "r_control_gafete_days_to": {
+        "type": "integer",
+        "help": "Dias por vencer",
+        "string": "G.U. Dias x V."
+    },
+    "no_licencia": {
+        "type": "char",
+        "string": "No. de Licencia"
+    },
+    "licencia_id": {
+        "type": "many2one",
+        "string": "Tipo de licencia"
+    },
+    "no_licencia_stop": {
+        "type": "date",
+        "string": "Vigencia de Licencia"
+    },
+    "no_licencia_days_to": {
+        "type": "integer",
+        "string": "Dias por vencer"
+    },
+    "comprobante_date_stop": {
+        "type": "date",
+        "string": "Vigencia de Comprobante Dom."
+    },
+    "comprobante_days_to": {
+        "type": "integer",
+        "string": "Dias por vencer"
+    },
+    "solicitud_empleo": {
+        "type": "binary",
+        "string": "Solicitud de Empleo"
+    },
+    "solicitud_empleo_fname": {
+        "type": "char",
+        "string": "Nombre Archivo"
+    },
+    "carta_recomendacion_1": {
+        "type": "binary",
+        "string": "Carta de Recomendaci\u00f3n 1"
+    },
+    "carta_recomendacion_1_fname": {
+        "type": "char",
+        "string": "Nombre Archivo"
+    },
+    "carta_recomendacion_2": {
+        "type": "binary",
+        "string": "Carta de Recomendaci\u00f3n 2"
+    },
+    "carta_recomendacion_2_fname": {
+        "type": "char",
+        "string": "Nombre Archivo"
+    },
+    "ife_ine": {
+        "type": "binary",
+        "string": "IFE\/INE"
+    },
+    "ife_ine_fname": {
+        "type": "char",
+        "string": "Nombre Archivo"
+    },
+    "licencia_binary": {
+        "type": "binary",
+        "string": "Licencia"
+    },
+    "licencia_binary_fname": {
+        "type": "char",
+        "string": "Nombre Archivo"
+    },
+    "atp_medico_binary": {
+        "type": "binary",
+        "string": "Apto Medico"
+    },
+    "atp_medico_binary_fname": {
+        "type": "char",
+        "string": "Nombre Archivo"
+    },
+    "socioeconomico": {
+        "type": "binary",
+        "string": "Socioecon\u00f3mico"
+    },
+    "socioeconomico_fname": {
+        "type": "char",
+        "string": "Nombre Archivo"
+    },
+    "comprobante_dom": {
+        "type": "binary",
+        "string": "Comprobante Domicilio"
+    },
+    "comprobante_dom_fname": {
+        "type": "char",
+        "string": "Nombre Archivo"
+    },
+    "entrevista_date": {
+        "type": "date",
+        "string": "Entrevista"
+    },
+    "entrevista_apto": {
+        "type": "selection",
+        "string": "Apto"
+    },
+    "prueba_knw_date": {
+        "type": "date",
+        "string": "Prueba de conocimiento"
+    },
+    "prueba_knw_apto": {
+        "type": "selection",
+        "string": "Apto"
+    },
+    "referencias_laborales_date": {
+        "type": "date",
+        "string": " Referencias laborales"
+    },
+    "referencias_laborales_apto": {
+        "type": "selection",
+        "string": "Apto"
+    },
+    "psicometrico_date": {
+        "type": "date",
+        "string": "Psicom\u00e9trico"
+    },
+    "psicometrico_apto": {
+        "type": "selection",
+        "string": "Apto"
+    },
+    "poligrafo_date": {
+        "type": "date",
+        "string": "Pol\u00edgrafo"
+    },
+    "poligrafo_apto": {
+        "type": "selection",
+        "string": "Apto"
+    },
+    "antidoping_date": {
+        "type": "date",
+        "string": "Antidoping"
+    },
+    "antidoping_apto": {
+        "type": "selection",
+        "string": "Apto"
+    },
+    "socioeconomico_date": {
+        "type": "date",
+        "string": "Socioecon\u00f3mico"
+    },
+    "socioeconomico_apto": {
+        "type": "selection",
+        "string": "Apto"
+    },
+    "resource_id": {
+        "type": "many2one",
+        "string": "Resource"
+    },
+    "company_id": {
+        "type": "many2one",
+        "string": "Company"
+    },
+    "resource_calendar_id": {
+        "type": "many2one",
+        "help": "Define the schedule of resource",
+        "string": "Working Hours"
+    },
+    "tz": {
+        "type": "selection",
+        "help": "This field is used in order to define in which timezone the resources will work.",
+        "string": "Timezone"
+    },
+    "activity_ids": {
+        "type": "one2many",
+        "string": "Activities"
+    },
+    "activity_state": {
+        "type": "selection",
+        "help": "Status based on activities\nOverdue: Due date is already passed\nToday: Activity date is today\nPlanned: Future activities.",
+        "string": "Activity State"
+    },
+    "activity_user_id": {
+        "type": "many2one",
+        "string": "Responsible User"
+    },
+    "activity_type_id": {
+        "type": "many2one",
+        "string": "Next Activity Type"
+    },
+    "activity_date_deadline": {
+        "type": "date",
+        "string": "Next Activity Deadline"
+    },
+    "activity_summary": {
+        "type": "char",
+        "string": "Next Activity Summary"
+    },
+    "message_is_follower": {
+        "type": "boolean",
+        "string": "Is Follower"
+    },
+    "message_follower_ids": {
+        "type": "one2many",
+        "string": "Followers"
+    },
+    "message_partner_ids": {
+        "type": "many2many",
+        "string": "Followers (Partners)"
+    },
+    "message_channel_ids": {
+        "type": "many2many",
+        "string": "Followers (Channels)"
+    },
+    "message_ids": {
+        "type": "one2many",
+        "string": "Messages"
+    },
+    "message_unread": {
+        "type": "boolean",
+        "help": "If checked new messages require your attention.",
+        "string": "Unread Messages"
+    },
+    "message_unread_counter": {
+        "type": "integer",
+        "help": "Number of unread messages",
+        "string": "Unread Messages Counter"
+    },
+    "message_needaction": {
+        "type": "boolean",
+        "help": "If checked, new messages require your attention.",
+        "string": "Action Needed"
+    },
+    "message_needaction_counter": {
+        "type": "integer",
+        "help": "Number of messages which requires an action",
+        "string": "Number of Actions"
+    },
+    "message_has_error": {
+        "type": "boolean",
+        "help": "If checked, some messages have a delivery error.",
+        "string": "Message Delivery error"
+    },
+    "message_has_error_counter": {
+        "type": "integer",
+        "help": "Number of messages with delivery error",
+        "string": "Number of error"
+    },
+    "message_attachment_count": {
+        "type": "integer",
+        "string": "Attachment Count"
+    },
+    "message_main_attachment_id": {
+        "type": "many2one",
+        "string": "Main Attachment"
+    },
+    "website_message_ids": {
+        "type": "one2many",
+        "help": "Website communication history",
+        "string": "Website Messages"
+    },
+    "id": {
+        "type": "integer",
+        "string": "ID"
+    },
+    "display_name": {
+        "type": "char",
+        "string": "Display Name"
+    },
+    "create_uid": {
+        "type": "many2one",
+        "string": "Created by"
+    },
+    "create_date": {
+        "type": "datetime",
+        "string": "Created on"
+    },
+    "write_uid": {
+        "type": "many2one",
+        "string": "Last Updated by"
+    },
+    "write_date": {
+        "type": "datetime",
+        "string": "Last Updated on"
+    },
+    "__last_update": {
+        "type": "datetime",
+        "string": "Last Modified on"
+    },
+    "x_exmedic_days_to_expire": {
+        "type": "integer",
+        "string": "D\u00edas de vigencia m\u00e9dica"
+    },
+    "x_peligroso_lic": {
+        "type": "selection",
+        "string": "Peligroso"
+    },
+    "x_modalidad": {
+        "type": "selection",
+        "string": "Modalidad"
+    }
+}

@@ -1,0 +1,339 @@
+
+18/01/2023 16:18:36 CORREO ENVIADO.
+18/01/2023 16:26:21 CORREO ENVIADO.
+18/01/2023 16:37:29 CORREO ENVIADO.
+18/01/2023 17:00:04 CORREO ENVIADO.
+18/01/2023 18:00:04 CORREO ENVIADO.
+18/01/2023 19:00:03 CORREO ENVIADO.
+18/01/2023 20:00:03 CORREO ENVIADO.
+18/01/2023 21:00:04 CORREO ENVIADO.
+18/01/2023 22:00:01 ERROR: SMTP Error: Could not connect to SMTP host. Failed to connect to server
+18/01/2023 23:00:06 CORREO ENVIADO.
+19/01/2023 00:00:04 CORREO ENVIADO.
+19/01/2023 01:00:09 CORREO ENVIADO.
+19/01/2023 02:00:04 CORREO ENVIADO.
+19/01/2023 03:00:03 CORREO ENVIADO.
+19/01/2023 04:00:04 CORREO ENVIADO.
+19/01/2023 05:00:05 CORREO ENVIADO.
+19/01/2023 06:00:03 CORREO ENVIADO.
+19/01/2023 07:00:03 CORREO ENVIADO.
+19/01/2023 08:00:04 CORREO ENVIADO.
+19/01/2023 09:00:04 CORREO ENVIADO.
+23/01/2023 14:00:54 CORREO ENVIADO.
+23/01/2023 14:00:57 CORREO ENVIADO.
+23/01/2023 14:01:01 CORREO ENVIADO.
+25/01/2023 18:22:53 CORREO ENVIADO.
+25/01/2023 18:22:56 CORREO ENVIADO.
+25/01/2023 18:22:58 CORREO ENVIADO.
+25/01/2023 18:23:01 CORREO ENVIADO.
+25/01/2023 18:23:29 CORREO ENVIADO.
+25/01/2023 18:23:33 CORREO ENVIADO.
+25/01/2023 18:23:35 CORREO ENVIADO.
+25/01/2023 18:23:38 CORREO ENVIADO.
+25/01/2023 18:24:42 CORREO ENVIADO.
+25/01/2023 18:24:45 CORREO ENVIADO.
+25/01/2023 18:24:48 CORREO ENVIADO.
+25/01/2023 18:24:51 CORREO ENVIADO.
+25/01/2023 18:28:15 CORREO ENVIADO.
+25/01/2023 18:50:35 CORREO ENVIADO.
+27/01/2023 17:29:15 CORREO ENVIADO.
+27/01/2023 17:29:17 CORREO ENVIADO.
+27/01/2023 17:29:23 CORREO ENVIADO.
+27/01/2023 17:29:27 CORREO ENVIADO.
+27/01/2023 17:29:30 CORREO ENVIADO.
+27/01/2023 17:29:33 CORREO ENVIADO.
+27/01/2023 17:29:37 CORREO ENVIADO.
+27/01/2023 17:32:06 CORREO ENVIADO.
+27/01/2023 17:32:10 CORREO ENVIADO.
+27/01/2023 17:32:13 CORREO ENVIADO.
+27/01/2023 17:32:17 CORREO ENVIADO.
+27/01/2023 17:32:24 CORREO ENVIADO.
+27/01/2023 17:32:29 CORREO ENVIADO.
+27/01/2023 17:32:32 CORREO ENVIADO.
+28/01/2023 09:41:52 CORREO ENVIADO.
+28/01/2023 09:41:55 CORREO ENVIADO.
+28/01/2023 09:41:57 CORREO ENVIADO.
+28/01/2023 09:42:00 CORREO ENVIADO.
+28/01/2023 09:42:03 CORREO ENVIADO.
+28/01/2023 09:42:04 CORREO ENVIADO.
+28/01/2023 09:42:05 CORREO ENVIADO.
+28/01/2023 09:42:06 CORREO ENVIADO.
+28/01/2023 09:42:08 CORREO ENVIADO.
+28/01/2023 09:42:09 CORREO ENVIADO.
+28/01/2023 09:42:10 CORREO ENVIADO.
+28/01/2023 09:42:11 CORREO ENVIADO.
+28/01/2023 09:42:14 CORREO ENVIADO.
+28/01/2023 09:42:16 CORREO ENVIADO.
+28/01/2023 09:42:19 CORREO ENVIADO.
+28/01/2023 09:42:21 CORREO ENVIADO.
+02/02/2023 06:35:08 ERROR: Invalid address:  (From): 
+02/02/2023 06:35:26 CORREO ENVIADO.
+04/02/2023 11:41:47 CORREO ENVIADO.
+04/02/2023 11:48:39 CORREO ENVIADO.
+04/02/2023 11:56:34 CORREO ENVIADO.
+04/02/2023 11:56:37 CORREO ENVIADO.
+09/02/2023 18:41:47 CORREO ENVIADO.
+09/02/2023 18:44:00 CORREO ENVIADO.
+09/02/2023 18:46:30 CORREO ENVIADO.
+13/02/2023 03:59:56 CORREO ENVIADO.
+21/02/2023 16:02:36 CORREO ENVIADO.
+21/02/2023 16:10:36 CORREO ENVIADO.
+21/02/2023 16:22:40 CORREO ENVIADO.
+21/02/2023 16:43:18 CORREO ENVIADO.
+21/02/2023 16:45:47 CORREO ENVIADO.
+21/02/2023 16:49:36 CORREO ENVIADO.
+21/02/2023 16:52:56 CORREO ENVIADO.
+21/02/2023 17:26:23 CORREO ENVIADO.
+21/02/2023 17:31:34 CORREO ENVIADO.
+21/02/2023 17:33:59 CORREO ENVIADO.
+21/02/2023 17:37:29 CORREO ENVIADO.
+21/02/2023 17:41:47 CORREO ENVIADO.
+21/02/2023 17:50:48 CORREO ENVIADO.
+21/02/2023 18:03:05 CORREO ENVIADO.
+21/02/2023 18:03:08 CORREO ENVIADO.
+21/02/2023 18:05:59 CORREO ENVIADO.
+21/02/2023 18:06:02 CORREO ENVIADO.
+21/02/2023 18:11:36 CORREO ENVIADO.
+21/02/2023 18:11:39 CORREO ENVIADO.
+21/02/2023 18:14:23 CORREO ENVIADO.
+21/02/2023 18:14:25 CORREO ENVIADO.
+27/02/2023 10:52:08 CORREO ENVIADO.
+27/02/2023 10:54:38 CORREO ENVIADO.
+27/02/2023 11:02:17 CORREO ENVIADO.
+27/02/2023 11:02:50 CORREO ENVIADO.
+27/02/2023 11:04:42 CORREO ENVIADO.
+27/02/2023 11:05:11 CORREO ENVIADO.
+27/02/2023 11:06:43 CORREO ENVIADO.
+27/02/2023 11:07:22 CORREO ENVIADO.
+27/02/2023 11:09:02 CORREO ENVIADO.
+27/02/2023 11:09:36 CORREO ENVIADO.
+03/03/2023 15:58:04 CORREO ENVIADO.
+17/04/2023 16:03:18 ERROR: Invalid address:  (From): 
+17/04/2023 16:03:36 CORREO ENVIADO.
+17/04/2023 16:04:40 CORREO ENVIADO.
+17/04/2023 16:05:19 CORREO ENVIADO.
+17/04/2023 16:05:22 CORREO ENVIADO.
+20/04/2023 13:28:43 CORREO ENVIADO.
+20/04/2023 13:32:59 CORREO ENVIADO.
+20/04/2023 13:45:35 CORREO ENVIADO.
+20/04/2023 13:46:27 CORREO ENVIADO.
+20/04/2023 13:57:55 CORREO ENVIADO.
+20/04/2023 13:59:42 CORREO ENVIADO.
+20/04/2023 14:44:02 CORREO ENVIADO.
+20/04/2023 14:44:44 CORREO ENVIADO.
+20/04/2023 14:51:06 CORREO ENVIADO.
+20/04/2023 14:52:22 CORREO ENVIADO.
+20/04/2023 14:58:36 CORREO ENVIADO.
+20/04/2023 15:00:55 CORREO ENVIADO.
+20/04/2023 15:03:21 CORREO ENVIADO.
+20/04/2023 15:05:41 CORREO ENVIADO.
+20/04/2023 15:08:42 CORREO ENVIADO.
+20/04/2023 15:17:06 CORREO ENVIADO.
+20/04/2023 15:20:47 CORREO ENVIADO.
+20/04/2023 15:25:27 CORREO ENVIADO.
+20/04/2023 15:39:03 CORREO ENVIADO.
+20/04/2023 15:40:36 CORREO ENVIADO.
+20/04/2023 15:43:35 CORREO ENVIADO.
+25/04/2023 10:21:22 CORREO ENVIADO.
+25/04/2023 10:27:29 CORREO ENVIADO.
+30/05/2023 14:04:05 CORREO ENVIADO.
+30/05/2023 14:05:46 CORREO ENVIADO.
+14/06/2023 14:49:23 CORREO ENVIADO.
+14/06/2023 14:49:27 CORREO ENVIADO.
+14/06/2023 14:49:29 CORREO ENVIADO.
+14/06/2023 14:49:33 CORREO ENVIADO.
+10/07/2023 04:07:37 CORREO ENVIADO.
+20/05/2024 15:02:32 ERROR: Message body empty
+20/05/2024 15:04:38 ERROR: Message body empty
+20/05/2024 15:04:41 ERROR: Message body empty
+20/05/2024 15:04:51 ERROR: Message body empty
+20/05/2024 15:04:52 ERROR: Message body empty
+20/05/2024 15:04:52 ERROR: Message body empty
+20/05/2024 15:07:09 ERROR: Message body empty
+20/05/2024 15:08:54 ERROR: Message body empty
+20/05/2024 15:14:30 ERROR: Message body empty
+20/05/2024 15:15:05 ERROR: Message body empty
+20/05/2024 15:15:30 ERROR: Message body empty
+20/05/2024 15:15:53 ERROR: Message body empty
+20/05/2024 15:16:43 ERROR: Message body empty
+20/05/2024 15:17:37 ERROR: Message body empty
+20/05/2024 15:19:24 ERROR: Message body empty
+20/05/2024 15:21:30 ERROR: Message body empty
+20/05/2024 15:21:31 ERROR: Message body empty
+20/05/2024 15:21:50 ERROR: Message body empty
+20/05/2024 15:22:11 ERROR: Message body empty
+20/05/2024 15:24:05 ERROR: Message body empty
+20/05/2024 15:24:06 ERROR: Message body empty
+20/05/2024 15:25:53 ERROR: Message body empty
+20/05/2024 15:25:54 ERROR: Message body empty
+20/05/2024 15:25:54 ERROR: Message body empty
+20/05/2024 15:29:38 ERROR: Message body empty
+20/05/2024 15:29:39 ERROR: Message body empty
+20/05/2024 15:29:55 ERROR: Message body empty
+20/05/2024 15:29:55 ERROR: Message body empty
+20/05/2024 15:29:55 ERROR: Message body empty
+20/05/2024 15:29:55 ERROR: Message body empty
+20/05/2024 15:29:55 ERROR: Message body empty
+20/05/2024 15:29:56 ERROR: Message body empty
+20/05/2024 15:31:58 ERROR: Message body empty
+20/05/2024 15:31:59 ERROR: Message body empty
+20/05/2024 15:31:59 ERROR: Message body empty
+20/05/2024 15:32:27 ERROR: Message body empty
+20/05/2024 15:34:02 ERROR: Message body empty
+20/05/2024 15:34:03 ERROR: Message body empty
+20/05/2024 15:35:18 ERROR: Message body empty
+20/05/2024 16:38:54 ERROR: Message body empty
+20/05/2024 16:38:55 ERROR: Message body empty
+20/05/2024 16:38:55 ERROR: Message body empty
+20/05/2024 16:38:55 ERROR: Message body empty
+20/05/2024 16:40:38 CORREO ENVIADO.
+20/05/2024 16:40:52 CORREO ENVIADO.
+20/05/2024 16:41:10 CORREO ENVIADO.
+20/05/2024 17:00:34 ERROR: Message body empty
+20/05/2024 18:08:52 ERROR: Message body empty
+20/05/2024 18:09:44 ERROR: Message body empty
+20/05/2024 18:11:56 ERROR: Message body empty
+20/05/2024 18:11:56 ERROR: Message body empty
+20/05/2024 18:11:57 ERROR: Message body empty
+20/05/2024 18:11:57 ERROR: Message body empty
+20/05/2024 18:12:32 ERROR: Message body empty
+20/05/2024 18:12:49 ERROR: Message body empty
+20/05/2024 18:12:49 ERROR: Message body empty
+20/05/2024 18:12:50 ERROR: Message body empty
+20/05/2024 18:12:50 ERROR: Message body empty
+20/05/2024 18:13:20 ERROR: Message body empty
+20/05/2024 18:13:21 ERROR: Message body empty
+20/05/2024 18:13:39 ERROR: Message body empty
+20/05/2024 18:15:23 ERROR: Message body empty
+20/05/2024 18:15:44 ERROR: Message body empty
+20/05/2024 18:15:45 ERROR: Message body empty
+20/05/2024 18:15:45 ERROR: Message body empty
+20/05/2024 18:15:45 ERROR: Message body empty
+20/05/2024 18:15:45 ERROR: Message body empty
+20/05/2024 18:15:46 ERROR: Message body empty
+20/05/2024 18:16:19 ERROR: Message body empty
+20/05/2024 18:16:19 ERROR: Message body empty
+20/05/2024 18:16:19 ERROR: Message body empty
+20/05/2024 18:16:20 ERROR: Message body empty
+20/05/2024 18:16:40 ERROR: Message body empty
+20/05/2024 18:16:41 ERROR: Message body empty
+20/05/2024 18:17:30 ERROR: Message body empty
+20/05/2024 18:18:04 ERROR: Message body empty
+20/05/2024 18:18:06 ERROR: Message body empty
+20/05/2024 18:20:00 ERROR: Message body empty
+20/05/2024 18:21:02 ERROR: Message body empty
+20/05/2024 18:21:03 ERROR: Message body empty
+20/05/2024 18:21:03 ERROR: Message body empty
+20/05/2024 18:21:03 ERROR: Message body empty
+20/05/2024 18:21:04 ERROR: Message body empty
+20/05/2024 18:21:04 ERROR: Message body empty
+20/05/2024 18:37:08 ERROR: Message body empty
+20/05/2024 18:38:53 ERROR: Message body empty
+20/05/2024 18:38:55 ERROR: Message body empty
+20/05/2024 18:38:55 ERROR: Message body empty
+20/05/2024 18:38:55 ERROR: Message body empty
+20/05/2024 18:38:55 ERROR: Message body empty
+20/05/2024 18:38:56 ERROR: Message body empty
+20/05/2024 18:38:56 ERROR: Message body empty
+20/05/2024 18:38:56 ERROR: Message body empty
+20/05/2024 18:38:56 ERROR: Message body empty
+20/05/2024 18:38:56 ERROR: Message body empty
+20/05/2024 18:38:56 ERROR: Message body empty
+20/05/2024 18:38:57 ERROR: Message body empty
+20/05/2024 18:38:57 ERROR: Message body empty
+20/05/2024 18:38:57 ERROR: Message body empty
+20/05/2024 18:39:00 ERROR: Message body empty
+18/06/2024 12:16:04 ERROR: SMTP Error: data not accepted.
+18/06/2024 12:16:06 ERROR: SMTP Error: data not accepted.
+19/06/2024 14:06:02 ERROR: You must provide at least one recipient email address.
+24/06/2024 18:41:06 ERROR: SMTP Error: data not accepted.
+26/06/2024 06:34:04 ERROR: SMTP Error: data not accepted.
+26/06/2024 19:30:09 ERROR: SMTP Error: Could not authenticate.
+27/06/2024 10:22:04 ERROR: SMTP Error: data not accepted.
+27/06/2024 10:23:04 ERROR: SMTP Error: data not accepted.
+27/06/2024 14:44:05 ERROR: SMTP Error: data not accepted.
+27/06/2024 14:44:08 ERROR: SMTP Error: data not accepted.
+27/06/2024 16:10:07 ERROR: SMTP Error: data not accepted.
+27/06/2024 16:10:09 ERROR: SMTP Error: data not accepted.
+05/07/2024 19:51:23 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+07/07/2024 12:37:04 ERROR: SMTP Error: data not accepted.
+07/07/2024 12:37:06 ERROR: SMTP Error: data not accepted.
+07/07/2024 12:38:23 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+07/07/2024 21:23:29 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+07/07/2024 21:48:23 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+08/07/2024 06:07:23 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+08/07/2024 09:50:28 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+08/07/2024 10:42:30 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+08/07/2024 12:22:32 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+08/07/2024 13:42:29 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+08/07/2024 14:08:28 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+08/07/2024 14:52:05 ERROR: You must provide at least one recipient email address.
+08/07/2024 14:53:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 14:54:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 14:55:10 ERROR: You must provide at least one recipient email address.
+08/07/2024 14:56:04 ERROR: You must provide at least one recipient email address.
+08/07/2024 14:57:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 14:58:06 ERROR: You must provide at least one recipient email address.
+08/07/2024 14:59:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:00:03 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:01:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:02:06 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:03:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:04:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:05:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:06:03 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:07:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:08:28 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:09:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:10:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:11:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:12:03 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:13:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:14:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:15:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:16:03 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:17:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:18:07 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:19:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:20:03 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:21:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:22:04 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:23:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:24:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:25:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:26:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:27:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:28:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:29:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:30:04 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:31:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:32:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:33:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:34:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:35:05 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:36:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:37:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:38:03 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:39:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:40:03 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:41:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:42:10 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:43:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:44:03 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:45:01 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:46:02 ERROR: You must provide at least one recipient email address.
+08/07/2024 15:47:08 ERROR: You must provide at least one recipient email address.
+08/07/2024 17:17:41 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+08/07/2024 18:46:24 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+09/07/2024 06:58:24 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+09/07/2024 14:20:24 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+09/07/2024 19:48:23 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+09/07/2024 23:41:24 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+10/07/2024 01:49:24 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+10/07/2024 02:51:36 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+10/07/2024 03:18:28 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+10/07/2024 07:52:23 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+11/07/2024 11:33:25 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+11/07/2024 12:26:24 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+11/07/2024 12:33:24 ERROR: SMTP Error: Could not connect to SMTP host. Connection failed. stream_socket_enable_crypto(): SSL: Connection reset by peer
+11/07/2024 16:25:04 ERROR: SMTP Error: data not accepted.

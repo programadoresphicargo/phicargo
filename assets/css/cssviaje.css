@@ -1,0 +1,81 @@
+#miOffcanvas {
+    width: 1350px;
+    /* Establecer el ancho máximo deseado */
+}
+
+#detalles_maniobra {
+    width: 1100px;
+    /* Establecer el ancho máximo deseado */
+}
+
+#modal_maniobras_correos {
+    width: 1100px;
+    /* Establecer el ancho máximo deseado */
+}
+
+#enviar_status_maniobra_modal {
+    width: 1100px;
+    /* Establecer el ancho máximo deseado */
+}
+
+#entregaturnooffcanvas {
+    width: 500px;
+    /* Establecer el ancho máximo deseado */
+}
+
+#offcanvaspods {
+    width: 800px;
+    /* Establecer el ancho máximo deseado */
+}
+
+#informacion_bono_operador {
+    width: 600px;
+    /* Establecer el ancho máximo deseado */
+}
+
+#alertasoffcanvas {
+    width: 1300px;
+    /* Establecer el ancho máximo deseado */
+}
+
+
+/* Estilos para el contenedor del mapa (col-5) */
+
+
+/* Estilos para el contenedor del mapa (col-5) */
+
+.fixed-col {
+    position: sticky;
+    height: 100vh;
+}
+
+
+/* Estilos para el contenido scrollable (col-7) */
+
+.scrollable-col {
+    overflow-y: auto;
+    /* Permite el scroll vertical solo si el contenido excede la altura del col-7 */
+    height: 100vh;
+    /* Altura del col-7 ocupará toda la altura del viewport */
+}
+
+.spinner-container {
+    position: relative;
+    /* Agrega una posición relativa al contenedor */
+    z-index: 9999;
+    /* Asegura que el spinner-container esté por encima de otros elementos */
+}
+
+.select2-container .select2-selection--multiple {
+    max-height: 200px;
+    /* Ajusta esto al valor deseado */
+    overflow-y: auto;
+    /* Agrega una barra de desplazamiento si la lista es más larga */
+}
+
+.notyf__toast--custom-success {
+    background: #4CAF50;
+    /* Color de fondo personalizado */
+    color: white;
+    /* Color de texto personalizado */
+}

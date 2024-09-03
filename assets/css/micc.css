@@ -1,0 +1,25 @@
+.seleccionar:hover {
+    background-color: #00439b;
+    transform: scale(1.03);
+    transition-duration: .3s;
+}
+
+.seleccionar:hover h3 {
+    font-weight: 900;
+    color: white;
+}
+
+.bg-azul {
+    font-weight: 900;
+    background-color: #047ff9
+}
+
+.bg-morado {
+    font-weight: 900;
+    background-color: #5a43c0
+}
+
+.b234 {
+    color: red !important;
+    background-color: #0455ce !important;
+}

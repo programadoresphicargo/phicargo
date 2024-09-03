@@ -1,0 +1,240 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title></title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style type="text/css">
+    @font-face {
+      font-family: 'Product Sans Light';
+      src: url('path/to/ProductSans-Light.woff2') format('woff2'),
+        url('path/to/ProductSans-Light.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    #outlook a {
+      padding: 0;
+    }
+
+    .ReadMsgBody {
+      width: 100%;
+    }
+
+    .ExternalClass {
+      width: 100%;
+    }
+
+    .ExternalClass * {
+      line-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      font-family: 'Product Sans Light', Arial, sans-serif;
+    }
+
+    table,
+    td {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+
+    img {
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+
+    p {
+      display: block;
+      margin: 13px 0;
+    }
+
+    @media only screen and (max-width:480px) {
+      @-ms-viewport {
+        width: 320px;
+      }
+
+      @viewport {
+        width: 320px;
+      }
+    }
+
+    @media only screen and (min-width:480px) {
+      .mj-column-per-100 {
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+
+<body style="background-color:#f9f9f9;">
+  <div style="background-color:#f9f9f9;">
+    <div style="background:#f9f9f9;background-color:#f9f9f9;Margin:0px auto;max-width:600px;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+        style="background:#f9f9f9;background-color:#f9f9f9;width:100%;">
+        <tbody>
+          <tr>
+            <td
+              style="border-bottom:#333957 solid 5px;direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="background:#fff;background-color:#fff;Margin:0px auto;max-width:600px;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+        style="background:#fff;background-color:#fff;width:100%;">
+        <tbody>
+          <tr>
+            <td
+              style="border:#dddddd solid 1px;border-top:0px;direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;">
+              <div class="mj-column-per-100 outlook-group-fix"
+                style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:bottom;width:100%;">
+                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:bottom;"
+                  width="100%">
+                  <tr>
+                    <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                        style="border-collapse:collapse;border-spacing:0px;">
+                        <tbody>
+                          <tr>
+                            <td style="width:200px;">
+                              <img height="auto"
+                                src="https://phi-cargo.com/wp-content/uploads/2021/05/logo-phicargo-vertical.png"
+                                style="border:0;display:block;outline:none;text-decoration:none;width:100%;"
+                                height="400" width="500" />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr style="padding-bottom: 25px;">
+                    <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                      <div
+                        style="font-family:'Product Sans', Arial, sans-serif;font-size:24px;font-weight:bold;line-height:22px;text-align:center;">
+                        Actualización de estatus:
+                      </div>
+                      <div
+                        style="font-family:'Product Sans', Arial, sans-serif;font-size:24px;font-weight:bold;line-height:22px;text-align:center;color: #cb292a;">
+                        {{estatus}}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                      <table border="0"
+                        style="cellspacing:0;color:#000;font-family:'Product Sans', Arial, sans-serif;font-size:18px;line-height:22px;table-layout:auto;width:100%;">
+                        <tr style="border-bottom:1px solid #ecedee;text-align:left;">
+                          <th style="padding: 0 15px 10px 0;">Información</th>
+                          <th style="padding: 0 0 0 15px;" align="right"></th>
+                        </tr>
+                        <tr style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;">
+                          <td style="padding: 5px 15px 5px 0;font-weight:bold">Referencia de viaje</td>
+                          <td style="padding: 0 0 0 15px" align="right">{{referencia_viaje}}</td>
+                        </tr>
+                        <tr style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;">
+                          <td style="padding: 5px 15px 5px 0;font-weight:bold">Unidad</td>
+                          <td style="padding: 0 0 0 15px;" align="right">{{placas}}</td>
+                        </tr>
+                        <tr style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;">
+                          <td
+                            style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;font-weight:bold">
+                            Coordenadas</td>
+                          <td style="padding: 0 0 0 15px; font-family: 'Product Sans Light', Arial, sans-serif;"
+                            align="right">{{latitud}} , {{longitud}}</td>
+                        </tr>
+                        <tr style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;">
+                          <td style="padding: 0 15px 5px 0;font-weight:bold">Ciudad más cercana:</td>
+                          <td style="padding: 0 0 0 15px;" align="right">{{referencia}}</td>
+                        </tr>
+                        <tr style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;">
+                          <td style="padding: 0 15px 5px 0;font-weight:bold">Calle donde se encuentra el vehículo:</td>
+                          <td style="padding: 0 0 0 15px;" align="right">{{calle}}</td>
+                        </tr>
+                        <tr style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;">
+                          <td style="padding: 0 15px 5px 0;font-weight:bold">Fecha y hora</td>
+                          <td style="padding: 0 0 0 15px;" align="right">{{fecha_hora}}</td>
+                        </tr>
+                        <tr style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;">
+                          <td style="padding: 0 15px 5px 0;font-weight:bold">Estatus</td>
+                          <td style="padding: 0 0 0 15px;" align="right">{{estatus}}</td>
+                        </tr>
+
+                        <tr style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;">
+                          <td style="padding: 0 15px 5px 0;font-weight:bold">Contenedor 1</td>
+                          <td style="padding: 0 0 0 15px;" align="right">{{contenedor_1}}</td>
+                        </tr>
+                        <tr style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;">
+                          <td style="padding: 0 15px 5px 0;font-weight:bold">Contenedor 2</td>
+                          <td style="padding: 0 0 0 15px;" align="right">{{contenedor_2}}</td>
+                        </tr>
+
+                        <tr style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;">
+                          <td style="padding: 0 15px 5px 0;font-weight:bold">Enviado por</td>
+                          <td style="padding: 0 0 0 15px;" align="right">{{nombre_usuario}}</td>
+                        </tr>
+
+                        <tr style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;">
+                          <td style="padding: 50px 15px 5px 0;font-weight:bold">Comentarios</td>
+                        </tr>
+                        <tr style="padding: 0 15px 5px 0; font-family: 'Product Sans Light', Arial, sans-serif;">
+                          <td colspan="2">{{comentarios}}</td>
+                        </tr>
+
+                      </table>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td align="center"
+                      style="font-size:0px;padding:10px 25px;padding-top:30px;padding-bottom:50px;word-break:break-word;">
+                      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                        style="border-collapse:separate;line-height:100%;">
+                        <tr>
+                          <td align="center" bgcolor="#2F67F6" role="presentation"
+                            style="border:none;border-radius:3px;color:#ffffff;cursor:auto;padding:15px 25px;"
+                            valign="middle">
+                            <p
+                              style="background:#2F67F6;color:#ffffff;font-family:'Product Sans Light',Arial,sans-serif;font-size:15px;font-weight:normal;line-height:120%;Margin:0;text-decoration:none;text-transform:none;">
+                              <a style='font-size:1.2vw; color: #ffffff; text-decoration: none;'
+                                class='btn btn-light mt-2 mb-3 fw-bold'
+                                href='https://www.google.com/maps?q={{latitud}},{{longitud}}&hl=es-PY&gl=py&shorturl=1'
+                                role='button' target='_blank'><strong> Ver en Google Maps</strong></a>
+                            </p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                      <div
+                        style="font-family:'Product Sans', Arial, sans-serif;font-size:12px;line-height:22px;text-align:center;color:#525252;">
+                        <p>Nota: Favor de NO contestar a este email, dirigirse con monitoreo@phi-cargo.com.</p>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+
+</html>

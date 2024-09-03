@@ -1,0 +1,343 @@
+.seleccionar:hover {
+    background-color: #d8e6fc;
+    transition-duration: .0s;
+    border: 2px solid #347cfc;
+    box-shadow: inset 0 0 0 2px #347cfc;
+}
+
+.table5 {
+    table-layout: fixed;
+}
+
+#map {
+    height: 180px;
+}
+
+#leafletmap {
+    height: 180px;
+}
+
+#map2 {
+    width: 100%;
+    z-index: 10;
+    height: 100%;
+}
+
+.bg-fondo {
+    background-image: url("../../img/imagen.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-fondo2 {
+    background-image: url("../../img/cabina.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-maniobras {
+    background-image: url("../../img/maniobras.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+}
+
+.bg-contenedores {
+    background-image: url("../../img/conta.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+}
+
+.bg-correos {
+    background-image: url("../../img/bancocorreos.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top;
+}
+
+.bg-servi {
+    background-image: url("../../img/servi3.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-right: 120px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+.filter {
+    filter: drop-shadow(0 0.2rem 0.30rem rgba(0, 0, 0, 0.5));
+}
+
+.seleccionar:hover h5 {
+    font-weight: 900;
+    color: #347cfc;
+}
+
+.bg-azul {
+    font-weight: 900;
+    background-color: #047ff9
+}
+
+.bg-success {
+    font-weight: 800;
+    color: white
+}
+
+.bg-secondary {
+    font-weight: 800;
+    color: white !important
+}
+
+.bg-naranja {
+    font-weight: 900;
+    color: white;
+    background-color: #ff7414 !important;
+}
+
+.bg-morado {
+    font-weight: 900;
+    background-color: #5a43c0
+}
+
+.row-disabled {
+    background-color: rgba(236, 240, 241, 0.5);
+    pointer-events: none;
+    width: 100%;
+}
+
+.base-titulo {
+    font-size: 35px;
+}
+
+.b {
+    background-color: rgb(240, 181, 181);
+    width: 300px;
+    margin: 20px;
+}
+
+.top {
+    border-top-style: solid;
+}
+
+.bottom {
+    border-bottom-style: dashed;
+}
+
+.left {
+    border-left-style: dotted;
+}
+
+.right {
+    border-right-style: double;
+}
+
+.state_disponible {
+    border-left: 15px solid #71869d;
+}
+
+.state_activo {
+    border-left: 15px solid #fcbc1c;
+}
+
+.state_finalizado {
+    border-left: 15px solid blue;
+}
+
+.state_cancelado {
+    border-left: 15px solid red;
+}
+
+.state_resguardo {
+    border-left: 15px solid #4e4396;
+}
+
+.barraInferior {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    background-color: rgba(245, 245, 245, 0);
+    padding: 10px;
+    z-index: 9999;
+}
+
+.animacion {
+    opacity: 1;
+}
+
+.dropzone .dz-preview .dz-success-mark,
+.dropzone .dz-preview .dz-error-mark {
+    display: none !important;
+}
+
+.input-border-bottom {
+    border: none;
+    border-bottom: 1px solid black;
+    outline: none;
+}
+
+.grupo {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.grupo.expanded::before {
+    content: '-';
+}
+
+.subtabla {
+    margin-left: 20px;
+}
+
+.imagen-fondo {
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 3s ease-in-out;
+}
+
+.imagen-fondo.fade-out {
+    opacity: 0;
+}
+
+.btn-morado {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #377dff;
+    --bs-btn-border-color: #377dff;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #2f6ad9;
+    --bs-btn-hover-border-color: #2c64cc;
+    --bs-btn-focus-shadow-rgb: 85, 145, 255;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #2c64cc;
+    --bs-btn-active-border-color: #295ebf;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #377dff;
+    --bs-btn-disabled-border-color: #377dff
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.table table {
+    margin-bottom: 0;
+}
+
+#contentmap {
+    position: relative;
+    z-index: 1;
+}
+
+#map {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+#miOffcanvas {
+    width: 800px;
+    /* Establecer el ancho máximo deseado */
+}
+
+#entregaturnooffcanvas {
+    width: 500px;
+    /* Establecer el ancho máximo deseado */
+}
+
+.fc-event {
+    border-width: 4px;
+    /* Cambia el valor según el grosor deseado */
+}
+
+#modal_maniobras_correos {
+    width: 1100px;
+    /* Establecer el ancho máximo deseado */
+}
+
+#modal_entrega {
+    width: 900px;
+}
+
+#informacion_bono_operador {
+    width: 900px;
+    /* Establecer el ancho máximo deseado */
+}
+
+#comentarios_bono {
+    width: 600px;
+    /* Establecer el ancho máximo deseado */
+}
+
+.ql-editor img {
+    max-width: 10px;
+    height: auto;
+}
+
+@font-face {
+    font-family: 'Product Sans';
+    src: url('../../fonts/ProductSans-Light.ttf') format('woff2'),
+        url('../../fonts/ProductSans-Light.ttf') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.custom-font {
+    font-family: 'Product Sans', sans-serif;
+}
+
+.tr-color {
+    background-color: #FFD700;
+    /* Ejemplo: color dorado */
+}
+
+.notyf__toast--custom-success {
+    background: #4CAF50;
+    /* Color de fondo personalizado */
+    color: white;
+    /* Color de texto personalizado */
+}

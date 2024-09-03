@@ -1,0 +1,120 @@
+.bg {
+    animation: slide 3s ease-in-out infinite alternate;
+    /* background-image: linear-gradient(-60deg, #224597 50%, #09f 50%);*/
+    background-image: linear-gradient(-60deg, #a50000 50%, #bc0404 50%);
+    bottom: 0;
+    left: -50%;
+    opacity: .5;
+    position: fixed;
+    right: -50%;
+    top: 0;
+    z-index: -1;
+}
+
+.bg2 {
+    animation-direction: alternate-reverse;
+    animation-duration: 4s;
+}
+
+.bg3 {
+    animation-duration: 4s;
+}
+
+.content {
+    border-radius: .25em;
+    box-sizing: border-box;
+    left: 50%;
+    padding: 10vmin;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(-25%);
+    }
+
+    100% {
+        transform: translateX(25%);
+    }
+}
+
+.intro {
+    background-image: url('../../img/imagen.jpg');
+    background-size: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slider {
+    /*background-image: linear-gradient(-60deg, #224597 50%, #224597 50%);*/
+    background-image: linear-gradient(-60deg, #bc0404 50%, #bc0404 50%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateY(100%);
+}
+
+.wizard a {
+    padding: 20px 12px 20px;
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    min-width: 24.75%;
+    margin-left: 0.25%;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    color: #707070;
+    background: #EBEBEB;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.wizard a:hover {
+    text-decoration: none;
+}
+
+.wizard a:first-child {
+    margin-left: 0;
+}
+
+.wizard:not(.left-arrow) a:before {
+    width: 0;
+    height: 0;
+    border-top: 30px inset transparent;
+    border-bottom: 30px inset transparent;
+    border-left: 30px solid #FFFFFF;
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+}
+
+.wizard:not(.left-arrow) a:after {
+    width: 0;
+    height: 0;
+    border-top: 30px inset transparent;
+    border-bottom: 30px inset transparent;
+    border-left: 30px solid #EBEBEB;
+    position: absolute;
+    content: "";
+    top: 0;
+    right: -30px;
+    z-index: 2;
+}
+
+.wizard a:first-child:before,
+.wizard a:last-child:after {
+    border: none;
+}
