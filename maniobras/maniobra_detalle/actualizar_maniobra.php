@@ -13,6 +13,7 @@ $id_maniobra = $data['id_maniobra'];
 $inicio_programado = $data['inicio_programado'];
 $tipo_maniobra = $data['tipo_maniobra'];
 $terminal = $data['terminal'];
+$peligroso = $data['peligroso'];
 $operador_id = $data['operador_id'];
 $vehicle_id = $data['vehicle_id'];
 
@@ -34,7 +35,8 @@ SET tipo_maniobra = '$tipo_maniobra',
     trailer2_id = $trailer2_id, 
     dolly_id = $dolly_id, 
     motogenerador_1 = $motogenerador_1, 
-    motogenerador_2 = $motogenerador_2
+    motogenerador_2 = $motogenerador_2,
+    peligroso = $peligroso
 WHERE id_maniobra = $id_maniobra";
 
 if ($cn->query($sql_update_maniobra)) {

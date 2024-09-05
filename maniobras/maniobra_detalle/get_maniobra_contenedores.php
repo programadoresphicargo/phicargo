@@ -37,7 +37,8 @@ while ($row = $resultado->fetch_assoc()) {
         $data[] = [
             'id' => $row['id'],
             'id_cp' => $item['id'],
-            'x_reference' => $item['x_reference']
+            'x_reference' => $item['x_reference'],
+            'x_reference_2' => $item['x_reference_2']
         ];
     }
 }

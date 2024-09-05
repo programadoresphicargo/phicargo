@@ -4,6 +4,7 @@ $cn = conectar();
 
 if (isset($_GET['estado_maniobra'])) {
     $estado_maniobra = $_GET['estado_maniobra'];
+    $unidad = '';
 } else {
     $estado_maniobra = $_POST['estado_maniobra'];
     $unidad = $_POST['unidad'];

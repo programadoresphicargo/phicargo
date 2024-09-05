@@ -21,6 +21,7 @@ $motogenerador_1 = !empty($data['motogenerador_1']) ? $data['motogenerador_1'] :
 $motogenerador_2 = !empty($data['motogenerador_2']) ? $data['motogenerador_2'] : 'NULL';
 $id_cp = $data['id_cp'];
 $id_usuario = $_SESSION['userID'];
+$peligroso = $data['peligroso'];
 
 $sql_check = "
     SELECT maniobra.id_maniobra
@@ -57,7 +58,8 @@ if ($result_check->num_rows > 0) {
         NULL,
         NULL,
         NULL,
-        NULL
+        NULL,
+        $peligroso
     )";
     $resultado = $cn->query($sql_insert_maniobra);
 
