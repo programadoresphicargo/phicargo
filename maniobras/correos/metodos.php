@@ -236,18 +236,50 @@ function enviar_correo($id_cp, $tipo, $contenedor, $latitud, $longitud, $referen
     }
 }
 
-function guardar_base_datos($id_cp, $tipo, $id_gps, $id_usuario, $id_status, $hora, $comentarios)
+function guardar_base_datos($id_maniobra, $placas)
 {
+    date_default_timezone_set('America/Mexico_City');
+    $hora = date('Y-m-d H:i:s');
     $cn = conectar();
 
-    $SQL = "SELECT * FROM maniobras where id_cp = $id_cp and tipo = '$tipo' and status = 'Activo' order by fecha_inicio desc limit 1";
+    $SQL = "SELECT * FROM ubicaciones where placas = '$placas' order by fecha_hora desc limit 1";
     $result = $cn->query($SQL);
     $row = $result->fetch_assoc();
-    $id_maniobra = $row['id'];
 
-    $SqlInsert = "INSERT INTO status_maniobras VALUES(NULL,$id_maniobra,$id_gps,NULL,$id_status,$id_usuario,'$hora','$comentarios', NULL)";
-    if ($cn->query($SqlInsert)) {
-        echo 1;
+    $latitud = $row['latitud'];
+    $longitud = $row['longitud'];
+    $referencia = $row['referencia'];
+    $calle = $row['calle'];
+    $fecha_hora = $row['fecha_hora'];
+    $velocidad = $row['velocidad'];
+    if ($velocidad > 1) {
+        $id_estatus = 80;
+    } else {
+        $id_estatus = 81;
+    }
+
+    if (preg_match('/\((.*?)\)/', $referencia, $matches)) {
+        $comentario = $matches[1];
+    } else {
+        $comentario = NULL;
+    }
+
+    if ($comentario) {
+        echo "Comentario: " . $comentario;
+    } else {
+        echo "No se encontró comentario en los paréntesis.";
+    }
+
+    $insert = "INSERT INTO ubicaciones_maniobras VALUES(NULL,'$placas',$latitud,$longitud,'$referencia','$referencia','$calle',NULL,'$fecha_hora')";
+    if ($cn->query($insert)) {
+        $ultimo_id = $cn->insert_id;
+        echo "ID generado: " . $ultimo_id . '<br>';
+        $insert = "INSERT INTO reportes_estatus_maniobras VALUES(NULL,$id_maniobra,$ultimo_id, $id_estatus,8,'$hora','$comentario')";
+        if ($cn->query($insert)) {
+            echo 1;
+        } else {
+            echo 0;
+        }
     } else {
         echo 0;
     }

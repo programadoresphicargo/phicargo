@@ -84,6 +84,5 @@ function comprobar_operador($id_operador)
         'x_maniobra' => false,
     ];
     $values = [$partner_record_ids, $partner_value];
-
     $partners = $models->execute_kw($db, $uid, $password, 'hr.employee', 'write', $values);
 }
