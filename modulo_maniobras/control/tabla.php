@@ -11,19 +11,26 @@ if (isset($_GET['estado_maniobra'])) {
 }
 
 $sql = "SELECT maniobras.*,
-hr_employee.name as nombre_operador,
-fleet_vehicle.name as unidad, 
-STRING_AGG(maniobras_contenedores.id_cp::TEXT, ',' ORDER BY maniobras_contenedores.id_cp) AS contenedores_ids
+hr_employee.name AS nombre_operador,
+fleet_vehicle.name AS unidad,
+STRING_AGG(tms_waybill.x_reference::TEXT, ',') AS contenedores_ids,
+res_store.name AS sucursal
 FROM maniobras
 LEFT JOIN fleet_vehicle ON fleet_vehicle.id = maniobras.vehicle_id
 LEFT JOIN hr_employee ON hr_employee.id = maniobras.operador_id
 LEFT JOIN maniobras_contenedores ON maniobras_contenedores.id_maniobra = maniobras.id_maniobra
+LEFT JOIN tms_waybill ON tms_waybill.id = maniobras_contenedores.id_cp
+LEFT JOIN res_store ON res_store.id = tms_waybill.store_id
 WHERE estado_maniobra = :estado_maniobra
-GROUP BY maniobras.id_maniobra, hr_employee.name, fleet_vehicle.name";
+AND maniobras.vehicle_id::TEXT LIKE :unidad
+GROUP BY maniobras.id_maniobra, hr_employee.name, fleet_vehicle.name, res_store.name";
 
 try {
     $stmt = $cn->prepare($sql);
-    $stmt->execute([':estado_maniobra' => $estado_maniobra]);
+    $stmt->execute([
+        ':estado_maniobra' => $estado_maniobra,
+        ':unidad' => '%' . $unidad . '%'
+    ]);
 
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

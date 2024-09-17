@@ -1,21 +1,35 @@
 <?php
-require_once('../../mysql/conexion.php');
+require_once('../../postgresql/conexion.php');
 
-$cn = conectar();
-
+$pdo = conectar();
 $id_maniobra = $_POST['id_maniobra'];
+$id_maniobra = htmlspecialchars($id_maniobra, ENT_QUOTES, 'UTF-8');
 
-$SQL = "SELECT * FROM maniobra where id_maniobra = $id_maniobra and estado_maniobra = 'borrador'";
-$result4 = $cn->query($SQL);
-if ($result4->num_rows < 0) {
-    $row2 = $result4->fetch_assoc();
-    $id = $row2['id'];
-    $sqlSelect = "SELECT * FROM revisiones_elementos_maniobra inner join elementos_checklist on elementos_checklist.id_elemento = revisiones_elementos_maniobra.elemento_id where revisiones_elementos_maniobra.maniobra_id = $id order by nombre_elemento asc";
-    $resultSet = $cn->query($sqlSelect);
-} else {
-    $sqlSelect = "SELECT * FROM elementos_checklist where tipo_checklist = 'maniobra' order by nombre_elemento asc";
-    $resultSet = $cn->query($sqlSelect);
+try {
+    $SQL = "SELECT * FROM checklists_maniobras WHERE id_maniobra = :id_maniobra";
+    $stmt = $pdo->prepare($SQL);
+    $stmt->bindParam(':id_maniobra', $id_maniobra, PDO::PARAM_INT);
+    $stmt->execute();
+    if ($stmt->rowCount() >= 1) {
+        $row2 = $stmt->fetch(PDO::FETCH_ASSOC);
+        $id_checklist = $row2['id_checklist'];
+
+        $sqlSelect = "SELECT * FROM revisiones_elementos_maniobra 
+                      INNER JOIN elementos_checklist 
+                      ON elementos_checklist.id_elemento = revisiones_elementos_maniobra.id_elemento 
+                      WHERE revisiones_elementos_maniobra.id_checklist= :id_checklist 
+                      ORDER BY nombre_elemento ASC";
+        $stmt = $pdo->prepare($sqlSelect);
+        $stmt->bindParam(':id_checklist', $id_checklist, PDO::PARAM_INT);
+        $stmt->execute();
+    } else {
+        $sqlSelect = "SELECT * FROM elementos_checklist WHERE tipo_checklist = 'maniobra' ORDER BY nombre_elemento ASC";
+        $stmt = $pdo->prepare($sqlSelect);
+        $stmt->execute();
+    }
+
+    $array = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($array);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
 }
-
-while ($row = mysqli_fetch_array($resultSet)) $array[] = $row;
-echo $json = json_encode($array);

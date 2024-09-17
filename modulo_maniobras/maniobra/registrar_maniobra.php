@@ -20,7 +20,6 @@ $dolly_id = !empty($data['dolly_id']) ? $data['dolly_id'] : null;
 $motogenerador_1 = !empty($data['motogenerador_1']) ? $data['motogenerador_1'] : null;
 $motogenerador_2 = !empty($data['motogenerador_2']) ? $data['motogenerador_2'] : null;
 $id_cp = $data['id_cp'];
-$peligroso = $data['peligroso'];
 
 try {
     $sql_check = "

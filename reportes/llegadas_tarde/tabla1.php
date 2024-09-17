@@ -112,6 +112,7 @@ AND v_prev.fecha_finalizado = (
 )
 WHERE 
 DATE(CONVERT_TZ(v.x_inicio_programado, '+00:00', '-06:00')) BETWEEN '$fecha_inicio' AND '$fecha_fin'
+AND v.etiqueta != '2'
 GROUP BY 
 v.id";
 $resultado = $cn->query($sql);

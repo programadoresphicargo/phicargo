@@ -13,7 +13,6 @@ $id_maniobra = $data['id_maniobra'];
 $inicio_programado = $data['inicio_programado'];
 $tipo_maniobra = $data['tipo_maniobra'];
 $terminal = $data['terminal'];
-$peligroso = $data['peligroso'];
 $operador_id = $data['operador_id'];
 $vehicle_id = $data['vehicle_id'];
 
@@ -37,8 +36,7 @@ try {
         trailer2_id = :trailer2_id, 
         dolly_id = :dolly_id, 
         motogenerador_1 = :motogenerador_1, 
-        motogenerador_2 = :motogenerador_2,
-        peligroso = :peligroso
+        motogenerador_2 = :motogenerador_2
     WHERE id_maniobra = :id_maniobra";
 
     // Preparar la consulta SQL
@@ -55,7 +53,6 @@ try {
         ':dolly_id' => $dolly_id,
         ':motogenerador_1' => $motogenerador_1,
         ':motogenerador_2' => $motogenerador_2,
-        ':peligroso' => $peligroso,
         ':id_maniobra' => $id_maniobra
     ]);
 

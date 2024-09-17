@@ -8,7 +8,7 @@ if (isset($_POST['id_maniobra'])) {
     $id_maniobra = $_GET['id_maniobra'];
 }
 
-$sql = "SELECT maniobras_contenedores.id as id, x_reference, dangerous_cargo FROM maniobras_contenedores 
+$sql = "SELECT maniobras_contenedores.id as id, x_reference, dangerous_cargo, x_reference_2 FROM maniobras_contenedores 
 inner join tms_waybill on tms_waybill.id = maniobras_contenedores.id_cp
 where id_maniobra = :id_maniobra";
 

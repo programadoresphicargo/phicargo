@@ -2,11 +2,7 @@
 require_once('../../postgresql/conexion.php');
 $cn = conectar();
 
-if (isset($_POST['id_maniobra'])) {
-    $id_maniobra = $_POST['id_maniobra'];
-} else {
-    $id_maniobra = $_GET['id_maniobra'];
-}
+$operador_id = 312;
 
 $sql = "SELECT 
 maniobras.id_maniobra,
@@ -48,12 +44,13 @@ LEFT JOIN fleet_vehicle AS flota_motogenerador_2 ON flota_motogenerador_2.id = m
 LEFT JOIN usuarios as usuario_inicio on usuario_inicio.id_usuario = maniobras.usuario_activacion
 LEFT JOIN usuarios as usuario_finalizo on usuario_finalizo.id_usuario = maniobras.usuario_finalizo
 
-where id_maniobra = :id_maniobra
-order by inicio_programado desc";
+where operador_id = :operador_id
+order by inicio_programado desc
+limit 1";
 
 try {
     $stmt = $cn->prepare($sql);
-    $stmt->execute([':id_maniobra' => $id_maniobra]);
+    $stmt->execute([':operador_id' => $operador_id]);
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     header('Content-Type: application/json');
     echo json_encode($data);

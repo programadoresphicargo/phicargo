@@ -9,16 +9,9 @@ if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
 }
 
 $selectedMonth = $data['month'];
-$selectedTab = $data['selectedTab'];
 
 $mes = $selectedMonth;
 $año = '2024';
-
-if ($selectedTab == 'carta') {
-    $busqueda =   (array('name', '!=', false));
-} else  if ($selectedTab == 'solicitud') {
-    $busqueda =   (array('name', '=', false));
-}
 
 function obtenerPrimerYUltimoDia($mes, $año)
 {
@@ -45,7 +38,6 @@ $ids = $models->execute_kw(
         (array('date_order', '>', $dias['primerDia'])),
         (array('date_order', '<', $dias['ultimoDia'])),
         (array('state', '!=', 'cancel')),
-        $busqueda,
     ),),
     $kwargs
 );
