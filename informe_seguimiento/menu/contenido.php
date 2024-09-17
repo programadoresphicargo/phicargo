@@ -19,6 +19,7 @@
                         <?php echo imprimirCard('Detenciones', '../detenciones/index.php', '../../img/stop.png'); ?>
                         <?php echo imprimirCard('Estadías', '../../viajes/estadias/index.php', '../../img/estadias.png'); ?>
                         <?php echo imprimirCard('Cumplimiento estatus', '../../reportes/porcentajes_status/index.php', '../../img/icons/app.png'); ?>
+                        <?php echo imprimirCard('Balance de Cobro', '../../contabilidad/pago_clientes/index.php', '../../img/icons/icons-balance.png'); ?>
                     </div>
                 </div>
             </div>

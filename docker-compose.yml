@@ -1,0 +1,25 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    container_name: php-web
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: phicargo
+    volumes:
+      - db_data_phicargo:/var/lib/mysql
+    ports:
+      - "3308:3306"
+    expose:
+      - 3306
+
+volumes:
+  db_data_phicargo:
+  
