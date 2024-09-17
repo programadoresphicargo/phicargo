@@ -192,14 +192,12 @@ if (isset($_SESSION['userID'])) {
                             <a id="appsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button"><i class="bi bi-truck dropdown-item-icon"></i> Maniobras</a>
 
                             <div class="hs-sub-menu dropdown-menu " aria-labelledby="appsMegaMenu" style="min-width: 14rem;">
+                                <a class="dropdown-item" href="../../modulo_maniobras/react/index.html">Modulo Maniobras</a>
                                 <a class="dropdown-item" href="../../maniobras/control/index.php">Control de maniobras</a>
                                 <a class="dropdown-item" href="../../maniobras/programadas/index.php">Maniobras programadas</a>
-                                <a class="dropdown-item" href="../../maniobras/finalizado/index.php">Finalizadas</a>
                                 <a class="dropdown-item" href="../../maniobras/contenedores/index.php">Contenedores</a>
                                 <a class="dropdown-item" href="../../maniobras/solicitudes_transporte/index.php">Solicitudes de transporte</a>
                                 <a class="dropdown-item" href="../../maniobras/cartas_porte/index.php">Cartas Porte</a>
-                                <a class="dropdown-item" href="../../maniobras/movedores/index.php">Movedores</a>
-                                <a class="dropdown-item" href="../../maniobras/nominas/index.php">Nominas</a>
                             </div>
                         </li>
                         <!-- End Apps -->

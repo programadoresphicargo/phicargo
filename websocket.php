@@ -1,20 +1,27 @@
 <?php
-require_once('odoo/odoo-conexion.php');
+$host = 'localhost';       
+$port = '5433';          
+$dbname = 'BELCHEZ_MASTER_12_250724';  
+$user = 'josimar';     
+$password = 'choforo3d2'; 
 
-$kwargs = ['fields' => ['id', 'name', 'x_ejecutivo_viaje_bel', 'x_reference', 'x_status_bel', 'x_llegada_patio', 'x_dias_en_patio', 'travel_id', 'store_id', 'date_order', 'partner_id', 'x_mov_bel', 'x_eco_retiro', 'x_operador_retiro', 'x_terminal_bel'], 'order' => 'date_order asc'];
+$conn_string = "host=$host port=$port dbname=$dbname user=$user password=$password";
+$conn = pg_connect($conn_string);
+if ($conn) {
+    echo "Conexión exitosa a la base de datos.";
+} else {
+    echo "Error en la conexión a la base de datos: " . pg_last_error();
+}
 
-$ids = $models->execute_kw(
-    $db,
-    $uid,
-    $password,
-    'tms.waybill',
-    'search_read',
-    array(array(
-        (array('date_order', '=', "2024-01-01")),
-        (array('name', '!=', "false")),
-    ),),
-    $kwargs
-);
+$query = "SELECT * FROM tms_waybill LIMIT 10";
+$result = pg_query($conn, $query);
 
-$json = json_encode($ids);
-$data = json_decode($json, true);
+if ($result) {
+    while ($row = pg_fetch_assoc($result)) {
+        print_r($row);
+    }
+} else {
+    echo "Error en la consulta: " . pg_last_error();
+}
+
+pg_close($conn);

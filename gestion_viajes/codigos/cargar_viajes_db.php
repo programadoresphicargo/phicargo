@@ -5,7 +5,7 @@ require_once('../../odoo/odoo-conexion.php');
 
 $miArray = array();
 
-$kwargs2 = ['fields' => ['id', 'name', 'x_ejecutivo_viaje_bel', 'date_start', 'travel_id', 'x_status_viaje', 'x_modo_bel', 'store_id', 'x_operador_bel_id', 'route_id', 'x_date_arrival_shed', 'x_reference', 'partner_id', 'vehicle_id', 'employee_id', 'x_codigo_postal', 'trailer1_id', 'trailer2_id', 'dolly_id', 'x_reference_2', 'date_order', 'date_start', 'x_date_arrival_shed', 'x_motogenerador_1', 'x_motogenerador_2', 'client_order_ref'],  'order' => 'travel_id asc'];
+$kwargs2 = ['fields' => ['id', 'name', 'x_ejecutivo_viaje_bel', 'date_start', 'travel_id', 'x_status_viaje', 'x_modo_bel', 'store_id', 'x_operador_bel_id', 'route_id', 'x_date_arrival_shed', 'x_reference', 'partner_id', 'vehicle_id', 'employee_id', 'x_codigo_postal', 'trailer1_id', 'trailer2_id', 'dolly_id', 'x_reference_2', 'date_order', 'date_start', 'x_date_arrival_shed', 'x_motogenerador_1', 'x_motogenerador_2', 'client_order_ref', 'x_etiqueta'],  'order' => 'travel_id asc'];
 
 $ids2 = $models->execute_kw(
     $db,
@@ -48,6 +48,8 @@ foreach ($cps as $cp) {
     $x_inicio_programado = $cp['date_start'];
     $x_llegada_planta_programada = $cp['x_date_arrival_shed'];
     $referencia_cliente = $cp['client_order_ref'];
+    $x_etiqueta = implode(", ", $cp['x_etiqueta']);
+    echo $x_etiqueta;
 
     if (isset($cp['vehicle_id'][0])) {
         $vehiculo =  $cp['vehicle_id'][0];
@@ -85,7 +87,7 @@ foreach ($cps as $cp) {
         $motogenerador_2 =  0;
     }
 
-    $sql = "INSERT INTO viajes VALUES($id,'Disponible','$referencia','$palabras[1]',$employee_id,'$x_reference','$modo',$partner_id,NULL,NULL,NULL,NULL,NULL,'$store_id','$codigo_postal',$vehiculo,$trailer1_id,$trailer2_id,$dolly_id,'','$route_id','$date_order','$x_inicio_programado','$x_llegada_planta_programada',$motogenerador_1,$motogenerador_2,'$referencia_cliente')";
+    $sql = "INSERT INTO viajes VALUES($id,'Disponible','$referencia','$palabras[1]',$employee_id,'$x_reference','$modo',$partner_id,NULL,NULL,NULL,NULL,NULL,'$store_id','$codigo_postal',$vehiculo,$trailer1_id,$trailer2_id,$dolly_id,'','$route_id','$date_order','$x_inicio_programado','$x_llegada_planta_programada',$motogenerador_1,$motogenerador_2,'$referencia_cliente','$x_etiqueta')";
     try {
         $cn->query($sql);
     } catch (mysqli_sql_exception $e) {
@@ -112,10 +114,10 @@ foreach ($cps as $cp) {
             }
             //print_r($miArray);
 
-            $sqlUpdate = "UPDATE viajes set employee_id = $employee_id,x_modo_bel = '$modo', partner_id = $partner_id, placas = '$palabras[1]',  x_codigo_postal =  '$codigo_postal', store_id = '$store_id', vehiculo = $vehiculo, remolque1 = $trailer1_id, remolque2 = $trailer2_id, dolly = $dolly_id, route_id = '$route_id',date_order = '$date_order', x_inicio_programado = '$x_inicio_programado', x_llegada_planta_programada = '$x_llegada_planta_programada', motogenerador_1 = $motogenerador_1, motogenerador_2 = $motogenerador_2, referencia_cliente = '$referencia_cliente' where id = $id";
+            $sqlUpdate = "UPDATE viajes set employee_id = $employee_id,x_modo_bel = '$modo', partner_id = $partner_id, placas = '$palabras[1]',  x_codigo_postal =  '$codigo_postal', store_id = '$store_id', vehiculo = $vehiculo, remolque1 = $trailer1_id, remolque2 = $trailer2_id, dolly = $dolly_id, route_id = '$route_id',date_order = '$date_order', x_inicio_programado = '$x_inicio_programado', x_llegada_planta_programada = '$x_llegada_planta_programada', motogenerador_1 = $motogenerador_1, motogenerador_2 = $motogenerador_2, referencia_cliente = '$referencia_cliente', etiqueta = '$x_etiqueta' where id = $id";
             try {
                 if ($cn->query($sqlUpdate)) {
-                    echo $sqlUpdate;
+                    //echo $sqlUpdate;
                     //echo $id . '<br>';
                 } else {
                     echo 0;

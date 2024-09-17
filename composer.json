@@ -1,6 +1,7 @@
 {
     "require": {
         "phpoffice/phpspreadsheet": "^2.1",
-        "mjaschen/phpgeo": "^5.0"
+        "mjaschen/phpgeo": "^5.0",
+        "phpseclib/phpseclib": "^3.0"
     }
 }
