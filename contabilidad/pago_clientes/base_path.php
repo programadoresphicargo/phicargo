@@ -1,2 +1,3 @@
 <?php
-define('BASE_PATH', '/var/www/html');
+const BASE_PATH = '/var/www/html';
+const MODE = 'dev';

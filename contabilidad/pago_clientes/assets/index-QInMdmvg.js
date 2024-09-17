@@ -81032,7 +81032,7 @@ const collectRegisterToLocal = (data) => ({
   observations: data.observations,
   projection: data.projection
 });
-const BASE_URL$4 = "http://localhost:8080/contabilidad/pago_clientes/services/";
+const BASE_URL$4 = "./services/";
 class CollectServiceApi {
   /**
    * Obtener los registros de la semana
@@ -81564,7 +81564,7 @@ const paymentToApiFull = (payment) => ({
   concept: payment.concept,
   projection: payment.projection
 });
-const BASE_URL$3 = "http://localhost:8080/contabilidad/pago_clientes/services/";
+const BASE_URL$3 = "./services/";
 class PaymentServiceApi {
   /**
    * Obtiene los registros de pago de una semana
@@ -81735,7 +81735,7 @@ const weekToLocal = (week) => ({
   message: week.message,
   weekId: week.week_id
 });
-const BASE_URL$2 = "http://localhost:8080/contabilidad/pago_clientes/services/";
+const BASE_URL$2 = "./services/";
 class WeekServiceApi {
   /**
    * Cambiar de semana
@@ -83598,7 +83598,7 @@ const SelectInput = (props) => {
     }
   );
 };
-const BASE_URL$1 = "http://localhost:8080/contabilidad/pago_clientes/services/";
+const BASE_URL$1 = "./services/";
 class ClientsServiceApi {
   /**
    * Obtener todos los clientes
@@ -83782,7 +83782,7 @@ const TextInput = (props) => {
     }
   );
 };
-const BASE_URL = "http://localhost:8080/contabilidad/pago_clientes/services/";
+const BASE_URL = "./services/";
 class ProviderServiceApi {
   static async getAllProviders() {
     try {

@@ -5,6 +5,16 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 require_once('../../base_path.php');
+
+session_start();
+if (MODE !== 'dev') {
+  if (!isset($_SESSION['userID'])) {
+    http_response_code(401);
+    echo json_encode(["success" => false, "message" => "Usuario no autenticado."]);
+    exit;
+  }
+}
+
 require_once(BASE_PATH . '/mysql/conexion.php');
 
 $cn = conectar();

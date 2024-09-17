@@ -5,11 +5,20 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-  http_response_code(204); // No Content
+  http_response_code(204);
   exit;
 }
 
 require_once('../../base_path.php');
+
+session_start();
+if (MODE !== 'dev') {
+  if (!isset($_SESSION['userID'])) {
+    http_response_code(401);
+    echo json_encode(["success" => false, "message" => "Usuario no autenticado."]);
+    exit;
+  }
+}
 
 require_once(BASE_PATH . '/mysql/conexion.php');
 
