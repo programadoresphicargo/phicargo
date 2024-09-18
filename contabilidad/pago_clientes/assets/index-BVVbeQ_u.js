@@ -33551,7 +33551,7 @@ function getStyleValue$1(themeMapping, transform, propValueFinal, userValue = pr
   }
   return value;
 }
-function style$2(options) {
+function style$3(options) {
   const {
     prop,
     cssProperty = options.prop,
@@ -33684,17 +33684,17 @@ function resolveCssProperty(props, keys2, prop, transformer) {
   const propValue = props[prop];
   return handleBreakpoints(props, propValue, styleFromPropValue);
 }
-function style$1(props, keys2) {
+function style$2(props, keys2) {
   const transformer = createUnarySpacing(props.theme);
   return Object.keys(props).map((prop) => resolveCssProperty(props, keys2, prop, transformer)).reduce(merge, {});
 }
 function margin(props) {
-  return style$1(props, marginKeys);
+  return style$2(props, marginKeys);
 }
 margin.propTypes = {};
 margin.filterProps = marginKeys;
 function padding(props) {
-  return style$1(props, paddingKeys);
+  return style$2(props, paddingKeys);
 }
 padding.propTypes = {};
 padding.filterProps = paddingKeys;
@@ -33724,7 +33724,7 @@ function borderTransform(value) {
   return `${value}px solid`;
 }
 function createBorderStyle(prop, transform) {
-  return style$2({
+  return style$3({
     prop,
     themeKey: "borders",
     transform
@@ -33791,31 +33791,31 @@ const rowGap = (props) => {
 };
 rowGap.propTypes = {};
 rowGap.filterProps = ["rowGap"];
-const gridColumn = style$2({
+const gridColumn = style$3({
   prop: "gridColumn"
 });
-const gridRow = style$2({
+const gridRow = style$3({
   prop: "gridRow"
 });
-const gridAutoFlow = style$2({
+const gridAutoFlow = style$3({
   prop: "gridAutoFlow"
 });
-const gridAutoColumns = style$2({
+const gridAutoColumns = style$3({
   prop: "gridAutoColumns"
 });
-const gridAutoRows = style$2({
+const gridAutoRows = style$3({
   prop: "gridAutoRows"
 });
-const gridTemplateColumns = style$2({
+const gridTemplateColumns = style$3({
   prop: "gridTemplateColumns"
 });
-const gridTemplateRows = style$2({
+const gridTemplateRows = style$3({
   prop: "gridTemplateRows"
 });
-const gridTemplateAreas = style$2({
+const gridTemplateAreas = style$3({
   prop: "gridTemplateAreas"
 });
-const gridArea = style$2({
+const gridArea = style$3({
   prop: "gridArea"
 });
 compose(gap, columnGap, rowGap, gridColumn, gridRow, gridAutoFlow, gridAutoColumns, gridAutoRows, gridTemplateColumns, gridTemplateRows, gridTemplateAreas, gridArea);
@@ -33825,18 +33825,18 @@ function paletteTransform(value, userValue) {
   }
   return value;
 }
-const color = style$2({
+const color = style$3({
   prop: "color",
   themeKey: "palette",
   transform: paletteTransform
 });
-const bgcolor = style$2({
+const bgcolor = style$3({
   prop: "bgcolor",
   cssProperty: "backgroundColor",
   themeKey: "palette",
   transform: paletteTransform
 });
-const backgroundColor = style$2({
+const backgroundColor = style$3({
   prop: "backgroundColor",
   themeKey: "palette",
   transform: paletteTransform
@@ -33845,7 +33845,7 @@ compose(color, bgcolor, backgroundColor);
 function sizingTransform(value) {
   return value <= 1 && value !== 0 ? `${value * 100}%` : value;
 }
-const width = style$2({
+const width = style$3({
   prop: "width",
   transform: sizingTransform
 });
@@ -33873,33 +33873,33 @@ const maxWidth = (props) => {
   return null;
 };
 maxWidth.filterProps = ["maxWidth"];
-const minWidth = style$2({
+const minWidth = style$3({
   prop: "minWidth",
   transform: sizingTransform
 });
-const height = style$2({
+const height = style$3({
   prop: "height",
   transform: sizingTransform
 });
-const maxHeight = style$2({
+const maxHeight = style$3({
   prop: "maxHeight",
   transform: sizingTransform
 });
-const minHeight = style$2({
+const minHeight = style$3({
   prop: "minHeight",
   transform: sizingTransform
 });
-style$2({
+style$3({
   prop: "size",
   cssProperty: "width",
   transform: sizingTransform
 });
-style$2({
+style$3({
   prop: "size",
   cssProperty: "height",
   transform: sizingTransform
 });
-const boxSizing = style$2({
+const boxSizing = style$3({
   prop: "boxSizing"
 });
 compose(width, maxWidth, minWidth, height, maxHeight, minHeight, boxSizing);
@@ -36902,7 +36902,7 @@ const getSideFromDirection = (direction) => {
     "column-reverse": "Bottom"
   }[direction];
 };
-const style = ({
+const style$1 = ({
   ownerState,
   theme
 }) => {
@@ -36980,7 +36980,7 @@ function createStack(options = {}) {
     };
     return composeClasses$1(slots, (slot) => generateUtilityClass$1(componentName, slot), {});
   };
-  const StackRoot = createStyledComponent(style);
+  const StackRoot = createStyledComponent(style$1);
   const Stack2 = /* @__PURE__ */ reactExports.forwardRef(function Grid(inProps, ref) {
     const themeProps = useThemeProps2(inProps);
     const props = extendSxProp$1(themeProps);
@@ -80997,11 +80997,11 @@ const isSameWeek = (week) => {
   const end2 = setToMidnight(weekEnd);
   return actualWeekStart.toISOString().split("T")[0] === start2.toISOString().split("T")[0] && actualWeekEnd.toISOString().split("T")[0] === end2.toISOString().split("T")[0];
 };
-const collectRegisterToApi = (weekId, clientId, projection) => {
+const collectRegisterToApi = (register) => {
   return {
-    week_id: weekId,
-    client_id: clientId,
-    projection
+    week_id: register.weekId,
+    client_id: register.clientId,
+    [`${register.day}_amount`]: register.mount
   };
 };
 const collectRegisterToApiFull = (register) => ({
@@ -81015,8 +81015,7 @@ const collectRegisterToApiFull = (register) => ({
   thursday_amount: register.thursday,
   friday_amount: register.friday,
   saturday_amount: register.saturday,
-  observations: register.observations,
-  projection: register.projection
+  observations: register.observations
 });
 const collectRegisterToLocal = (data) => ({
   id: Number(data.id),
@@ -81030,7 +81029,12 @@ const collectRegisterToLocal = (data) => ({
   friday: data.friday_amount,
   saturday: data.saturday_amount,
   observations: data.observations,
-  projection: data.projection
+  totalConfirmed: data.total_confirmed_amount
+});
+const collectConfirmationToApi = (confirmation) => ({
+  collect_id: confirmation.itemId,
+  day_of_week: confirmation.dayOfWeek,
+  confirmed: confirmation.confirmed
 });
 const BASE_URL$4 = "./services/";
 class CollectServiceApi {
@@ -81058,12 +81062,8 @@ class CollectServiceApi {
    * @param param0 Objeto con el ID de la semana y el ID del cliente
    * @returns True si se ha creado el registro correctamente
    */
-  static async createRegister({
-    weekId,
-    clientId,
-    projection
-  }) {
-    const body = collectRegisterToApi(weekId, clientId, projection);
+  static async createRegister(newRegister) {
+    const body = collectRegisterToApi(newRegister);
     try {
       const response = await fetch(`${BASE_URL$4}collect/create_register.php`, {
         method: "POST",
@@ -81114,6 +81114,30 @@ class CollectServiceApi {
         headers: {
           "Content-Type": "application/json"
         }
+      });
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message);
+      }
+      return response.ok;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+  /**
+   * Confirmar la recogida de un día
+   * @param confirmation Objeto con los datos de la confirmación
+   */
+  static async confirmCollect(confirmation) {
+    const body = collectConfirmationToApi(confirmation);
+    try {
+      const response = await fetch(`${BASE_URL$4}collect/confirm_collect.php`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
       });
       const data = await response.json();
       if (!data.success) {
@@ -81185,12 +81209,27 @@ const useCollectRegisters = () => {
       queryClient2.invalidateQueries({ queryKey: [registersKey, "weekId", activeWeekId] });
     }
   });
+  const confirmCollectMutation = useMutation({
+    mutationFn: CollectServiceApi.confirmCollect,
+    onSuccess: (response) => {
+      console.log(response);
+      Jt.success("Cobro confirmado");
+    },
+    onError: (err) => {
+      console.error(err);
+      Jt.error("Error al confirmar el cobro");
+    },
+    onSettled: () => {
+      queryClient2.invalidateQueries({ queryKey: [registersKey, "weekId", activeWeekId] });
+    }
+  });
   return {
     collects: collectRegisterQuery.data || [],
     collectRegisterQuery,
     createCollectRegisterMutation,
     updateCollectRegisterMutation,
-    deleteCollectRegisterMutation
+    deleteCollectRegisterMutation,
+    confirmCollectMutation
   };
 };
 const formatCurrency = (value) => {
@@ -81233,30 +81272,460 @@ const TotalFooterItem = ({ total }) => {
     }
   );
 };
-const CurrencyCell = (props) => {
-  const { value } = props;
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    "span",
-    {
-      style: {
-        display: "inline-block",
-        padding: "4px 8px",
-        borderRadius: "4px",
-        backgroundColor: "#f0f8ff",
-        color: "#333",
-        fontSize: "14px",
-        fontWeight: "bold",
-        textAlign: "right"
-      },
-      children: formatCurrency(value || 0)
+var Remind$2 = {};
+var Remind$1 = { exports: {} };
+var Remind = {};
+var hasRequiredRemind;
+function requireRemind() {
+  if (hasRequiredRemind) return Remind;
+  hasRequiredRemind = 1;
+  (function(exports) {
+    function _typeof2(obj) {
+      "@babel/helpers - typeof";
+      if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+        _typeof2 = function _typeof3(obj2) {
+          return typeof obj2;
+        };
+      } else {
+        _typeof2 = function _typeof3(obj2) {
+          return obj2 && typeof Symbol === "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
+        };
+      }
+      return _typeof2(obj);
     }
-  );
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports["default"] = void 0;
+    var React2 = _interopRequireWildcard(reactExports);
+    function _getRequireWildcardCache() {
+      if (typeof WeakMap !== "function") return null;
+      var cache2 = /* @__PURE__ */ new WeakMap();
+      _getRequireWildcardCache = function _getRequireWildcardCache2() {
+        return cache2;
+      };
+      return cache2;
+    }
+    function _interopRequireWildcard(obj) {
+      if (obj && obj.__esModule) {
+        return obj;
+      }
+      if (obj === null || _typeof2(obj) !== "object" && typeof obj !== "function") {
+        return { "default": obj };
+      }
+      var cache2 = _getRequireWildcardCache();
+      if (cache2 && cache2.has(obj)) {
+        return cache2.get(obj);
+      }
+      var newObj = {};
+      var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+          if (desc && (desc.get || desc.set)) {
+            Object.defineProperty(newObj, key, desc);
+          } else {
+            newObj[key] = obj[key];
+          }
+        }
+      }
+      newObj["default"] = obj;
+      if (cache2) {
+        cache2.set(obj, newObj);
+      }
+      return newObj;
+    }
+    function _extends2() {
+      _extends2 = Object.assign || function(target) {
+        for (var i2 = 1; i2 < arguments.length; i2++) {
+          var source = arguments[i2];
+          for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      };
+      return _extends2.apply(this, arguments);
+    }
+    function Remind2(props, svgRef) {
+      return /* @__PURE__ */ React2.createElement("svg", _extends2({
+        width: "1em",
+        height: "1em",
+        viewBox: "0 0 14 14",
+        fill: "currentColor",
+        ref: svgRef
+      }, props), /* @__PURE__ */ React2.createElement("path", {
+        d: "M8.021 1.101l5.832 10.509a1.168 1.168 0 01-1.021 1.734H1.167a1.167 1.167 0 01-1.02-1.734L5.979 1.101a1.167 1.167 0 012.041 0zM7 12.177a1.167 1.167 0 100-2.334 1.167 1.167 0 000 2.334zm0-9.34c-.645 0-1.167.523-1.167 1.167v3.502a1.167 1.167 0 002.334 0V4.004c0-.645-.523-1.167-1.167-1.167z"
+      }));
+    }
+    var ForwardRef = /* @__PURE__ */ React2.forwardRef(Remind2);
+    var _default = ForwardRef;
+    exports["default"] = _default;
+  })(Remind);
+  return Remind;
+}
+(function(module, exports) {
+  var _interopRequireDefault2 = interopRequireDefaultExports;
+  exports.__esModule = true;
+  exports["default"] = void 0;
+  var _createSvgIcon2 = _interopRequireDefault2(requireCreateSvgIcon$1());
+  var _Remind = _interopRequireDefault2(requireRemind());
+  var Remind2 = (0, _createSvgIcon2["default"])({
+    as: _Remind["default"],
+    ariaLabel: "remind",
+    category: "legacy",
+    displayName: "Remind"
+  });
+  var _default = Remind2;
+  exports["default"] = _default;
+  module.exports = exports.default;
+})(Remind$1, Remind$1.exports);
+var RemindExports = Remind$1.exports;
+(function(exports) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function get2() {
+      return _Remind["default"];
+    }
+  });
+  var _Remind = _interopRequireDefault2(RemindExports);
+  function _interopRequireDefault2(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+  }
+})(Remind$2);
+const RemindIcon = /* @__PURE__ */ getDefaultExportFromCjs(Remind$2);
+const paymentToLocal = (payment) => ({
+  id: payment.id,
+  monday: payment.monday_amount,
+  tuesday: payment.tuesday_amount,
+  wednesday: payment.wednesday_amount,
+  thursday: payment.thursday_amount,
+  friday: payment.friday_amount,
+  saturday: payment.saturday_amount,
+  providerId: payment.provider_id,
+  providerName: payment.provider,
+  weekId: payment.week_id,
+  observations: payment.observations,
+  concept: payment.concept,
+  totalConfirmed: payment.total_confirmed_amount
+});
+const paymentToApi = (payment) => ({
+  week_id: payment.weekId,
+  provider_id: payment.providerId,
+  provider: payment.providerName,
+  concept: payment.concept,
+  [`${payment.day}_amount`]: payment.amount
+});
+const paymentToApiFull = (payment) => ({
+  id: payment.id,
+  monday_amount: payment.monday,
+  tuesday_amount: payment.tuesday,
+  wednesday_amount: payment.wednesday,
+  thursday_amount: payment.thursday,
+  friday_amount: payment.friday,
+  saturday_amount: payment.saturday,
+  provider_id: payment.providerId,
+  provider: payment.providerName,
+  week_id: payment.weekId,
+  observations: payment.observations,
+  concept: payment.concept,
+  total_confirmed_amount: payment.totalConfirmed
+});
+const paymentConfirmationToApi = (confirmation) => ({
+  payment_id: confirmation.itemId,
+  day_of_week: confirmation.dayOfWeek,
+  confirmed: confirmation.confirmed
+});
+const BASE_URL$3 = "./services/";
+class PaymentServiceApi {
+  /**
+   * Obtiene los registros de pago de una semana
+   * @param weekId ID de la semana a buscar
+   * @returns Array de registros de pago
+   */
+  static async getRegisterByWeekId(weekId) {
+    var _a2;
+    const url = `${BASE_URL$3}payment/get_payments.php?week_id=${weekId}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message || "Error al obtener los registros");
+      }
+      console.log(data.payments);
+      return ((_a2 = data.payments) == null ? void 0 : _a2.map(paymentToLocal)) || [];
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
+  /**
+   * Crea un registro de pago
+   * @param param0 Objeto con la información del registro a crear
+   * @returns Booleano indicando si se creó correctamente
+   */
+  static async createRegister(payment) {
+    const body = paymentToApi(payment);
+    try {
+      const response = await fetch(`${BASE_URL$3}payment/create_payment.php`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message);
+      }
+      return response.ok;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+  /**
+   * Actualiza un registro de pago
+   * @param register Objeto con la información del registro a actualizar
+   * @returns Booleano indicando si se actualizó correctamente
+   */
+  static async updateRegister(register) {
+    const body = paymentToApiFull(register);
+    try {
+      const response = await fetch(`${BASE_URL$3}payment/update_payment.php`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message);
+      }
+      return response.ok;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+  static async deleteRegister(id2) {
+    try {
+      const response = await fetch(`${BASE_URL$3}payment/delete_payment.php?payment_id=${id2}`, {
+        method: "DELETE"
+      });
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message);
+      }
+      return response.ok;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+  /**
+  * Confirmar pago de un día
+  * @param confirmation Objeto con los datos de la confirmación
+  */
+  static async confirmPayment(confirmation) {
+    const body = paymentConfirmationToApi(confirmation);
+    try {
+      const response = await fetch(`${BASE_URL$3}payment/confirm_payment.php`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message);
+      }
+      return response.ok;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+}
+const mainKey$1 = "payments";
+const usePayments = () => {
+  const queryClient2 = useQueryClient();
+  const { activeWeekId } = useWeekContext();
+  const paymentsQuery = useQuery({
+    queryKey: [mainKey$1, "weekId", activeWeekId],
+    queryFn: () => PaymentServiceApi.getRegisterByWeekId(activeWeekId || 6),
+    refetchOnWindowFocus: false,
+    staleTime: 1e3 * 60 * 5
+  });
+  const createPaymentMutation = useMutation({
+    mutationFn: PaymentServiceApi.createRegister,
+    onSuccess: (response) => {
+      console.log(response);
+      Jt.success("Registro creado correctamente");
+    },
+    onError: (err) => {
+      console.error(err);
+      Jt.error("Error al crear el registro");
+    },
+    onSettled: () => {
+      queryClient2.invalidateQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
+    }
+  });
+  const updatePaymentMutation = useMutation({
+    mutationFn: PaymentServiceApi.updateRegister,
+    onSuccess: (response) => {
+      console.log(response);
+      Jt.success("Registro actualizado correctamente");
+    },
+    onError: (err) => {
+      console.error(err);
+      Jt.error("Error al actualizar el registro");
+    },
+    onSettled: () => {
+      queryClient2.invalidateQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
+    }
+  });
+  const deletePaymentMutation = useMutation({
+    mutationFn: PaymentServiceApi.deleteRegister,
+    onSuccess: (response) => {
+      console.log(response);
+      Jt.success("Registro eliminado correctamente");
+    },
+    onError: (err) => {
+      console.error(err);
+      Jt.error("Error al eliminar el registro");
+    },
+    onSettled: () => {
+      queryClient2.invalidateQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
+    }
+  });
+  const confirmPaymentMutation = useMutation({
+    mutationFn: PaymentServiceApi.confirmPayment,
+    onSuccess: (response) => {
+      console.log(response);
+      Jt.success("Pago confirmado");
+    },
+    onError: (err) => {
+      console.error(err);
+      Jt.error("Error al confirmar el pago");
+    },
+    onSettled: () => {
+      queryClient2.invalidateQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
+    }
+  });
+  return {
+    paymentsQuery,
+    createPaymentMutation,
+    updatePaymentMutation,
+    deletePaymentMutation,
+    confirmPaymentMutation
+  };
+};
+const style = {
+  display: "inline-block",
+  padding: "4px 8px",
+  borderRadius: "4px",
+  color: "#333",
+  fontSize: "14px",
+  fontWeight: "bold",
+  textAlign: "right",
+  userSelect: "none",
+  cursor: "pointer"
+};
+const CurrencyCell = (props) => {
+  const { value, customColor, type, dayOfWeek, itemId } = props;
+  const [open, setOpen] = reactExports.useState(false);
+  const {
+    confirmCollectMutation: { mutate: confirmCollect }
+  } = useCollectRegisters();
+  const {
+    confirmPaymentMutation: { mutate: confirmPayment }
+  } = usePayments();
+  const handleDoubleClick = (e3) => {
+    e3.stopPropagation();
+    if (!props.confirmationRequired) return;
+    setOpen(true);
+  };
+  const onConfirm = () => {
+    if (!type) return;
+    if (!dayOfWeek || !itemId) return;
+    if (type === "collect") {
+      confirmCollect({
+        itemId: props.itemId,
+        dayOfWeek: props.dayOfWeek,
+        confirmed: true
+      });
+    } else {
+      confirmPayment({
+        itemId: props.itemId,
+        dayOfWeek: props.dayOfWeek,
+        confirmed: true
+      });
+    }
+    setOpen(false);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "span",
+      {
+        style: {
+          ...style,
+          backgroundColor: customColor || "#f0f8ff"
+        },
+        onDoubleClick: handleDoubleClick,
+        children: formatCurrency(value || 0)
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Modal$1,
+      {
+        role: "alertdialog",
+        open,
+        onClose: () => setOpen(false),
+        size: "300px",
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Modal$1.Body, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              style: {
+                display: "flex",
+                alignItems: "center"
+              },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  RemindIcon,
+                  {
+                    style: { color: "#ffb300", fontSize: 24, marginRight: "8px" }
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "¿Confirmar Pago?" })
+              ]
+            }
+          ) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(Modal$1.Footer, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Button$1, { onClick: onConfirm, appearance: "primary", children: "Confirmar" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Button$1, { onClick: () => setOpen(false), appearance: "subtle", children: "Cancelar" })
+          ] })
+        ]
+      }
+    )
+  ] });
 };
 const getTotalPerDay = (data, day) => {
   return data.reduce((acc, curr) => {
-    const value = curr[day];
+    const value = curr[day].amount;
     return acc + (isNaN(value) ? 0 : value);
   }, 0) || 0;
+};
+const getProjection = (data) => {
+  return data.monday.amount + data.tuesday.amount + data.wednesday.amount + data.thursday.amount + data.friday.amount + data.saturday.amount;
 };
 const useCollectTableColumns = (data) => {
   const columns = reactExports.useMemo(() => {
@@ -81269,14 +81738,27 @@ const useCollectTableColumns = (data) => {
       },
       {
         header: "Proyección",
-        accessorFn: (originalRow) => originalRow.projection,
-        id: "projection",
         filterFn: "between",
-        muiEditTextFieldProps: {
-          type: "number",
-          helperText: "Proyección de cobro"
-        },
-        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: data.reduce((acc, curr) => acc + curr.projection, 0) }),
+        enableEditing: false,
+        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TotalFooterItem,
+          {
+            total: data.reduce((acc, curr) => acc + getProjection(curr), 0)
+          }
+        ),
+        Cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: getProjection(row.original) })
+      },
+      {
+        accessorKey: "totalConfirmed",
+        filterFn: "between",
+        header: "Total Confirmado",
+        enableEditing: false,
+        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TotalFooterItem,
+          {
+            total: data.reduce((acc, curr) => acc + curr.totalConfirmed, 0)
+          }
+        ),
         Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
       },
       {
@@ -81288,7 +81770,17 @@ const useCollectTableColumns = (data) => {
         },
         header: "Lunes",
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "monday") }),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue().amount || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            type: "collect",
+            itemId: row.original.id,
+            dayOfWeek: "monday",
+            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
       },
       {
         accessorKey: "tuesday",
@@ -81299,7 +81791,17 @@ const useCollectTableColumns = (data) => {
           helperText: "Cobrado el martes"
         },
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "tuesday") }),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue().amount || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            type: "collect",
+            itemId: row.original.id,
+            dayOfWeek: "tuesday",
+            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
       },
       {
         accessorKey: "wednesday",
@@ -81310,7 +81812,17 @@ const useCollectTableColumns = (data) => {
           helperText: "Cobrado el miercoles"
         },
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "wednesday") }),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue().amount || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            type: "collect",
+            itemId: row.original.id,
+            dayOfWeek: "wednesday",
+            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
       },
       {
         accessorKey: "thursday",
@@ -81321,7 +81833,17 @@ const useCollectTableColumns = (data) => {
           helperText: "Cobrado el jueves"
         },
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "thursday") }),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue().amount || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            type: "collect",
+            itemId: row.original.id,
+            dayOfWeek: "thursday",
+            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
       },
       {
         accessorKey: "friday",
@@ -81332,7 +81854,17 @@ const useCollectTableColumns = (data) => {
           helperText: "Cobrado el viernes"
         },
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "friday") }),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue().amount || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            type: "collect",
+            itemId: row.original.id,
+            dayOfWeek: "friday",
+            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
       },
       {
         accessorKey: "saturday",
@@ -81343,7 +81875,17 @@ const useCollectTableColumns = (data) => {
           helperText: "Cobrado el sabado"
         },
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "saturday") }),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue().amount || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            type: "collect",
+            itemId: row.original.id,
+            dayOfWeek: "saturday",
+            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
       },
       {
         accessorKey: "observations",
@@ -81517,206 +82059,6 @@ const Card = (props) => {
     }
   );
 };
-const getTotalPerWeek = (data) => {
-  const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-  const total = data.reduce((total2, curr) => {
-    return total2 + days.reduce((dayTotal, day) => {
-      const value = curr[day];
-      return dayTotal + (isNaN(value) ? 0 : value);
-    }, 0);
-  }, 0);
-  return total;
-};
-const paymentToLocal = (payment) => ({
-  id: payment.id,
-  monday: payment.monday_amount,
-  tuesday: payment.tuesday_amount,
-  wednesday: payment.wednesday_amount,
-  thursday: payment.thursday_amount,
-  friday: payment.friday_amount,
-  saturday: payment.saturday_amount,
-  providerId: payment.provider_id,
-  providerName: payment.provider,
-  weekId: payment.week_id,
-  observations: payment.observations,
-  concept: payment.concept,
-  projection: payment.projection
-});
-const paymentToApi = (payment) => ({
-  week_id: payment.weekId,
-  provider_id: payment.providerId,
-  provider: payment.providerName,
-  concept: payment.concept,
-  projection: payment.projection
-});
-const paymentToApiFull = (payment) => ({
-  id: payment.id,
-  monday_amount: payment.monday,
-  tuesday_amount: payment.tuesday,
-  wednesday_amount: payment.wednesday,
-  thursday_amount: payment.thursday,
-  friday_amount: payment.friday,
-  saturday_amount: payment.saturday,
-  provider_id: payment.providerId,
-  provider: payment.providerName,
-  week_id: payment.weekId,
-  observations: payment.observations,
-  concept: payment.concept,
-  projection: payment.projection
-});
-const BASE_URL$3 = "./services/";
-class PaymentServiceApi {
-  /**
-   * Obtiene los registros de pago de una semana
-   * @param weekId ID de la semana a buscar
-   * @returns Array de registros de pago
-   */
-  static async getRegisterByWeekId(weekId) {
-    var _a2;
-    const url = `${BASE_URL$3}payment/get_payments.php?week_id=${weekId}`;
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message || "Error al obtener los registros");
-      }
-      return ((_a2 = data.payments) == null ? void 0 : _a2.map(paymentToLocal)) || [];
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  }
-  /**
-   * Crea un registro de pago
-   * @param param0 Objeto con la información del registro a crear
-   * @returns Booleano indicando si se creó correctamente
-   */
-  static async createRegister({
-    weekId,
-    providerId,
-    providerName,
-    concept,
-    projection
-  }) {
-    const body = paymentToApi({ weekId, providerId, providerName, concept, projection });
-    try {
-      const response = await fetch(`${BASE_URL$3}payment/create_payment.php`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-      });
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-      return response.ok;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-  /**
-   * Actualiza un registro de pago
-   * @param register Objeto con la información del registro a actualizar
-   * @returns Booleano indicando si se actualizó correctamente
-   */
-  static async updateRegister(register) {
-    const body = paymentToApiFull(register);
-    try {
-      const response = await fetch(`${BASE_URL$3}payment/update_payment.php`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-      });
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-      return response.ok;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-  static async deleteRegister(id2) {
-    try {
-      const response = await fetch(`${BASE_URL$3}payment/delete_payment.php?payment_id=${id2}`, {
-        method: "DELETE"
-      });
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-      return response.ok;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-}
-const mainKey$1 = "payments";
-const usePayments = () => {
-  const queryClient2 = useQueryClient();
-  const { activeWeekId } = useWeekContext();
-  const paymentsQuery = useQuery({
-    queryKey: [mainKey$1, "weekId", activeWeekId],
-    queryFn: () => PaymentServiceApi.getRegisterByWeekId(activeWeekId || 6),
-    refetchOnWindowFocus: false,
-    staleTime: 1e3 * 60 * 5
-  });
-  const createPaymentMutation = useMutation({
-    mutationFn: PaymentServiceApi.createRegister,
-    onSuccess: (response) => {
-      console.log(response);
-      Jt.success("Registro creado correctamente");
-    },
-    onError: (err) => {
-      console.error(err);
-      Jt.error("Error al crear el registro");
-    },
-    onSettled: () => {
-      queryClient2.invalidateQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
-    }
-  });
-  const updatePaymentMutation = useMutation({
-    mutationFn: PaymentServiceApi.updateRegister,
-    onSuccess: (response) => {
-      console.log(response);
-      Jt.success("Registro actualizado correctamente");
-    },
-    onError: (err) => {
-      console.error(err);
-      Jt.error("Error al actualizar el registro");
-    },
-    onSettled: () => {
-      queryClient2.invalidateQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
-    }
-  });
-  const deletePaymentMutation = useMutation({
-    mutationFn: PaymentServiceApi.deleteRegister,
-    onSuccess: (response) => {
-      console.log(response);
-      Jt.success("Registro eliminado correctamente");
-    },
-    onError: (err) => {
-      console.error(err);
-      Jt.error("Error al eliminar el registro");
-    },
-    onSettled: () => {
-      queryClient2.invalidateQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
-    }
-  });
-  return {
-    paymentsQuery,
-    createPaymentMutation,
-    updatePaymentMutation,
-    deletePaymentMutation
-  };
-};
 const weekToApi = (startDate, endDate) => {
   const setToMidnight2 = (date) => {
     const adjustedDate = new Date(date);
@@ -81799,9 +82141,9 @@ const useWeek = () => {
   };
 };
 const getDifference = (registers) => {
-  const total = registers.reduce((acc, curr) => acc + curr.projection, 0);
-  const totalCollected = getTotalPerWeek(registers);
-  return total - totalCollected;
+  const totalCollected = registers.reduce((acc, curr) => acc + curr.totalConfirmed, 0);
+  const totalProjection = registers.reduce((acc, curr) => acc + getProjection(curr), 0);
+  return totalProjection - totalCollected;
 };
 const Header = () => {
   const [value, setValue2] = reactExports.useState(null);
@@ -81853,7 +82195,12 @@ const Header = () => {
           Card,
           {
             title: "Total Cobrado",
-            content: loadingCollect ? "Cargando..." : formatCurrency(getTotalPerWeek(registers || []))
+            content: loadingCollect ? "Cargando..." : formatCurrency(
+              (registers || []).reduce(
+                (acc, curr) => acc + curr.totalConfirmed,
+                0
+              )
+            )
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -81867,7 +82214,12 @@ const Header = () => {
           Card,
           {
             title: "Total Pagado",
-            content: loadingPayments ? "Cargando..." : formatCurrency(getTotalPerWeek(payments || []))
+            content: loadingPayments ? "Cargando..." : formatCurrency(
+              (payments || []).reduce(
+                (acc, curr) => acc + curr.totalConfirmed,
+                0
+              )
+            )
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -83578,7 +83930,7 @@ const SelectInput = (props) => {
             name: name2,
             accepter: SelectPicker,
             placeholder: props.placeholder || "Selecciona una opción",
-            virtualized: true,
+            virtualized: props.virtualized,
             data: items || [],
             style: style2,
             value,
@@ -83630,9 +83982,18 @@ const useClients = () => {
     clientsQuery
   };
 };
+const daysSelection$1 = [
+  { label: "Lunes", value: "monday" },
+  { label: "Martes", value: "tuesday" },
+  { label: "Miercoles", value: "wednesday" },
+  { label: "Jueves", value: "thursday" },
+  { label: "Viernes", value: "friday" },
+  { label: "Sabado", value: "saturday" }
+];
 const initialFormState$1 = {
   clientId: "",
-  projection: 0
+  mount: 0,
+  day: ""
 };
 const NewCollectForm = (props) => {
   const { handleClose } = props;
@@ -83654,7 +84015,8 @@ const NewCollectForm = (props) => {
     createRegister({
       weekId: Number(activeWeekId),
       clientId: Number(data2.clientId),
-      projection: Number(data2.projection)
+      mount: Number(data2.mount),
+      day: data2.day
     });
   };
   const data = reactExports.useMemo(() => {
@@ -83701,16 +84063,29 @@ const NewCollectForm = (props) => {
                         items: data || [],
                         style: { width: 300 },
                         rules: { required: "Selecciona un cliente por favor" },
-                        isLoading: isFetching
+                        isLoading: isFetching,
+                        virtualized: true
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      SelectInput,
+                      {
+                        control,
+                        controlId: "dayId",
+                        name: "day",
+                        label: "Día",
+                        items: daysSelection$1,
+                        style: { width: 300 },
+                        rules: { required: "Selecciona un día por favor" }
                       }
                     ),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       NumberInput,
                       {
                         control,
-                        name: "projection",
-                        label: "Proyección",
-                        rules: { required: "Ingresa una proyección" }
+                        name: "mount",
+                        label: "Monto",
+                        rules: { required: "Ingresa un monto" }
                       }
                     )
                   ]
@@ -83810,10 +84185,19 @@ const useProviders = () => {
     providersQuery
   };
 };
+const daysSelection = [
+  { label: "Lunes", value: "monday" },
+  { label: "Martes", value: "tuesday" },
+  { label: "Miercoles", value: "wednesday" },
+  { label: "Jueves", value: "thursday" },
+  { label: "Viernes", value: "friday" },
+  { label: "Sabado", value: "saturday" }
+];
 const initialFormState = {
   providerId: "",
   concept: "",
-  projection: null
+  amount: null,
+  day: ""
 };
 const NewPaymentForm = (props) => {
   const { handleClose } = props;
@@ -83837,7 +84221,8 @@ const NewPaymentForm = (props) => {
       providerId: Number(data2.providerId),
       providerName: ((_a2 = providers == null ? void 0 : providers.find((item) => item.id === data2.providerId)) == null ? void 0 : _a2.name) || "",
       concept: data2.concept,
-      projection: data2.projection
+      day: data2.day,
+      amount: Number(data2.amount)
     };
     createRegister(newPayment);
   };
@@ -83885,16 +84270,29 @@ const NewPaymentForm = (props) => {
                         items: data || [],
                         style: { width: 300 },
                         rules: { required: "Selecciona un provedor por favor" },
-                        isLoading: isFetching
+                        isLoading: isFetching,
+                        virtualized: true
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      SelectInput,
+                      {
+                        control,
+                        controlId: "day",
+                        name: "day",
+                        label: "Día",
+                        items: daysSelection,
+                        style: { width: 300 },
+                        rules: { required: "Selecciona un día por favor" }
                       }
                     ),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
                       NumberInput,
                       {
                         control,
-                        label: "Proyección",
-                        name: "projection",
-                        rules: { required: "Ingresa una proyección por favor" }
+                        label: "Monto",
+                        name: "amount",
+                        rules: { required: "Ingresa un monto por favor" }
                       }
                     ),
                     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -83946,10 +84344,26 @@ const usePaymentTableColumns = (data) => {
         accessorKey: "projection",
         filterFn: "between",
         header: "Proyección",
-        muiEditTextFieldProps: {
-          type: "number"
-        },
-        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: data.reduce((acc, curr) => acc + curr.projection, 0) }),
+        enableEditing: false,
+        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TotalFooterItem,
+          {
+            total: data.reduce((acc, curr) => acc + getProjection(curr), 0)
+          }
+        ),
+        Cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: getProjection(row.original) })
+      },
+      {
+        accessorKey: "totalConfirmed",
+        filterFn: "between",
+        header: "Total Confirmado",
+        enableEditing: false,
+        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TotalFooterItem,
+          {
+            total: data.reduce((acc, curr) => acc + curr.totalConfirmed, 0)
+          }
+        ),
         Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
       },
       {
@@ -83961,7 +84375,17 @@ const usePaymentTableColumns = (data) => {
           helperText: "Cobrado el lunes"
         },
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "monday") }),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue().amount || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            type: "payment",
+            itemId: row.original.id,
+            dayOfWeek: "monday",
+            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
       },
       {
         accessorKey: "tuesday",
@@ -83972,7 +84396,17 @@ const usePaymentTableColumns = (data) => {
           helperText: "Cobrado el martes"
         },
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "tuesday") }),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue().amount || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            type: "payment",
+            itemId: row.original.id,
+            dayOfWeek: "tuesday",
+            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
       },
       {
         accessorKey: "wednesday",
@@ -83983,7 +84417,17 @@ const usePaymentTableColumns = (data) => {
           helperText: "Cobrado el miercoles"
         },
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "wednesday") }),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue().amount || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            type: "payment",
+            itemId: row.original.id,
+            dayOfWeek: "wednesday",
+            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
       },
       {
         accessorKey: "thursday",
@@ -83994,7 +84438,17 @@ const usePaymentTableColumns = (data) => {
           helperText: "Cobrado el jueves"
         },
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "thursday") }),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue().amount || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            type: "payment",
+            itemId: row.original.id,
+            dayOfWeek: "thursday",
+            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
       },
       {
         accessorKey: "friday",
@@ -84005,7 +84459,17 @@ const usePaymentTableColumns = (data) => {
           helperText: "Cobrado el viernes"
         },
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "friday") }),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue().amount || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            type: "payment",
+            itemId: row.original.id,
+            dayOfWeek: "friday",
+            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
       },
       {
         accessorKey: "saturday",
@@ -84016,7 +84480,17 @@ const usePaymentTableColumns = (data) => {
           helperText: "Cobrado el sabado"
         },
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "saturday") }),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue().amount || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            type: "payment",
+            itemId: row.original.id,
+            dayOfWeek: "saturday",
+            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
       },
       {
         accessorKey: "observations",
