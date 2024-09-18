@@ -22,12 +22,12 @@ $cn = conectar();
 // Leer los datos de la solicitud POST (asumiendo que vienen en formato JSON)
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (isset($data['client_id']) && isset($data['week_id']) && isset($data['projection'])) {
+if (isset($data['client_id']) && 
+    isset($data['week_id'])) {
 
     // Variables obtenidas desde la solicitud
     $client_id = $cn->real_escape_string($data['client_id']);
     $week_id = $cn->real_escape_string($data['week_id']);
-    $projection = $cn->real_escape_string($data['projection']);
 
     // Monto opcional para cada día (puedes validar cada día de manera opcional)
     $monday_amount = isset($data['monday_amount']) ? $cn->real_escape_string($data['monday_amount']) : 0;
@@ -46,8 +46,7 @@ if (isset($data['client_id']) && isset($data['week_id']) && isset($data['project
               wednesday_amount, 
               thursday_amount, 
               friday_amount, 
-              saturday_amount, 
-              projection )
+              saturday_amount)
             VALUES (
               '$client_id', 
               '$week_id', 
@@ -56,8 +55,7 @@ if (isset($data['client_id']) && isset($data['week_id']) && isset($data['project
               '$wednesday_amount', 
               '$thursday_amount', 
               '$friday_amount', 
-              '$saturday_amount', 
-              '$projection' )";
+              '$saturday_amount')";
 
     // Ejecutar la consulta
     if ($cn->query($sql) === TRUE) {
