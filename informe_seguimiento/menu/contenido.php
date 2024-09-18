@@ -15,7 +15,7 @@
                         <?php echo imprimirCard('Reporte Gerencial', '../informe/index.php', '../../img/seguimiento.png'); ?>
                         <?php echo imprimirCard('Ingresos', '../operadores/index.php', '../../img/contabilidad.png'); ?>
                         <?php echo imprimirCard('Número de viajes', '../viajes/index.php', '../../img/volante.png'); ?>
-                        <?php echo imprimirCard('Inicios de ruta y llegadas a planta', '../../reportes/llegadas_tarde/index.php', '../../img/clock.png'); ?>
+                        <?php echo imprimirCard('Inicios de ruta y llegadas a planta', '../../reportes/llegadas_tarde/index.html', '../../img/clock.png'); ?>
                         <?php echo imprimirCard('Detenciones', '../detenciones/index.php', '../../img/stop.png'); ?>
                         <?php echo imprimirCard('Estadías', '../../viajes/estadias/index.php', '../../img/estadias.png'); ?>
                         <?php echo imprimirCard('Cumplimiento estatus', '../../reportes/porcentajes_status/index.php', '../../img/icons/app.png'); ?>
