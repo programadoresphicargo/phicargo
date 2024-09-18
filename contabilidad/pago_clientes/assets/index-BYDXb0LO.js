@@ -14188,7 +14188,7 @@ function requiredArgs(required, args) {
     throw new TypeError(required + " argument" + (required > 1 ? "s" : "") + " required, but only " + args.length + " present");
   }
 }
-function toDate(argument) {
+function toDate$1(argument) {
   requiredArgs(1, arguments);
   var argStr = Object.prototype.toString.call(argument);
   if (argument instanceof Date || _typeof(argument) === "object" && argStr === "[object Date]") {
@@ -14205,7 +14205,7 @@ function toDate(argument) {
 }
 function addDays(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var amount = toInteger$1(dirtyAmount);
   if (isNaN(amount)) {
     return /* @__PURE__ */ new Date(NaN);
@@ -14218,7 +14218,7 @@ function addDays(dirtyDate, dirtyAmount) {
 }
 function addMonths(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var amount = toInteger$1(dirtyAmount);
   if (isNaN(amount)) {
     return /* @__PURE__ */ new Date(NaN);
@@ -14244,7 +14244,7 @@ function addYears(dirtyDate, dirtyAmount) {
 }
 function addMilliseconds(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
-  var timestamp = toDate(dirtyDate).getTime();
+  var timestamp = toDate$1(dirtyDate).getTime();
   var amount = toInteger$1(dirtyAmount);
   return new Date(timestamp + amount);
 }
@@ -14267,8 +14267,8 @@ function addHours(dirtyDate, dirtyAmount) {
 }
 function compareAsc(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
-  var dateLeft = toDate(dirtyDateLeft);
-  var dateRight = toDate(dirtyDateRight);
+  var dateLeft = toDate$1(dirtyDateLeft);
+  var dateRight = toDate$1(dirtyDateRight);
   var diff = dateLeft.getTime() - dateRight.getTime();
   if (diff < 0) {
     return -1;
@@ -14280,7 +14280,7 @@ function compareAsc(dirtyDateLeft, dirtyDateRight) {
 }
 function endOfDay(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   date.setHours(23, 59, 59, 999);
   return date;
 }
@@ -14296,7 +14296,7 @@ function endOfWeek(dirtyDate, options) {
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError("weekStartsOn must be between 0 and 6 inclusively");
   }
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var day = date.getDay();
   var diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn);
   date.setDate(date.getDate() + diff);
@@ -14311,7 +14311,7 @@ function endOfISOWeek(dirtyDate) {
 }
 function endOfMonth(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var month = date.getMonth();
   date.setFullYear(date.getFullYear(), month + 1, 0);
   date.setHours(23, 59, 59, 999);
@@ -14326,7 +14326,7 @@ function isValid$1(dirtyDate) {
   if (!isDate(dirtyDate) && typeof dirtyDate !== "number") {
     return false;
   }
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   return !isNaN(Number(date));
 }
 function subMilliseconds(dirtyDate, dirtyAmount) {
@@ -14337,7 +14337,7 @@ function subMilliseconds(dirtyDate, dirtyAmount) {
 var MILLISECONDS_IN_DAY = 864e5;
 function getUTCDayOfYear(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var timestamp = date.getTime();
   date.setUTCMonth(0, 1);
   date.setUTCHours(0, 0, 0, 0);
@@ -14348,7 +14348,7 @@ function getUTCDayOfYear(dirtyDate) {
 function startOfUTCISOWeek(dirtyDate) {
   requiredArgs(1, arguments);
   var weekStartsOn = 1;
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var day = date.getUTCDay();
   var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
   date.setUTCDate(date.getUTCDate() - diff);
@@ -14357,7 +14357,7 @@ function startOfUTCISOWeek(dirtyDate) {
 }
 function getUTCISOWeekYear(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var year = date.getUTCFullYear();
   var fourthOfJanuaryOfNextYear = /* @__PURE__ */ new Date(0);
   fourthOfJanuaryOfNextYear.setUTCFullYear(year + 1, 0, 4);
@@ -14387,7 +14387,7 @@ function startOfUTCISOWeekYear(dirtyDate) {
 var MILLISECONDS_IN_WEEK$1 = 6048e5;
 function getUTCISOWeek(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var diff = startOfUTCISOWeek(date).getTime() - startOfUTCISOWeekYear(date).getTime();
   return Math.round(diff / MILLISECONDS_IN_WEEK$1) + 1;
 }
@@ -14399,7 +14399,7 @@ function startOfUTCWeek(dirtyDate, options) {
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError("weekStartsOn must be between 0 and 6 inclusively");
   }
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var day = date.getUTCDay();
   var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
   date.setUTCDate(date.getUTCDate() - diff);
@@ -14409,7 +14409,7 @@ function startOfUTCWeek(dirtyDate, options) {
 function getUTCWeekYear(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$firstWeekCon, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var year = date.getUTCFullYear();
   var defaultOptions2 = getDefaultOptions();
   var firstWeekContainsDate = toInteger$1((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions2.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions2.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1);
@@ -14447,7 +14447,7 @@ function startOfUTCWeekYear(dirtyDate, options) {
 var MILLISECONDS_IN_WEEK = 6048e5;
 function getUTCWeek(dirtyDate, options) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var diff = startOfUTCWeek(date, options).getTime() - startOfUTCWeekYear(date, options).getTime();
   return Math.round(diff / MILLISECONDS_IN_WEEK) + 1;
 }
@@ -15722,7 +15722,7 @@ function format(dirtyDate, dirtyFormatStr, options) {
   if (!locale2.formatLong) {
     throw new RangeError("locale must contain formatLong property");
   }
-  var originalDate = toDate(dirtyDate);
+  var originalDate = toDate$1(dirtyDate);
   if (!isValid$1(originalDate)) {
     throw new RangeError("Invalid time value");
   }
@@ -15775,13 +15775,13 @@ function cleanEscapedString$1(input) {
 }
 function getDate(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var dayOfMonth = date.getDate();
   return dayOfMonth;
 }
 function getDaysInMonth(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var year = date.getFullYear();
   var monthIndex = date.getMonth();
   var lastDayOfMonth2 = /* @__PURE__ */ new Date(0);
@@ -15791,47 +15791,47 @@ function getDaysInMonth(dirtyDate) {
 }
 function getHours$1(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var hours = date.getHours();
   return hours;
 }
 function getMinutes$1(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var minutes = date.getMinutes();
   return minutes;
 }
 function getMonth(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var month = date.getMonth();
   return month;
 }
 function getSeconds(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var seconds = date.getSeconds();
   return seconds;
 }
 function getYear(dirtyDate) {
   requiredArgs(1, arguments);
-  return toDate(dirtyDate).getFullYear();
+  return toDate$1(dirtyDate).getFullYear();
 }
-function isAfter(dirtyDate, dirtyDateToCompare) {
+function isAfter$1(dirtyDate, dirtyDateToCompare) {
   requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var dateToCompare = toDate(dirtyDateToCompare);
+  var date = toDate$1(dirtyDate);
+  var dateToCompare = toDate$1(dirtyDateToCompare);
   return date.getTime() > dateToCompare.getTime();
 }
 function isBefore(dirtyDate, dirtyDateToCompare) {
   requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
-  var dateToCompare = toDate(dirtyDateToCompare);
+  var date = toDate$1(dirtyDate);
+  var dateToCompare = toDate$1(dirtyDateToCompare);
   return date.getTime() < dateToCompare.getTime();
 }
 function startOfDay(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   date.setHours(0, 0, 0, 0);
   return date;
 }
@@ -15843,13 +15843,13 @@ function isSameDay(dirtyDateLeft, dirtyDateRight) {
 }
 function isSameMonth(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
-  var dateLeft = toDate(dirtyDateLeft);
-  var dateRight = toDate(dirtyDateRight);
+  var dateLeft = toDate$1(dirtyDateLeft);
+  var dateRight = toDate$1(dirtyDateRight);
   return dateLeft.getFullYear() === dateRight.getFullYear() && dateLeft.getMonth() === dateRight.getMonth();
 }
 function startOfSecond(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   date.setMilliseconds(0);
   return date;
 }
@@ -16772,7 +16772,7 @@ var StandAloneMonthParser = /* @__PURE__ */ function(_Parser) {
 }(Parser);
 function setUTCWeek(dirtyDate, dirtyWeek, options) {
   requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var week = toInteger$1(dirtyWeek);
   var diff = getUTCWeek(date, options) - week;
   date.setUTCDate(date.getUTCDate() - diff * 7);
@@ -16821,7 +16821,7 @@ var LocalWeekParser = /* @__PURE__ */ function(_Parser) {
 }(Parser);
 function setUTCISOWeek(dirtyDate, dirtyISOWeek) {
   requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var isoWeek = toInteger$1(dirtyISOWeek);
   var diff = getUTCISOWeek(date) - isoWeek;
   date.setUTCDate(date.getUTCDate() - diff * 7);
@@ -16980,7 +16980,7 @@ function setUTCDay(dirtyDate, dirtyDay, options) {
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError("weekStartsOn must be between 0 and 6 inclusively");
   }
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var day = toInteger$1(dirtyDay);
   var currentDay = date.getUTCDay();
   var remainder = day % 7;
@@ -17242,7 +17242,7 @@ function setUTCISODay(dirtyDate, dirtyDay) {
     day = day - 7;
   }
   var weekStartsOn = 1;
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var currentDay = date.getUTCDay();
   var remainder = day % 7;
   var dayIndex = (remainder + 7) % 7;
@@ -18002,7 +18002,7 @@ function parse$1(dirtyDateString, dirtyFormatString, dirtyReferenceDate, options
   }
   if (formatString === "") {
     if (dateString === "") {
-      return toDate(dirtyReferenceDate);
+      return toDate$1(dirtyReferenceDate);
     } else {
       return /* @__PURE__ */ new Date(NaN);
     }
@@ -18103,7 +18103,7 @@ function parse$1(dirtyDateString, dirtyFormatString, dirtyReferenceDate, options
   }).map(function(setterArray) {
     return setterArray[0];
   });
-  var date = toDate(dirtyReferenceDate);
+  var date = toDate$1(dirtyReferenceDate);
   if (isNaN(date.getTime())) {
     return /* @__PURE__ */ new Date(NaN);
   }
@@ -18136,28 +18136,28 @@ function cleanEscapedString(input) {
 }
 function setDate(dirtyDate, dirtyDayOfMonth) {
   requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var dayOfMonth = toInteger$1(dirtyDayOfMonth);
   date.setDate(dayOfMonth);
   return date;
 }
 function setHours(dirtyDate, dirtyHours) {
   requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var hours = toInteger$1(dirtyHours);
   date.setHours(hours);
   return date;
 }
 function setMinutes(dirtyDate, dirtyMinutes) {
   requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var minutes = toInteger$1(dirtyMinutes);
   date.setMinutes(minutes);
   return date;
 }
 function setMonth(dirtyDate, dirtyMonth) {
   requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var month = toInteger$1(dirtyMonth);
   var year = date.getFullYear();
   var day = date.getDate();
@@ -18170,14 +18170,14 @@ function setMonth(dirtyDate, dirtyMonth) {
 }
 function setSeconds(dirtyDate, dirtySeconds) {
   requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var seconds = toInteger$1(dirtySeconds);
   date.setSeconds(seconds);
   return date;
 }
 function setYear(dirtyDate, dirtyYear) {
   requiredArgs(2, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var year = toInteger$1(dirtyYear);
   if (isNaN(date.getTime())) {
     return /* @__PURE__ */ new Date(NaN);
@@ -18193,7 +18193,7 @@ function startOfWeek(dirtyDate, options) {
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError("weekStartsOn must be between 0 and 6 inclusively");
   }
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var day = date.getDay();
   var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
   date.setDate(date.getDate() - diff);
@@ -18208,7 +18208,7 @@ function startOfISOWeek(dirtyDate) {
 }
 function startOfMonth(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   date.setDate(1);
   date.setHours(0, 0, 0, 0);
   return date;
@@ -18223,7 +18223,7 @@ function set$4(dirtyDate, values2) {
   if (_typeof(values2) !== "object" || values2 === null) {
     throw new RangeError("values parameter must be an object");
   }
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   if (isNaN(date.getTime())) {
     return /* @__PURE__ */ new Date(NaN);
   }
@@ -18252,20 +18252,20 @@ function set$4(dirtyDate, values2) {
 }
 function differenceInCalendarMonths(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
-  var dateLeft = toDate(dirtyDateLeft);
-  var dateRight = toDate(dirtyDateRight);
+  var dateLeft = toDate$1(dirtyDateLeft);
+  var dateRight = toDate$1(dirtyDateRight);
   var yearDiff = dateLeft.getFullYear() - dateRight.getFullYear();
   var monthDiff = dateLeft.getMonth() - dateRight.getMonth();
   return yearDiff * 12 + monthDiff;
 }
 function isLastDayOfMonth(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   return endOfDay(date).getTime() === endOfMonth(date).getTime();
 }
 function lastDayOfMonth(dirtyDate) {
   requiredArgs(1, arguments);
-  var date = toDate(dirtyDate);
+  var date = toDate$1(dirtyDate);
   var month = date.getMonth();
   date.setFullYear(date.getFullYear(), month + 1, 0);
   date.setHours(0, 0, 0, 0);
@@ -25663,7 +25663,7 @@ var AutoSizer = /* @__PURE__ */ React.forwardRef(function(props, ref) {
 var safeIsNaN = Number.isNaN || function ponyfill(value) {
   return typeof value === "number" && value !== value;
 };
-function isEqual(first, second) {
+function isEqual$1(first, second) {
   if (first === second) {
     return true;
   }
@@ -25677,7 +25677,7 @@ function areInputsEqual(newInputs, lastInputs) {
     return false;
   }
   for (var i2 = 0; i2 < newInputs.length; i2++) {
-    if (!isEqual(newInputs[i2], lastInputs[i2])) {
+    if (!isEqual$1(newInputs[i2], lastInputs[i2])) {
       return false;
     }
   }
@@ -30837,18 +30837,18 @@ var TableRow$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
       var isSelected = isRangeSelectionMode ? rangeStart || rangeEnd : isSameDay(thisDate, selected);
       var inRange = false;
       if (selectedStartDate && selectedEndDate) {
-        if (isBefore(thisDate, selectedEndDate) && isAfter(thisDate, selectedStartDate)) {
+        if (isBefore(thisDate, selectedEndDate) && isAfter$1(thisDate, selectedStartDate)) {
           inRange = true;
         }
-        if (isBefore(thisDate, selectedStartDate) && isAfter(thisDate, selectedEndDate)) {
+        if (isBefore(thisDate, selectedStartDate) && isAfter$1(thisDate, selectedEndDate)) {
           inRange = true;
         }
       }
       if (!isSelected && hoverStartDate && hoverEndDate) {
-        if (!isAfter(thisDate, hoverEndDate) && !isBefore(thisDate, hoverStartDate)) {
+        if (!isAfter$1(thisDate, hoverEndDate) && !isBefore(thisDate, hoverStartDate)) {
           inRange = true;
         }
-        if (!isAfter(thisDate, hoverStartDate) && !isBefore(thisDate, hoverEndDate)) {
+        if (!isAfter$1(thisDate, hoverStartDate) && !isBefore(thisDate, hoverEndDate)) {
           inRange = true;
         }
       }
@@ -31934,7 +31934,7 @@ var DateRangePicker = /* @__PURE__ */ React.forwardRef(function(props, ref) {
     if (!isHoverRangeValid) {
       return null;
     }
-    if (isAfter(hoverValues[0], hoverValues[1])) {
+    if (isAfter$1(hoverValues[0], hoverValues[1])) {
       hoverValues = reverseDateRangeOmitTime(hoverValues);
     }
     return hoverValues;
@@ -31996,7 +31996,7 @@ var DateRangePicker = /* @__PURE__ */ React.forwardRef(function(props, ref) {
       }
     }
     if (nextSelectDates.length === 2) {
-      if (isAfter(nextSelectDates[0], nextSelectDates[1])) {
+      if (isAfter$1(nextSelectDates[0], nextSelectDates[1])) {
         nextSelectDates = reverseDateRangeOmitTime(nextSelectDates);
       }
       if (shouldRenderTime(formatStr)) {
@@ -32415,7 +32415,7 @@ DateRangePicker.propTypes = _extends$1({}, pickerPropTypes, {
   showOneCalendar: PropTypes.bool
 });
 function isAfterDay(date1, date2) {
-  return isAfter(new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()), new Date(date2.getFullYear(), date2.getMonth(), date2.getDate()));
+  return isAfter$1(new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()), new Date(date2.getFullYear(), date2.getMonth(), date2.getDate()));
 }
 function isBeforeDay(date1, date2) {
   return isBefore(new Date(date1.getFullYear(), date1.getMonth(), date1.getDate()), new Date(date2.getFullYear(), date2.getMonth(), date2.getDate()));
@@ -80970,6 +80970,23 @@ var _jsxRuntime = jsxRuntimeExports;
 default_1 = Refresh.default = (0, _createSvgIcon.default)(/* @__PURE__ */ (0, _jsxRuntime.jsx)("path", {
   d: "M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"
 }), "Refresh");
+const constructFromSymbol = Symbol.for("constructDateFrom");
+function constructFrom(date, value) {
+  if (typeof date === "function") return date(value);
+  if (date && typeof date === "object" && constructFromSymbol in date)
+    return date[constructFromSymbol](value);
+  if (date instanceof Date) return new date.constructor(value);
+  return new Date(value);
+}
+function toDate(argument, context) {
+  return constructFrom(argument, argument);
+}
+function isAfter(date, dateToCompare) {
+  return +toDate(date) > +toDate(dateToCompare);
+}
+function isEqual(leftDate, rightDate) {
+  return +toDate(leftDate) === +toDate(rightDate);
+}
 const getWeekRange = () => {
   const today = /* @__PURE__ */ new Date();
   const dayOfWeek = today.getDay();
@@ -80996,6 +81013,12 @@ const isSameWeek = (week) => {
   const start2 = setToMidnight(weekStart);
   const end2 = setToMidnight(weekEnd);
   return actualWeekStart.toISOString().split("T")[0] === start2.toISOString().split("T")[0] && actualWeekEnd.toISOString().split("T")[0] === end2.toISOString().split("T")[0];
+};
+const isGOEWeek = (week) => {
+  if (!week) return false;
+  const actualWeekStart = setToMidnight(getWeekRange()[0]);
+  const weekStart = setToMidnight(week[0]);
+  return isEqual(weekStart, actualWeekStart) || isAfter(weekStart, actualWeekStart);
 };
 const collectRegisterToApi = (register) => {
   return {
@@ -81457,7 +81480,6 @@ class PaymentServiceApi {
       if (!data.success) {
         throw new Error(data.message || "Error al obtener los registros");
       }
-      console.log(data.payments);
       return ((_a2 = data.payments) == null ? void 0 : _a2.map(paymentToLocal)) || [];
     } catch (error) {
       console.error(error);
@@ -81946,7 +81968,7 @@ const CollectionTable = (props) => {
             size: "xs",
             style: { padding: "5px" },
             onClick: () => table.setEditingRow(row),
-            disabled: !isSameWeek(weekSelected)
+            disabled: !isGOEWeek(weekSelected)
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -81959,7 +81981,7 @@ const CollectionTable = (props) => {
             onClick: () => handleDelete(Number(row.original.id)),
             color: "red",
             stye: { padding: "1px" },
-            disabled: !isSameWeek(weekSelected)
+            disabled: !isGOEWeek(weekSelected)
           }
         )
       ] }),
@@ -81987,7 +82009,7 @@ const CollectionTable = (props) => {
               {
                 appearance: "primary",
                 onClick: createFn,
-                disabled: !isSameWeek(weekSelected),
+                disabled: !isGOEWeek(weekSelected),
                 children: "Crear Nuevo Registro"
               }
             )
@@ -82140,11 +82162,6 @@ const useWeek = () => {
     changeWeekMutation
   };
 };
-const getDifference = (registers) => {
-  const totalCollected = registers.reduce((acc, curr) => acc + curr.totalConfirmed, 0);
-  const totalProjection = registers.reduce((acc, curr) => acc + getProjection(curr), 0);
-  return totalProjection - totalCollected;
-};
 const Header = () => {
   const [value, setValue2] = reactExports.useState(null);
   const { onSetWeekSelected } = useWeekContext();
@@ -82206,8 +82223,10 @@ const Header = () => {
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           Card,
           {
-            title: "Faltante por Cobrar",
-            content: loadingCollect ? "Cargando..." : formatCurrency(getDifference(registers || []))
+            title: "Proyección de Cobro",
+            content: loadingCollect ? "Cargando..." : formatCurrency(
+              (registers || []).reduce((acc, curr) => acc + getProjection(curr), 0)
+            )
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -82225,8 +82244,10 @@ const Header = () => {
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           Card,
           {
-            title: "Faltante por Pagar",
-            content: loadingCollect ? "Cargando..." : formatCurrency(getDifference(payments || []))
+            title: "Proyección de Pago",
+            content: loadingCollect ? "Cargando..." : formatCurrency(
+              (payments || []).reduce((acc, curr) => acc + getProjection(curr), 0)
+            )
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { flexShrink: "0", width: "250px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
