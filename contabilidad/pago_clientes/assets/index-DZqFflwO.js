@@ -81032,12 +81032,12 @@ const collectRegisterToApiFull = (register) => ({
   client_id: register.clientId,
   client_name: register.clientName,
   week_id: register.weekId,
-  monday_amount: register.monday,
-  tuesday_amount: register.tuesday,
-  wednesday_amount: register.wednesday,
-  thursday_amount: register.thursday,
-  friday_amount: register.friday,
-  saturday_amount: register.saturday,
+  monday_amount: Number(register.monday),
+  tuesday_amount: Number(register.tuesday),
+  wednesday_amount: Number(register.wednesday),
+  thursday_amount: Number(register.thursday),
+  friday_amount: Number(register.friday),
+  saturday_amount: Number(register.saturday),
   observations: register.observations
 });
 const collectRegisterToLocal = (data) => ({
@@ -81206,12 +81206,10 @@ const useCollectRegisters = () => {
   });
   const updateCollectRegisterMutation = useMutation({
     mutationFn: CollectServiceApi.updateRegister,
-    onSuccess: (response) => {
-      console.log(response);
+    onSuccess: () => {
       Jt.success("Registro actualizado correctamente");
     },
-    onError: (err) => {
-      console.error(err);
+    onError: () => {
       Jt.error("Error al actualizar el registro");
     },
     onSettled: () => {
@@ -81771,7 +81769,8 @@ const useCollectTableColumns = (data) => {
         Cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: getProjection(row.original) })
       },
       {
-        accessorKey: "totalConfirmed",
+        accessorFn: (originalRow) => originalRow.totalConfirmed,
+        id: "totalConfirmed",
         filterFn: "between",
         header: "Total Confirmado",
         enableEditing: false,
@@ -81784,8 +81783,9 @@ const useCollectTableColumns = (data) => {
         Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
       },
       {
-        accessorKey: "monday",
+        accessorFn: (originalRow) => originalRow.monday.amount,
         filterFn: "between",
+        id: "monday",
         muiEditTextFieldProps: {
           type: "number",
           helperText: "Cobrado el lunes"
@@ -81795,17 +81795,18 @@ const useCollectTableColumns = (data) => {
         Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           CurrencyCell,
           {
-            value: cell.getValue().amount || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.monday.confirmed,
             type: "collect",
             itemId: row.original.id,
             dayOfWeek: "monday",
-            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+            customColor: row.original.monday.confirmed ? "#d4edda" : "#ffcccb"
           }
         )
       },
       {
-        accessorKey: "tuesday",
+        accessorFn: (originalRow) => originalRow.tuesday.amount,
+        id: "tuesday",
         filterFn: "between",
         header: "Martes",
         muiEditTextFieldProps: {
@@ -81816,17 +81817,18 @@ const useCollectTableColumns = (data) => {
         Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           CurrencyCell,
           {
-            value: cell.getValue().amount || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.tuesday.confirmed,
             type: "collect",
             itemId: row.original.id,
             dayOfWeek: "tuesday",
-            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+            customColor: row.original.tuesday.confirmed ? "#d4edda" : "#ffcccb"
           }
         )
       },
       {
-        accessorKey: "wednesday",
+        accessorFn: (originalRow) => originalRow.wednesday.amount,
+        id: "wednesday",
         filterFn: "between",
         header: "Miercoles",
         muiEditTextFieldProps: {
@@ -81837,17 +81839,18 @@ const useCollectTableColumns = (data) => {
         Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           CurrencyCell,
           {
-            value: cell.getValue().amount || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.wednesday.confirmed,
             type: "collect",
             itemId: row.original.id,
             dayOfWeek: "wednesday",
-            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+            customColor: row.original.wednesday.confirmed ? "#d4edda" : "#ffcccb"
           }
         )
       },
       {
-        accessorKey: "thursday",
+        accessorFn: (originalRow) => originalRow.thursday.amount,
+        id: "thursday",
         filterFn: "between",
         header: "Jueves",
         muiEditTextFieldProps: {
@@ -81858,17 +81861,18 @@ const useCollectTableColumns = (data) => {
         Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           CurrencyCell,
           {
-            value: cell.getValue().amount || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.thursday.confirmed,
             type: "collect",
             itemId: row.original.id,
             dayOfWeek: "thursday",
-            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+            customColor: row.original.thursday.confirmed ? "#d4edda" : "#ffcccb"
           }
         )
       },
       {
-        accessorKey: "friday",
+        accessorFn: (originalRow) => originalRow.friday.amount,
+        id: "friday",
         filterFn: "between",
         header: "Viernes",
         muiEditTextFieldProps: {
@@ -81879,17 +81883,18 @@ const useCollectTableColumns = (data) => {
         Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           CurrencyCell,
           {
-            value: cell.getValue().amount || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.friday.confirmed,
             type: "collect",
             itemId: row.original.id,
             dayOfWeek: "friday",
-            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+            customColor: row.original.friday.confirmed ? "#d4edda" : "#ffcccb"
           }
         )
       },
       {
-        accessorKey: "saturday",
+        accessorFn: (originalRow) => originalRow.saturday.amount,
+        id: "saturday",
         filterFn: "between",
         header: "Sabado",
         muiEditTextFieldProps: {
@@ -81900,12 +81905,12 @@ const useCollectTableColumns = (data) => {
         Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           CurrencyCell,
           {
-            value: cell.getValue().amount || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.saturday.confirmed,
             type: "collect",
             itemId: row.original.id,
             dayOfWeek: "saturday",
-            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+            customColor: row.original.saturday.confirmed ? "#d4edda" : "#ffcccb"
           }
         )
       },
@@ -84388,7 +84393,8 @@ const usePaymentTableColumns = (data) => {
         Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
       },
       {
-        accessorKey: "monday",
+        accessorFn: (originalRow) => originalRow.monday.amount,
+        id: "monday",
         filterFn: "between",
         header: "Lunes",
         muiEditTextFieldProps: {
@@ -84399,17 +84405,18 @@ const usePaymentTableColumns = (data) => {
         Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           CurrencyCell,
           {
-            value: cell.getValue().amount || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.monday.confirmed,
             type: "payment",
             itemId: row.original.id,
             dayOfWeek: "monday",
-            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+            customColor: row.original.monday.confirmed ? "#d4edda" : "#ffcccb"
           }
         )
       },
       {
-        accessorKey: "tuesday",
+        accessorFn: (originalRow) => originalRow.tuesday.amount,
+        id: "tuesday",
         filterFn: "between",
         header: "Martes",
         muiEditTextFieldProps: {
@@ -84420,17 +84427,18 @@ const usePaymentTableColumns = (data) => {
         Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           CurrencyCell,
           {
-            value: cell.getValue().amount || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.tuesday.confirmed,
             type: "payment",
             itemId: row.original.id,
             dayOfWeek: "tuesday",
-            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+            customColor: row.original.tuesday.confirmed ? "#d4edda" : "#ffcccb"
           }
         )
       },
       {
-        accessorKey: "wednesday",
+        accessorFn: (originalRow) => originalRow.wednesday.amount,
+        id: "wednesday",
         filterFn: "between",
         header: "Miercoles",
         muiEditTextFieldProps: {
@@ -84441,17 +84449,18 @@ const usePaymentTableColumns = (data) => {
         Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           CurrencyCell,
           {
-            value: cell.getValue().amount || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.wednesday.confirmed,
             type: "payment",
             itemId: row.original.id,
             dayOfWeek: "wednesday",
-            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+            customColor: row.original.wednesday.confirmed ? "#d4edda" : "#ffcccb"
           }
         )
       },
       {
-        accessorKey: "thursday",
+        accessorFn: (originalRow) => originalRow.thursday.amount,
+        id: "thursday",
         filterFn: "between",
         header: "Jueves",
         muiEditTextFieldProps: {
@@ -84462,17 +84471,18 @@ const usePaymentTableColumns = (data) => {
         Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           CurrencyCell,
           {
-            value: cell.getValue().amount || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.thursday.confirmed,
             type: "payment",
             itemId: row.original.id,
             dayOfWeek: "thursday",
-            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+            customColor: row.original.thursday.confirmed ? "#d4edda" : "#ffcccb"
           }
         )
       },
       {
-        accessorKey: "friday",
+        accessorFn: (originalRow) => originalRow.friday.amount,
+        id: "friday",
         filterFn: "between",
         header: "Viernes",
         muiEditTextFieldProps: {
@@ -84483,17 +84493,18 @@ const usePaymentTableColumns = (data) => {
         Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           CurrencyCell,
           {
-            value: cell.getValue().amount || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue().amount > 0 && !row.original.friday.confirmed,
             type: "payment",
             itemId: row.original.id,
             dayOfWeek: "friday",
-            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+            customColor: row.original.friday.confirmed ? "#d4edda" : "#ffcccb"
           }
         )
       },
       {
-        accessorKey: "saturday",
+        accessorFn: (originalRow) => originalRow.saturday.amount,
+        id: "saturday",
         filterFn: "between",
         header: "Sabado",
         muiEditTextFieldProps: {
@@ -84504,12 +84515,12 @@ const usePaymentTableColumns = (data) => {
         Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
           CurrencyCell,
           {
-            value: cell.getValue().amount || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !cell.getValue().confirmed,
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.saturday.confirmed,
             type: "payment",
             itemId: row.original.id,
             dayOfWeek: "saturday",
-            customColor: cell.getValue().confirmed ? "#d4edda" : "#ffcccb"
+            customColor: row.original.saturday.confirmed ? "#d4edda" : "#ffcccb"
           }
         )
       },
