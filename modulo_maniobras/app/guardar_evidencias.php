@@ -1,6 +1,6 @@
 <?php
 require_once('../../postgresql/conexion.php'); // Asegúrate de que la conexión es con PostgreSQL
-$cn = conectar();
+$cn = conectarPostgresql();
 
 $id_maniobra = $_POST['id_maniobra'];
 $tipo = $_POST['tipo'];

@@ -20,7 +20,7 @@ try {
         $partner_value = [
             'x_operador_retiro_id' => $operador_id,
             'x_operador_retiro' => $operador_id,
-            'x_mov_bel' => $terminal,
+            'x_mov_bel' => $id_terminal,
             'x_inicio_programado_retiro' => $inicio_programado,
             'x_eco_retiro' => $vehicle_id,
             'x_eco_retiro_id' => $vehicle_id,

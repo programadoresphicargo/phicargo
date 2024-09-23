@@ -1,7 +1,7 @@
 <?php
 
 require_once('../../postgresql/conexion.php'); // Asegúrate de que la conexión a PostgreSQL esté en este archivo
-$cn = conectar(); // Supongo que tu función `conectar` devuelve un objeto PDO
+$cn = conectarPostgresql(); // Supongo que tu función `conectar` devuelve un objeto PDO
 
 date_default_timezone_set('America/Mexico_City');
 $fechaHoraActual = date('Y-m-d H:i:s');

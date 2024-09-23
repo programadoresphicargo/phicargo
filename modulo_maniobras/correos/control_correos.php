@@ -18,12 +18,11 @@ function insertarCorreos($pdo, $id_maniobra, $correos_ligados)
 function eliminarCorreos($pdo, $id_maniobra, $correos_desligados)
 {
     try {
-        $sql_delete = "DELETE FROM maniobras_correos WHERE id_maniobra = :id_maniobra and id_correo = :id_correo";
+        $sql_delete = "DELETE FROM maniobras_correos WHERE id = :id";
         $stmt_delete = $pdo->prepare($sql_delete);
 
         foreach ($correos_desligados as $correo_desligado) {
-            $stmt_delete->bindParam(':id_maniobra', $id_maniobra);
-            $stmt_delete->bindParam(':id_correo', $correo_desligado['value']);
+            $stmt_delete->bindParam(':id', $correo_desligado['id']);
             $stmt_delete->execute();
         }
     } catch (PDOException $e) {

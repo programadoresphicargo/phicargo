@@ -1,7 +1,7 @@
 <?php
 require_once('../../postgresql/conexion.php');
 
-$cn = conectar();
+$cn = conectarPostgresql();
 
 $id_maniobra = $_GET['id_maniobra'];
 $id_cp = $_GET['id_cp'];

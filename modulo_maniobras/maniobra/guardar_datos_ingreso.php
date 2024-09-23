@@ -19,7 +19,7 @@ try {
         $id = $row['id_cp'];
         $partner_value = [
             'x_mov_ingreso_bel_id' => $operador_id,
-            'x_terminal_bel' => $terminal,
+            'x_terminal_bel' => $id_terminal,
             'x_inicio_programado_ingreso' => $inicio_programado,
             'x_eco_ingreso_id' => $vehicle_id,
         ];

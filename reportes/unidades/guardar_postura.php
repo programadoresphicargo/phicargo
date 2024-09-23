@@ -3,9 +3,17 @@ require_once('../../mysql/conexion.php');
 $cn = conectar();
 session_start();
 
-$id_vehiculo = $_POST['id_vehiculo'];
-$id_operador = $_POST['id_operador'];
-$motivo = $_POST['motivo'];
+header('Content-Type: application/json');
+$json = file_get_contents('php://input');
+$data = json_decode($json, true);
+if ($data === null) {
+    echo json_encode(['error' => 'Datos no válidos']);
+    exit;
+}
+
+$id_vehiculo = $data['id_vehiculo'];
+$id_operador = $data['id_operador'];
+$motivo = $data['motivo'];
 $fechaHoraActual = date('Y-m-d H:i:s');
 $id_usuario = $_SESSION['userID'];
 

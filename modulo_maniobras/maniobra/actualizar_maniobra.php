@@ -13,7 +13,7 @@ $fechaHora = date('Y-m-d H:i:s');
 $id_maniobra = $data['id_maniobra'];
 $inicio_programado = $data['inicio_programado'];
 $tipo_maniobra = $data['tipo_maniobra'];
-$terminal = $data['terminal'];
+$id_terminal = $data['id_terminal'];
 $operador_id = $data['operador_id'];
 $vehicle_id = $data['vehicle_id'];
 $id_cp = $data['id_cp'];
@@ -31,7 +31,7 @@ try {
     UPDATE maniobras 
     SET tipo_maniobra = :tipo_maniobra, 
         inicio_programado = :inicio_programado, 
-        terminal = :terminal, 
+        id_terminal = :id_terminal, 
         operador_id = :operador_id, 
         vehicle_id = :vehicle_id, 
         trailer1_id = :trailer1_id, 
@@ -47,7 +47,7 @@ try {
     $stmt->execute([
         ':tipo_maniobra' => $tipo_maniobra,
         ':inicio_programado' => $inicio_programado,
-        ':terminal' => $terminal,
+        ':id_terminal' => $id_terminal,
         ':operador_id' => $operador_id,
         ':vehicle_id' => $vehicle_id,
         ':trailer1_id' => $trailer1_id,
@@ -64,11 +64,8 @@ try {
         require_once('guardar_datos_ingreso.php');
     }
 
-    print_r($correos_ligados);
-    print_r($correos_desligados);
     insertarCorreos($pdo, $id_maniobra, $correos_ligados);
     eliminarCorreos($pdo, $id_maniobra, $correos_desligados);
-
 
     echo json_encode(["success" => 1]);
 } catch (PDOException $e) {

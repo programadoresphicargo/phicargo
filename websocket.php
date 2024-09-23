@@ -1,27 +1,15 @@
-<?php
-$host = 'localhost';       
-$port = '5433';          
-$dbname = 'BELCHEZ_MASTER_12_250724';  
-$user = 'josimar';     
-$password = 'choforo3d2'; 
+<!DOCTYPE html>
+<html lang="es">
 
-$conn_string = "host=$host port=$port dbname=$dbname user=$user password=$password";
-$conn = pg_connect($conn_string);
-if ($conn) {
-    echo "Conexión exitosa a la base de datos.";
-} else {
-    echo "Error en la conexión a la base de datos: " . pg_last_error();
-}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Proyecto</title>
+</head>
 
-$query = "SELECT * FROM tms_waybill LIMIT 10";
-$result = pg_query($conn, $query);
+<body>
+    <div id="mi-app"></div>
+    <script src="../../../../"></script>
+</body>
 
-if ($result) {
-    while ($row = pg_fetch_assoc($result)) {
-        print_r($row);
-    }
-} else {
-    echo "Error en la consulta: " . pg_last_error();
-}
-
-pg_close($conn);
+</html>

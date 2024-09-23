@@ -8,6 +8,7 @@ $sql = "SELECT
 maniobras.id_maniobra,
 tipo_maniobra,
 inicio_programado,
+maniobras.id_terminal,
 terminal,
 hr_employee.name as nombre_operador,
 fleet_vehicle.name as vehiculo,
@@ -16,6 +17,7 @@ FROM maniobras
 LEFT JOIN hr_employee ON hr_employee.id = maniobras.operador_id
 LEFT JOIN fleet_vehicle ON fleet_vehicle.id = maniobras.vehicle_id
 LEFT JOIN maniobras_contenedores ON maniobras_contenedores.id_maniobra = maniobras.id_maniobra
+LEFT JOIN maniobras_terminales ON maniobras_terminales.id_terminal = maniobras.id_terminal
 WHERE maniobras_contenedores.id_cp = :id_cp
 ORDER BY maniobras.id_maniobra DESC";
 
