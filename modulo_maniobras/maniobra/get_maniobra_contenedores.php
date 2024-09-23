@@ -1,6 +1,6 @@
 <?php
 require_once('../../postgresql/conexion.php');
-$cn = conectar();
+$cn = conectarPostgresql();
 
 if (isset($_POST['id_maniobra'])) {
     $id_maniobra = $_POST['id_maniobra'];

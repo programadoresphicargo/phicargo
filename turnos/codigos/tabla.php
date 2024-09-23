@@ -202,6 +202,17 @@ $resultSet = $cn->query($sqlSelect); ?>
                 $('#maniobra1').val(data.maniobra1).change();
                 $('#maniobra2').val(data.maniobra2).change();
 
+                $.ajax({
+                    url: '../maniobras/getUltimasManiobras.php',
+                    type: 'POST',
+                    data: {
+                        operador_id: data.id_operador
+                    },
+                    success: function(response) {
+                        $('#ultimas_maniobras').html(response);
+                    },
+                });
+
             }
         });
 

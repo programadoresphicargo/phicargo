@@ -5,7 +5,7 @@ session_start();
 header("Content-Type: application/json; charset=UTF-8");
 $data = json_decode(file_get_contents("php://input"), true);
 
-$pdo = conectar();
+$pdo = conectarPostgresql();
 $id_usuario = $_SESSION['userID'];
 $fechaHora = date('Y-m-d H:i:s');
 
@@ -66,19 +66,25 @@ try {
             ':fecha_registro' => $fechaHora,
         ]);
 
-        $id_autoincremental = $pdo->lastInsertId();
+        $id_maniobra = $pdo->lastInsertId();
         $sql_insert_contenedor = "
             INSERT INTO maniobras_contenedores (id_maniobra, id_cp)
             VALUES (:id_maniobra, :id_cp)";
 
         $stmt_insert_contenedor = $pdo->prepare($sql_insert_contenedor);
         $stmt_insert_contenedor->execute([
-            ':id_maniobra' => $id_autoincremental,
+            ':id_maniobra' => $id_maniobra,
             ':id_cp' => $id_cp
         ]);
 
         $pdo->commit();
         echo json_encode(["success" => 1]);
+
+        if ($tipo_maniobra == 'retiro') {
+            require_once('guardar_datos_retiro.php');
+        } else if ($tipo_maniobra == 'ingreso') {
+            require_once('guardar_datos_ingreso.php');
+        }
     }
 } catch (PDOException $e) {
     $pdo->rollBack();

@@ -1,4 +1,60 @@
 <?php
+require_once('../../postgresql/conexion.php');
+$pdo = conectarPostgresql();
+
+$rango_inicio = '2024-01-01';
+$rango_fin = '2024-01-31';
+
+// Obtener las fechas únicas
+$query_fechas = "
+    SELECT DISTINCT to_char(date_order, 'YYYY-MM-DD') AS fecha
+    FROM tms_waybill
+    WHERE date_order BETWEEN :rango_inicio AND :rango_fin
+    ORDER BY fecha
+";
+$stmt_fechas = $pdo->prepare($query_fechas);
+$stmt_fechas->bindParam(':rango_inicio', $rango_inicio);
+$stmt_fechas->bindParam(':rango_fin', $rango_fin);
+$stmt_fechas->execute();
+$fechas = $stmt_fechas->fetchAll(PDO::FETCH_COLUMN);
+
+// Construir la parte de columnas de la consulta
+$columnas = implode(', ', array_map(function ($fecha) {
+    return '"' . $fecha . '" NUMERIC';
+}, $fechas));
+
+// Construir la consulta crosstab
+$query_crosstab = "
+    WITH fechas AS (
+        SELECT DISTINCT to_char(date_order, 'YYYY-MM-DD') AS fecha
+        FROM tms_waybill
+        WHERE date_order BETWEEN :rango_inicio AND :rango_fin
+    ),
+    data AS (
+        SELECT date_order, amount_total
+        FROM tms_waybill
+        WHERE date_order BETWEEN :rango_inicio AND :rango_fin
+    )
+    SELECT *
+    FROM crosstab(
+      'SELECT to_char(date_order, ''YYYY-MM-DD'') as fecha, amount_total, amount_total
+       FROM tms_waybill
+       WHERE date_order BETWEEN ''' || :rango_inicio || ''' AND ''' || :rango_fin || ''' ORDER BY date_order',
+      'SELECT fecha FROM fechas ORDER BY fecha'
+      ) AS ct(fecha TEXT, ' || $columnas || ');
+      ";
+
+// Preparar y ejecutar la consulta
+$stmt_crosstab = $pdo->prepare($query_crosstab);
+$stmt_crosstab->bindParam(':rango_inicio', $rango_inicio);
+$stmt_crosstab->bindParam(':rango_fin', $rango_fin);
+$stmt_crosstab->execute();
+
+// Obtener los resultados
+$results = $stmt_crosstab->fetchAll(PDO::FETCH_ASSOC);
+
+// Mostrar resultados
+print_r($results);
 
 require_once('../../odoo/odoo-conexion.php');
 

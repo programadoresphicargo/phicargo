@@ -1,7 +1,7 @@
 <?php
 require_once('../../postgresql/conexion.php');
 session_start();
-$cn = conectar();
+$cn = conectarPostgresql();
 
 $id = $_GET['id'];
 

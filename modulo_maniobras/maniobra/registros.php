@@ -1,7 +1,7 @@
 <?php
 require_once('../../postgresql/conexion.php');
 
-$pdo = conectar();
+$pdo = conectarPostgresql();
 $id_cp = $_GET['id_cp'];
 
 $sql = "SELECT 
