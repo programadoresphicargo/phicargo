@@ -24,14 +24,12 @@ $data = json_decode(file_get_contents("php://input"), true);
 if (isset($data['provider_id']) && 
     isset($data['week_id']) && 
     isset($data['provider']) && 
-    isset($data['concept']) &&
-    isset($data['projection'])){
+    isset($data['concept'])){
 
   $provider_id = $cn->real_escape_string($data['provider_id']);
   $provider = $cn->real_escape_string($data['provider']);
   $week_id = $cn->real_escape_string($data['week_id']);
   $concept = $cn->real_escape_string($data['concept']);
-  $projection = $cn->real_escape_string($data['projection']);
 
   $monday_amount = isset($data['monday_amount']) ? $cn->real_escape_string($data['monday_amount']) : 0;
   $tuesday_amount = isset($data['tuesday_amount']) ? $cn->real_escape_string($data['tuesday_amount']) : 0;
@@ -50,8 +48,7 @@ if (isset($data['provider_id']) &&
             thursday_amount, 
             friday_amount, 
             saturday_amount,
-            concept,
-            projection)
+            concept)
             VALUES (
             '$provider_id', 
             '$provider', 
@@ -62,8 +59,7 @@ if (isset($data['provider_id']) &&
             '$thursday_amount', 
             '$friday_amount', 
             '$saturday_amount',
-            '$concept',
-            '$projection')";
+            '$concept')";
 
   if ($cn->query($sql) === TRUE) {
     echo json_encode([

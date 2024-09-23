@@ -42,7 +42,6 @@ if (isset($data['id'])) {
   $friday_amount = isset($data['friday_amount']) ? $cn->real_escape_string($data['friday_amount']) : null;
   $saturday_amount = isset($data['saturday_amount']) ? $cn->real_escape_string($data['saturday_amount']) : null;
   $observations = isset($data['observations']) ? $cn->real_escape_string($data['observations']) : null;
-  $projection = isset($data['projection']) ? $cn->real_escape_string($data['projection']) : null;
 
   // Construir la consulta SQL dinámica
   $updateFields = [];
@@ -60,8 +59,6 @@ if (isset($data['id'])) {
     $updateFields[] = "saturday_amount = '$saturday_amount'";
   if ($observations !== null)
     $updateFields[] = "observations = '$observations'";
-  if ($projection !== null)
-    $updateFields[] = "projection = '$projection'";
 
   if (empty($updateFields)) {
     echo json_encode([
