@@ -6,7 +6,7 @@
             <div class="page-header page-header-light">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h1 class="page-header-title">Banco de Correos</h1>
+                        <h1 class="page-header-title">Banco de Correos3</h1>
                     </div>
                     <!-- End Col -->
 

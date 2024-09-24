@@ -3,7 +3,7 @@ require_once('../../mysql/conexion.php');
 require_once('../../odoo/odoo-conexion.php');
 $cn = conectar();
 
-$id_vehiculo = $_POST['id_vehiculo'];
+$id_vehiculo = $_GET['id_vehiculo'];
 $sql = "SELECT * FROM posturas left join flota on flota.vehicle_id = posturas.id_vehiculo left join operadores on operadores.id = posturas.id_operador where vehicle_id = $id_vehiculo order by fecha_asignacion desc";
 $resultado = $cn->query($sql);
 ?>

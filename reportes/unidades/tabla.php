@@ -29,7 +29,8 @@ if (isset($_POST['searchResults'])) {
     }
 }
 
-$domain[0][] = ['state_id', '=', 1];
+$domain[0][] = ['vehicle_type_id', '=', 2162];
+$domain[0][] = ['supplier_vehicle', '!=', true];
 
 require_once('../../odoo/odoo-conexion.php');
 

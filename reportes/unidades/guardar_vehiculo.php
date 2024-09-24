@@ -1,17 +1,26 @@
 <?php
 require_once('../../odoo/odoo-conexion.php');
 
-$id_vehiculo = $_POST['id_vehiculo'];
+header('Content-Type: application/json');
+$json = file_get_contents('php://input');
+$data = json_decode($json, true);
+if ($data === null) {
+    echo json_encode(['error' => 'Datos no válidos']);
+    exit;
+}
 
-$x_sucursal = $_POST['x_sucursal'];
-$x_modalidad = $_POST['x_modalidad'];
-$x_tipo_carga = $_POST['x_tipo_carga'];
-$x_tipo_vehiculo = $_POST['x_tipo_vehiculo'];
-$x_operador_asignado = $_POST['x_operador_asignado'];
+$id_vehiculo = $data['id_vehiculo'];
+$x_sucursal = $data['x_sucursal'];
+$state_id = $data['state_id'];
+$x_modalidad = $data['x_modalidad'];
+$x_tipo_carga = $data['x_tipo_carga'];
+$x_tipo_vehiculo = $data['x_tipo_vehiculo'];
+$x_operador_asignado = $data['x_operador_asignado'];
 
 $partner_record_ids = [intval($id_vehiculo)];
 $partner_value = [
     'x_sucursal' => $x_sucursal,
+    'state_id' => $state_id,
     'x_modalidad' => $x_modalidad,
     'x_tipo_carga' => $x_tipo_carga,
     'x_tipo_vehiculo' => $x_tipo_vehiculo,
@@ -24,5 +33,6 @@ $partners = $models->execute_kw($db, $uid, $password, 'fleet.vehicle', 'write', 
 if ($partners === true) {
     echo 1;
 } else {
+    print_r($partners);
     echo 0;
 }

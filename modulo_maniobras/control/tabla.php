@@ -1,6 +1,6 @@
 <?php
 require_once('../../postgresql/conexion.php');
-$cn = conectar();
+$cn = conectarPostgresql();
 
 if (isset($_GET['estado_maniobra'])) {
     $estado_maniobra = $_GET['estado_maniobra'];
@@ -14,16 +14,20 @@ $sql = "SELECT maniobras.*,
 hr_employee.name AS nombre_operador,
 fleet_vehicle.name AS unidad,
 STRING_AGG(tms_waybill.x_reference::TEXT, ',') AS contenedores_ids,
-res_store.name AS sucursal
+res_store.name AS sucursal,
+tms_waybill.partner_id AS id_cliente,
+maniobras.id_terminal,
+terminal
 FROM maniobras
 LEFT JOIN fleet_vehicle ON fleet_vehicle.id = maniobras.vehicle_id
 LEFT JOIN hr_employee ON hr_employee.id = maniobras.operador_id
 LEFT JOIN maniobras_contenedores ON maniobras_contenedores.id_maniobra = maniobras.id_maniobra
 LEFT JOIN tms_waybill ON tms_waybill.id = maniobras_contenedores.id_cp
 LEFT JOIN res_store ON res_store.id = tms_waybill.store_id
+LEFT JOIN maniobras_terminales ON maniobras_terminales.id_terminal = maniobras.id_terminal
 WHERE estado_maniobra = :estado_maniobra
 AND maniobras.vehicle_id::TEXT LIKE :unidad
-GROUP BY maniobras.id_maniobra, hr_employee.name, fleet_vehicle.name, res_store.name";
+GROUP BY maniobras.id_maniobra, hr_employee.name, fleet_vehicle.name, res_store.name, tms_waybill.partner_id, maniobras_terminales.id_terminal";
 
 try {
     $stmt = $cn->prepare($sql);

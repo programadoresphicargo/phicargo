@@ -1,18 +1,25 @@
 <?php
-require_once('../../mysql/conexion.php');
-$cn = conectar();
+require_once('../../postgresql/conexion.php');
+
+$pdo = conectarPostgresql();
 $id_cliente = $_GET['id_cliente'];
 
-$id_cliente = intval($id_cliente);
-$SqlSelect = "SELECT * FROM correos_electronicos WHERE id_cliente = $id_cliente ORDER BY correo ASC";
-$resultado = $cn->query($SqlSelect);
+$sql = "SELECT DISTINCT ON (correo) 
+id_correo, 
+correo
+FROM correos_electronicos
+INNER JOIN tms_waybill ON tms_waybill.partner_id = correos_electronicos.id_cliente
+WHERE correos_electronicos.id_cliente = :id_cp
+ORDER BY correo ASC, id_correo";
 
-$correos = [];
+try {
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':id_cp' => $id_cliente]);
 
-if ($resultado->num_rows > 0) {
-    while ($row = $resultado->fetch_assoc()) {
-        $correos[] = $row;
-    }
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    header('Content-Type: application/json');
+    echo json_encode($data);
+} catch (PDOException $e) {
+    echo json_encode(['error' => 'Error en la consulta: ' . $e->getMessage()]);
 }
-
-echo json_encode($correos);

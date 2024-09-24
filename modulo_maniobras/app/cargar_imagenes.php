@@ -6,7 +6,7 @@ $id_maniobra = $_POST['id_maniobra'];
 $id_elemento = $_POST['id_elemento'];
 $tipo = $_POST['tipo'];
 
-$cn = conectar();
+$cn = conectarPostgresql();
 
 $sqlSelect = "SELECT * FROM maniobras_evidencias WHERE id_maniobra = :id_maniobra AND tipo = :tipo AND id_elemento = :id_elemento";
 

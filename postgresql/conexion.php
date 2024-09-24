@@ -1,6 +1,6 @@
 <?php
 
-function conectar()
+function conectarPostgresql()
 {
     $host = 'localhost';
     $port = '5433';

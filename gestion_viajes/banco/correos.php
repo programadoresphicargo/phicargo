@@ -8,6 +8,7 @@ $result = $cn->query($sqlSelect);
 <table class="table-striped js-datatable table table-borderless table-thead-bordered table-nowrap table-align-middle card-table table-sm" id="MyTable2">
 	<thead>
 		<tr>
+			<th>ID</th>
 			<th>Correo Electronico</th>
 			<th>Cliente</th>
 			<th>Tipo</th>
@@ -16,6 +17,9 @@ $result = $cn->query($sqlSelect);
 	<tbody>
 		<?php while ($row = $result->fetch_assoc()) { ?>
 			<tr onclick="editar_correo('<?php echo $row['ID_CORREO'] ?>','<?php echo $row['NOMBRE_COMPLETO'] ?>','<?php echo $row['CORREO'] ?>','<?php echo $row['TIPO'] ?>','<?php echo $row['ID_CLIENTE'] ?>')">
+				<td>
+					<span class="d-block fs-5"><?php echo $row['ID_CORREO'] ?></span>
+				</td>
 				<td>
 					<a class="d-flex align-items-center">
 						<div class="flex-grow-1 ms-3">

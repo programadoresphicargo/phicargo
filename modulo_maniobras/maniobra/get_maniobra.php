@@ -1,6 +1,6 @@
 <?php
 require_once('../../postgresql/conexion.php');
-$cn = conectar();
+$cn = conectarPostgresql();
 
 if (isset($_POST['id_maniobra'])) {
     $id_maniobra = $_POST['id_maniobra'];
@@ -10,7 +10,7 @@ if (isset($_POST['id_maniobra'])) {
 
 $sql = "SELECT 
 maniobras.id_maniobra,
-maniobras.terminal,
+maniobras.id_terminal,
 maniobras.operador_id,
 maniobras.tipo_maniobra,
 maniobras.inicio_programado,

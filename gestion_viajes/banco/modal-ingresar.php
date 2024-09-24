@@ -5,7 +5,6 @@ $sqlSelect = "SELECT ID, NOMBRE FROM clientes";
 $result = $cn->query($sqlSelect);
 ?>
 
-<!-- Modal -->
 <div class="modal fade" id="modal_ingresar_correo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -30,7 +29,6 @@ $result = $cn->query($sqlSelect);
                                 </select>
                             </div>
                         </div>
-                        <small class="form-text text-muted error mb-3">Ingresa el nombre del cliente</small>
                     </div>
 
                     <div class="col-lg-12 mb-3" id="">
@@ -42,7 +40,6 @@ $result = $cn->query($sqlSelect);
                                 <input type="text" class="form-control formulario__input" id="nombre" name="nombre">
                             </div>
                         </div>
-                        <small class="form-text text-muted error mb-3">Ingresa el nombre real de la persona ligada a este correo</small>
                     </div>
 
                     <div class="col-lg-12 mb-3" id="grupo-correo">
@@ -54,7 +51,6 @@ $result = $cn->query($sqlSelect);
                                 <input type="text" class="form-control formulario__input" id="correo" name="correo">
                             </div>
                         </div>
-                        <small class="form-text text-muted error mb-3">Ingresa una dirección de correo electrónico valida.</small>
                     </div>
 
                     <div class="col-lg-12 mb-3" id="grupo-correo">
@@ -69,8 +65,8 @@ $result = $cn->query($sqlSelect);
                                 </select>
                             </div>
                         </div>
-                        <small class="form-text text-muted error mb-3">Ingresa el tipo de correo electronico.</small>
                     </div>
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -80,4 +76,3 @@ $result = $cn->query($sqlSelect);
         </div>
     </div>
 </div>
-<!-- End Modal -->

@@ -1,7 +1,7 @@
 <?php
 require_once('../../postgresql/conexion.php');
 
-$pdo = conectar();
+$pdo = conectarPostgresql();
 $id_maniobra = $_POST['id_maniobra'];
 $id_maniobra = htmlspecialchars($id_maniobra, ENT_QUOTES, 'UTF-8');
 

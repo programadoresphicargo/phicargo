@@ -265,7 +265,6 @@ require_once('../../usuarios/codigo/comprobar_permiso.php');
           </div>
         <?php } ?>
 
-
         <?php if (comprobar_permiso(120) == true) { ?>
           <div class="col text-center animate__animated animate__fadeIn m-3">
             <!-- Card -->

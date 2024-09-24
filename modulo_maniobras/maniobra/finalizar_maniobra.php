@@ -5,7 +5,7 @@ try {
     require_once('../../postgresql/conexion.php'); // Cambia a la conexión de PostgreSQL
     session_start();
 
-    $pdo = conectar();
+    $pdo = conectarPostgresql();
     $fechaHora = date('Y-m-d H:i:s');
 
     if (!isset($_POST['id_maniobra']) && !isset($_GET['id_maniobra'])) {

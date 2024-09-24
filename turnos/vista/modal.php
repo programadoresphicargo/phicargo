@@ -36,7 +36,7 @@ $resultado_eco = $mysqli->query($query_eco);
                 <form id="FormEditar">
 
                     <div class="row">
-                        <div class="col-5">
+                        <div class="col-7">
 
                             <input type="hidden" name="id_turno" id="id_turno" class="form-control form-control-sm">
                             <input type="hidden" name="sucursal" id="sucursal" class="form-control form-control-sm">
@@ -94,7 +94,11 @@ $resultado_eco = $mysqli->query($query_eco);
                             </div>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-5" style="height: 30rem;">
+                            <div id="ultimas_maniobras" style="height: 30rem; overflow: hidden;"></div>
+                        </div>
+
+                        <div class="col-7">
                             <div class="col">
                                 <label class="col-sm-12 col-form-label form-label">Comentarios</label>
                                 <textarea class="form-control" name="comentarios" id="comentarios" rows="6"></textarea>
@@ -111,98 +115,6 @@ $resultado_eco = $mysqli->query($query_eco);
                             </div>
                         </div>
 
-                        <div class="col-3">
-
-                            <ul class="step">
-
-                                <li class="step-item">
-                                    <div class="step-content-wrapper">
-                                        <span class="step-icon step-icon-soft-dark">M</span>
-
-                                        <div class="step-content">
-                                            <h5 class="mb-1">ICAVE</h5>
-                                            <span class="badge bg-primary">Retiro</span>
-                                            <p class="fs-5 mb-1">2024/08/01</span></p>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li class="step-item">
-                                    <div class="step-content-wrapper">
-                                        <small class="step-divider">Yesterday</small>
-                                    </div>
-                                </li>
-
-                                <li class="step-item">
-                                    <div class="step-content-wrapper">
-                                        <span class="step-icon step-icon-soft-info">D</span>
-
-                                        <div class="step-content">
-                                            <h5 class="mb-1">ICAVE</h5>
-                                            <span class="badge bg-warning">Ingreso</span>
-                                            <p class="fs-5 mb-1">2024/08/07</p>
-                                        </div>
-                                    </div>
-                                </li>
-
-
-                                <li class="step-item">
-                                    <div class="step-content-wrapper">
-                                        <span class="step-icon step-icon-soft-info">D</span>
-
-                                        <div class="step-content">
-                                            <h5 class="mb-1">ICAVE</h5>
-                                            <span class="badge bg-warning">Ingreso</span>
-                                            <p class="fs-5 mb-1">2024/08/07</p>
-                                        </div>
-                                    </div>
-                                </li>
-
-
-                                <li class="step-item">
-                                    <div class="step-content-wrapper">
-                                        <span class="step-icon step-icon-soft-info">D</span>
-
-                                        <div class="step-content">
-                                            <h5 class="mb-1">ICAVE</h5>
-                                            <span class="badge bg-warning">Ingreso</span>
-                                            <p class="fs-5 mb-1">2024/08/06</p>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li class="step-item">
-                                    <div class="step-content-wrapper">
-                                        <small class="step-divider">Last week</small>
-                                    </div>
-                                </li>
-
-                                <li class="step-item">
-                                    <div class="step-content-wrapper">
-                                        <span class="step-icon step-icon-soft-info">D</span>
-
-                                        <div class="step-content">
-                                            <h5 class="mb-1">ICAVE</h5>
-                                            <span class="badge bg-warning">Ingreso</span>
-                                            <p class="fs-5 mb-1">2024/08/06</p>
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li class="step-item">
-                                    <div class="step-content-wrapper">
-                                        <span class="step-icon step-icon-soft-info">D</span>
-
-                                        <div class="step-content">
-                                            <h5 class="mb-1">ICAVE</h5>
-                                            <span class="badge bg-warning">Ingreso</span>
-                                            <p class="fs-5 mb-1">2024/08/06</p>
-                                        </div>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </div>
                     </div>
             </div>
             </form>

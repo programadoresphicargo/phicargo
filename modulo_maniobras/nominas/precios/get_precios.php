@@ -1,6 +1,6 @@
 <?php
 require_once('../../../postgresql/conexion.php');
-$cn = conectar();
+$cn = conectarPostgresql();
 
 $sql = "SELECT * FROM precios_maniobra";
 
