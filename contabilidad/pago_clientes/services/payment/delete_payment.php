@@ -3,7 +3,10 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
-require_once('../../base_path.php');
+
+
+require_once '../../base_path.php';
+
 session_start();
 if (MODE !== 'dev') {
   if (!isset($_SESSION['userID'])) {
@@ -13,7 +16,7 @@ if (MODE !== 'dev') {
   }
 }
 
-require_once(BASE_PATH . '/mysql/conexion.php');
+require_once BASE_PATH . '/mysql/conexion.php';
 
 $cn = conectar();
 

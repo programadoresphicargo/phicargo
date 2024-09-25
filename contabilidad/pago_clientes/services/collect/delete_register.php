@@ -15,7 +15,7 @@ if (MODE !== 'dev') {
   }
 }
 
-require_once(BASE_PATH . '/mysql/conexion.php');
+require_once BASE_PATH . '/mysql/conexion.php';
 
 $cn = conectar();
 

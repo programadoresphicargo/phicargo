@@ -25,7 +25,7 @@ $cn = conectar();
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($data['collect_id']) || !isset($data['day_of_week']) || !isset($data['confirmed'])) {
+if (!isset($data['collect_id']) || !isset($data['day_of_week']) || !isset($data['confirmed']) || !isset($data['amount'])) {
   http_response_code(400);
   echo json_encode(["success" => false, "message" => "Faltan datos necesarios."]);
   $cn->close();
@@ -35,6 +35,7 @@ if (!isset($data['collect_id']) || !isset($data['day_of_week']) || !isset($data[
 $collect_id = intval($data['collect_id']);
 $day_of_week = $data['day_of_week'];
 $confirmed = filter_var($data['confirmed'], FILTER_VALIDATE_BOOLEAN);
+$amount = floatval($data['amount']);
 
 $valid_days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 if (!in_array($day_of_week, $valid_days)) {
@@ -44,8 +45,8 @@ if (!in_array($day_of_week, $valid_days)) {
   exit;
 }
 
-$sql = "INSERT INTO `accounting_collect_confirmations` (`collect_id`, `day_of_week`, `confirmed`)
-        VALUES (?, ?, ?)
+$sql = "INSERT INTO `accounting_collect_confirmations` (`collect_id`, `day_of_week`, `confirmed`, `amount`)
+        VALUES (?, ?, ?, ?)
         ON DUPLICATE KEY UPDATE `confirmed` = VALUES(`confirmed`)";
 
 $stmt = $cn->prepare($sql);
@@ -57,7 +58,7 @@ if (!$stmt) {
 }
 
 // Cambia 'i' por 's' para el parámetro $day_of_week que es un string
-$stmt->bind_param('iss', $collect_id, $day_of_week, $confirmed);
+$stmt->bind_param('issd', $collect_id, $day_of_week, $confirmed, $amount);
 
 if ($stmt->execute()) {
   http_response_code(200);
