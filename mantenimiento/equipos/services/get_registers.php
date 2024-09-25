@@ -8,7 +8,7 @@ require_once '../venv.php';
 require_once BASE_PATH . '/postgresql/conexion.php';
 require_once BASE_PATH . '/ripcord-master/ripcord.php';
 
-$cn = conectar_pg();
+$cn = conectarPostgresql();
 
 if (!$cn) {
   http_response_code(500);
@@ -20,25 +20,28 @@ try {
   $status = isset($_GET['status']) ? $_GET['status'] : null;
 
   $query = "SELECT 
-        mr.id, 
-        mr.workshop, 
-        mr.fail_type, 
-        mr.check_in, 
-        mr.check_out, 
-        mr.status, 
-        mr.delivery_date, 
-        mr.supervisor,
-        mr.comments,
-        mr.order_service,
-        fv.id AS tract_id, 
-        fv.name2 AS tract_name, 
-        fv.x_tipo_vehiculo AS tract_x_tipo_vehiculo, 
-        rs.id AS store_id, 
-        rs.code AS store_code, 
-        rs.name AS store_name
-    FROM public.maintenance_record mr
-    LEFT JOIN public.fleet_vehicle fv ON mr.tract_id = fv.id 
-    LEFT JOIN public.res_store rs ON fv.x_sucursal = rs.id";
+              mr.id, 
+              mr.workshop_id,
+              mw.name AS workshop_name,
+              mr.fail_type, 
+              mr.check_in, 
+              mr.check_out, 
+              mr.status, 
+              mr.delivery_date, 
+              mr.supervisor,
+              mr.comments,
+              mr.order_service,
+              fv.id AS tract_id, 
+              fv.name2 AS tract_name, 
+              fv.x_tipo_vehiculo AS tract_x_tipo_vehiculo, 
+              rs.id AS store_id, 
+              rs.code AS store_code, 
+              rs.name AS store_name
+            FROM public.maintenance_record mr
+            LEFT JOIN public.fleet_vehicle fv ON mr.tract_id = fv.id 
+            LEFT JOIN public.res_store rs ON fv.x_sucursal = rs.id
+            LEFT JOIN public.maintenance_workshops mw ON mr.workshop_id = mw.id"; 
+
 
   if ($status) {
     $query .= " WHERE mr.status = :status";
@@ -56,7 +59,10 @@ try {
   $resultado = array_map(function ($row) {
     return [
       "id" => $row['id'],
-      "workshop" => $row['workshop'],
+      "workshop" => [
+        "id" => $row['workshop_id'],
+        "name" => $row['workshop_name']
+      ],
       "fail_type" => $row['fail_type'],
       "check_in" => $row['check_in'],
       "check_out" => $row['check_out'],

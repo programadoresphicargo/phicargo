@@ -49,6 +49,10 @@ require_once('../../usuarios/codigo/comprobar_permiso.php');
                             <?php echo imprimirCard('Balance de Cobro', '../../contabilidad/pago_clientes/index.php', '../../img/icons/icons-balance.png'); ?>
                         <?php } ?>
 
+                        <?php if (comprobar_permiso(198) == true) { ?>
+                            <?php echo imprimirCard('Mantenimiento de Tractos', '../../mantenimiento/equipos/index.php', '../../img/icons/maintenance_icon.png'); ?>
+                        <?php } ?>
+
                     </div>
                 </div>
             </div>

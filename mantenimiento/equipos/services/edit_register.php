@@ -23,7 +23,7 @@ if (MODE !== 'dev') {
 
 require_once BASE_PATH . '/postgresql/conexion.php';
 
-$cn = conectar_pg();
+$cn = conectarPostgresql();
 
 if (!$cn) {
   http_response_code(500);
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
   // Definir los campos que pueden ser actualizados
   $updatable_fields = [
-    'workshop', 
+    'workshop_id', 
     'fail_type', 
     'check_in', 
     'check_out', 

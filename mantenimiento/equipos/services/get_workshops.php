@@ -10,23 +10,27 @@ require_once BASE_PATH . '/postgresql/conexion.php';
 $cn = conectarPostgresql();
 
 if (!$cn) {
-  echo json_encode(["error" => "No se pudo conectar a la base de datos"]);
+  http_response_code(500);
+  echo json_encode(["success" => false, "message" => "No se pudo conectar a la base de datos"]);
   exit;
 }
 
 try {
-  $query = "SELECT id, code, name
-            FROM public.res_store";
+  $query = "SELECT id, name
+            FROM public.maintenance_workshops
+            WHERE is_active = true;";
 
   $stmt = $cn->prepare($query);
   $stmt->execute();
 
   $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+  http_response_code(200);
   echo json_encode($datos);
 
 } catch (PDOException $e) {
-  echo json_encode(["error" => "Error al ejecutar la consulta: " . $e->getMessage()]);
+  http_response_code(500);
+  echo json_encode(["success" => false, "message" => "Error al ejecutar la consulta" . $e->getMessage()]);
 }
 
 $cn = null;

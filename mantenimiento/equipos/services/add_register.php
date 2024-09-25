@@ -24,7 +24,7 @@ if (MODE !== 'dev') {
 
 require_once BASE_PATH . '/postgresql/conexion.php';
 
-$cn = conectar_pg();
+$cn = conectarPostgresql();
 
 if (!$cn) {
   http_response_code(500);
@@ -35,7 +35,7 @@ if (!$cn) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $data = json_decode(file_get_contents("php://input"), true);
 
-  $required_fields = ['workshop', 'fail_type', 'check_in', 'status', 'order_service', 'supervisor', 'tract_id', 'comments'];
+  $required_fields = ['workshop_id', 'fail_type', 'check_in', 'status', 'order_service', 'supervisor', 'tract_id', 'comments'];
   foreach ($required_fields as $field) {
     if (!isset($data[$field])) {
       http_response_code(400);
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   $query = "INSERT INTO public.maintenance_record(
-    workshop, fail_type, check_in, status, delivery_date, supervisor, tract_id, comments, order_service
+    workshop_id, fail_type, check_in, status, delivery_date, supervisor, tract_id, comments, order_service
   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
   $stmt = $cn->prepare($query);
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   }
 
-  $workshop = $data['workshop'];
+  $workshop_id = $data['workshop_id'];
   $fail_type = $data['fail_type'];
   $check_in = $data['check_in'];
   $status = $data['status'];
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $comments = $data['comments'];
   $order_service = $data['order_service'];
 
-  $result = $stmt->execute([$workshop, $fail_type, $check_in, $status, $delivery_date, $supervisor, $tract_id, $comments, $order_service]);
+  $result = $stmt->execute([$workshop_id, $fail_type, $check_in, $status, $delivery_date, $supervisor, $tract_id, $comments, $order_service]);
 
   if ($result) {
     http_response_code(201);

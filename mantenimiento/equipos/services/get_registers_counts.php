@@ -7,7 +7,7 @@ header("Content-Type: application/json");
 require_once '../venv.php';
 require_once BASE_PATH . '/postgresql/conexion.php';
 
-$cn = conectar_pg();
+$cn = conectarPostgresql();
 
 if (!$cn) {
   http_response_code(500);
