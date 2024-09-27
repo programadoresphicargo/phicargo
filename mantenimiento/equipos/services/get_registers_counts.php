@@ -15,13 +15,13 @@ if (!$cn) {
   exit;
 }
 
-
 try {
-  $query = "SELECT 
-            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_count,
-            SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) AS completed_count,
-            SUM(CASE WHEN status = 'cancelled' THEN 1 ELSE 0 END) AS cancelled_count
-          FROM public.maintenance_record";
+  $query = "
+    SELECT 
+      SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending_count,
+      SUM(CASE WHEN status = 'completed' AND date_trunc('month', check_out) = date_trunc('month', current_date) THEN 1 ELSE 0 END) AS completed_count
+    FROM public.maintenance_record
+  ";
 
   $stmt = $cn->prepare($query);
   $stmt->execute();
@@ -30,7 +30,6 @@ try {
   $response = [
     "pending" => (int) $counts['pending_count'],
     "completed" => (int) $counts['completed_count'],
-    "cancelled" => (int) $counts['cancelled_count']
   ];
 
   http_response_code(200);

@@ -22,6 +22,7 @@ if (MODE !== 'dev') {
 }
 
 require_once BASE_PATH . '/postgresql/conexion.php';
+require_once 'get_register.php';
 
 $cn = conectarPostgresql();
 
@@ -34,18 +35,16 @@ if (!$cn) {
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
   $data = json_decode(file_get_contents("php://input"), true);
 
-
   if (!isset($_GET['id'])) {
     http_response_code(400);
     echo json_encode(["success" => false, "message" => "Falta el parámetro: id"]);
     exit;
   }
 
-  $id = $_GET['id']; // ID del registro a actualizar
+  $id = $_GET['id'];
   $fields = [];
   $values = [];
 
-  // Definir los campos que pueden ser actualizados
   $updatable_fields = [
     'workshop_id', 
     'fail_type', 
@@ -71,25 +70,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     exit;
   }
 
-  // Construir la consulta de actualización
+  $cn->beginTransaction();
+
   $query = "UPDATE public.maintenance_record SET " . implode(", ", $fields) . " WHERE id = ?";
-  $values[] = $id; // Agregar el ID al final de los valores
+  $values[] = $id; 
 
   $stmt = $cn->prepare($query);
 
   if (!$stmt) {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Error al preparar la consulta"]);
+    $cn->rollBack();
     exit;
   }
 
-  // Ejecutar la consulta
   $result = $stmt->execute($values);
 
   if ($result) {
-    http_response_code(200);
-    echo json_encode(["success" => true, "message" => "Registro actualizado con éxito"]);
+    $newRecord = getRecordById($cn, $id);
+    if ($newRecord) {
+      $cn->commit();
+      http_response_code(200);
+      echo json_encode($newRecord);
+    } else {
+      $cn->rollBack(); 
+      http_response_code(500);
+      echo json_encode(["success" => false, "message" => "No se pudo obtener el nuevo registro"]);
+    }
   } else {
+    $cn->rollBack();
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Error al actualizar el registro"]);
   }

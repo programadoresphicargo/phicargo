@@ -4,9 +4,8 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
 
-require_once '../venv.php'; // Incluye tu archivo de configuración
+require_once '../venv.php';
 
-// Manejar las solicitudes OPTIONS (preflight request)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   http_response_code(200);
   exit;
@@ -35,7 +34,7 @@ if (!$cn) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $data = json_decode(file_get_contents("php://input"), true);
 
-  $required_fields = ['maintenance_record_id', 'comment_text'];
+  $required_fields = ['name'];
   foreach ($required_fields as $field) {
     if (!isset($data[$field])) {
       http_response_code(400);
@@ -44,11 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   }
 
-  // Consulta con RETURNING para obtener el comentario recién creado
-  $query = "INSERT INTO public.maintenance_comments(
-              maintenance_record_id, comment_text)
-              VALUES (?, ?)
-              RETURNING id, maintenance_record_id, comment_text, created_at;"; // Ajusta los campos según tu esquema
+  $query = "INSERT INTO public.maintenance_workshops(name) VALUES (?);";
 
   $stmt = $cn->prepare($query);
 
@@ -58,21 +53,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   }
 
-  $maintenance_record_id = $data['maintenance_record_id'];
-  $comment_text = $data['comment_text'];
+  $name = $data['name'];
 
-  $stmt->execute([$maintenance_record_id, $comment_text]);
+  $result = $stmt->execute([$name]);
 
-  $newComment = $stmt->fetch(PDO::FETCH_ASSOC);
-
-  if ($newComment) {
+  if ($result) {
     http_response_code(201);
-    echo json_encode( $newComment);
+    echo json_encode(["success" => true, "message" => "Comentario agregado con éxito"]);
   } else {
     http_response_code(500);
-    echo json_encode(["success" => false, "message" => "Error al obtener el comentario recién creado"]);
+    echo json_encode(["success" => false, "message" => "Error al insertar el Comentario"]);
   }
 } else {
   http_response_code(405);
   echo json_encode(["success" => false, "message" => "Método no permitido"]);
 }
+

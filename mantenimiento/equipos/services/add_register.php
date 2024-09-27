@@ -4,9 +4,8 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
 
-require_once '../venv.php'; // Incluye tu archivo de configuración
+require_once '../venv.php';
 
-// Manejar las solicitudes OPTIONS (preflight request)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   http_response_code(200);
   exit;
@@ -23,6 +22,7 @@ if (MODE !== 'dev') {
 }
 
 require_once BASE_PATH . '/postgresql/conexion.php';
+require_once 'get_register.php';
 
 $cn = conectarPostgresql();
 
@@ -82,8 +82,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $result = $stmt->execute([$workshop_id, $fail_type, $check_in, $status, $delivery_date, $supervisor, $tract_id, $comments, $order_service]);
 
   if ($result) {
-    http_response_code(201);
-    echo json_encode(["success" => true, "message" => "Registro creado con éxito"]);
+    $lastInsertId = $cn->lastInsertId();
+    $newRecord = getRecordById($cn, $lastInsertId);
+    if ($newRecord) {
+      http_response_code(201);
+      echo json_encode($newRecord);
+    } else {
+      http_response_code(500);
+      echo json_encode(["success" => false, "message" => "No se pudo obtener el nuevo registro"]);
+    }
   } else {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Error al insertar el registro"]);
