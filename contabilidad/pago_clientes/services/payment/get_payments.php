@@ -118,10 +118,7 @@ if (isset($_GET['week_id'])) {
 
     // Respuesta exitosa con código 200
     http_response_code(200);
-    echo json_encode([
-      "success" => true,
-      "payments" => $data
-    ]);
+    echo json_encode($data);
   } else {
     // No se encontraron registros, responder con código 404
     http_response_code(404);

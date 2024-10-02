@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
 }
 
 require_once '../../base_path.php';
+require_once './get_payment.php';
 
 session_start();
 if (MODE !== 'dev' && !isset($_SESSION['userID'])) {
@@ -69,13 +70,30 @@ if (empty($updateFields)) {
 
 $updateSql = "UPDATE accounting_weekly_payment SET " . implode(', ', $updateFields) . " WHERE id = '$id'";
 
-if ($cn->query($updateSql) === TRUE) {
+if ($cn->query(query: $updateSql) === TRUE) {
   if ($cn->affected_rows > 0) {
-    echo json_encode(["success" => true, "message" => "Registro actualizado exitosamente"]);
+    try {
+      $updatedRecord = get_payment_by_id($cn, $id);
+      if ($updatedRecord) {
+        http_response_code(200);
+        echo json_encode($updatedRecord);
+        exit;
+      } else {
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Error al obtener el registro actualizado."]);
+        exit;
+      }
+    } catch (Exception $e) {
+      http_response_code(500);
+      echo json_encode(["success" => false, "message" => "Error al actualizar el registro: " . $e->getMessage()]);
+      exit;
+    }
   } else {
+    http_response_code(404);
     echo json_encode(["success" => false, "message" => "No se encontró el registro para actualizar"]);
   }
 } else {
+  http_response_code(500);
   echo json_encode(["success" => false, "message" => "Error al actualizar el registro: " . $cn->error]);
 }
 

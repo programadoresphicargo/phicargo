@@ -26,44 +26,43 @@ if (isset($_GET['week_id'])) {
 
   // Consulta SQL para obtener los registros con pagos confirmados
   $sql = "SELECT 
-    p.id, 
-    p.client_id, 
-    c.nombre AS client_name, 
-    p.week_id, 
-    p.monday_amount, 
-    p.tuesday_amount, 
-    p.wednesday_amount, 
-    p.thursday_amount, 
-    p.friday_amount, 
-    p.saturday_amount,
-    p.observations, 
-    COALESCE(SUM(CASE WHEN apc.day_of_week = 'monday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_monday_amount,
-    COALESCE(SUM(CASE WHEN apc.day_of_week = 'tuesday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_tuesday_amount,
-    COALESCE(SUM(CASE WHEN apc.day_of_week = 'wednesday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_wednesday_amount,
-    COALESCE(SUM(CASE WHEN apc.day_of_week = 'thursday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_thursday_amount,
-    COALESCE(SUM(CASE WHEN apc.day_of_week = 'friday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_friday_amount,
-    COALESCE(SUM(CASE WHEN apc.day_of_week = 'saturday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_saturday_amount,
-    COALESCE(SUM(CASE 
-        WHEN apc.day_of_week = 'monday' AND apc.confirmed THEN apc.amount
-        WHEN apc.day_of_week = 'tuesday' AND apc.confirmed THEN apc.amount
-        WHEN apc.day_of_week = 'wednesday' AND apc.confirmed THEN apc.amount
-        WHEN apc.day_of_week = 'thursday' AND apc.confirmed THEN apc.amount
-        WHEN apc.day_of_week = 'friday' AND apc.confirmed THEN apc.amount
-        WHEN apc.day_of_week = 'saturday' AND apc.confirmed THEN apc.amount
-        ELSE 0
-    END), 0) AS total_confirmed_amount
-FROM 
-    accounting_weekly_collect p
-JOIN 
-    clientes c ON p.client_id = c.id
-LEFT JOIN 
-    accounting_collect_confirmations apc ON p.id = apc.collect_id
-WHERE 
-    p.week_id = '$week_id'
-GROUP BY 
-    p.id, p.client_id, c.nombre, p.week_id, p.monday_amount, p.tuesday_amount, p.wednesday_amount, 
-    p.thursday_amount, p.friday_amount, p.saturday_amount, p.observations;
-";
+            p.id, 
+            p.client_id, 
+            c.nombre AS client_name, 
+            p.week_id, 
+            p.monday_amount, 
+            p.tuesday_amount, 
+            p.wednesday_amount, 
+            p.thursday_amount, 
+            p.friday_amount, 
+            p.saturday_amount,
+            p.observations, 
+            COALESCE(SUM(CASE WHEN apc.day_of_week = 'monday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_monday_amount,
+            COALESCE(SUM(CASE WHEN apc.day_of_week = 'tuesday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_tuesday_amount,
+            COALESCE(SUM(CASE WHEN apc.day_of_week = 'wednesday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_wednesday_amount,
+            COALESCE(SUM(CASE WHEN apc.day_of_week = 'thursday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_thursday_amount,
+            COALESCE(SUM(CASE WHEN apc.day_of_week = 'friday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_friday_amount,
+            COALESCE(SUM(CASE WHEN apc.day_of_week = 'saturday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_saturday_amount,
+            COALESCE(SUM(CASE 
+                            WHEN apc.day_of_week = 'monday' AND apc.confirmed THEN apc.amount
+                            WHEN apc.day_of_week = 'tuesday' AND apc.confirmed THEN apc.amount
+                            WHEN apc.day_of_week = 'wednesday' AND apc.confirmed THEN apc.amount
+                            WHEN apc.day_of_week = 'thursday' AND apc.confirmed THEN apc.amount
+                            WHEN apc.day_of_week = 'friday' AND apc.confirmed THEN apc.amount
+                            WHEN apc.day_of_week = 'saturday' AND apc.confirmed THEN apc.amount
+                            ELSE 0
+                          END), 0) AS total_confirmed_amount
+          FROM 
+            accounting_weekly_collect p
+          JOIN 
+            clientes c ON p.client_id = c.id
+          LEFT JOIN 
+            accounting_collect_confirmations apc ON p.id = apc.collect_id
+          WHERE 
+            p.week_id = '$week_id'
+          GROUP BY 
+            p.id, p.client_id, c.nombre, p.week_id, p.monday_amount, p.tuesday_amount, p.wednesday_amount, 
+            p.thursday_amount, p.friday_amount, p.saturday_amount, p.observations;";
 
   $result = $cn->query($sql);
 
@@ -114,10 +113,7 @@ GROUP BY
 
     // Respuesta exitosa con código 200
     http_response_code(200);
-    echo json_encode([
-      "success" => true,
-      "data" => $data
-    ]);
+    echo json_encode($data);
   } else {
     // No se encontraron registros, responder con código 404
     http_response_code(404);

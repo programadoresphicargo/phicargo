@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 require_once '../../base_path.php';
 require_once BASE_PATH . '/mysql/conexion.php';
+require_once './get_collect_register.php';
 
 session_start();
 if (MODE !== 'dev') {
@@ -57,12 +58,27 @@ if (!$stmt) {
   exit;
 }
 
-// Cambia 'i' por 's' para el parámetro $day_of_week que es un string
 $stmt->bind_param('issd', $collect_id, $day_of_week, $confirmed, $amount);
 
 if ($stmt->execute()) {
-  http_response_code(200);
-  echo json_encode(["success" => true, "message" => "Pago confirmado exitosamente."]);
+
+  try {
+    $updatedRecord = get_collect_register_by_id($cn, $collect_id);
+    if ($updatedRecord) {
+      http_response_code(200);
+      echo json_encode($updatedRecord);
+      exit;
+    } else {
+      http_response_code(500);
+      echo json_encode(["success" => false, "message" => "Error al obtener el registro actualizado."]);
+      exit;
+    }
+  } catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(["success" => false, "message" => "Error al actualizar el registro: " . $e->getMessage()]);
+    exit;
+  }
+
 } else {
   http_response_code(500);
   echo json_encode(["success" => false, "message" => "Error al confirmar el pago."]);

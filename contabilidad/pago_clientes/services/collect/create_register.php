@@ -85,8 +85,61 @@ $stmt->bind_param('iidddddd', $client_id, $week_id, $monday_amount, $tuesday_amo
 
 // Ejecutar la consulta
 if ($stmt->execute()) {
+  // Obtener el ID del registro insertado
+  $inserted_id = $stmt->insert_id;
+
+  // Obtener el nombre del cliente
+  $client_name_sql = "SELECT nombre FROM clientes WHERE id = ?";
+  $client_stmt = $cn->prepare($client_name_sql);
+  $client_stmt->bind_param('i', $client_id);
+  $client_stmt->execute();
+  $client_stmt->bind_result($client_name);
+  $client_stmt->fetch();
+  $client_stmt->close();
+  
+
+  // Crear un arreglo con los datos del nuevo registro
+  $new_record = [
+    'id' => $inserted_id,
+    'client_id' => $client_id,
+    'client_name' => $client_name,
+    'week_id' => $week_id,
+    'monday_amount' => [
+      'amount' => $monday_amount,
+      'confirmed' => false,
+      'real_amount' => 0,
+    ],
+    'tuesday_amount' => [
+      'amount' => $tuesday_amount,
+      'confirmed' => false,
+      'real_amount' => 0,
+    ],
+    'wednesday_amount' => [
+      'amount' => $wednesday_amount,
+      'confirmed' => false,
+      'real_amount' => 0,
+    ],
+    'thursday_amount' => [
+      'amount' => $thursday_amount,
+      'confirmed' => false,
+      'real_amount' => 0,
+    ],
+    'friday_amount' => [
+      'amount' => $friday_amount,
+      'confirmed' => false,
+      'real_amount' => 0,
+    ],
+    'saturday_amount' => [
+      'amount' => $saturday_amount,
+      'confirmed' => false,
+      'real_amount' => 0,
+    ],
+    'observations' => '',
+    'total_confirmed_amount' => 0,
+  ];
+
   http_response_code(200);
-  echo json_encode(["success" => true, "message" => "Registro insertado exitosamente."]);
+  echo json_encode($new_record);
 } else {
   http_response_code(500);
   echo json_encode(["success" => false, "message" => "Error al insertar el registro."]);

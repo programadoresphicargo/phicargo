@@ -6,7 +6,6 @@ header("Content-Type: application/json");
 
 require_once '../../base_path.php';
 
-// Manejar solicitud preflight (OPTIONS)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   http_response_code(200);
   exit;
@@ -89,21 +88,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   }
 
-  $result = $stmt->execute([
-    $provider_id,
-    $provider,
-    $week_id,
-    $monday_amount,
-    $tuesday_amount,
-    $wednesday_amount,
-    $thursday_amount,
-    $friday_amount,
-    $saturday_amount,
-    $concept
-  ]);
+  $stmt->bind_param('isidddddds', $provider_id, $provider, $week_id, $monday_amount, $tuesday_amount, $wednesday_amount, $thursday_amount, $friday_amount, $saturday_amount, $concept);
+
+  $result = $stmt->execute();
   if ($result) {
+
+    $insertion_id = $stmt->insert_id;
+
+    $new_payment = [
+      'id' => $insertion_id,
+      'provider_id' => $provider_id,
+      'provider' => $provider,
+      'week_id' => $week_id,
+      'concept' => $concept,
+      'monday_amount' => [
+        'amount' => $monday_amount,
+        'confirmed' => false,
+        'real_amount' => 0,
+      ],
+      'tuesday_amount' => [
+        'amount' => $tuesday_amount,
+        'confirmed' => false,
+        'real_amount' => 0,
+      ],
+      'wednesday_amount' => [
+        'amount' => $wednesday_amount,
+        'confirmed' => false,
+        'real_amount' => 0,
+      ],
+      'thursday_amount' => [
+        'amount' => $thursday_amount,
+        'confirmed' => false,
+        'real_amount' => 0,
+      ],
+      'friday_amount' => [
+        'amount' => $friday_amount,
+        'confirmed' => false,
+        'real_amount' => 0,
+      ],
+      'saturday_amount' => [
+        'amount' => $saturday_amount,
+        'confirmed' => false,
+        'real_amount' => 0,
+      ],
+      'observations' => '',
+      'total_confirmed_amount' => 0,
+    ];
+
     http_response_code(201);
-    echo json_encode(["success" => true, "message" => "Registro creado con éxito"]);
+    echo json_encode($new_payment);
   } else {
     http_response_code(500);
     echo json_encode(["success" => false, "message" => "Error al insertar el registro"]);
@@ -114,4 +147,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   echo json_encode(["success" => false, "message" => "Método no permitido"]);
 }
 
-$cn->close();
+$stmt->close();
+$check_stmt->close();
+

@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
 }
 
 require_once BASE_PATH . '/mysql/conexion.php';
+require_once './get_collect_register.php';
 $cn = conectar();
 
 $data = json_decode(file_get_contents("php://input"), true);
@@ -80,6 +81,7 @@ if (isset($data['observations'])) {
 }
 
 if (empty($fields)) {
+  http_response_code(400);
   echo json_encode([
     "success" => false,
     "message" => "No se proporcionaron datos para actualizar."
@@ -103,8 +105,25 @@ $stmt->bind_param($types, ...$params);
 
 if ($stmt->execute()) {
   if ($stmt->affected_rows > 0) {
-    echo json_encode(["success" => true, "message" => "Registro actualizado exitosamente."]);
+
+    try {
+      $updatedRecord = get_collect_register_by_id($cn, $id);
+      if ($updatedRecord) {
+        http_response_code(200);
+        echo json_encode($updatedRecord);
+        exit;
+      } else {
+        http_response_code(500);
+        echo json_encode(["success" => false, "message" => "Error al obtener el registro actualizado."]);
+        exit;
+      }
+    } catch (Exception $e) {
+      http_response_code(500);
+      echo json_encode(["success" => false, "message" => "Error al actualizar el registro: " . $e->getMessage()]);
+      exit;
+    }
   } else {
+    http_response_code(400);
     echo json_encode(["success" => false, "message" => "No se encontró el registro para actualizar o no hubo cambios."]);
   }
 } else {
