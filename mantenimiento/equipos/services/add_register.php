@@ -23,6 +23,7 @@ if (MODE !== 'dev') {
 
 require_once BASE_PATH . '/postgresql/conexion.php';
 require_once 'get_register.php';
+require_once 'edit_vehicle_status.php';
 
 $cn = conectarPostgresql();
 
@@ -85,6 +86,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lastInsertId = $cn->lastInsertId();
     $newRecord = getRecordById($cn, $lastInsertId);
     if ($newRecord) {
+
+      if ($status === 'pending') {
+        $maintenance_status_id = 5;
+        try {
+          $updateStatusResult = edit_vehicle_status($cn, $tract_id, $maintenance_status_id);
+          if (!$updateStatusResult) {
+            http_response_code(500);
+            echo json_encode(["success" => false, "message" => "Error al actualizar el estado del vehículo"]);
+            exit;
+          }
+        } catch (PDOException $e) {
+          error_log("Error al actualizar el estado del vehículo: " . $e->getMessage());
+          http_response_code(500);
+          echo json_encode(["success" => false, "message" => "Error al actualizar el estado del vehículo"]);
+          exit;
+        }
+      }
+
       http_response_code(201);
       echo json_encode($newRecord);
     } else {
