@@ -8,12 +8,13 @@ function conectar()
     //$password = "qljyLg=8";
     //$database = "u587079173_phicargo";
 
-    $servername = "localhost";
+    $servername = "db";
     $username = "root";
-    $password = "";
+    $password = "root";
     $database = "phicargo";
+    $port = "3306";
 
-    $cn = new mysqli($servername, $username, $password, $database);
+    $cn = new mysqli($servername, $username, $password, $database, $port);
 
     if ($cn->connect_error) {
         die("Connection failed: " . $cn->connect_error);

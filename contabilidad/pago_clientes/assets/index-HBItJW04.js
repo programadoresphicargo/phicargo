@@ -84494,7 +84494,7 @@ const usePaymentTableColumns = (data) => {
           CurrencyCell,
           {
             value: cell.getValue() || 0,
-            confirmationRequired: cell.getValue().amount > 0 && !row.original.friday.confirmed,
+            confirmationRequired: cell.getValue() > 0 && !row.original.friday.confirmed,
             type: "payment",
             itemId: row.original.id,
             dayOfWeek: "friday",
