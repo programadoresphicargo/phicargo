@@ -1,5 +1,6 @@
 <?php
 require_once('../../mysql/conexion.php');
+require_once('../../postgresql/conexion.php');
 require_once('getEjecutivo.php');
 
 date_default_timezone_set("America/Mexico_City");
@@ -56,9 +57,9 @@ function obtener_ubicacion($vehicle_id)
     return $resultado;
 }
 
-function enviar_correo($id_cp, $tipo, $contenedor, $latitud, $longitud, $referencia, $calle, $fecha, $unidad, $comentarios, $id_status)
+function enviar_correo($id_maniobra, $id_reporte)
 {
-    $cn = conectar();
+    $cn = conectarPostgresql();
 
     include_once '../../vendor/autoload.php';
     include_once '../../PHPMailer/src/PHPMailer.php';
@@ -72,18 +73,16 @@ function enviar_correo($id_cp, $tipo, $contenedor, $latitud, $longitud, $referen
     }
 
     $decoded_json = json_decode($Datos, true);
-    $json = json_encode($decoded_json);
 
     $HOST = $decoded_json[0];
-    $PORT = $decoded_json[1];
-    $MAIL = $decoded_json[2];
-    $PASSWOORD = $decoded_json[3];
+    echo $PORT = $decoded_json[1];
+    echo $MAIL = $decoded_json[2];
+    echo $PASSWOORD = $decoded_json[3];
     $USERREALNAME = $decoded_json[4];
 
-    $SqlSelectDestinatario = "SELECT correo from correos_maniobras inner join correos_electronicos on correos_electronicos.id_correo = correos_maniobras.id_correo where id_cp = $id_cp and tipo = 'Destinatario'";
-    $SqlSelectDestinatario;
+    $SqlSelectDestinatario = "SELECT correo from maniobras_correos inner join correos_electronicos on correos_electronicos.id_correo = maniobras_correos.id_correo where id_maniobra = $id_maniobra and tipo = 'Destinatario'";
     $resultDestinatario = $cn->query($SqlSelectDestinatario);
-    $SqlSelectCC = "SELECT correo from correos_maniobras inner join correos_electronicos on correos_electronicos.id_correo = correos_maniobras.id_correo where id_cp = $id_cp and tipo = 'CC'";
+    $SqlSelectCC = "SELECT correo from maniobras_correos inner join correos_electronicos on correos_electronicos.id_correo = maniobras_correos.id_correo where id_maniobra = $id_maniobra and tipo = 'CC'";
     $resultCC = $cn->query($SqlSelectCC);
 
     $mail = new PHPMailer(true);
@@ -91,104 +90,87 @@ function enviar_correo($id_cp, $tipo, $contenedor, $latitud, $longitud, $referen
     try {
         $mail->SMTPDebug = 0;
         $mail->isSMTP();
-        $mail->Host       = $HOST;
+        $mail->Host = $HOST;
         $mail->SMTPAuth   = true;
         $mail->Username   = $MAIL;
         $mail->Password   = $PASSWOORD;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+        $mail->Port = $PORT;
         $mail->setFrom($MAIL, $USERREALNAME);
         $mail->AddReplyTo($MAIL, $USERREALNAME);
 
-        while ($rowDestinatario = $resultDestinatario->fetch_assoc()) {
+        while ($rowDestinatario = $resultDestinatario->fetchAll(PDO::FETCH_ASSOC)) {
             //$mail->addAddress($rowDestinatario['correo'], '');
             //echo $rowDestinatario['correo'];
         }
-        while ($rowCC = $resultCC->fetch_assoc()) {
+        while ($rowCC = $resultCC->fetchAll(PDO::FETCH_ASSOC)) {
             //$mail->addCC($rowCC['correo'], '');
             //echo $rowCC['correo'];
         }
 
-        $ejecutivo = getEjecutivo($id_cp);
-        $sqlEjecutiva = "SELECT correo FROM usuarios where nombre like '%$ejecutivo%'";
-        echo $ejecutivo . '<br>';
-        echo $sqlEjecutiva . '<br>';
-        $resultadoEjecutivo = $cn->query($sqlEjecutiva);
-        if ($resultadoEjecutivo->num_rows > 0) {
-            while ($rowEjecutivo = $resultadoEjecutivo->fetch_assoc()) {
-                $mail->addCC($rowEjecutivo['correo'], '');
-                echo 'Se añadio el correo' . '<br>';
-            }
-        } else {
-            echo 'No se encontro correo' . '<br>';
-        }
-
         $mail->addCC('desarrollador@phi-cargo.com', '');
 
-        $mail->addCustomHeader('In-Reply-To', $contenedor);
-        $mail->addCustomHeader('References', $contenedor);
+        $mail->addCustomHeader('In-Reply-To', 'Actualizacion maniobra de');
+        $mail->addCustomHeader('References', 'Actualizacion maniobra de');
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';
 
-        $status_ubicacion = '';
-        preg_match('/\((.*?)\)/', $referencia, $matches);
+        $SqlManiobra = "SELECT 
+        reportes_estatus_maniobras.*, 
+        status.status, 
+        ubicaciones_maniobras.*, 
+        maniobras.*, 
+        fleet_vehicle.name, 
+        STRING_AGG(tms_waybill.x_reference, ', ') AS contenedores,
+        tms_waybill.x_reference,
+        tms_waybill.client_order_ref
+    FROM 
+        reportes_estatus_maniobras 
+    LEFT JOIN 
+        status ON status.id_status = reportes_estatus_maniobras.id_estatus
+    LEFT JOIN 
+        ubicaciones_maniobras ON ubicaciones_maniobras.id_ubicacion = reportes_estatus_maniobras.id_ubicacion
+    LEFT JOIN 
+        maniobras ON maniobras.id_maniobra = reportes_estatus_maniobras.id_maniobra
+    LEFT JOIN 
+        fleet_vehicle ON fleet_vehicle.id = maniobras.vehicle_id
+    LEFT JOIN 
+        maniobras_contenedores ON maniobras_contenedores.id_maniobra = maniobras.id_maniobra
+    LEFT JOIN 
+        tms_waybill ON tms_waybill.id = maniobras_contenedores.id_cp
+    WHERE 
+        reportes_estatus_maniobras.id_reporte = $id_reporte 
+    GROUP BY 
+        reportes_estatus_maniobras.id_reporte, 
+        status.id_status, 
+        ubicaciones_maniobras.id_ubicacion, 
+        maniobras.id_maniobra, 
+        fleet_vehicle.id, 
+        tms_waybill.id,
+        ubicaciones_maniobras.id_ubicacion
+    ORDER BY 
+        reportes_estatus_maniobras.fecha_hora DESC";
 
-        if (isset($matches[1])) {
-            $status_ubicacion = $matches[1];
-            echo $status_ubicacion;
-        } else {
-            echo "No se encontró ningún paréntesis";
-        }
+        $stmt = $cn->query($SqlManiobra);
+        $resultManiobra = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        echo '<<-->>';
-        echo $tipo;
-        echo '<<-->>';
-
-        if ($tipo == 'Ingreso') {
-            $mail->Subject = 'Actualización de Status - Contenedor: ' . $contenedor . "";
-
+        foreach ($resultManiobra as $rowManiobra) {
             $template = file_get_contents('../plantilla/plantilla.php');
-            $template = str_replace('{{statusubicacion}}', $status_ubicacion, $template);
-            $template = str_replace('{{contenedor}}', $contenedor, $template);
-            $template = str_replace('{{latitud}}', $latitud, $template);
-            $template = str_replace('{{longitud}}', $longitud, $template);
-            $template = str_replace('{{referencia}}', $referencia, $template);
-            $template = str_replace('{{calle}}', $calle, $template);
-            $template = str_replace('{{fecha}}', $fecha, $template);
-            $template = str_replace('{{unidad}}', $unidad, $template);
-            $template = str_replace('{{comentarios}}', $comentarios, $template);
-        } else if ($tipo == 'Retiro') {
 
-            $mail->Subject = 'Actualización de estatus - Solicitud de transporte:  ' . $id_cp . "";
-            $template = file_get_contents('../plantilla/auto.php');
-            $template = str_replace('{{statusubicacion}}', $status_ubicacion, $template);
-            $template = str_replace('{{contenedor}}', $contenedor, $template);
-            $template = str_replace('{{latitud}}', $latitud, $template);
-            $template = str_replace('{{longitud}}', $longitud, $template);
-            $template = str_replace('{{referencia}}', $referencia, $template);
-            $template = str_replace('{{calle}}', $calle, $template);
-            $template = str_replace('{{fecha}}', $fecha, $template);
-            $template = str_replace('{{unidad}}', $unidad, $template);
-            $template = str_replace('{{comentarios}}', $comentarios, $template);
+            $template = str_replace('{{tipo_maniobra}}', htmlspecialchars($rowManiobra['tipo_maniobra']), $template);
+            $template = str_replace('{{referencia_cliente}}', htmlspecialchars($rowManiobra['client_order_ref']), $template);
+            $template = str_replace('{{contenedores}}', htmlspecialchars($rowManiobra['contenedores']), $template);
+            $template = str_replace('{{comentarios_estatus}}', htmlspecialchars($rowManiobra['comentarios_estatus']), $template);
+            $template = str_replace('{{latitud}}', htmlspecialchars($rowManiobra['latitud']), $template);
+            $template = str_replace('{{longitud}}', htmlspecialchars($rowManiobra['longitud']), $template);
+            $template = str_replace('{{referencia}}', htmlspecialchars($rowManiobra['calle']), $template);
+            $template = str_replace('{{calle}}', htmlspecialchars($rowManiobra['calle']), $template);
+            $template = str_replace('{{fecha}}', htmlspecialchars($rowManiobra['fecha_hora']), $template);
+            $template = str_replace('{{unidad}}', htmlspecialchars($rowManiobra['name']), $template);
+
+            echo $template;
         }
-
-        $sqlSelect = "SELECT * FROM status where id_status = $id_status";
-        $resultS = $cn->query($sqlSelect);
-        $rowS = $resultS->fetch_assoc();
-        $template = str_replace('{{status}}', $rowS['status'], $template);
-
         $mail->Body = $template;
-
-
-        if (!empty($_FILES)) {
-            foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
-                $file_name = $_FILES['file']['name'][$key];
-                $file_tmp = $_FILES['file']['tmp_name'][$key];
-                $mail->addAttachment($file_tmp, $file_name);
-                $carpeta = '../archivos/' . $id_cp . "";
-            }
-        }
-
 
         if ($mail->send()) {
             echo 1;
@@ -199,32 +181,6 @@ function enviar_correo($id_cp, $tipo, $contenedor, $latitud, $longitud, $referen
                 echo 'Se actualiza ultimo envio';
             } else {
                 echo 'No se actualiza ultimo envio';
-            }
-
-            if (!empty($_FILES)) {
-                foreach ($_FILES['file']['tmp_name'] as $key => $tmp_name) {
-                    if (!is_dir($carpeta)) {
-                        if (mkdir($carpeta, 0777, true)) {
-                            if (move_uploaded_file($file_tmp, $carpeta . '/' . $file_name . "")) {
-                                echo 'Archivo temporal guardado con éxito en ' . $file_name;
-                            } else {
-                                echo 'Error al guardar el archivo temporal';
-                            }
-                        } else {
-                            echo 'Error al crear la carpeta';
-                        }
-                    } else {
-                        if (is_dir($carpeta)) {
-                            if (move_uploaded_file($file_tmp, $carpeta . '/' . $file_name . "")) {
-                                echo 'Archivo temporal guardado con éxito en ' . $file_name;
-                            } else {
-                                echo 'Error al guardar el archivo temporal';
-                            }
-                        } else {
-                            echo 'La carpeta no existe, no se pudo guardar el archivo';
-                        }
-                    }
-                }
             }
         } else {
             echo 0;
@@ -241,6 +197,7 @@ function guardar_base_datos($id_maniobra, $placas)
     date_default_timezone_set('America/Mexico_City');
     $hora = date('Y-m-d H:i:s');
     $cn = conectar();
+    $cn2 = conectarPostgresql();
 
     $SQL = "SELECT * FROM ubicaciones where placas = '$placas' order by fecha_hora desc limit 1";
     $result = $cn->query($SQL);
@@ -252,7 +209,7 @@ function guardar_base_datos($id_maniobra, $placas)
     $calle = $row['calle'];
     $fecha_hora = $row['fecha_hora'];
     $velocidad = $row['velocidad'];
-    if ($velocidad > 1) {
+    if ($velocidad >= 1) {
         $id_estatus = 80;
     } else {
         $id_estatus = 81;
@@ -268,15 +225,19 @@ function guardar_base_datos($id_maniobra, $placas)
         echo "Comentario: " . $comentario;
     } else {
         echo "No se encontró comentario en los paréntesis.";
+        return;
     }
 
-    $insert = "INSERT INTO ubicaciones_maniobras VALUES(NULL,'$placas',$latitud,$longitud,'$referencia','$referencia','$calle',NULL,'$fecha_hora')";
-    if ($cn->query($insert)) {
-        $ultimo_id = $cn->insert_id;
-        echo "ID generado: " . $ultimo_id . '<br>';
-        $insert = "INSERT INTO reportes_estatus_maniobras VALUES(NULL,$id_maniobra,$ultimo_id, $id_estatus,8,'$hora','$comentario')";
-        if ($cn->query($insert)) {
+
+    $insert = "INSERT INTO ubicaciones_maniobras (placas, latitud, longitud, localidad, sublocalidad, calle, codigo_postal, fecha_hora) VALUES('$placas', $latitud, $longitud, '$referencia', '$referencia', '$calle', 0, '$fecha_hora')";
+    if ($cn2->query($insert)) {
+        $id_ubicacion = $cn2->lastInsertId();
+        echo "ID Ubicación: " . $id_ubicacion . '<br>';
+        $insert = "INSERT INTO reportes_estatus_maniobras (id_maniobra, id_ubicacion, id_estatus, id_usuario, fecha_hora, comentarios_estatus)VALUES($id_maniobra,$id_ubicacion, $id_estatus,8,'$hora','$comentario')";
+        if ($cn2->query($insert)) {
+            $id_reporte = $cn2->lastInsertId();
             echo 1;
+            enviar_correo($id_maniobra, $id_reporte);
         } else {
             echo 0;
         }

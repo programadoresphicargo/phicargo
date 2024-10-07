@@ -35,9 +35,10 @@ $ids = $models->execute_kw(
     'tms.waybill',
     'search_read',
     array(array(
-        (array('date_order', '>', $dias['primerDia'])),
-        (array('date_order', '<', $dias['ultimoDia'])),
+        (array('date_order', '>=', $dias['primerDia'])),
+        (array('date_order', '<=', $dias['ultimoDia'])),
         (array('state', '!=', 'cancel')),
+        (array('name', '!=', false)),
     ),),
     $kwargs
 );

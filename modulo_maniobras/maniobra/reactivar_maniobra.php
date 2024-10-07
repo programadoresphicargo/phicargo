@@ -8,7 +8,7 @@ $data = json_decode(file_get_contents("php://input"), true);
 $cn = conectarPostgresql();
 
 $id_maniobra = $data['id_maniobra'];
-$sql_update_maniobra = "UPDATE maniobra 
+$sql_update_maniobra = "UPDATE maniobras
                         SET estado_maniobra = 'borrador' 
                         WHERE id_maniobra = :id_maniobra";
 

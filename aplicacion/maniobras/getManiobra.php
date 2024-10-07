@@ -1,12 +1,12 @@
 <?php
 require_once('../../postgresql/conexion.php');
-$cn = conectar();
+$cn = conectarPostgresql();
 
-$operador_id = 312;
+$operador_id = 1070;
 
 $sql = "SELECT 
 maniobras.id_maniobra,
-maniobras.terminal,
+maniobras_terminales.terminal,
 maniobras.operador_id,
 maniobras.tipo_maniobra,
 maniobras.inicio_programado,
@@ -41,10 +41,12 @@ LEFT JOIN fleet_vehicle AS flota_trailer2 ON flota_trailer2.id = maniobras.trail
 LEFT JOIN fleet_vehicle AS flota_dolly ON flota_dolly.id = maniobras.dolly_id
 LEFT JOIN fleet_vehicle AS flota_motogenerador_1 ON flota_motogenerador_1.id = maniobras.motogenerador_1
 LEFT JOIN fleet_vehicle AS flota_motogenerador_2 ON flota_motogenerador_2.id = maniobras.motogenerador_2
+LEFT JOIN maniobras_terminales on maniobras_terminales.id_terminal = maniobras.id_terminal
 LEFT JOIN usuarios as usuario_inicio on usuario_inicio.id_usuario = maniobras.usuario_activacion
 LEFT JOIN usuarios as usuario_finalizo on usuario_finalizo.id_usuario = maniobras.usuario_finalizo
 
 where operador_id = :operador_id
+and estado_maniobra = 'activa'
 order by inicio_programado desc
 limit 1";
 

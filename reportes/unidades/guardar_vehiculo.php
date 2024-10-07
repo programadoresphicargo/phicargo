@@ -15,7 +15,12 @@ $state_id = $data['state_id'];
 $x_modalidad = $data['x_modalidad'];
 $x_tipo_carga = $data['x_tipo_carga'];
 $x_tipo_vehiculo = $data['x_tipo_vehiculo'];
-$x_operador_asignado = $data['x_operador_asignado'];
+
+if ($data['x_operador_asignado'] == 'false') {
+    $x_operador_asignado = false;
+} else {
+    $x_operador_asignado = $data['x_operador_asignado'];
+}
 
 $partner_record_ids = [intval($id_vehiculo)];
 $partner_value = [
