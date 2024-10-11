@@ -91,13 +91,17 @@
                                         <table width="100%" align="center" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;">
                                             <tr>
                                                 <td align="center" style="padding-top:30px;padding-bottom:30px;padding-right:0;padding-left:0;word-break:break-word;font-family:'Inter', Helvetica, Arial, sans-serif;font-size:16px;line-height:24px;">
-                                                    <img src="http://phi-cargo.com/wp-content/uploads/2021/05/logo-phicargo-vertical.png" width="250px" class="margin-right:0;margin-left:0;line-height:28px">
+                                                    <img src="http://phi-cargo.com/wp-content/uploads/2021/05/logo-phicargo-vertical.png"
+                                                        width="250"
+                                                        style="max-width: 250px; height: auto; margin-right: 0; margin-left: 0; line-height: 28px;"
+                                                        alt="Logo Phicargo">
                                                 </td>
                                             </tr>
                                         </table>
 
                                         <h3 style="margin-top:0;color:#111111;font-size:20px;line-height:36px;font-weight:600;margin-bottom:5px;">Actualización de estatus para maniobra de {{tipo_maniobra}}</h3>
-                                        <h3 style="margin-top:0;color:#111111;font-size:20px;line-height:36px;font-weight:600;margin-bottom:5px;">Estatus de la unidad: {{comentarios_estatus}}</h3>
+                                        <h3 style="margin-top:0;color:#111111;font-size:20px;line-height:36px;font-weight:600;margin-bottom:5px;">Estatus: {{status}}</h3>
+                                        <h3 style="margin-top:0;color:#111111;font-size:20px;line-height:36px;font-weight:600;margin-bottom:5px;">Actualización: {{comentarios_estatus}}</h3>
 
                                         <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;">
                                             <tr>

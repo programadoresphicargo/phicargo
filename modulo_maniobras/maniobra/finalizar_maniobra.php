@@ -1,5 +1,6 @@
 <?php
 require_once('../codigos/cambiar_estados.php');
+require_once('cambiar_estatus.php');
 
 try {
     require_once('../../postgresql/conexion.php'); // Cambia a la conexión de PostgreSQL
@@ -42,8 +43,22 @@ try {
 
     if ($stmt->rowCount() > 0) {
         updateFlotaEstado($pdo, $id_maniobra, 'disponible');
+
+        $sqlTM = "SELECT tipo_maniobra FROM maniobras where maniobras.id_maniobra = :id_maniobra";
+        $stmtTM = $pdo->prepare($sqlTM);
+        $stmtTM->execute([':id_maniobra' => $id_maniobra]);
+        $rowsTM = $stmtTM->fetchAll(PDO::FETCH_ASSOC);
+        $tipo_maniobra = $rowsTM[0]['tipo_maniobra'];
+
+        if ($tipo_maniobra == 'retiro') {
+            actualizar_estado_contenedor($id_maniobra, 'P');
+        } else if ($tipo_maniobra == 'ingreso') {
+            actualizar_estado_contenedor($id_maniobra, 'Ing');
+        }
+
         $pdo->commit();
         echo json_encode(["success" => 1]);
+        guardar_base_datos($id_maniobra, false, 256, $id_usuario, 'Finalizando maniobra', null);
     } else {
         throw new Exception("Error al actualizar la tabla maniobra.");
     }

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8888:8888"  # Puerto expuesto en el host
+    volumes:
+      - ./html:/usr/share/nginx/html
+    depends_on:
+      - php
+
+  php:
+    image: php:8.0-fpm
+    volumes:
+      - ./html:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: user_password
+    ports:
+      - "3307:3306"  # Cambia el puerto de tu máquina a 3307 (puedes elegir otro puerto libre)

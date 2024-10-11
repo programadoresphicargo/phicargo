@@ -10,6 +10,7 @@ if ($data === null) {
 }
 
 $id_vehiculo = $data['id_vehiculo'];
+$company_id = $data['company_id'];
 $x_sucursal = $data['x_sucursal'];
 $state_id = $data['state_id'];
 $x_modalidad = $data['x_modalidad'];
@@ -24,6 +25,7 @@ if ($data['x_operador_asignado'] == 'false') {
 
 $partner_record_ids = [intval($id_vehiculo)];
 $partner_value = [
+    'company_id' => $company_id,
     'x_sucursal' => $x_sucursal,
     'state_id' => $state_id,
     'x_modalidad' => $x_modalidad,

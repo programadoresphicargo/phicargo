@@ -38,7 +38,6 @@ $ids = $models->execute_kw(
         (array('date_order', '>=', $dias['primerDia'])),
         (array('date_order', '<=', $dias['ultimoDia'])),
         (array('state', '!=', 'cancel')),
-        (array('name', '!=', false)),
     ),),
     $kwargs
 );

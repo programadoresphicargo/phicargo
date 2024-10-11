@@ -7,10 +7,15 @@ if ($pdo) {
     try {
         $sql = "SELECT 
         fleet_vehicle.id as id_vehicle, res_store.name as sucursal, 
-        fleet_vehicle.x_modalidad as x_mod,
+        fleet_vehicle.name as name2,
+        fleet_vehicle.x_modalidad as x_modalidad,
+        fleet_vehicle.x_tipo_carga as x_tipo_carga,
+        fleet_vehicle.x_tipo_vehiculo as x_tipo_vehiculo,
         hr_employee.name as operador_asignado,
         fleet_vehicle_state.name as estado_unidad,
-        * FROM fleet_vehicle 
+        res_company.name as empresa
+        FROM fleet_vehicle 
+        left join res_company on res_company.id = fleet_vehicle.company_id
         left join res_store on res_store.id = fleet_vehicle.x_sucursal
         left join hr_employee on hr_employee.id = fleet_vehicle.x_operador_asignado
         left join fleet_vehicle_state on fleet_vehicle_state.id = fleet_vehicle.state_id

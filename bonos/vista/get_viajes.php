@@ -71,7 +71,7 @@ uasort($resultados, 'cmp');
 foreach ($resultados as $employee_id => $total_distance) {
     echo "ID: $employee_id ,Distancia total: $total_distance\n" . "<br>";
     if ($total_distance >= 13500) {
-        $productividad = 1;
+        $productividad = 1250;
     } else {
         $productividad = 0;
     }
