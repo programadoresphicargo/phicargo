@@ -420,7 +420,7 @@ var Subscribable = class {
   }
 };
 var isServer = typeof window === "undefined" || "Deno" in globalThis;
-function noop$5() {
+function noop$6() {
   return void 0;
 }
 function functionalUpdate$1(updater, input) {
@@ -505,7 +505,7 @@ function hashQueryKeyByOptions(queryKey, options) {
 function hashKey(queryKey) {
   return JSON.stringify(
     queryKey,
-    (_, val) => isPlainObject$6(val) ? Object.keys(val).sort().reduce((result, key) => {
+    (_, val) => isPlainObject$7(val) ? Object.keys(val).sort().reduce((result, key) => {
       result[key] = val[key];
       return result;
     }, {}) : val
@@ -528,7 +528,7 @@ function replaceEqualDeep(a3, b3) {
     return a3;
   }
   const array = isPlainArray(a3) && isPlainArray(b3);
-  if (array || isPlainObject$6(a3) && isPlainObject$6(b3)) {
+  if (array || isPlainObject$7(a3) && isPlainObject$7(b3)) {
     const aItems = array ? a3 : Object.keys(a3);
     const aSize = aItems.length;
     const bItems = array ? b3 : Object.keys(b3);
@@ -565,7 +565,7 @@ function shallowEqualObjects(a3, b3) {
 function isPlainArray(value) {
   return Array.isArray(value) && value.length === Object.keys(value).length;
 }
-function isPlainObject$6(o) {
+function isPlainObject$7(o) {
   if (!hasObjectPrototype(o)) {
     return false;
   }
@@ -1027,7 +1027,7 @@ var Query = (_d = class extends Removable {
     var _a2, _b2;
     const promise = (_a2 = __privateGet(this, _retryer)) == null ? void 0 : _a2.promise;
     (_b2 = __privateGet(this, _retryer)) == null ? void 0 : _b2.cancel(options);
-    return promise ? promise.then(noop$5).catch(noop$5) : Promise.resolve();
+    return promise ? promise.then(noop$6).catch(noop$6) : Promise.resolve();
   }
   destroy() {
     super.destroy();
@@ -1744,7 +1744,7 @@ var MutationCache = (_g = class extends Subscribable {
     const pausedMutations = this.getAll().filter((x3) => x3.state.isPaused);
     return notifyManager.batch(
       () => Promise.all(
-        pausedMutations.map((mutation) => mutation.continue().catch(noop$5))
+        pausedMutations.map((mutation) => mutation.continue().catch(noop$6))
       )
     );
   }
@@ -1988,7 +1988,7 @@ var QueryClient = (_h = class {
     const promises = notifyManager.batch(
       () => __privateGet(this, _queryCache).findAll(filters).map((query) => query.cancel(defaultedCancelOptions))
     );
-    return Promise.all(promises).then(noop$5).catch(noop$5);
+    return Promise.all(promises).then(noop$6).catch(noop$6);
   }
   invalidateQueries(filters = {}, options = {}) {
     return notifyManager.batch(() => {
@@ -2014,12 +2014,12 @@ var QueryClient = (_h = class {
       () => __privateGet(this, _queryCache).findAll(filters).filter((query) => !query.isDisabled()).map((query) => {
         let promise = query.fetch(void 0, fetchOptions);
         if (!fetchOptions.throwOnError) {
-          promise = promise.catch(noop$5);
+          promise = promise.catch(noop$6);
         }
         return query.state.fetchStatus === "paused" ? Promise.resolve() : promise;
       })
     );
-    return Promise.all(promises).then(noop$5);
+    return Promise.all(promises).then(noop$6);
   }
   fetchQuery(options) {
     const defaultedOptions = this.defaultQueryOptions(options);
@@ -2032,14 +2032,14 @@ var QueryClient = (_h = class {
     ) ? query.fetch(defaultedOptions) : Promise.resolve(query.state.data);
   }
   prefetchQuery(options) {
-    return this.fetchQuery(options).then(noop$5).catch(noop$5);
+    return this.fetchQuery(options).then(noop$6).catch(noop$6);
   }
   fetchInfiniteQuery(options) {
     options.behavior = infiniteQueryBehavior(options.pages);
     return this.fetchQuery(options);
   }
   prefetchInfiniteQuery(options) {
-    return this.fetchInfiniteQuery(options).then(noop$5).catch(noop$5);
+    return this.fetchInfiniteQuery(options).then(noop$6).catch(noop$6);
   }
   resumePausedMutations() {
     if (onlineManager.isOnline()) {
@@ -2066,9 +2066,9 @@ var QueryClient = (_h = class {
     });
   }
   getQueryDefaults(queryKey) {
-    const defaults = [...__privateGet(this, _queryDefaults).values()];
+    const defaults2 = [...__privateGet(this, _queryDefaults).values()];
     let result = {};
-    defaults.forEach((queryDefault) => {
+    defaults2.forEach((queryDefault) => {
       if (partialMatchKey(queryKey, queryDefault.queryKey)) {
         result = { ...result, ...queryDefault.defaultOptions };
       }
@@ -2082,9 +2082,9 @@ var QueryClient = (_h = class {
     });
   }
   getMutationDefaults(mutationKey) {
-    const defaults = [...__privateGet(this, _mutationDefaults).values()];
+    const defaults2 = [...__privateGet(this, _mutationDefaults).values()];
     let result = {};
-    defaults.forEach((queryDefault) => {
+    defaults2.forEach((queryDefault) => {
       if (partialMatchKey(mutationKey, queryDefault.mutationKey)) {
         result = { ...result, ...queryDefault.defaultOptions };
       }
@@ -2456,7 +2456,7 @@ var QueryObserver = (_i = class extends Subscribable {
     fetchOptions
   );
   if (!(fetchOptions == null ? void 0 : fetchOptions.throwOnError)) {
-    promise = promise.catch(noop$5);
+    promise = promise.catch(noop$6);
   }
   return promise;
 }, updateStaleTimeout_fn = function() {
@@ -2697,7 +2697,7 @@ function shouldThrowError(throwError, params) {
   }
   return !!throwError;
 }
-function noop$4() {
+function noop$5() {
 }
 var ensurePreventErrorBoundaryRetry = (options, errorResetBoundary) => {
   if (options.suspense || options.throwOnError) {
@@ -2811,7 +2811,7 @@ function useMutation(options, queryClient2) {
   );
   const mutate = reactExports.useCallback(
     (variables, mutateOptions) => {
-      observer.mutate(variables, mutateOptions).catch(noop$4);
+      observer.mutate(variables, mutateOptions).catch(noop$5);
     },
     [observer]
   );
@@ -9891,11 +9891,11 @@ var Symbol$7 = root$b.Symbol;
 var _Symbol = Symbol$7;
 var Symbol$6 = _Symbol;
 var objectProto$i = Object.prototype;
-var hasOwnProperty$g = objectProto$i.hasOwnProperty;
+var hasOwnProperty$h = objectProto$i.hasOwnProperty;
 var nativeObjectToString$1 = objectProto$i.toString;
 var symToStringTag$1 = Symbol$6 ? Symbol$6.toStringTag : void 0;
 function getRawTag$1(value) {
-  var isOwn = hasOwnProperty$g.call(value, symToStringTag$1), tag = value[symToStringTag$1];
+  var isOwn = hasOwnProperty$h.call(value, symToStringTag$1), tag = value[symToStringTag$1];
   try {
     value[symToStringTag$1] = void 0;
     var unmasked = true;
@@ -9928,22 +9928,22 @@ function baseGetTag$8(value) {
   return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
 }
 var _baseGetTag = baseGetTag$8;
-function isObject$d(value) {
+function isObject$e(value) {
   var type = typeof value;
   return value != null && (type == "object" || type == "function");
 }
-var isObject_1 = isObject$d;
-var baseGetTag$7 = _baseGetTag, isObject$c = isObject_1;
+var isObject_1 = isObject$e;
+var baseGetTag$7 = _baseGetTag, isObject$d = isObject_1;
 var asyncTag = "[object AsyncFunction]", funcTag$2 = "[object Function]", genTag$1 = "[object GeneratorFunction]", proxyTag = "[object Proxy]";
-function isFunction$4(value) {
-  if (!isObject$c(value)) {
+function isFunction$5(value) {
+  if (!isObject$d(value)) {
     return false;
   }
   var tag = baseGetTag$7(value);
   return tag == funcTag$2 || tag == genTag$1 || tag == asyncTag || tag == proxyTag;
 }
-var isFunction_1 = isFunction$4;
-const isFunction$5 = /* @__PURE__ */ getDefaultExportFromCjs(isFunction_1);
+var isFunction_1 = isFunction$5;
+const isFunction$6 = /* @__PURE__ */ getDefaultExportFromCjs(isFunction_1);
 var root$a = _root;
 var coreJsData$1 = root$a["__core-js_shared__"];
 var _coreJsData = coreJsData$1;
@@ -9972,20 +9972,20 @@ function toSource$2(func) {
   return "";
 }
 var _toSource = toSource$2;
-var isFunction$3 = isFunction_1, isMasked = _isMasked, isObject$b = isObject_1, toSource$1 = _toSource;
+var isFunction$4 = isFunction_1, isMasked = _isMasked, isObject$c = isObject_1, toSource$1 = _toSource;
 var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
 var reIsHostCtor = /^\[object .+?Constructor\]$/;
 var funcProto$1 = Function.prototype, objectProto$g = Object.prototype;
 var funcToString$1 = funcProto$1.toString;
-var hasOwnProperty$f = objectProto$g.hasOwnProperty;
+var hasOwnProperty$g = objectProto$g.hasOwnProperty;
 var reIsNative = RegExp(
-  "^" + funcToString$1.call(hasOwnProperty$f).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+  "^" + funcToString$1.call(hasOwnProperty$g).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
 );
 function baseIsNative$1(value) {
-  if (!isObject$b(value) || isMasked(value)) {
+  if (!isObject$c(value) || isMasked(value)) {
     return false;
   }
-  var pattern = isFunction$3(value) ? reIsNative : reIsHostCtor;
+  var pattern = isFunction$4(value) ? reIsNative : reIsHostCtor;
   return pattern.test(toSource$1(value));
 }
 var _baseIsNative = baseIsNative$1;
@@ -10011,13 +10011,13 @@ var baseSetData$2 = !metaMap$1 ? identity$4 : function(func, data) {
   return func;
 };
 var _baseSetData = baseSetData$2;
-var isObject$a = isObject_1;
+var isObject$b = isObject_1;
 var objectCreate = Object.create;
 var baseCreate$4 = /* @__PURE__ */ function() {
   function object() {
   }
   return function(proto) {
-    if (!isObject$a(proto)) {
+    if (!isObject$b(proto)) {
       return {};
     }
     if (objectCreate) {
@@ -10030,7 +10030,7 @@ var baseCreate$4 = /* @__PURE__ */ function() {
   };
 }();
 var _baseCreate = baseCreate$4;
-var baseCreate$3 = _baseCreate, isObject$9 = isObject_1;
+var baseCreate$3 = _baseCreate, isObject$a = isObject_1;
 function createCtor$4(Ctor) {
   return function() {
     var args = arguments;
@@ -10053,7 +10053,7 @@ function createCtor$4(Ctor) {
         return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
     }
     var thisBinding = baseCreate$3(Ctor.prototype), result = Ctor.apply(thisBinding, args);
-    return isObject$9(result) ? result : thisBinding;
+    return isObject$a(result) ? result : thisBinding;
   };
 }
 var _createCtor = createCtor$4;
@@ -10144,11 +10144,11 @@ function LazyWrapper$3(value) {
 LazyWrapper$3.prototype = baseCreate$2(baseLodash$2.prototype);
 LazyWrapper$3.prototype.constructor = LazyWrapper$3;
 var _LazyWrapper = LazyWrapper$3;
-function noop$3() {
+function noop$4() {
 }
-var noop_1 = noop$3;
-var metaMap = _metaMap, noop$2 = noop_1;
-var getData$2 = !metaMap ? noop$2 : function(func) {
+var noop_1 = noop$4;
+var metaMap = _metaMap, noop$3 = noop_1;
+var getData$2 = !metaMap ? noop$3 : function(func) {
   return metaMap.get(func);
 };
 var _getData = getData$2;
@@ -10156,9 +10156,9 @@ var realNames$1 = {};
 var _realNames = realNames$1;
 var realNames = _realNames;
 var objectProto$f = Object.prototype;
-var hasOwnProperty$e = objectProto$f.hasOwnProperty;
+var hasOwnProperty$f = objectProto$f.hasOwnProperty;
 function getFuncName$1(func) {
-  var result = func.name + "", array = realNames[result], length2 = hasOwnProperty$e.call(realNames, result) ? array.length : 0;
+  var result = func.name + "", array = realNames[result], length2 = hasOwnProperty$f.call(realNames, result) ? array.length : 0;
   while (length2--) {
     var data = array[length2], otherFunc = data.func;
     if (otherFunc == null || otherFunc == func) {
@@ -10179,8 +10179,8 @@ function LodashWrapper$2(value, chainAll) {
 LodashWrapper$2.prototype = baseCreate$1(baseLodash$1.prototype);
 LodashWrapper$2.prototype.constructor = LodashWrapper$2;
 var _LodashWrapper = LodashWrapper$2;
-var isArray$f = Array.isArray;
-var isArray_1 = isArray$f;
+var isArray$g = Array.isArray;
+var isArray_1 = isArray$g;
 function isObjectLike$b(value) {
   return value != null && typeof value == "object";
 }
@@ -10206,15 +10206,15 @@ function wrapperClone$1(wrapper) {
   return result;
 }
 var _wrapperClone = wrapperClone$1;
-var LazyWrapper$1 = _LazyWrapper, LodashWrapper = _LodashWrapper, baseLodash = _baseLodash, isArray$e = isArray_1, isObjectLike$a = isObjectLike_1, wrapperClone = _wrapperClone;
+var LazyWrapper$1 = _LazyWrapper, LodashWrapper = _LodashWrapper, baseLodash = _baseLodash, isArray$f = isArray_1, isObjectLike$a = isObjectLike_1, wrapperClone = _wrapperClone;
 var objectProto$e = Object.prototype;
-var hasOwnProperty$d = objectProto$e.hasOwnProperty;
+var hasOwnProperty$e = objectProto$e.hasOwnProperty;
 function lodash$1(value) {
-  if (isObjectLike$a(value) && !isArray$e(value) && !(value instanceof LazyWrapper$1)) {
+  if (isObjectLike$a(value) && !isArray$f(value) && !(value instanceof LazyWrapper$1)) {
     if (value instanceof LodashWrapper) {
       return value;
     }
-    if (hasOwnProperty$d.call(value, "__wrapped__")) {
+    if (hasOwnProperty$e.call(value, "__wrapped__")) {
       return wrapperClone(value);
     }
   }
@@ -10604,7 +10604,7 @@ function isSymbol$5(value) {
   return typeof value == "symbol" || isObjectLike$9(value) && baseGetTag$6(value) == symbolTag$3;
 }
 var isSymbol_1 = isSymbol$5;
-var baseTrim$1 = _baseTrim, isObject$8 = isObject_1, isSymbol$4 = isSymbol_1;
+var baseTrim$1 = _baseTrim, isObject$9 = isObject_1, isSymbol$4 = isSymbol_1;
 var NAN = 0 / 0;
 var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
 var reIsBinary = /^0b[01]+$/i;
@@ -10617,9 +10617,9 @@ function toNumber$1(value) {
   if (isSymbol$4(value)) {
     return NAN;
   }
-  if (isObject$8(value)) {
+  if (isObject$9(value)) {
     var other = typeof value.valueOf == "function" ? value.valueOf() : value;
-    value = isObject$8(other) ? other + "" : other;
+    value = isObject$9(other) ? other + "" : other;
   }
   if (typeof value != "string") {
     return value === 0 ? value : +value;
@@ -11431,14 +11431,14 @@ function arrayMap$4(array, iteratee) {
   return result;
 }
 var _arrayMap = arrayMap$4;
-var Symbol$4 = _Symbol, arrayMap$3 = _arrayMap, isArray$d = isArray_1, isSymbol$3 = isSymbol_1;
+var Symbol$4 = _Symbol, arrayMap$3 = _arrayMap, isArray$e = isArray_1, isSymbol$3 = isSymbol_1;
 var INFINITY$1 = 1 / 0;
 var symbolProto$2 = Symbol$4 ? Symbol$4.prototype : void 0, symbolToString = symbolProto$2 ? symbolProto$2.toString : void 0;
 function baseToString$2(value) {
   if (typeof value == "string") {
     return value;
   }
-  if (isArray$d(value)) {
+  if (isArray$e(value)) {
     return arrayMap$3(value, baseToString$2) + "";
   }
   if (isSymbol$3(value)) {
@@ -11449,17 +11449,17 @@ function baseToString$2(value) {
 }
 var _baseToString = baseToString$2;
 var baseToString$1 = _baseToString;
-function toString$8(value) {
+function toString$9(value) {
   return value == null ? "" : baseToString$1(value);
 }
-var toString_1 = toString$8;
-var deburrLetter = _deburrLetter, toString$7 = toString_1;
+var toString_1 = toString$9;
+var deburrLetter = _deburrLetter, toString$8 = toString_1;
 var reLatin = /[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g;
 var rsComboMarksRange$3 = "\\u0300-\\u036f", reComboHalfMarksRange$3 = "\\ufe20-\\ufe2f", rsComboSymbolsRange$3 = "\\u20d0-\\u20ff", rsComboRange$3 = rsComboMarksRange$3 + reComboHalfMarksRange$3 + rsComboSymbolsRange$3;
 var rsCombo$2 = "[" + rsComboRange$3 + "]";
 var reComboMark = RegExp(rsCombo$2, "g");
 function deburr$1(string) {
-  string = toString$7(string);
+  string = toString$8(string);
   return string && string.replace(reLatin, deburrLetter).replace(reComboMark, "");
 }
 var deburr_1 = deburr$1;
@@ -11490,9 +11490,9 @@ function unicodeWords$1(string) {
   return string.match(reUnicodeWord) || [];
 }
 var _unicodeWords = unicodeWords$1;
-var asciiWords = _asciiWords, hasUnicodeWord = _hasUnicodeWord, toString$6 = toString_1, unicodeWords = _unicodeWords;
+var asciiWords = _asciiWords, hasUnicodeWord = _hasUnicodeWord, toString$7 = toString_1, unicodeWords = _unicodeWords;
 function words$1(string, pattern, guard) {
-  string = toString$6(string);
+  string = toString$7(string);
   pattern = guard ? void 0 : pattern;
   if (pattern === void 0) {
     return hasUnicodeWord(string) ? unicodeWords(string) : asciiWords(string);
@@ -11690,22 +11690,22 @@ var _hashDelete = hashDelete$1;
 var nativeCreate$2 = _nativeCreate;
 var HASH_UNDEFINED$2 = "__lodash_hash_undefined__";
 var objectProto$d = Object.prototype;
-var hasOwnProperty$c = objectProto$d.hasOwnProperty;
+var hasOwnProperty$d = objectProto$d.hasOwnProperty;
 function hashGet$1(key) {
   var data = this.__data__;
   if (nativeCreate$2) {
     var result = data[key];
     return result === HASH_UNDEFINED$2 ? void 0 : result;
   }
-  return hasOwnProperty$c.call(data, key) ? data[key] : void 0;
+  return hasOwnProperty$d.call(data, key) ? data[key] : void 0;
 }
 var _hashGet = hashGet$1;
 var nativeCreate$1 = _nativeCreate;
 var objectProto$c = Object.prototype;
-var hasOwnProperty$b = objectProto$c.hasOwnProperty;
+var hasOwnProperty$c = objectProto$c.hasOwnProperty;
 function hashHas$1(key) {
   var data = this.__data__;
-  return nativeCreate$1 ? data[key] !== void 0 : hasOwnProperty$b.call(data, key);
+  return nativeCreate$1 ? data[key] !== void 0 : hasOwnProperty$c.call(data, key);
 }
 var _hashHas = hashHas$1;
 var nativeCreate = _nativeCreate;
@@ -11838,10 +11838,10 @@ function baseAssignValue$3(object, key, value) {
 var _baseAssignValue = baseAssignValue$3;
 var baseAssignValue$2 = _baseAssignValue, eq$1 = eq_1;
 var objectProto$b = Object.prototype;
-var hasOwnProperty$a = objectProto$b.hasOwnProperty;
+var hasOwnProperty$b = objectProto$b.hasOwnProperty;
 function assignValue$3(object, key, value) {
   var objValue = object[key];
-  if (!(hasOwnProperty$a.call(object, key) && eq$1(objValue, value)) || value === void 0 && !(key in object)) {
+  if (!(hasOwnProperty$b.call(object, key) && eq$1(objValue, value)) || value === void 0 && !(key in object)) {
     baseAssignValue$2(object, key, value);
   }
 }
@@ -11882,20 +11882,20 @@ function baseIsArguments$1(value) {
 var _baseIsArguments = baseIsArguments$1;
 var baseIsArguments = _baseIsArguments, isObjectLike$7 = isObjectLike_1;
 var objectProto$a = Object.prototype;
-var hasOwnProperty$9 = objectProto$a.hasOwnProperty;
+var hasOwnProperty$a = objectProto$a.hasOwnProperty;
 var propertyIsEnumerable$1 = objectProto$a.propertyIsEnumerable;
 var isArguments$3 = baseIsArguments(/* @__PURE__ */ function() {
   return arguments;
 }()) ? baseIsArguments : function(value) {
-  return isObjectLike$7(value) && hasOwnProperty$9.call(value, "callee") && !propertyIsEnumerable$1.call(value, "callee");
+  return isObjectLike$7(value) && hasOwnProperty$a.call(value, "callee") && !propertyIsEnumerable$1.call(value, "callee");
 };
 var isArguments_1 = isArguments$3;
-var isBuffer$3 = { exports: {} };
+var isBuffer$4 = { exports: {} };
 function stubFalse() {
   return false;
 }
 var stubFalse_1 = stubFalse;
-isBuffer$3.exports;
+isBuffer$4.exports;
 (function(module, exports) {
   var root2 = _root, stubFalse2 = stubFalse_1;
   var freeExports = exports && !exports.nodeType && exports;
@@ -11905,8 +11905,8 @@ isBuffer$3.exports;
   var nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : void 0;
   var isBuffer2 = nativeIsBuffer || stubFalse2;
   module.exports = isBuffer2;
-})(isBuffer$3, isBuffer$3.exports);
-var isBufferExports = isBuffer$3.exports;
+})(isBuffer$4, isBuffer$4.exports);
+var isBufferExports = isBuffer$4.exports;
 var MAX_SAFE_INTEGER = 9007199254740991;
 function isLength$3(value) {
   return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
@@ -11951,15 +11951,15 @@ _nodeUtil.exports;
 var _nodeUtilExports = _nodeUtil.exports;
 var baseIsTypedArray = _baseIsTypedArray, baseUnary$2 = _baseUnary, nodeUtil$2 = _nodeUtilExports;
 var nodeIsTypedArray = nodeUtil$2 && nodeUtil$2.isTypedArray;
-var isTypedArray$2 = nodeIsTypedArray ? baseUnary$2(nodeIsTypedArray) : baseIsTypedArray;
-var isTypedArray_1 = isTypedArray$2;
-var baseTimes = _baseTimes, isArguments$2 = isArguments_1, isArray$c = isArray_1, isBuffer$2 = isBufferExports, isIndex$3 = _isIndex, isTypedArray$1 = isTypedArray_1;
+var isTypedArray$3 = nodeIsTypedArray ? baseUnary$2(nodeIsTypedArray) : baseIsTypedArray;
+var isTypedArray_1 = isTypedArray$3;
+var baseTimes = _baseTimes, isArguments$2 = isArguments_1, isArray$d = isArray_1, isBuffer$3 = isBufferExports, isIndex$3 = _isIndex, isTypedArray$2 = isTypedArray_1;
 var objectProto$9 = Object.prototype;
-var hasOwnProperty$8 = objectProto$9.hasOwnProperty;
+var hasOwnProperty$9 = objectProto$9.hasOwnProperty;
 function arrayLikeKeys$2(value, inherited) {
-  var isArr = isArray$c(value), isArg = !isArr && isArguments$2(value), isBuff = !isArr && !isArg && isBuffer$2(value), isType = !isArr && !isArg && !isBuff && isTypedArray$1(value), skipIndexes = isArr || isArg || isBuff || isType, result = skipIndexes ? baseTimes(value.length, String) : [], length2 = result.length;
+  var isArr = isArray$d(value), isArg = !isArr && isArguments$2(value), isBuff = !isArr && !isArg && isBuffer$3(value), isType = !isArr && !isArg && !isBuff && isTypedArray$2(value), skipIndexes = isArr || isArg || isBuff || isType, result = skipIndexes ? baseTimes(value.length, String) : [], length2 = result.length;
   for (var key in value) {
-    if ((inherited || hasOwnProperty$8.call(value, key)) && !(skipIndexes && // Safari 9 has enumerable `arguments.length` in strict mode.
+    if ((inherited || hasOwnProperty$9.call(value, key)) && !(skipIndexes && // Safari 9 has enumerable `arguments.length` in strict mode.
     (key == "length" || // Node.js 0.10 has enumerable non-index properties on buffers.
     isBuff && (key == "offset" || key == "parent") || // PhantomJS 2 has enumerable non-index properties on typed arrays.
     isType && (key == "buffer" || key == "byteLength" || key == "byteOffset") || // Skip index properties.
@@ -11987,23 +11987,23 @@ var nativeKeys$1 = overArg$1(Object.keys, Object);
 var _nativeKeys = nativeKeys$1;
 var isPrototype$2 = _isPrototype, nativeKeys = _nativeKeys;
 var objectProto$7 = Object.prototype;
-var hasOwnProperty$7 = objectProto$7.hasOwnProperty;
+var hasOwnProperty$8 = objectProto$7.hasOwnProperty;
 function baseKeys$1(object) {
   if (!isPrototype$2(object)) {
     return nativeKeys(object);
   }
   var result = [];
   for (var key in Object(object)) {
-    if (hasOwnProperty$7.call(object, key) && key != "constructor") {
+    if (hasOwnProperty$8.call(object, key) && key != "constructor") {
       result.push(key);
     }
   }
   return result;
 }
 var _baseKeys = baseKeys$1;
-var isFunction$2 = isFunction_1, isLength$1 = isLength_1;
+var isFunction$3 = isFunction_1, isLength$1 = isLength_1;
 function isArrayLike$5(value) {
-  return value != null && isLength$1(value.length) && !isFunction$2(value);
+  return value != null && isLength$1(value.length) && !isFunction$3(value);
 }
 var isArrayLike_1 = isArrayLike$5;
 var arrayLikeKeys$1 = _arrayLikeKeys, baseKeys = _baseKeys, isArrayLike$4 = isArrayLike_1;
@@ -12026,16 +12026,16 @@ function nativeKeysIn$1(object) {
   return result;
 }
 var _nativeKeysIn = nativeKeysIn$1;
-var isObject$7 = isObject_1, isPrototype$1 = _isPrototype, nativeKeysIn = _nativeKeysIn;
+var isObject$8 = isObject_1, isPrototype$1 = _isPrototype, nativeKeysIn = _nativeKeysIn;
 var objectProto$6 = Object.prototype;
-var hasOwnProperty$6 = objectProto$6.hasOwnProperty;
+var hasOwnProperty$7 = objectProto$6.hasOwnProperty;
 function baseKeysIn$1(object) {
-  if (!isObject$7(object)) {
+  if (!isObject$8(object)) {
     return nativeKeysIn(object);
   }
   var isProto = isPrototype$1(object), result = [];
   for (var key in object) {
-    if (!(key == "constructor" && (isProto || !hasOwnProperty$6.call(object, key)))) {
+    if (!(key == "constructor" && (isProto || !hasOwnProperty$7.call(object, key)))) {
       result.push(key);
     }
   }
@@ -12132,10 +12132,10 @@ function copySymbolsIn$1(source, object) {
   return copyObject$1(source, getSymbolsIn$1(source), object);
 }
 var _copySymbolsIn = copySymbolsIn$1;
-var arrayPush$1 = _arrayPush, isArray$b = isArray_1;
+var arrayPush$1 = _arrayPush, isArray$c = isArray_1;
 function baseGetAllKeys$2(object, keysFunc, symbolsFunc) {
   var result = keysFunc(object);
-  return isArray$b(object) ? result : arrayPush$1(result, symbolsFunc(object));
+  return isArray$c(object) ? result : arrayPush$1(result, symbolsFunc(object));
 }
 var _baseGetAllKeys = baseGetAllKeys$2;
 var baseGetAllKeys$1 = _baseGetAllKeys, getSymbols = _getSymbols, keys$5 = keys_1;
@@ -12184,10 +12184,10 @@ if (DataView && getTag$4(new DataView(new ArrayBuffer(1))) != dataViewTag$3 || M
 }
 var _getTag = getTag$4;
 var objectProto$4 = Object.prototype;
-var hasOwnProperty$5 = objectProto$4.hasOwnProperty;
+var hasOwnProperty$6 = objectProto$4.hasOwnProperty;
 function initCloneArray$1(array) {
   var length2 = array.length, result = new array.constructor(length2);
-  if (length2 && typeof array[0] == "string" && hasOwnProperty$5.call(array, "index")) {
+  if (length2 && typeof array[0] == "string" && hasOwnProperty$6.call(array, "index")) {
     result.index = array.index;
     result.input = array.input;
   }
@@ -12195,12 +12195,12 @@ function initCloneArray$1(array) {
 }
 var _initCloneArray = initCloneArray$1;
 var root = _root;
-var Uint8Array$2 = root.Uint8Array;
-var _Uint8Array = Uint8Array$2;
-var Uint8Array$1 = _Uint8Array;
+var Uint8Array$3 = root.Uint8Array;
+var _Uint8Array = Uint8Array$3;
+var Uint8Array$2 = _Uint8Array;
 function cloneArrayBuffer$3(arrayBuffer) {
   var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
-  new Uint8Array$1(result).set(new Uint8Array$1(arrayBuffer));
+  new Uint8Array$2(result).set(new Uint8Array$2(arrayBuffer));
   return result;
 }
 var _cloneArrayBuffer = cloneArrayBuffer$3;
@@ -12291,7 +12291,7 @@ var baseIsSet = _baseIsSet, baseUnary = _baseUnary, nodeUtil = _nodeUtilExports;
 var nodeIsSet = nodeUtil && nodeUtil.isSet;
 var isSet$1 = nodeIsSet ? baseUnary(nodeIsSet) : baseIsSet;
 var isSet_1 = isSet$1;
-var Stack$4 = _Stack, arrayEach$1 = _arrayEach, assignValue$1 = _assignValue, baseAssign = _baseAssign, baseAssignIn = _baseAssignIn, cloneBuffer = _cloneBufferExports, copyArray = _copyArray, copySymbols = _copySymbols, copySymbolsIn = _copySymbolsIn, getAllKeys$1 = _getAllKeys, getAllKeysIn$2 = _getAllKeysIn, getTag$1 = _getTag, initCloneArray = _initCloneArray, initCloneByTag = _initCloneByTag, initCloneObject = _initCloneObject, isArray$a = isArray_1, isBuffer$1 = isBufferExports, isMap = isMap_1, isObject$6 = isObject_1, isSet = isSet_1, keys$4 = keys_1, keysIn = keysIn_1;
+var Stack$4 = _Stack, arrayEach$1 = _arrayEach, assignValue$1 = _assignValue, baseAssign = _baseAssign, baseAssignIn = _baseAssignIn, cloneBuffer = _cloneBufferExports, copyArray = _copyArray, copySymbols = _copySymbols, copySymbolsIn = _copySymbolsIn, getAllKeys$1 = _getAllKeys, getAllKeysIn$2 = _getAllKeysIn, getTag$1 = _getTag, initCloneArray = _initCloneArray, initCloneByTag = _initCloneByTag, initCloneObject = _initCloneObject, isArray$b = isArray_1, isBuffer$2 = isBufferExports, isMap = isMap_1, isObject$7 = isObject_1, isSet = isSet_1, keys$4 = keys_1, keysIn = keysIn_1;
 var CLONE_DEEP_FLAG$1 = 1, CLONE_FLAT_FLAG$1 = 2, CLONE_SYMBOLS_FLAG$1 = 4;
 var argsTag$1 = "[object Arguments]", arrayTag$1 = "[object Array]", boolTag$1 = "[object Boolean]", dateTag$1 = "[object Date]", errorTag$1 = "[object Error]", funcTag = "[object Function]", genTag = "[object GeneratorFunction]", mapTag$1 = "[object Map]", numberTag$2 = "[object Number]", objectTag$2 = "[object Object]", regexpTag$1 = "[object RegExp]", setTag$1 = "[object Set]", stringTag$2 = "[object String]", symbolTag$1 = "[object Symbol]", weakMapTag = "[object WeakMap]";
 var arrayBufferTag$1 = "[object ArrayBuffer]", dataViewTag$1 = "[object DataView]", float32Tag = "[object Float32Array]", float64Tag = "[object Float64Array]", int8Tag = "[object Int8Array]", int16Tag = "[object Int16Array]", int32Tag = "[object Int32Array]", uint8Tag = "[object Uint8Array]", uint8ClampedTag = "[object Uint8ClampedArray]", uint16Tag = "[object Uint16Array]", uint32Tag = "[object Uint32Array]";
@@ -12306,10 +12306,10 @@ function baseClone$1(value, bitmask, customizer, key, object, stack) {
   if (result !== void 0) {
     return result;
   }
-  if (!isObject$6(value)) {
+  if (!isObject$7(value)) {
     return value;
   }
-  var isArr = isArray$a(value);
+  var isArr = isArray$b(value);
   if (isArr) {
     result = initCloneArray(value);
     if (!isDeep) {
@@ -12317,7 +12317,7 @@ function baseClone$1(value, bitmask, customizer, key, object, stack) {
     }
   } else {
     var tag = getTag$1(value), isFunc = tag == funcTag || tag == genTag;
-    if (isBuffer$1(value)) {
+    if (isBuffer$2(value)) {
       return cloneBuffer(value, isDeep);
     }
     if (tag == objectTag$2 || tag == argsTag$1 || isFunc && !object) {
@@ -12359,10 +12359,10 @@ function baseClone$1(value, bitmask, customizer, key, object, stack) {
   return result;
 }
 var _baseClone = baseClone$1;
-var isArray$9 = isArray_1, isSymbol$2 = isSymbol_1;
+var isArray$a = isArray_1, isSymbol$2 = isSymbol_1;
 var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/, reIsPlainProp = /^\w*$/;
 function isKey$4(value, object) {
-  if (isArray$9(value)) {
+  if (isArray$a(value)) {
     return false;
   }
   var type = typeof value;
@@ -12419,12 +12419,12 @@ var stringToPath$2 = memoizeCapped(function(string) {
   return result;
 });
 var _stringToPath = stringToPath$2;
-var isArray$8 = isArray_1, isKey$3 = _isKey, stringToPath$1 = _stringToPath, toString$5 = toString_1;
+var isArray$9 = isArray_1, isKey$3 = _isKey, stringToPath$1 = _stringToPath, toString$6 = toString_1;
 function castPath$6(value, object) {
-  if (isArray$8(value)) {
+  if (isArray$9(value)) {
     return value;
   }
-  return isKey$3(value, object) ? [value] : stringToPath$1(toString$5(value));
+  return isKey$3(value, object) ? [value] : stringToPath$1(toString$6(value));
 }
 var _castPath = castPath$6;
 function last$1(array) {
@@ -12486,9 +12486,9 @@ var baseGetTag$2 = _baseGetTag, getPrototype = _getPrototype, isObjectLike$3 = i
 var objectTag$1 = "[object Object]";
 var funcProto = Function.prototype, objectProto$3 = Object.prototype;
 var funcToString = funcProto.toString;
-var hasOwnProperty$4 = objectProto$3.hasOwnProperty;
+var hasOwnProperty$5 = objectProto$3.hasOwnProperty;
 var objectCtorString = funcToString.call(Object);
-function isPlainObject$5(value) {
+function isPlainObject$6(value) {
   if (!isObjectLike$3(value) || baseGetTag$2(value) != objectTag$1) {
     return false;
   }
@@ -12496,19 +12496,19 @@ function isPlainObject$5(value) {
   if (proto === null) {
     return true;
   }
-  var Ctor = hasOwnProperty$4.call(proto, "constructor") && proto.constructor;
+  var Ctor = hasOwnProperty$5.call(proto, "constructor") && proto.constructor;
   return typeof Ctor == "function" && Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString;
 }
-var isPlainObject_1 = isPlainObject$5;
-var isPlainObject$4 = isPlainObject_1;
+var isPlainObject_1 = isPlainObject$6;
+var isPlainObject$5 = isPlainObject_1;
 function customOmitClone$1(value) {
-  return isPlainObject$4(value) ? void 0 : value;
+  return isPlainObject$5(value) ? void 0 : value;
 }
 var _customOmitClone = customOmitClone$1;
-var Symbol$2 = _Symbol, isArguments$1 = isArguments_1, isArray$7 = isArray_1;
+var Symbol$2 = _Symbol, isArguments$1 = isArguments_1, isArray$8 = isArray_1;
 var spreadableSymbol = Symbol$2 ? Symbol$2.isConcatSpreadable : void 0;
 function isFlattenable$1(value) {
-  return isArray$7(value) || isArguments$1(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
+  return isArray$8(value) || isArguments$1(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
 }
 var _isFlattenable = isFlattenable$1;
 var arrayPush = _arrayPush, isFlattenable = _isFlattenable;
@@ -12671,20 +12671,20 @@ function castFunction$1(value) {
   return typeof value == "function" ? value : identity$2;
 }
 var _castFunction = castFunction$1;
-var arrayEach = _arrayEach, baseEach$1 = _baseEach, castFunction = _castFunction, isArray$6 = isArray_1;
-function forEach$1(collection, iteratee) {
-  var func = isArray$6(collection) ? arrayEach : baseEach$1;
+var arrayEach = _arrayEach, baseEach$1 = _baseEach, castFunction = _castFunction, isArray$7 = isArray_1;
+function forEach$2(collection, iteratee) {
+  var func = isArray$7(collection) ? arrayEach : baseEach$1;
   return func(collection, castFunction(iteratee));
 }
-var forEach_1 = forEach$1;
-const forEach$2 = /* @__PURE__ */ getDefaultExportFromCjs(forEach_1);
-var baseGetTag$1 = _baseGetTag, isArray$5 = isArray_1, isObjectLike$2 = isObjectLike_1;
+var forEach_1 = forEach$2;
+const forEach$3 = /* @__PURE__ */ getDefaultExportFromCjs(forEach_1);
+var baseGetTag$1 = _baseGetTag, isArray$6 = isArray_1, isObjectLike$2 = isObjectLike_1;
 var stringTag$1 = "[object String]";
-function isString$2(value) {
-  return typeof value == "string" || !isArray$5(value) && isObjectLike$2(value) && baseGetTag$1(value) == stringTag$1;
+function isString$3(value) {
+  return typeof value == "string" || !isArray$6(value) && isObjectLike$2(value) && baseGetTag$1(value) == stringTag$1;
 }
-var isString_1 = isString$2;
-const isString$3 = /* @__PURE__ */ getDefaultExportFromCjs(isString_1);
+var isString_1 = isString$3;
+const isString$4 = /* @__PURE__ */ getDefaultExportFromCjs(isString_1);
 var arrayMap$1 = _arrayMap;
 function baseValues$1(object, props) {
   return arrayMap$1(props, function(key) {
@@ -12697,7 +12697,7 @@ function values$3(object) {
   return object == null ? [] : baseValues(object, keys$2(object));
 }
 var values_1 = values$3;
-var baseIndexOf$2 = _baseIndexOf, isArrayLike$1 = isArrayLike_1, isString$1 = isString_1, toInteger$2 = toInteger_1, values$2 = values_1;
+var baseIndexOf$2 = _baseIndexOf, isArrayLike$1 = isArrayLike_1, isString$2 = isString_1, toInteger$2 = toInteger_1, values$2 = values_1;
 var nativeMax$1 = Math.max;
 function includes(collection, value, fromIndex, guard) {
   collection = isArrayLike$1(collection) ? collection : values$2(collection);
@@ -12706,7 +12706,7 @@ function includes(collection, value, fromIndex, guard) {
   if (fromIndex < 0) {
     fromIndex = nativeMax$1(length2 + fromIndex, 0);
   }
-  return isString$1(collection) ? fromIndex <= length2 && collection.indexOf(value, fromIndex) > -1 : !!length2 && baseIndexOf$2(collection, value, fromIndex) > -1;
+  return isString$2(collection) ? fromIndex <= length2 && collection.indexOf(value, fromIndex) > -1 : !!length2 && baseIndexOf$2(collection, value, fromIndex) > -1;
 }
 var includes_1 = includes;
 const includes$1 = /* @__PURE__ */ getDefaultExportFromCjs(includes_1);
@@ -12785,7 +12785,7 @@ var partitionHTMLProps = function partitionHTMLProps2(props, options) {
   var _options = options, _options$htmlProps = _options.htmlProps, htmlProps = _options$htmlProps === void 0 ? htmlInputProps : _options$htmlProps, _options$includeAria = _options.includeAria, includeAria = _options$includeAria === void 0 ? true : _options$includeAria;
   var inputProps = {};
   var rest = {};
-  forEach$2(props, function(val, prop) {
+  forEach$3(props, function(val, prop) {
     var possibleAria = includeAria && (/^aria-.*$/.test(prop) || prop === "role");
     var target = includes$1(htmlProps, prop) || possibleAria ? inputProps : rest;
     target[prop] = val;
@@ -12914,7 +12914,7 @@ function mapCloneElement(children, func, context) {
     }, func(child, index)));
   }, context);
 }
-function forEach(children, func, context) {
+function forEach$1(children, func, context) {
   var index = 0;
   React.Children.forEach(flatChildren(children), function(child) {
     if (!/* @__PURE__ */ React.isValidElement(child)) {
@@ -12963,7 +12963,7 @@ var ReactChildren = {
   /**
    * Iterates over children that are in flat array form.
    */
-  forEach,
+  forEach: forEach$1,
   /**
    * Finds the first child that satisfies the given condition.
    */
@@ -12996,7 +12996,7 @@ function mergeRefs(refA, refB) {
     if (typeof b3 === "function") b3(value);
   };
 }
-var hasOwnProperty$3 = Object.prototype.hasOwnProperty;
+var hasOwnProperty$4 = Object.prototype.hasOwnProperty;
 function is(x3, y4) {
   if (x3 === y4) {
     return x3 !== 0 || y4 !== 0 || 1 / x3 === 1 / y4;
@@ -13016,7 +13016,7 @@ function shallowEqual(objA, objB) {
     return false;
   }
   for (var i2 = 0; i2 < keysA.length; i2 += 1) {
-    if (!hasOwnProperty$3.call(objB, keysA[i2]) || !is(objA[keysA[i2]], objB[keysA[i2]])) {
+    if (!hasOwnProperty$4.call(objB, keysA[i2]) || !is(objA[keysA[i2]], objB[keysA[i2]])) {
       return false;
     }
   }
@@ -13212,7 +13212,7 @@ function setToArray$1(set2) {
   return result;
 }
 var _setToArray = setToArray$1;
-var Symbol$1 = _Symbol, Uint8Array2 = _Uint8Array, eq = eq_1, equalArrays$1 = _equalArrays, mapToArray = _mapToArray, setToArray = _setToArray;
+var Symbol$1 = _Symbol, Uint8Array$1 = _Uint8Array, eq = eq_1, equalArrays$1 = _equalArrays, mapToArray = _mapToArray, setToArray = _setToArray;
 var COMPARE_PARTIAL_FLAG$4 = 1, COMPARE_UNORDERED_FLAG$2 = 2;
 var boolTag = "[object Boolean]", dateTag = "[object Date]", errorTag = "[object Error]", mapTag = "[object Map]", numberTag$1 = "[object Number]", regexpTag = "[object RegExp]", setTag = "[object Set]", stringTag = "[object String]", symbolTag = "[object Symbol]";
 var arrayBufferTag = "[object ArrayBuffer]", dataViewTag = "[object DataView]";
@@ -13226,7 +13226,7 @@ function equalByTag$1(object, other, tag, bitmask, customizer, equalFunc, stack)
       object = object.buffer;
       other = other.buffer;
     case arrayBufferTag:
-      if (object.byteLength != other.byteLength || !equalFunc(new Uint8Array2(object), new Uint8Array2(other))) {
+      if (object.byteLength != other.byteLength || !equalFunc(new Uint8Array$1(object), new Uint8Array$1(other))) {
         return false;
       }
       return true;
@@ -13267,7 +13267,7 @@ var _equalByTag = equalByTag$1;
 var getAllKeys = _getAllKeys;
 var COMPARE_PARTIAL_FLAG$3 = 1;
 var objectProto$2 = Object.prototype;
-var hasOwnProperty$2 = objectProto$2.hasOwnProperty;
+var hasOwnProperty$3 = objectProto$2.hasOwnProperty;
 function equalObjects$1(object, other, bitmask, customizer, equalFunc, stack) {
   var isPartial = bitmask & COMPARE_PARTIAL_FLAG$3, objProps = getAllKeys(object), objLength = objProps.length, othProps = getAllKeys(other), othLength = othProps.length;
   if (objLength != othLength && !isPartial) {
@@ -13276,7 +13276,7 @@ function equalObjects$1(object, other, bitmask, customizer, equalFunc, stack) {
   var index = objLength;
   while (index--) {
     var key = objProps[index];
-    if (!(isPartial ? key in other : hasOwnProperty$2.call(other, key))) {
+    if (!(isPartial ? key in other : hasOwnProperty$3.call(other, key))) {
       return false;
     }
   }
@@ -13312,18 +13312,18 @@ function equalObjects$1(object, other, bitmask, customizer, equalFunc, stack) {
   return result;
 }
 var _equalObjects = equalObjects$1;
-var Stack$3 = _Stack, equalArrays = _equalArrays, equalByTag = _equalByTag, equalObjects = _equalObjects, getTag = _getTag, isArray$4 = isArray_1, isBuffer = isBufferExports, isTypedArray = isTypedArray_1;
+var Stack$3 = _Stack, equalArrays = _equalArrays, equalByTag = _equalByTag, equalObjects = _equalObjects, getTag = _getTag, isArray$5 = isArray_1, isBuffer$1 = isBufferExports, isTypedArray$1 = isTypedArray_1;
 var COMPARE_PARTIAL_FLAG$2 = 1;
 var argsTag = "[object Arguments]", arrayTag = "[object Array]", objectTag = "[object Object]";
 var objectProto$1 = Object.prototype;
-var hasOwnProperty$1 = objectProto$1.hasOwnProperty;
+var hasOwnProperty$2 = objectProto$1.hasOwnProperty;
 function baseIsEqualDeep$1(object, other, bitmask, customizer, equalFunc, stack) {
-  var objIsArr = isArray$4(object), othIsArr = isArray$4(other), objTag = objIsArr ? arrayTag : getTag(object), othTag = othIsArr ? arrayTag : getTag(other);
+  var objIsArr = isArray$5(object), othIsArr = isArray$5(other), objTag = objIsArr ? arrayTag : getTag(object), othTag = othIsArr ? arrayTag : getTag(other);
   objTag = objTag == argsTag ? objectTag : objTag;
   othTag = othTag == argsTag ? objectTag : othTag;
   var objIsObj = objTag == objectTag, othIsObj = othTag == objectTag, isSameTag = objTag == othTag;
-  if (isSameTag && isBuffer(object)) {
-    if (!isBuffer(other)) {
+  if (isSameTag && isBuffer$1(object)) {
+    if (!isBuffer$1(other)) {
       return false;
     }
     objIsArr = true;
@@ -13331,10 +13331,10 @@ function baseIsEqualDeep$1(object, other, bitmask, customizer, equalFunc, stack)
   }
   if (isSameTag && !objIsObj) {
     stack || (stack = new Stack$3());
-    return objIsArr || isTypedArray(object) ? equalArrays(object, other, bitmask, customizer, equalFunc, stack) : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
+    return objIsArr || isTypedArray$1(object) ? equalArrays(object, other, bitmask, customizer, equalFunc, stack) : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
   }
   if (!(bitmask & COMPARE_PARTIAL_FLAG$2)) {
-    var objIsWrapped = objIsObj && hasOwnProperty$1.call(object, "__wrapped__"), othIsWrapped = othIsObj && hasOwnProperty$1.call(other, "__wrapped__");
+    var objIsWrapped = objIsObj && hasOwnProperty$2.call(object, "__wrapped__"), othIsWrapped = othIsObj && hasOwnProperty$2.call(other, "__wrapped__");
     if (objIsWrapped || othIsWrapped) {
       var objUnwrapped = objIsWrapped ? object.value() : object, othUnwrapped = othIsWrapped ? other.value() : other;
       stack || (stack = new Stack$3());
@@ -13393,9 +13393,9 @@ function baseIsMatch$1(object, source, matchData, customizer) {
   return true;
 }
 var _baseIsMatch = baseIsMatch$1;
-var isObject$5 = isObject_1;
+var isObject$6 = isObject_1;
 function isStrictComparable$2(value) {
-  return value === value && !isObject$5(value);
+  return value === value && !isObject$6(value);
 }
 var _isStrictComparable = isStrictComparable$2;
 var isStrictComparable$1 = _isStrictComparable, keys$1 = keys_1;
@@ -13439,7 +13439,7 @@ function baseHasIn$1(object, key) {
   return object != null && key in Object(object);
 }
 var _baseHasIn = baseHasIn$1;
-var castPath$2 = _castPath, isArguments = isArguments_1, isArray$3 = isArray_1, isIndex$2 = _isIndex, isLength = isLength_1, toKey$3 = _toKey;
+var castPath$2 = _castPath, isArguments = isArguments_1, isArray$4 = isArray_1, isIndex$2 = _isIndex, isLength = isLength_1, toKey$3 = _toKey;
 function hasPath$1(object, path, hasFunc) {
   path = castPath$2(path, object);
   var index = -1, length2 = path.length, result = false;
@@ -13454,7 +13454,7 @@ function hasPath$1(object, path, hasFunc) {
     return result;
   }
   length2 = object == null ? 0 : object.length;
-  return !!length2 && isLength(length2) && isIndex$2(key, length2) && (isArray$3(object) || isArguments(object));
+  return !!length2 && isLength(length2) && isIndex$2(key, length2) && (isArray$4(object) || isArguments(object));
 }
 var _hasPath = hasPath$1;
 var baseHasIn = _baseHasIn, hasPath = _hasPath;
@@ -13492,7 +13492,7 @@ function property$1(path) {
   return isKey$1(path) ? baseProperty(toKey$1(path)) : basePropertyDeep(path);
 }
 var property_1 = property$1;
-var baseMatches = _baseMatches, baseMatchesProperty = _baseMatchesProperty, identity$1 = identity_1, isArray$2 = isArray_1, property = property_1;
+var baseMatches = _baseMatches, baseMatchesProperty = _baseMatchesProperty, identity$1 = identity_1, isArray$3 = isArray_1, property = property_1;
 function baseIteratee$8(value) {
   if (typeof value == "function") {
     return value;
@@ -13501,24 +13501,24 @@ function baseIteratee$8(value) {
     return identity$1;
   }
   if (typeof value == "object") {
-    return isArray$2(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value);
+    return isArray$3(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value);
   }
   return property(value);
 }
 var _baseIteratee = baseIteratee$8;
-var arrayAggregator = _arrayAggregator, baseAggregator = _baseAggregator, baseIteratee$7 = _baseIteratee, isArray$1 = isArray_1;
+var arrayAggregator = _arrayAggregator, baseAggregator = _baseAggregator, baseIteratee$7 = _baseIteratee, isArray$2 = isArray_1;
 function createAggregator$1(setter, initializer) {
   return function(collection, iteratee) {
-    var func = isArray$1(collection) ? arrayAggregator : baseAggregator, accumulator = initializer ? initializer() : {};
+    var func = isArray$2(collection) ? arrayAggregator : baseAggregator, accumulator = initializer ? initializer() : {};
     return func(collection, setter, baseIteratee$7(iteratee), accumulator);
   };
 }
 var _createAggregator = createAggregator$1;
 var baseAssignValue = _baseAssignValue, createAggregator = _createAggregator;
 var objectProto = Object.prototype;
-var hasOwnProperty = objectProto.hasOwnProperty;
+var hasOwnProperty$1 = objectProto.hasOwnProperty;
 var groupBy$1 = createAggregator(function(result, value, key) {
-  if (hasOwnProperty.call(result, key)) {
+  if (hasOwnProperty$1.call(result, key)) {
     result[key].push(value);
   } else {
     baseAssignValue(result, key, [value]);
@@ -13637,9 +13637,9 @@ function deprecateComponent(Component, message) {
   Deprecated.displayName = "deprecated(" + componentDisplayName + ")";
   return Deprecated;
 }
-var _excluded$2c = ["name", "componentAs", "componentClassPrefix"], _excluded2$o = ["as", "classPrefix", "className", "role"];
+var _excluded$2d = ["name", "componentAs", "componentClassPrefix"], _excluded2$o = ["as", "classPrefix", "className", "role"];
 function createComponent(_ref) {
-  var name = _ref.name, componentAs = _ref.componentAs, componentClassPrefix = _ref.componentClassPrefix, defaultProps2 = _objectWithoutPropertiesLoose(_ref, _excluded$2c);
+  var name = _ref.name, componentAs = _ref.componentAs, componentClassPrefix = _ref.componentClassPrefix, defaultProps2 = _objectWithoutPropertiesLoose(_ref, _excluded$2d);
   var Component = /* @__PURE__ */ React.forwardRef(function(props, ref) {
     var _props$as = props.as, Component2 = _props$as === void 0 ? componentAs || "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? componentClassPrefix || kebabCase$1(name) : _props$classPrefix, className = props.className, role = props.role, rest = _objectWithoutPropertiesLoose(props, _excluded2$o);
     var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge;
@@ -13687,7 +13687,7 @@ var animationPropTypes = {
   onExiting: PropTypes.func,
   onExited: PropTypes.func
 };
-var _excluded$2b = ["children", "className", "exitedClassName", "enteringClassName", "enteredClassName", "exitingClassName"];
+var _excluded$2c = ["children", "className", "exitedClassName", "enteringClassName", "enteredClassName", "exitingClassName"];
 var STATUS = /* @__PURE__ */ function(STATUS2) {
   STATUS2[STATUS2["UNMOUNTED"] = 0] = "UNMOUNTED";
   STATUS2[STATUS2["EXITED"] = 1] = "EXITED";
@@ -13893,7 +13893,7 @@ var Transition$1 = /* @__PURE__ */ function(_React$Component) {
     if (status === STATUS.UNMOUNTED) {
       return null;
     }
-    var _this$props2 = this.props, children = _this$props2.children, className = _this$props2.className, exitedClassName = _this$props2.exitedClassName, enteringClassName = _this$props2.enteringClassName, enteredClassName = _this$props2.enteredClassName, exitingClassName = _this$props2.exitingClassName, rest = _objectWithoutPropertiesLoose(_this$props2, _excluded$2b);
+    var _this$props2 = this.props, children = _this$props2.children, className = _this$props2.className, exitedClassName = _this$props2.exitedClassName, enteringClassName = _this$props2.enteringClassName, enteredClassName = _this$props2.enteredClassName, exitingClassName = _this$props2.exitingClassName, rest = _objectWithoutPropertiesLoose(_this$props2, _excluded$2c);
     var childProps = omit$1(rest, Object.keys(transitionPropTypes));
     var transitionClassName;
     if (status === STATUS.EXITED) {
@@ -13905,7 +13905,7 @@ var Transition$1 = /* @__PURE__ */ function(_React$Component) {
     } else if (status === STATUS.EXITING) {
       transitionClassName = exitingClassName;
     }
-    if (isFunction$5(children)) {
+    if (isFunction$6(children)) {
       childProps.className = classNames(className, transitionClassName);
       return children(childProps, this.childRef);
     }
@@ -13926,7 +13926,7 @@ var ToastContext = /* @__PURE__ */ React.createContext({
   usedToaster: false
 });
 ToastContext.displayName = "ToastContext";
-var _excluded$2a = ["as", "className", "classPrefix", "placement", "callback"], _excluded2$n = ["className"], _excluded3$8 = ["container"];
+var _excluded$2b = ["as", "className", "classPrefix", "placement", "callback"], _excluded2$n = ["className"], _excluded3$8 = ["container"];
 var toastPlacements = ["topCenter", "bottomCenter", "topStart", "topEnd", "bottomStart", "bottomEnd"];
 var useMessages = function useMessages2() {
   var _useState = reactExports.useState([]), messages = _useState[0], setMessages = _useState[1];
@@ -13982,7 +13982,7 @@ var useMessages = function useMessages2() {
 };
 var ToastContainer = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var rootRef = reactExports.useRef();
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "toast-container" : _props$classPrefix, _props$placement = props.placement, placement = _props$placement === void 0 ? "topCenter" : _props$placement, callback = props.callback, rest = _objectWithoutPropertiesLoose(props, _excluded$2a);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "toast-container" : _props$classPrefix, _props$placement = props.placement, placement = _props$placement === void 0 ? "topCenter" : _props$placement, callback = props.callback, rest = _objectWithoutPropertiesLoose(props, _excluded$2b);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge, rootPrefix = _useClassNames.rootPrefix;
   var classes = merge2(className, withClassPrefix(kebabCase$1(placement)));
   var _useMessages = useMessages(), push = _useMessages.push, clear = _useMessages.clear, remove2 = _useMessages.remove, messages = _useMessages.messages;
@@ -14054,11 +14054,11 @@ ToastContainer.propTypes = {
   callback: PropTypes.func
 };
 const ToastContainer$1 = ToastContainer;
-var _excluded$29 = ["children", "classPrefix", "theme", "toastContainer", "disableRipple"];
+var _excluded$2a = ["children", "classPrefix", "theme", "toastContainer", "disableRipple"];
 var CustomContext = /* @__PURE__ */ React.createContext({});
 var themes = ["light", "dark", "high-contrast"];
 var CustomProvider = function CustomProvider2(props) {
-  var children = props.children, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? getClassNamePrefix$1() : _props$classPrefix, theme = props.theme, container = props.toastContainer, disableRipple = props.disableRipple, rest = _objectWithoutPropertiesLoose(props, _excluded$29);
+  var children = props.children, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? getClassNamePrefix$1() : _props$classPrefix, theme = props.theme, container = props.toastContainer, disableRipple = props.disableRipple, rest = _objectWithoutPropertiesLoose(props, _excluded$2a);
   var toasters = React.useRef(/* @__PURE__ */ new Map());
   var _usePortal = usePortal({
     container,
@@ -14317,13 +14317,13 @@ function endOfMonth(dirtyDate) {
   date.setHours(23, 59, 59, 999);
   return date;
 }
-function isDate(value) {
+function isDate$1(value) {
   requiredArgs(1, arguments);
   return value instanceof Date || _typeof(value) === "object" && Object.prototype.toString.call(value) === "[object Date]";
 }
 function isValid$1(dirtyDate) {
   requiredArgs(1, arguments);
-  if (!isDate(dirtyDate) && typeof dirtyDate !== "number") {
+  if (!isDate$1(dirtyDate) && typeof dirtyDate !== "number") {
     return false;
   }
   var date = toDate$1(dirtyDate);
@@ -15544,7 +15544,7 @@ function buildMatchFn(args) {
     var parsePatterns = width2 && args.parsePatterns[width2] || args.parsePatterns[args.defaultParseWidth];
     var key = Array.isArray(parsePatterns) ? findIndex$3(parsePatterns, function(pattern) {
       return pattern.test(matchedString);
-    }) : findKey(parsePatterns, function(pattern) {
+    }) : findKey$1(parsePatterns, function(pattern) {
       return pattern.test(matchedString);
     });
     var value;
@@ -15557,7 +15557,7 @@ function buildMatchFn(args) {
     };
   };
 }
-function findKey(object, predicate) {
+function findKey$1(object, predicate) {
   for (var key in object) {
     if (object.hasOwnProperty(key) && predicate(object[key])) {
       return key;
@@ -18342,9 +18342,9 @@ function negate$1(predicate) {
   };
 }
 var negate_1 = negate$1;
-var assignValue = _assignValue, castPath$1 = _castPath, isIndex$1 = _isIndex, isObject$4 = isObject_1, toKey = _toKey;
+var assignValue = _assignValue, castPath$1 = _castPath, isIndex$1 = _isIndex, isObject$5 = isObject_1, toKey = _toKey;
 function baseSet$2(object, path, value, customizer) {
-  if (!isObject$4(object)) {
+  if (!isObject$5(object)) {
     return object;
   }
   path = castPath$1(path, object);
@@ -18358,7 +18358,7 @@ function baseSet$2(object, path, value, customizer) {
       var objValue = nested[key];
       newValue = customizer ? customizer(objValue, key, nested) : void 0;
       if (newValue === void 0) {
-        newValue = isObject$4(objValue) ? objValue : isIndex$1(path[index + 1]) ? [] : {};
+        newValue = isObject$5(objValue) ? objValue : isIndex$1(path[index + 1]) ? [] : {};
       }
     }
     assignValue(nested, key, newValue);
@@ -18889,7 +18889,7 @@ var gatherActiveObservationsAtDepth = function(depth) {
     });
   });
 };
-var process = function() {
+var process$1 = function() {
   var depth = 0;
   gatherActiveObservationsAtDepth(depth);
   while (hasActiveObservations()) {
@@ -18978,7 +18978,7 @@ var Scheduler = function() {
     queueResizeObserver(function() {
       var elementsHaveResized = false;
       try {
-        elementsHaveResized = process();
+        elementsHaveResized = process$1();
       } finally {
         scheduled = false;
         timeout = until - time();
@@ -19210,11 +19210,11 @@ function useFocus(elementRef) {
     release
   };
 }
-var toString$4 = toString_1;
+var toString$5 = toString_1;
 var idCounter = 0;
 function uniqueId(prefix2) {
   var id2 = ++idCounter;
-  return toString$4(prefix2) + id2;
+  return toString$5(prefix2) + id2;
 }
 var uniqueId_1 = uniqueId;
 const uniqueId$1 = /* @__PURE__ */ getDefaultExportFromCjs(uniqueId_1);
@@ -19392,7 +19392,7 @@ function requireObjectWithoutPropertiesLoose() {
   })(objectWithoutPropertiesLoose);
   return objectWithoutPropertiesLoose.exports;
 }
-var utils$2 = {};
+var utils$4 = {};
 var prefix$3 = {};
 var hasRequiredPrefix;
 function requirePrefix() {
@@ -19552,7 +19552,7 @@ function requireUseInsertStyles() {
 }
 var hasRequiredUtils;
 function requireUtils() {
-  if (hasRequiredUtils) return utils$2;
+  if (hasRequiredUtils) return utils$4;
   hasRequiredUtils = 1;
   (function(exports) {
     var _interopRequireDefault2 = interopRequireDefaultExports;
@@ -19576,8 +19576,8 @@ function requireUtils() {
     exports.inBrowserEnv = _inBrowserEnv["default"];
     var _useInsertStyles = _interopRequireDefault2(requireUseInsertStyles());
     exports.useInsertStyles = _useInsertStyles["default"];
-  })(utils$2);
-  return utils$2;
+  })(utils$4);
+  return utils$4;
 }
 var hasRequiredIcon;
 function requireIcon() {
@@ -20291,7 +20291,7 @@ function highlightText(text2, props) {
   }
   return texts;
 }
-var _excluded$28 = ["as", "classPrefix", "className", "children", "query", "renderMark"];
+var _excluded$29 = ["as", "classPrefix", "className", "children", "query", "renderMark"];
 function defaultRenderMark(match2, index) {
   return /* @__PURE__ */ React.createElement("mark", {
     key: index,
@@ -20299,7 +20299,7 @@ function defaultRenderMark(match2, index) {
   }, match2);
 }
 var Highlight = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "highlight" : _props$classPrefix, className = props.className, children = props.children, query = props.query, _props$renderMark = props.renderMark, renderMark = _props$renderMark === void 0 ? defaultRenderMark : _props$renderMark, rest = _objectWithoutPropertiesLoose(props, _excluded$28);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "highlight" : _props$classPrefix, className = props.className, children = props.children, query = props.query, _props$renderMark = props.renderMark, renderMark = _props$renderMark === void 0 ? defaultRenderMark : _props$renderMark, rest = _objectWithoutPropertiesLoose(props, _excluded$29);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge;
   var classes = merge2(className, withClassPrefix());
   var text2 = stringifyReactNode(children);
@@ -20317,12 +20317,12 @@ Highlight.propTypes = {
   classPrefix: PropTypes.string,
   as: PropTypes.elementType
 };
-var _excluded$27 = ["as", "href", "disabled", "onClick"];
+var _excluded$28 = ["as", "href", "disabled", "onClick"];
 function isTrivialHref(href) {
   return !href || href.trim() === "#";
 }
 var SafeAnchor = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "a" : _props$as, href = props.href, disabled = props.disabled, onClick = props.onClick, restProps = _objectWithoutPropertiesLoose(props, _excluded$27);
+  var _props$as = props.as, Component = _props$as === void 0 ? "a" : _props$as, href = props.href, disabled = props.disabled, onClick = props.onClick, restProps = _objectWithoutPropertiesLoose(props, _excluded$28);
   var handleClick = reactExports.useCallback(function(event) {
     if (disabled || isTrivialHref(href)) {
       event.preventDefault();
@@ -20357,7 +20357,7 @@ SafeAnchor.propTypes = {
 function _taggedTemplateLiteralLoose(e3, t3) {
   return t3 || (t3 = e3.slice(0)), e3.raw = t3, e3;
 }
-var _excluded$26 = ["as", "className", "classPrefix", "onMouseDown"], _excluded2$m = ["className"];
+var _excluded$27 = ["as", "className", "classPrefix", "onMouseDown"], _excluded2$m = ["className"];
 var getPosition = function getPosition2(target, event) {
   var offset2 = getOffset(target);
   var offsetX = (event.pageX || 0) - offset2.left;
@@ -20374,7 +20374,7 @@ var getPosition = function getPosition2(target, event) {
 };
 var Ripple$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var _useCustom = useCustom(), disableRipple = _useCustom.disableRipple;
-  var _props$as = props.as, Component = _props$as === void 0 ? "span" : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "ripple" : _props$classPrefix, onMouseDown = props.onMouseDown, rest = _objectWithoutPropertiesLoose(props, _excluded$26);
+  var _props$as = props.as, Component = _props$as === void 0 ? "span" : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "ripple" : _props$classPrefix, onMouseDown = props.onMouseDown, rest = _objectWithoutPropertiesLoose(props, _excluded$27);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, prefix2 = _useClassNames.prefix, withClassPrefix = _useClassNames.withClassPrefix;
   var classes = merge2(className, prefix2("pond"));
   var triggerRef = reactExports.useRef(null);
@@ -20427,10 +20427,10 @@ Ripple$1.propTypes = {
   onMouseDown: PropTypes.func
 };
 var ButtonGroupContext$1 = /* @__PURE__ */ React.createContext(null);
-var _templateObject$g, _templateObject2$9, _templateObject3$2;
-var _excluded$25 = ["as", "active", "appearance", "block", "className", "children", "classPrefix", "color", "disabled", "loading", "ripple", "size", "startIcon", "endIcon", "type"];
+var _templateObject$h, _templateObject2$a, _templateObject3$3;
+var _excluded$26 = ["as", "active", "appearance", "block", "className", "children", "classPrefix", "color", "disabled", "loading", "ripple", "size", "startIcon", "endIcon", "type"];
 var Button$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var as = props.as, active = props.active, _props$appearance = props.appearance, appearance = _props$appearance === void 0 ? "default" : _props$appearance, block = props.block, className = props.className, children = props.children, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "btn" : _props$classPrefix, color2 = props.color, disabled = props.disabled, loading = props.loading, _props$ripple = props.ripple, ripple = _props$ripple === void 0 ? true : _props$ripple, sizeProp = props.size, startIcon = props.startIcon, endIcon = props.endIcon, typeProp = props.type, rest = _objectWithoutPropertiesLoose(props, _excluded$25);
+  var as = props.as, active = props.active, _props$appearance = props.appearance, appearance = _props$appearance === void 0 ? "default" : _props$appearance, block = props.block, className = props.className, children = props.children, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "btn" : _props$classPrefix, color2 = props.color, disabled = props.disabled, loading = props.loading, _props$ripple = props.ripple, ripple = _props$ripple === void 0 ? true : _props$ripple, sizeProp = props.size, startIcon = props.startIcon, endIcon = props.endIcon, typeProp = props.type, rest = _objectWithoutPropertiesLoose(props, _excluded$26);
   var buttonGroup = reactExports.useContext(ButtonGroupContext$1);
   var size2 = sizeProp !== null && sizeProp !== void 0 ? sizeProp : buttonGroup === null || buttonGroup === void 0 ? void 0 : buttonGroup.size;
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix, merge2 = _useClassNames.merge;
@@ -20442,13 +20442,13 @@ var Button$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   }));
   var buttonContent = reactExports.useMemo(function() {
     var spin = /* @__PURE__ */ React.createElement("span", {
-      className: prefix2(_templateObject$g || (_templateObject$g = _taggedTemplateLiteralLoose(["spin"])))
+      className: prefix2(_templateObject$h || (_templateObject$h = _taggedTemplateLiteralLoose(["spin"])))
     });
     var rippleElement = ripple && !isOneOf(appearance, ["link", "ghost"]) ? /* @__PURE__ */ React.createElement(Ripple$1, null) : null;
     return /* @__PURE__ */ React.createElement(React.Fragment, null, loading && spin, startIcon ? /* @__PURE__ */ React.createElement("span", {
-      className: prefix2(_templateObject2$9 || (_templateObject2$9 = _taggedTemplateLiteralLoose(["start-icon"])))
+      className: prefix2(_templateObject2$a || (_templateObject2$a = _taggedTemplateLiteralLoose(["start-icon"])))
     }, startIcon) : null, children, endIcon ? /* @__PURE__ */ React.createElement("span", {
-      className: prefix2(_templateObject3$2 || (_templateObject3$2 = _taggedTemplateLiteralLoose(["end-icon"])))
+      className: prefix2(_templateObject3$3 || (_templateObject3$3 = _taggedTemplateLiteralLoose(["end-icon"])))
     }, endIcon) : null, rippleElement);
   }, [appearance, children, endIcon, loading, prefix2, ripple, startIcon]);
   if (rest.href) {
@@ -20487,9 +20487,9 @@ Button$1.propTypes = {
   size: oneOf(["lg", "md", "sm", "xs"]),
   type: oneOf(["button", "reset", "submit"])
 };
-var _excluded$24 = ["icon", "placement", "children", "circle", "classPrefix", "className"];
+var _excluded$25 = ["icon", "placement", "children", "circle", "classPrefix", "className"];
 var IconButton$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var icon = props.icon, _props$placement = props.placement, placement = _props$placement === void 0 ? "left" : _props$placement, children = props.children, circle = props.circle, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "btn-icon" : _props$classPrefix, className = props.className, rest = _objectWithoutPropertiesLoose(props, _excluded$24);
+  var icon = props.icon, _props$placement = props.placement, placement = _props$placement === void 0 ? "left" : _props$placement, children = props.children, circle = props.circle, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "btn-icon" : _props$classPrefix, className = props.className, rest = _objectWithoutPropertiesLoose(props, _excluded$25);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix;
   var classes = merge2(className, withClassPrefix("placement-" + placement, {
     circle,
@@ -20509,9 +20509,9 @@ IconButton$1.propTypes = {
   children: PropTypes.node,
   placement: oneOf(["left", "right"])
 };
-var _excluded$23 = ["as", "style", "className", "alignSelf", "flex", "grow", "shrink", "order", "basis"];
+var _excluded$24 = ["as", "style", "className", "alignSelf", "flex", "grow", "shrink", "order", "basis"];
 function StackItem(props) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, style2 = props.style, className = props.className, alignSelf = props.alignSelf, flex = props.flex, grow = props.grow, shrink = props.shrink, order2 = props.order, basis = props.basis, rest = _objectWithoutPropertiesLoose(props, _excluded$23);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, style2 = props.style, className = props.className, alignSelf = props.alignSelf, flex = props.flex, grow = props.grow, shrink = props.shrink, order2 = props.order, basis = props.basis, rest = _objectWithoutPropertiesLoose(props, _excluded$24);
   return /* @__PURE__ */ React.createElement(Component, _extends$1({
     className,
     style: _extends$1({
@@ -20537,14 +20537,14 @@ StackItem.propTypes = {
   order: PropTypes.number,
   basis: PropTypes.string
 };
-var _excluded$22 = ["as", "alignItems", "classPrefix", "childrenRenderMode", "className", "children", "direction", "justifyContent", "spacing", "divider", "style", "wrap"];
+var _excluded$23 = ["as", "alignItems", "classPrefix", "childrenRenderMode", "className", "children", "direction", "justifyContent", "spacing", "divider", "style", "wrap"];
 function isStackItem(child) {
   var _child$type;
   return child.type === StackItem || ((_child$type = child.type) === null || _child$type === void 0 ? void 0 : _child$type.displayName) === "StackItem";
 }
 var Stack$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var _itemStyles;
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$alignItems = props.alignItems, alignItems = _props$alignItems === void 0 ? "center" : _props$alignItems, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "stack" : _props$classPrefix, _props$childrenRender = props.childrenRenderMode, childrenRenderMode = _props$childrenRender === void 0 ? "wrap" : _props$childrenRender, className = props.className, children = props.children, direction = props.direction, justifyContent = props.justifyContent, spacing = props.spacing, divider = props.divider, style2 = props.style, wrap = props.wrap, rest = _objectWithoutPropertiesLoose(props, _excluded$22);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$alignItems = props.alignItems, alignItems = _props$alignItems === void 0 ? "center" : _props$alignItems, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "stack" : _props$classPrefix, _props$childrenRender = props.childrenRenderMode, childrenRenderMode = _props$childrenRender === void 0 ? "wrap" : _props$childrenRender, className = props.className, children = props.children, direction = props.direction, justifyContent = props.justifyContent, spacing = props.spacing, divider = props.divider, style2 = props.style, wrap = props.wrap, rest = _objectWithoutPropertiesLoose(props, _excluded$23);
   var _useCustom = useCustom("Stack"), rtl = _useCustom.rtl;
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge, prefix2 = _useClassNames.prefix;
   var classes = merge2(className, withClassPrefix());
@@ -20589,11 +20589,11 @@ Stack$1.propTypes = {
   divider: PropTypes.node,
   wrap: PropTypes.bool
 };
-function isUndefined$1(value) {
+function isUndefined$2(value) {
   return value === void 0;
 }
-var isUndefined_1 = isUndefined$1;
-const isUndefined$2 = /* @__PURE__ */ getDefaultExportFromCjs(isUndefined_1);
+var isUndefined_1 = isUndefined$2;
+const isUndefined$3 = /* @__PURE__ */ getDefaultExportFromCjs(isUndefined_1);
 function isNil(value) {
   return value == null;
 }
@@ -21012,9 +21012,9 @@ Position.propTypes = {
   preventOverflow: PropTypes.bool,
   triggerTarget: PropTypes.any
 };
-var _excluded$21 = ["timeout", "className"];
+var _excluded$22 = ["timeout", "className"];
 var Fade$1 = /* @__PURE__ */ React.forwardRef(function(_ref, ref) {
-  var _ref$timeout = _ref.timeout, timeout = _ref$timeout === void 0 ? 300 : _ref$timeout, className = _ref.className, props = _objectWithoutPropertiesLoose(_ref, _excluded$21);
+  var _ref$timeout = _ref.timeout, timeout = _ref$timeout === void 0 ? 300 : _ref$timeout, className = _ref.className, props = _objectWithoutPropertiesLoose(_ref, _excluded$22);
   var _useClassNames = useClassNames$2("anim"), prefix2 = _useClassNames.prefix, merge2 = _useClassNames.merge;
   return /* @__PURE__ */ React.createElement(Transition$1, _extends$1({}, props, {
     ref,
@@ -21113,7 +21113,7 @@ var Overlay = /* @__PURE__ */ React.forwardRef(function(props, ref) {
 });
 Overlay.displayName = "Overlay";
 Overlay.propTypes = overlayPropTypes;
-var _excluded$20 = ["children", "container", "controlId", "defaultOpen", "trigger", "disabled", "followCursor", "readOnly", "plaintext", "open", "delay", "delayOpen", "delayClose", "enterable", "placement", "speaker", "rootClose", "onClick", "onMouseOver", "onMouseMove", "onMouseOut", "onContextMenu", "onFocus", "onBlur", "onOpen", "onClose", "onExited"];
+var _excluded$21 = ["children", "container", "controlId", "defaultOpen", "trigger", "disabled", "followCursor", "readOnly", "plaintext", "open", "delay", "delayOpen", "delayClose", "enterable", "placement", "speaker", "rootClose", "onClick", "onMouseOver", "onMouseMove", "onMouseOut", "onContextMenu", "onFocus", "onBlur", "onOpen", "onClose", "onExited"];
 function mergeEvents(events2, props) {
   if (events2 === void 0) {
     events2 = {};
@@ -21145,7 +21145,7 @@ function onMouseEventHandler(handler, event, delay) {
 var defaultTrigger = ["hover", "focus"];
 var OverlayTrigger = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var _useContext = reactExports.useContext(OverlayContext), overlayContainer = _useContext.overlayContainer;
-  var children = props.children, _props$container = props.container, container = _props$container === void 0 ? overlayContainer : _props$container, controlId = props.controlId, defaultOpen = props.defaultOpen, _props$trigger = props.trigger, trigger2 = _props$trigger === void 0 ? defaultTrigger : _props$trigger, disabled = props.disabled, followCursor = props.followCursor, readOnly = props.readOnly, plaintext = props.plaintext, openProp = props.open, delay = props.delay, delayOpenProp = props.delayOpen, delayCloseProp = props.delayClose, enterable = props.enterable, _props$placement = props.placement, placement = _props$placement === void 0 ? "bottomStart" : _props$placement, speaker = props.speaker, _props$rootClose = props.rootClose, rootClose = _props$rootClose === void 0 ? true : _props$rootClose, onClick = props.onClick, onMouseOver = props.onMouseOver, onMouseMove = props.onMouseMove, onMouseOut = props.onMouseOut, onContextMenu = props.onContextMenu, onFocus = props.onFocus, onBlur = props.onBlur, onOpen = props.onOpen, onClose = props.onClose, onExited = props.onExited, rest = _objectWithoutPropertiesLoose(props, _excluded$20);
+  var children = props.children, _props$container = props.container, container = _props$container === void 0 ? overlayContainer : _props$container, controlId = props.controlId, defaultOpen = props.defaultOpen, _props$trigger = props.trigger, trigger2 = _props$trigger === void 0 ? defaultTrigger : _props$trigger, disabled = props.disabled, followCursor = props.followCursor, readOnly = props.readOnly, plaintext = props.plaintext, openProp = props.open, delay = props.delay, delayOpenProp = props.delayOpen, delayCloseProp = props.delayClose, enterable = props.enterable, _props$placement = props.placement, placement = _props$placement === void 0 ? "bottomStart" : _props$placement, speaker = props.speaker, _props$rootClose = props.rootClose, rootClose = _props$rootClose === void 0 ? true : _props$rootClose, onClick = props.onClick, onMouseOver = props.onMouseOver, onMouseMove = props.onMouseMove, onMouseOut = props.onMouseOut, onContextMenu = props.onContextMenu, onFocus = props.onFocus, onBlur = props.onBlur, onOpen = props.onOpen, onClose = props.onClose, onExited = props.onExited, rest = _objectWithoutPropertiesLoose(props, _excluded$21);
   var _usePortal = usePortal({
     container
   }), Portal3 = _usePortal.Portal, containerElement = _usePortal.target;
@@ -21180,7 +21180,7 @@ var OverlayTrigger = /* @__PURE__ */ React.forwardRef(function(props, ref) {
     setOpen(nextOpen);
   }, [open, onOpen, onClose, setOpen]);
   var handleOpen = reactExports.useCallback(function(delay2) {
-    var ms = isUndefined$2(delay2) ? delayOpen : delay2;
+    var ms = isUndefined$3(delay2) ? delayOpen : delay2;
     if (ms && typeof ms === "number") {
       return delayOpenTimer.current = setTimeout(function() {
         delayOpenTimer.current = null;
@@ -21192,7 +21192,7 @@ var OverlayTrigger = /* @__PURE__ */ React.forwardRef(function(props, ref) {
     handleOpenChange(true);
   }, [delayOpen, handleOpenChange]);
   var handleClose = reactExports.useCallback(function(delay2, closeCause) {
-    var ms = isUndefined$2(delay2) ? delayClose : delay2;
+    var ms = isUndefined$3(delay2) ? delayClose : delay2;
     if (ms && typeof ms === "number") {
       return delayCloseTimer.current = setTimeout(function() {
         delayCloseTimer.current = null;
@@ -21395,9 +21395,9 @@ function FormattedDate(_ref) {
   var _useCustom = useCustom("Calendar"), formatDate = _useCustom.formatDate;
   return /* @__PURE__ */ React.createElement(React.Fragment, null, formatDate(date, formatStr));
 }
-var _excluded$1$ = ["onOpen", "onClose", "onEntered", "onExited", "placement", "preventOverflow"];
+var _excluded$20 = ["onOpen", "onClose", "onEntered", "onExited", "placement", "preventOverflow"];
 var Whisper = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var onOpen = props.onOpen, onClose = props.onClose, onEntered = props.onEntered, onExited = props.onExited, _props$placement = props.placement, placement = _props$placement === void 0 ? "right" : _props$placement, preventOverflow2 = props.preventOverflow, rest = _objectWithoutPropertiesLoose(props, _excluded$1$);
+  var onOpen = props.onOpen, onClose = props.onClose, onEntered = props.onEntered, onExited = props.onExited, _props$placement = props.placement, placement = _props$placement === void 0 ? "right" : _props$placement, preventOverflow2 = props.preventOverflow, rest = _objectWithoutPropertiesLoose(props, _excluded$20);
   var context = reactExports.useContext(CustomContext);
   return /* @__PURE__ */ React.createElement(OverlayTrigger, _extends$1({}, rest, {
     ref,
@@ -21423,9 +21423,9 @@ Whisper.propTypes = {
    */
   followCursor: PropTypes.bool
 };
-var _excluded$1_ = ["as", "className", "classPrefix", "children", "style", "visible", "arrow"];
+var _excluded$1$ = ["as", "className", "classPrefix", "children", "style", "visible", "arrow"];
 var Tooltip$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "tooltip" : _props$classPrefix, children = props.children, style2 = props.style, visible = props.visible, _props$arrow = props.arrow, arrow2 = _props$arrow === void 0 ? true : _props$arrow, rest = _objectWithoutPropertiesLoose(props, _excluded$1_);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "tooltip" : _props$classPrefix, children = props.children, style2 = props.style, visible = props.visible, _props$arrow = props.arrow, arrow2 = _props$arrow === void 0 ? true : _props$arrow, rest = _objectWithoutPropertiesLoose(props, _excluded$1$);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix;
   var classes = merge2(className, withClassPrefix({
     arrow: arrow2
@@ -21530,7 +21530,7 @@ var ModalManager$1 = /* @__PURE__ */ function() {
   };
   return ModalManager2;
 }();
-var _excluded$1Z = ["as", "children", "transition", "dialogTransitionTimeout", "style", "className", "container", "animationProps", "containerClassName", "keyboard", "enforceFocus", "backdrop", "backdropTransitionTimeout", "backdropStyle", "backdropClassName", "open", "autoFocus", "onEsc", "onExit", "onExiting", "onExited", "onEnter", "onEntering", "onEntered", "onClose", "onOpen"], _excluded2$l = ["className"];
+var _excluded$1_ = ["as", "children", "transition", "dialogTransitionTimeout", "style", "className", "container", "animationProps", "containerClassName", "keyboard", "enforceFocus", "backdrop", "backdropTransitionTimeout", "backdropStyle", "backdropClassName", "open", "autoFocus", "onEsc", "onExit", "onExiting", "onExited", "onEnter", "onEntering", "onEntered", "onClose", "onOpen"], _excluded2$l = ["className"];
 var manager;
 function getManager() {
   if (!manager) manager = new ModalManager$1();
@@ -21565,7 +21565,7 @@ var useModalManager = function useModalManager2() {
   };
 };
 var Modal$2 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, children = props.children, Transition2 = props.transition, dialogTransitionTimeout = props.dialogTransitionTimeout, style2 = props.style, className = props.className, container = props.container, animationProps = props.animationProps, containerClassName = props.containerClassName, _props$keyboard = props.keyboard, keyboard = _props$keyboard === void 0 ? true : _props$keyboard, _props$enforceFocus = props.enforceFocus, enforceFocus = _props$enforceFocus === void 0 ? true : _props$enforceFocus, _props$backdrop = props.backdrop, backdrop = _props$backdrop === void 0 ? true : _props$backdrop, backdropTransitionTimeout = props.backdropTransitionTimeout, backdropStyle = props.backdropStyle, backdropClassName = props.backdropClassName, open = props.open, _props$autoFocus = props.autoFocus, autoFocus = _props$autoFocus === void 0 ? true : _props$autoFocus, onEsc = props.onEsc, onExit = props.onExit, onExiting = props.onExiting, onExited = props.onExited, onEnter = props.onEnter, onEntering = props.onEntering, onEntered = props.onEntered, onClose = props.onClose, onOpen = props.onOpen, rest = _objectWithoutPropertiesLoose(props, _excluded$1Z);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, children = props.children, Transition2 = props.transition, dialogTransitionTimeout = props.dialogTransitionTimeout, style2 = props.style, className = props.className, container = props.container, animationProps = props.animationProps, containerClassName = props.containerClassName, _props$keyboard = props.keyboard, keyboard = _props$keyboard === void 0 ? true : _props$keyboard, _props$enforceFocus = props.enforceFocus, enforceFocus = _props$enforceFocus === void 0 ? true : _props$enforceFocus, _props$backdrop = props.backdrop, backdrop = _props$backdrop === void 0 ? true : _props$backdrop, backdropTransitionTimeout = props.backdropTransitionTimeout, backdropStyle = props.backdropStyle, backdropClassName = props.backdropClassName, open = props.open, _props$autoFocus = props.autoFocus, autoFocus = _props$autoFocus === void 0 ? true : _props$autoFocus, onEsc = props.onEsc, onExit = props.onExit, onExiting = props.onExiting, onExited = props.onExited, onEnter = props.onEnter, onEntering = props.onEntering, onEntered = props.onEntered, onClose = props.onClose, onOpen = props.onOpen, rest = _objectWithoutPropertiesLoose(props, _excluded$1_);
   var _useState = reactExports.useState(!open), exited = _useState[0], setExited = _useState[1];
   var _usePortal = usePortal({
     container
@@ -21731,9 +21731,9 @@ Modal$2.propTypes = _extends$1({}, animationPropTypes, modalPropTypes, {
   transition: PropTypes.any,
   onEsc: PropTypes.func
 });
-var _excluded$1Y = ["timeout"];
+var _excluded$1Z = ["timeout"];
 var Bounce = /* @__PURE__ */ React.forwardRef(function(_ref, ref) {
-  var _ref$timeout = _ref.timeout, timeout = _ref$timeout === void 0 ? 300 : _ref$timeout, props = _objectWithoutPropertiesLoose(_ref, _excluded$1Y);
+  var _ref$timeout = _ref.timeout, timeout = _ref$timeout === void 0 ? 300 : _ref$timeout, props = _objectWithoutPropertiesLoose(_ref, _excluded$1Z);
   var _useClassNames = useClassNames$2("anim"), prefix2 = _useClassNames.prefix;
   return /* @__PURE__ */ React.createElement(Transition$1, _extends$1({}, props, {
     ref,
@@ -21746,8 +21746,8 @@ var Bounce = /* @__PURE__ */ React.forwardRef(function(_ref, ref) {
   }));
 });
 Bounce.displayName = "Bounce";
-var _templateObject$f;
-var _excluded$1X = ["as", "style", "children", "dialogClassName", "dialogStyle", "classPrefix", "className", "size"];
+var _templateObject$g;
+var _excluded$1Y = ["as", "style", "children", "dialogClassName", "dialogStyle", "classPrefix", "className", "size"];
 var modalDialogPropTypes = {
   size: oneOf(SIZE$1),
   className: PropTypes.string,
@@ -21758,7 +21758,7 @@ var modalDialogPropTypes = {
   children: PropTypes.node
 };
 var ModalDialog = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, style2 = props.style, children = props.children, dialogClassName = props.dialogClassName, dialogStyle = props.dialogStyle, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "modal" : _props$classPrefix, className = props.className, size2 = props.size, rest = _objectWithoutPropertiesLoose(props, _excluded$1X);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, style2 = props.style, children = props.children, dialogClassName = props.dialogClassName, dialogStyle = props.dialogStyle, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "modal" : _props$classPrefix, className = props.className, size2 = props.size, rest = _objectWithoutPropertiesLoose(props, _excluded$1Y);
   var modalStyle = _extends$1({
     display: "block"
   }, style2);
@@ -21777,7 +21777,7 @@ var ModalDialog = /* @__PURE__ */ React.forwardRef(function(props, ref) {
     className: dialogClasses2,
     style: dialogStyle
   }, /* @__PURE__ */ React.createElement("div", {
-    className: prefix2(_templateObject$f || (_templateObject$f = _taggedTemplateLiteralLoose(["content"])))
+    className: prefix2(_templateObject$g || (_templateObject$g = _taggedTemplateLiteralLoose(["content"])))
   }, children)));
 });
 ModalDialog.displayName = "ModalDialog";
@@ -21911,10 +21911,10 @@ var CloseExports = Close$2.exports;
 })(Close$3);
 const CloseIcon$1 = /* @__PURE__ */ getDefaultExportFromCjs(Close$3);
 var DrawerContext = /* @__PURE__ */ React.createContext(null);
-var _excluded$1W = ["as", "classPrefix", "className", "style", "children"];
+var _excluded$1X = ["as", "classPrefix", "className", "style", "children"];
 var ModalBody = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var _context$getBodyStyle, _useContext;
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "modal-body" : _props$classPrefix, className = props.className, style2 = props.style, children = props.children, rest = _objectWithoutPropertiesLoose(props, _excluded$1W);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "modal-body" : _props$classPrefix, className = props.className, style2 = props.style, children = props.children, rest = _objectWithoutPropertiesLoose(props, _excluded$1X);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge, prefix2 = _useClassNames.prefix;
   var classes = merge2(className, withClassPrefix());
   var context = reactExports.useContext(ModalContext);
@@ -21942,9 +21942,9 @@ ModalBody.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string
 };
-var _excluded$1V = ["as", "classPrefix", "className", "locale"];
+var _excluded$1W = ["as", "classPrefix", "className", "locale"];
 var CloseButton = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "button" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "btn-close" : _props$classPrefix, className = props.className, overrideLocale = props.locale, rest = _objectWithoutPropertiesLoose(props, _excluded$1V);
+  var _props$as = props.as, Component = _props$as === void 0 ? "button" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "btn-close" : _props$classPrefix, className = props.className, overrideLocale = props.locale, rest = _objectWithoutPropertiesLoose(props, _excluded$1W);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge;
   var _useCustom = useCustom("CloseButton", overrideLocale), locale2 = _useCustom.locale;
   var classes = merge2(className, withClassPrefix());
@@ -21956,10 +21956,10 @@ var CloseButton = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   }, rest), /* @__PURE__ */ React.createElement(CloseIcon$1, null));
 });
 CloseButton.displayName = "CloseButton";
-var _excluded$1U = ["as", "classPrefix", "className", "closeButton", "children", "onClose"];
+var _excluded$1V = ["as", "classPrefix", "className", "closeButton", "children", "onClose"];
 var ModalHeader = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var _useContext, _useContext2;
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "modal-header" : _props$classPrefix, className = props.className, _props$closeButton = props.closeButton, closeButton = _props$closeButton === void 0 ? true : _props$closeButton, children = props.children, onClose = props.onClose, rest = _objectWithoutPropertiesLoose(props, _excluded$1U);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "modal-header" : _props$classPrefix, className = props.className, _props$closeButton = props.closeButton, closeButton = _props$closeButton === void 0 ? true : _props$closeButton, children = props.children, onClose = props.onClose, rest = _objectWithoutPropertiesLoose(props, _excluded$1V);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix;
   var classes = merge2(className, withClassPrefix());
   var onModalClose = (_useContext = reactExports.useContext(ModalContext)) === null || _useContext === void 0 ? void 0 : _useContext.onModalClose;
@@ -21987,9 +21987,9 @@ ModalHeader.propTypes = {
   closeButton: PropTypes.bool,
   children: PropTypes.node
 };
-var _excluded$1T = ["as", "classPrefix", "className", "role"];
+var _excluded$1U = ["as", "classPrefix", "className", "role"];
 var ModalTitle = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "h4" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "modal-title" : _props$classPrefix, className = props.className, role = props.role, rest = _objectWithoutPropertiesLoose(props, _excluded$1T);
+  var _props$as = props.as, Component = _props$as === void 0 ? "h4" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "modal-title" : _props$classPrefix, className = props.className, role = props.role, rest = _objectWithoutPropertiesLoose(props, _excluded$1U);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge;
   var classes = merge2(className, withClassPrefix());
   var context = reactExports.useContext(ModalContext);
@@ -22068,12 +22068,12 @@ var useBodyStyles = function useBodyStyles2(ref, options) {
   }, []);
   return [overflow ? bodyStyles : null, onChangeBodyStyles, onDestroyEvents];
 };
-var _templateObject$e, _templateObject2$8, _templateObject3$1;
-var _excluded$1S = ["animation", "animationProps", "animationTimeout", "aria-labelledby", "aria-describedby", "backdropClassName", "backdrop", "className", "children", "classPrefix", "dialogClassName", "dialogStyle", "dialogAs", "enforceFocus", "full", "overflow", "open", "onClose", "onEntered", "onEntering", "onExited", "role", "size", "id"], _excluded2$k = ["className"];
+var _templateObject$f, _templateObject2$9, _templateObject3$2;
+var _excluded$1T = ["animation", "animationProps", "animationTimeout", "aria-labelledby", "aria-describedby", "backdropClassName", "backdrop", "className", "children", "classPrefix", "dialogClassName", "dialogStyle", "dialogAs", "enforceFocus", "full", "overflow", "open", "onClose", "onEntered", "onEntering", "onExited", "role", "size", "id"], _excluded2$k = ["className"];
 var modalSizes = ["xs", "sm", "md", "lg", "full"];
 var Modal$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var _prefix, _merge;
-  var _props$animation = props.animation, animation = _props$animation === void 0 ? Bounce : _props$animation, animationProps = props.animationProps, _props$animationTimeo = props.animationTimeout, animationTimeout = _props$animationTimeo === void 0 ? 300 : _props$animationTimeo, ariaLabelledby = props["aria-labelledby"], ariaDescribedby = props["aria-describedby"], backdropClassName = props.backdropClassName, _props$backdrop = props.backdrop, backdrop = _props$backdrop === void 0 ? true : _props$backdrop, className = props.className, children = props.children, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "modal" : _props$classPrefix, dialogClassName = props.dialogClassName, dialogStyle = props.dialogStyle, _props$dialogAs = props.dialogAs, Dialog3 = _props$dialogAs === void 0 ? ModalDialog : _props$dialogAs, enforceFocusProp = props.enforceFocus, full = props.full, _props$overflow = props.overflow, overflow = _props$overflow === void 0 ? true : _props$overflow, open = props.open, onClose = props.onClose, onEntered = props.onEntered, onEntering = props.onEntering, onExited = props.onExited, _props$role = props.role, role = _props$role === void 0 ? "dialog" : _props$role, _props$size = props.size, size2 = _props$size === void 0 ? "sm" : _props$size, idProp = props.id, rest = _objectWithoutPropertiesLoose(props, _excluded$1S);
+  var _props$animation = props.animation, animation = _props$animation === void 0 ? Bounce : _props$animation, animationProps = props.animationProps, _props$animationTimeo = props.animationTimeout, animationTimeout = _props$animationTimeo === void 0 ? 300 : _props$animationTimeo, ariaLabelledby = props["aria-labelledby"], ariaDescribedby = props["aria-describedby"], backdropClassName = props.backdropClassName, _props$backdrop = props.backdrop, backdrop = _props$backdrop === void 0 ? true : _props$backdrop, className = props.className, children = props.children, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "modal" : _props$classPrefix, dialogClassName = props.dialogClassName, dialogStyle = props.dialogStyle, _props$dialogAs = props.dialogAs, Dialog3 = _props$dialogAs === void 0 ? ModalDialog : _props$dialogAs, enforceFocusProp = props.enforceFocus, full = props.full, _props$overflow = props.overflow, overflow = _props$overflow === void 0 ? true : _props$overflow, open = props.open, onClose = props.onClose, onEntered = props.onEntered, onEntering = props.onEntering, onExited = props.onExited, _props$role = props.role, role = _props$role === void 0 ? "dialog" : _props$role, _props$size = props.size, size2 = _props$size === void 0 ? "sm" : _props$size, idProp = props.id, rest = _objectWithoutPropertiesLoose(props, _excluded$1T);
   var inClass = {
     in: open && !animation
   };
@@ -22157,7 +22157,7 @@ var Modal$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
       return false;
     }
   }, [backdrop, enforceFocusProp, isDrawer]);
-  var wrapperClassName = merge2(prefix2(_templateObject$e || (_templateObject$e = _taggedTemplateLiteralLoose(["wrapper"]))), (_merge = {}, _merge[prefix2(_templateObject2$8 || (_templateObject2$8 = _taggedTemplateLiteralLoose(["no-backdrop"])))] = backdrop === false, _merge));
+  var wrapperClassName = merge2(prefix2(_templateObject$f || (_templateObject$f = _taggedTemplateLiteralLoose(["wrapper"]))), (_merge = {}, _merge[prefix2(_templateObject2$9 || (_templateObject2$9 = _taggedTemplateLiteralLoose(["no-backdrop"])))] = backdrop === false, _merge));
   return /* @__PURE__ */ React.createElement(ModalContext.Provider, {
     value: modalContextValue
   }, /* @__PURE__ */ React.createElement(Modal$2, _extends$1({
@@ -22172,7 +22172,7 @@ var Modal$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
     onEntered: handleEntered,
     onEntering: handleEntering,
     onExited: handleExited,
-    backdropClassName: merge2(prefix2(_templateObject3$1 || (_templateObject3$1 = _taggedTemplateLiteralLoose(["backdrop"]))), backdropClassName, inClass),
+    backdropClassName: merge2(prefix2(_templateObject3$2 || (_templateObject3$2 = _taggedTemplateLiteralLoose(["backdrop"]))), backdropClassName, inClass),
     containerClassName: prefix2({
       open,
       "has-backdrop": backdrop
@@ -22839,10 +22839,10 @@ var NavbarBrand = createComponent({
   componentAs: "a",
   componentClassPrefix: "navbar-brand"
 });
-var _excluded$1R = ["className", "as", "classPrefix", "appearance"];
+var _excluded$1S = ["className", "as", "classPrefix", "appearance"];
 var NavbarContext = /* @__PURE__ */ React.createContext(false);
 var Navbar = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var className = props.className, _props$as = props.as, Component = _props$as === void 0 ? "nav" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "navbar" : _props$classPrefix, _props$appearance = props.appearance, appearance = _props$appearance === void 0 ? "default" : _props$appearance, rest = _objectWithoutPropertiesLoose(props, _excluded$1R);
+  var className = props.className, _props$as = props.as, Component = _props$as === void 0 ? "nav" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "navbar" : _props$classPrefix, _props$appearance = props.appearance, appearance = _props$appearance === void 0 ? "default" : _props$appearance, rest = _objectWithoutPropertiesLoose(props, _excluded$1S);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge;
   var classes = merge2(className, withClassPrefix(appearance));
   return /* @__PURE__ */ React.createElement(NavbarContext.Provider, {
@@ -22901,13 +22901,13 @@ var SidenavBody = createComponent({
 var SidenavHeader = createComponent({
   name: "SidenavHeader"
 });
-var _excluded$1Q = ["as", "expanded", "className", "classPrefix", "onToggle"];
+var _excluded$1R = ["as", "expanded", "className", "classPrefix", "onToggle"];
 var SidenavToggle = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var sidenav = reactExports.useContext(SidenavContext);
   if (!sidenav) {
     throw new Error("<Sidenav.Toggle> must be rendered within a <Sidenav>");
   }
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, DEPRECATED_expanded = props.expanded, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "sidenav-toggle" : _props$classPrefix, onToggle = props.onToggle, rest = _objectWithoutPropertiesLoose(props, _excluded$1Q);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, DEPRECATED_expanded = props.expanded, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "sidenav-toggle" : _props$classPrefix, onToggle = props.onToggle, rest = _objectWithoutPropertiesLoose(props, _excluded$1R);
   var expanded = DEPRECATED_expanded !== null && DEPRECATED_expanded !== void 0 ? DEPRECATED_expanded : sidenav.expanded;
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix;
   var classes = merge2(className, withClassPrefix({
@@ -22934,11 +22934,11 @@ SidenavToggle.propTypes = {
   expanded: deprecatePropType(PropTypes.bool, "Use <Sidenav expanded> instead."),
   onToggle: PropTypes.func
 };
-var _excluded$1P = ["as", "className", "classPrefix", "appearance", "expanded", "activeKey", "defaultOpenKeys", "openKeys", "onSelect", "onOpenChange"], _excluded2$j = ["className"];
+var _excluded$1Q = ["as", "className", "classPrefix", "appearance", "expanded", "activeKey", "defaultOpenKeys", "openKeys", "onSelect", "onOpenChange"], _excluded2$j = ["className"];
 var SidenavContext = /* @__PURE__ */ React.createContext(null);
 var emptyArray$1 = [];
 var Sidenav = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "nav" : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "sidenav" : _props$classPrefix, _props$appearance = props.appearance, appearance = _props$appearance === void 0 ? "default" : _props$appearance, _props$expanded = props.expanded, expanded = _props$expanded === void 0 ? true : _props$expanded, activeKey = props.activeKey, _props$defaultOpenKey = props.defaultOpenKeys, defaultOpenKeys = _props$defaultOpenKey === void 0 ? emptyArray$1 : _props$defaultOpenKey, openKeysProp = props.openKeys, onSelect = props.onSelect, onOpenChange = props.onOpenChange, rest = _objectWithoutPropertiesLoose(props, _excluded$1P);
+  var _props$as = props.as, Component = _props$as === void 0 ? "nav" : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "sidenav" : _props$classPrefix, _props$appearance = props.appearance, appearance = _props$appearance === void 0 ? "default" : _props$appearance, _props$expanded = props.expanded, expanded = _props$expanded === void 0 ? true : _props$expanded, activeKey = props.activeKey, _props$defaultOpenKey = props.defaultOpenKeys, defaultOpenKeys = _props$defaultOpenKey === void 0 ? emptyArray$1 : _props$defaultOpenKey, openKeysProp = props.openKeys, onSelect = props.onSelect, onOpenChange = props.onOpenChange, rest = _objectWithoutPropertiesLoose(props, _excluded$1Q);
   var _useControlled = useControlled$2(openKeysProp, defaultOpenKeys), openKeys = _useControlled[0], setOpenKeys = _useControlled[1];
   var _useClassNames = useClassNames$2(classPrefix), prefix2 = _useClassNames.prefix, merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix;
   var classes = merge2(className, withClassPrefix(appearance));
@@ -23061,13 +23061,13 @@ function useRenderDropdownItem(Component) {
     }, /* @__PURE__ */ React.createElement(Component, props));
   }, [Component]);
 }
-var _excluded$1O = ["classPrefix", "className", "active", "eventKey", "onSelect", "icon", "as", "divider", "panel", "children", "disabled"], _excluded2$i = ["selected", "active"];
+var _excluded$1P = ["classPrefix", "className", "active", "eventKey", "onSelect", "icon", "as", "divider", "panel", "children", "disabled"], _excluded2$i = ["selected", "active"];
 var NavDropdownItem = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var nav = reactExports.useContext(NavContext);
   if (!nav) {
     throw new Error("<Nav.Dropdown.Item> should be used within a <Nav> component.");
   }
-  var _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-item" : _props$classPrefix, className = props.className, activeProp = props.active, eventKey = props.eventKey, onSelect = props.onSelect, icon = props.icon, _props$as = props.as, Component = _props$as === void 0 ? "li" : _props$as, divider = props.divider, panel = props.panel, children = props.children, disabled = props.disabled, restProps = _objectWithoutPropertiesLoose(props, _excluded$1O);
+  var _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-item" : _props$classPrefix, className = props.className, activeProp = props.active, eventKey = props.eventKey, onSelect = props.onSelect, icon = props.icon, _props$as = props.as, Component = _props$as === void 0 ? "li" : _props$as, divider = props.divider, panel = props.panel, children = props.children, disabled = props.disabled, restProps = _objectWithoutPropertiesLoose(props, _excluded$1P);
   var activeKey = nav.activeKey, onSelectFromNav = nav.onSelect;
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix;
   var selected = activeProp || !isNil$1(eventKey) && shallowEqual(activeKey, eventKey);
@@ -23140,14 +23140,14 @@ NavDropdownItem.propTypes = {
   classPrefix: PropTypes.string,
   tabIndex: PropTypes.number
 };
-var _templateObject$d, _templateObject2$7;
-var _excluded$1N = ["onToggle", "eventKey", "title", "classPrefix", "children", "openDirection", "noCaret"], _excluded2$h = ["icon", "className", "disabled"], _excluded3$7 = ["open"], _excluded4$3 = ["selected", "active"], _excluded5$1 = ["open"], _excluded6$1 = ["open"];
+var _templateObject$e, _templateObject2$8;
+var _excluded$1O = ["onToggle", "eventKey", "title", "classPrefix", "children", "openDirection", "noCaret"], _excluded2$h = ["icon", "className", "disabled"], _excluded3$7 = ["open"], _excluded4$3 = ["selected", "active"], _excluded5$1 = ["open"], _excluded6$1 = ["open"];
 var NavDropdownMenu = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var nav = reactExports.useContext(NavContext);
   if (!nav) {
     throw new Error("<Nav.Dropdown.Menu> should be used within a <Nav> component.");
   }
-  var onToggle = props.onToggle, eventKey = props.eventKey, title = props.title, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-menu" : _props$classPrefix, children = props.children, _props$openDirection = props.openDirection, openDirection = _props$openDirection === void 0 ? "end" : _props$openDirection, noCaret = props.noCaret, rest = _objectWithoutPropertiesLoose(props, _excluded$1N);
+  var onToggle = props.onToggle, eventKey = props.eventKey, title = props.title, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-menu" : _props$classPrefix, children = props.children, _props$openDirection = props.openDirection, openDirection = _props$openDirection === void 0 ? "end" : _props$openDirection, noCaret = props.noCaret, rest = _objectWithoutPropertiesLoose(props, _excluded$1O);
   var _useCustom = useCustom("DropdownMenu"), rtl = _useCustom.rtl;
   var handleToggleSubmenu = reactExports.useCallback(function(open, event) {
     onToggle === null || onToggle === void 0 ? void 0 : onToggle(open, eventKey, event);
@@ -23165,7 +23165,7 @@ var NavDropdownMenu = /* @__PURE__ */ React.forwardRef(function(props, ref) {
         disabled
       }, function(_ref2, menuitemRef) {
         var selected = _ref2.selected, active = _ref2.active, menuitem = _objectWithoutPropertiesLoose(_ref2, _excluded4$3);
-        var classes = mergeItemClassNames(className, prefixItemClassName(_templateObject$d || (_templateObject$d = _taggedTemplateLiteralLoose(["toggle"]))), withItemClassPrefix({
+        var classes = mergeItemClassNames(className, prefixItemClassName(_templateObject$e || (_templateObject$e = _taggedTemplateLiteralLoose(["toggle"]))), withItemClassPrefix({
           "with-icon": icon,
           open,
           active: selected,
@@ -23180,7 +23180,7 @@ var NavDropdownMenu = /* @__PURE__ */ React.forwardRef(function(props, ref) {
         }, menuitem, omit$1(menuButtonProps, ["role"])), icon && /* @__PURE__ */ React.cloneElement(icon, {
           className: prefix2("menu-icon")
         }), title, !noCaret && /* @__PURE__ */ React.createElement(Icon2, {
-          className: prefix2(_templateObject2$7 || (_templateObject2$7 = _taggedTemplateLiteralLoose(["toggle-icon"])))
+          className: prefix2(_templateObject2$8 || (_templateObject2$8 = _taggedTemplateLiteralLoose(["toggle-icon"])))
         }));
       });
     },
@@ -23352,13 +23352,13 @@ var ArrowDownLineExports = ArrowDownLine$1.exports;
   }
 })(ArrowDownLine$2);
 const ArrowDownLineIcon = /* @__PURE__ */ getDefaultExportFromCjs(ArrowDownLine$2);
-var _excluded$1M = ["as", "active", "disabled", "eventKey", "className", "classPrefix", "style", "children", "icon", "divider", "panel", "onClick", "onSelect"];
+var _excluded$1N = ["as", "active", "disabled", "eventKey", "className", "classPrefix", "style", "children", "icon", "divider", "panel", "onClick", "onSelect"];
 var NavItem = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var nav = reactExports.useContext(NavContext);
   if (!nav) {
     throw new Error("<Nav.Item> must be rendered within a <Nav> component.");
   }
-  var _props$as = props.as, Component = _props$as === void 0 ? SafeAnchor : _props$as, activeProp = props.active, disabled = props.disabled, eventKey = props.eventKey, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "nav-item" : _props$classPrefix, style2 = props.style, children = props.children, icon = props.icon, divider = props.divider, panel = props.panel, onClick = props.onClick, onSelectProp = props.onSelect, rest = _objectWithoutPropertiesLoose(props, _excluded$1M);
+  var _props$as = props.as, Component = _props$as === void 0 ? SafeAnchor : _props$as, activeProp = props.active, disabled = props.disabled, eventKey = props.eventKey, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "nav-item" : _props$classPrefix, style2 = props.style, children = props.children, icon = props.icon, divider = props.divider, panel = props.panel, onClick = props.onClick, onSelectProp = props.onSelect, rest = _objectWithoutPropertiesLoose(props, _excluded$1N);
   var activeKey = nav.activeKey, onSelectFromNav = nav.onSelect;
   var active = activeProp !== null && activeProp !== void 0 ? activeProp : !isNil$1(eventKey) && shallowEqual(eventKey, activeKey);
   var emitSelect = reactExports.useCallback(function(event) {
@@ -23419,9 +23419,9 @@ NavItem.propTypes = {
   children: PropTypes.node,
   eventKey: PropTypes.any
 };
-var _excluded$1L = ["as", "className", "classPrefix", "renderToggle", "children", "noCaret"];
+var _excluded$1M = ["as", "className", "classPrefix", "renderToggle", "children", "noCaret"];
 var NavDropdownToggle = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? NavItem : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-toggle" : _props$classPrefix, renderToggle = props.renderToggle, children = props.children, noCaret = props.noCaret, rest = _objectWithoutPropertiesLoose(props, _excluded$1L);
+  var _props$as = props.as, Component = _props$as === void 0 ? NavItem : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-toggle" : _props$classPrefix, renderToggle = props.renderToggle, children = props.children, noCaret = props.noCaret, rest = _objectWithoutPropertiesLoose(props, _excluded$1M);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge;
   var _useClassNames2 = useClassNames$2("nav-item"), prefixNavItem = _useClassNames2.prefix;
   var classes = merge2(className, withClassPrefix({
@@ -23445,13 +23445,13 @@ NavDropdownToggle.propTypes = {
   renderToggle: PropTypes.func,
   placement: oneOf(["bottomStart", "bottomEnd", "topStart", "topEnd", "leftStart", "rightStart", "leftEnd", "rightEnd"])
 };
-var _excluded$1K = ["as", "title", "onClose", "onOpen", "onToggle", "eventKey", "trigger", "placement", "toggleAs", "toggleClassName", "classPrefix", "className", "disabled", "children", "menuStyle", "style"], _excluded2$g = ["open"], _excluded3$6 = ["open"];
+var _excluded$1L = ["as", "title", "onClose", "onOpen", "onToggle", "eventKey", "trigger", "placement", "toggleAs", "toggleClassName", "classPrefix", "className", "disabled", "children", "menuStyle", "style"], _excluded2$g = ["open"], _excluded3$6 = ["open"];
 var NavDropdown = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var nav = reactExports.useContext(NavContext);
   if (!nav) {
     throw new Error("<Nav.Dropdown> must be rendered within a <Nav> component.");
   }
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, title = props.title, onClose = props.onClose, onOpen = props.onOpen, onToggle = props.onToggle, eventKey = props.eventKey, _props$trigger = props.trigger, trigger2 = _props$trigger === void 0 ? "click" : _props$trigger, _props$placement = props.placement, placement = _props$placement === void 0 ? "bottomStart" : _props$placement, toggleAs = props.toggleAs, toggleClassName = props.toggleClassName, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown" : _props$classPrefix, className = props.className, disabled = props.disabled, children = props.children, menuStyle = props.menuStyle, style2 = props.style, toggleProps = _objectWithoutPropertiesLoose(props, _excluded$1K);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, title = props.title, onClose = props.onClose, onOpen = props.onOpen, onToggle = props.onToggle, eventKey = props.eventKey, _props$trigger = props.trigger, trigger2 = _props$trigger === void 0 ? "click" : _props$trigger, _props$placement = props.placement, placement = _props$placement === void 0 ? "bottomStart" : _props$placement, toggleAs = props.toggleAs, toggleClassName = props.toggleClassName, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown" : _props$classPrefix, className = props.className, disabled = props.disabled, children = props.children, menuStyle = props.menuStyle, style2 = props.style, toggleProps = _objectWithoutPropertiesLoose(props, _excluded$1L);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix;
   var _useClassNames2 = useClassNames$2("dropdown-menu"), withMenuClassPrefix = _useClassNames2.withClassPrefix, mergeMenuClassName = _useClassNames2.merge;
   var menuButtonTriggers = reactExports.useMemo(function() {
@@ -23578,10 +23578,10 @@ function stringToArray$2(string) {
   return hasUnicode$1(string) ? unicodeToArray(string) : asciiToArray(string);
 }
 var _stringToArray = stringToArray$2;
-var castSlice$1 = _castSlice, hasUnicode = _hasUnicode, stringToArray$1 = _stringToArray, toString$3 = toString_1;
+var castSlice$1 = _castSlice, hasUnicode = _hasUnicode, stringToArray$1 = _stringToArray, toString$4 = toString_1;
 function createCaseFirst$1(methodName) {
   return function(string) {
-    string = toString$3(string);
+    string = toString$4(string);
     var strSymbols = hasUnicode(string) ? stringToArray$1(string) : void 0;
     var chr = strSymbols ? strSymbols[0] : string.charAt(0);
     var trailing = strSymbols ? castSlice$1(strSymbols, 1).join("") : string.slice(1);
@@ -23593,13 +23593,13 @@ var createCaseFirst = _createCaseFirst;
 var upperFirst$2 = createCaseFirst("toUpperCase");
 var upperFirst_1 = upperFirst$2;
 const upperFirst$3 = /* @__PURE__ */ getDefaultExportFromCjs(upperFirst_1);
-var toString$2 = toString_1, upperFirst$1 = upperFirst_1;
+var toString$3 = toString_1, upperFirst$1 = upperFirst_1;
 function capitalize$3(string) {
-  return upperFirst$1(toString$2(string).toLowerCase());
+  return upperFirst$1(toString$3(string).toLowerCase());
 }
 var capitalize_1 = capitalize$3;
 const capitalize$4 = /* @__PURE__ */ getDefaultExportFromCjs(capitalize_1);
-var _excluded$1J = ["className", "timeout", "dimension", "exitedClassName", "exitingClassName", "enteredClassName", "enteringClassName", "getDimensionValue", "onEnter", "onEntering", "onEntered", "onExit", "onExiting"];
+var _excluded$1K = ["className", "timeout", "dimension", "exitedClassName", "exitingClassName", "enteredClassName", "enteringClassName", "getDimensionValue", "onEnter", "onEntering", "onEntered", "onExit", "onExiting"];
 var DIMENSION = /* @__PURE__ */ function(DIMENSION2) {
   DIMENSION2["HEIGHT"] = "height";
   DIMENSION2["WIDTH"] = "width";
@@ -23623,7 +23623,7 @@ function getScrollDimensionValue(elem, dimension) {
   return value + "px";
 }
 var Collapse$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var className = props.className, _props$timeout = props.timeout, timeout = _props$timeout === void 0 ? 300 : _props$timeout, _props$dimension = props.dimension, dimensionProp = _props$dimension === void 0 ? DIMENSION.HEIGHT : _props$dimension, exitedClassName = props.exitedClassName, exitingClassName = props.exitingClassName, enteredClassName = props.enteredClassName, enteringClassName = props.enteringClassName, _props$getDimensionVa = props.getDimensionValue, getDimensionValue = _props$getDimensionVa === void 0 ? defaultGetDimensionValue : _props$getDimensionVa, onEnter = props.onEnter, onEntering = props.onEntering, onEntered = props.onEntered, onExit = props.onExit, onExiting = props.onExiting, rest = _objectWithoutPropertiesLoose(props, _excluded$1J);
+  var className = props.className, _props$timeout = props.timeout, timeout = _props$timeout === void 0 ? 300 : _props$timeout, _props$dimension = props.dimension, dimensionProp = _props$dimension === void 0 ? DIMENSION.HEIGHT : _props$dimension, exitedClassName = props.exitedClassName, exitingClassName = props.exitingClassName, enteredClassName = props.enteredClassName, enteringClassName = props.enteringClassName, _props$getDimensionVa = props.getDimensionValue, getDimensionValue = _props$getDimensionVa === void 0 ? defaultGetDimensionValue : _props$getDimensionVa, onEnter = props.onEnter, onEntering = props.onEntering, onEntered = props.onEntered, onExit = props.onExit, onExiting = props.onExiting, rest = _objectWithoutPropertiesLoose(props, _excluded$1K);
   var _useClassNames = useClassNames$2("anim"), prefix2 = _useClassNames.prefix, merge2 = _useClassNames.merge;
   var dimension = typeof dimensionProp === "function" ? dimensionProp() : dimensionProp;
   var handleEnter = reactExports.useCallback(function(elem) {
@@ -23665,18 +23665,18 @@ Collapse$1.propTypes = _extends$1({}, transitionPropTypes, {
   dimension: PropTypes.any,
   getDimensionValue: PropTypes.func
 });
-var _templateObject$c, _templateObject2$6, _templateObject3, _templateObject4;
-var _excluded$1I = ["className", "classPrefix", "open"], _excluded2$f = ["className"];
+var _templateObject$d, _templateObject2$7, _templateObject3$1, _templateObject4$1;
+var _excluded$1J = ["className", "classPrefix", "open"], _excluded2$f = ["className"];
 var SidenavDropdownCollapse = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-menu" : _props$classPrefix, open = props.open, restProps = _objectWithoutPropertiesLoose(props, _excluded$1I);
+  var className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-menu" : _props$classPrefix, open = props.open, restProps = _objectWithoutPropertiesLoose(props, _excluded$1J);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge, prefix2 = _useClassNames.prefix;
   var classes = merge2(className, withClassPrefix());
   return /* @__PURE__ */ React.createElement(Collapse$1, {
     in: open,
-    exitedClassName: prefix2(_templateObject$c || (_templateObject$c = _taggedTemplateLiteralLoose(["collapse-out"]))),
-    exitingClassName: prefix2(_templateObject2$6 || (_templateObject2$6 = _taggedTemplateLiteralLoose(["collapsing"]))),
-    enteredClassName: prefix2(_templateObject3 || (_templateObject3 = _taggedTemplateLiteralLoose(["collapse-in"]))),
-    enteringClassName: prefix2(_templateObject4 || (_templateObject4 = _taggedTemplateLiteralLoose(["collapsing"])))
+    exitedClassName: prefix2(_templateObject$d || (_templateObject$d = _taggedTemplateLiteralLoose(["collapse-out"]))),
+    exitingClassName: prefix2(_templateObject2$7 || (_templateObject2$7 = _taggedTemplateLiteralLoose(["collapsing"]))),
+    enteredClassName: prefix2(_templateObject3$1 || (_templateObject3$1 = _taggedTemplateLiteralLoose(["collapse-in"]))),
+    enteringClassName: prefix2(_templateObject4$1 || (_templateObject4$1 = _taggedTemplateLiteralLoose(["collapsing"])))
   }, function(transitionProps, transitionRef) {
     var transitionClassName = transitionProps.className, transitionRestProps = _objectWithoutPropertiesLoose(transitionProps, _excluded2$f);
     return /* @__PURE__ */ React.createElement("ul", _extends$1({
@@ -23839,13 +23839,13 @@ var Disclosure = /* @__PURE__ */ React.memo(function(props) {
 });
 Disclosure.Button = DisclosureButton;
 Disclosure.Content = DisclosureContent;
-var _excluded$1H = ["as", "active", "children", "className", "disabled", "classPrefix", "icon", "eventKey", "style", "onClick", "onSelect", "divider", "panel", "tooltip"], _excluded2$e = ["selected", "active"];
+var _excluded$1I = ["as", "active", "children", "className", "disabled", "classPrefix", "icon", "eventKey", "style", "onClick", "onSelect", "divider", "panel", "tooltip"], _excluded2$e = ["selected", "active"];
 var SidenavItem = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var sidenav = reactExports.useContext(SidenavContext);
   if (!sidenav) {
     throw new Error("<SidenavItem> component is not supposed to be used standalone. Use <Nav.Item> inside <Sidenav> instead.");
   }
-  var _props$as = props.as, Component = _props$as === void 0 ? SafeAnchor : _props$as, activeProp = props.active, children = props.children, className = props.className, disabled = props.disabled, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "sidenav-item" : _props$classPrefix, icon = props.icon, eventKey = props.eventKey, style2 = props.style, onClick = props.onClick, onSelect = props.onSelect, divider = props.divider, panel = props.panel, _props$tooltip = props.tooltip, tooltip = _props$tooltip === void 0 ? children : _props$tooltip, rest = _objectWithoutPropertiesLoose(props, _excluded$1H);
+  var _props$as = props.as, Component = _props$as === void 0 ? SafeAnchor : _props$as, activeProp = props.active, children = props.children, className = props.className, disabled = props.disabled, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "sidenav-item" : _props$classPrefix, icon = props.icon, eventKey = props.eventKey, style2 = props.style, onClick = props.onClick, onSelect = props.onSelect, divider = props.divider, panel = props.panel, _props$tooltip = props.tooltip, tooltip = _props$tooltip === void 0 ? children : _props$tooltip, rest = _objectWithoutPropertiesLoose(props, _excluded$1I);
   var _ref = reactExports.useContext(NavContext), activeKey = _ref.activeKey, onSelectFromNav = _ref.onSelect;
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix;
   var selected = activeProp !== null && activeProp !== void 0 ? activeProp : !isNil$1(eventKey) && shallowEqual(activeKey, eventKey);
@@ -23935,9 +23935,9 @@ SidenavItem.propTypes = {
   onContextMenu: PropTypes.func,
   onClick: PropTypes.func
 };
-var _excluded$1G = ["as", "className", "classPrefix", "renderToggle", "children", "noCaret"];
+var _excluded$1H = ["as", "className", "classPrefix", "renderToggle", "children", "noCaret"];
 var SidenavDropdownToggle = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? SidenavItem : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-toggle" : _props$classPrefix, renderToggle = props.renderToggle, children = props.children, noCaret = props.noCaret, rest = _objectWithoutPropertiesLoose(props, _excluded$1G);
+  var _props$as = props.as, Component = _props$as === void 0 ? SidenavItem : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-toggle" : _props$classPrefix, renderToggle = props.renderToggle, children = props.children, noCaret = props.noCaret, rest = _objectWithoutPropertiesLoose(props, _excluded$1H);
   var _useClassNames = useClassNames$2(classPrefix), prefix2 = _useClassNames.prefix, withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge;
   var classes = merge2(className, withClassPrefix({
     "no-caret": noCaret
@@ -23961,7 +23961,7 @@ SidenavDropdownToggle.propTypes = {
   renderToggle: PropTypes.func,
   placement: oneOf(["bottomStart", "bottomEnd", "topStart", "topEnd", "leftStart", "rightStart", "leftEnd", "rightEnd"])
 };
-var _excluded$1F = ["as", "title", "children", "className", "menuStyle", "disabled", "renderTitle", "renderToggle", "classPrefix", "placement", "toggleClassName", "icon", "eventKey", "toggleAs", "noCaret", "style", "onOpen", "onClose", "open", "onToggle"];
+var _excluded$1G = ["as", "title", "children", "className", "menuStyle", "disabled", "renderTitle", "renderToggle", "classPrefix", "placement", "toggleClassName", "icon", "eventKey", "toggleAs", "noCaret", "style", "onOpen", "onClose", "open", "onToggle"];
 var ExpandedSidenavDropdown = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var sidenav = reactExports.useContext(SidenavContext);
   var nav = reactExports.useContext(NavContext);
@@ -23971,7 +23971,7 @@ var ExpandedSidenavDropdown = /* @__PURE__ */ React.forwardRef(function(props, r
   }
   var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, title = props.title, children = props.children, className = props.className, menuStyle = props.menuStyle, disabled = props.disabled;
   props.renderTitle;
-  var renderToggle = props.renderToggle, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown" : _props$classPrefix, _props$placement = props.placement, placement = _props$placement === void 0 ? "bottomStart" : _props$placement, toggleClassName = props.toggleClassName, icon = props.icon, eventKey = props.eventKey, toggleAs = props.toggleAs, noCaret = props.noCaret, style2 = props.style, onOpen = props.onOpen, onClose = props.onClose, openProp = props.open, onToggle = props.onToggle, rest = _objectWithoutPropertiesLoose(props, _excluded$1F);
+  var renderToggle = props.renderToggle, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown" : _props$classPrefix, _props$placement = props.placement, placement = _props$placement === void 0 ? "bottomStart" : _props$placement, toggleClassName = props.toggleClassName, icon = props.icon, eventKey = props.eventKey, toggleAs = props.toggleAs, noCaret = props.noCaret, style2 = props.style, onOpen = props.onOpen, onClose = props.onClose, openProp = props.open, onToggle = props.onToggle, rest = _objectWithoutPropertiesLoose(props, _excluded$1G);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix;
   var internalId = useInternalId("SidenavDropdown");
   var uniqueKey = eventKey !== null && eventKey !== void 0 ? eventKey : internalId;
@@ -24057,7 +24057,7 @@ ExpandedSidenavDropdown.propTypes = {
   renderTitle: deprecatePropType(PropTypes.func),
   renderToggle: PropTypes.func
 };
-var _excluded$1E = ["as", "title", "onClose", "onOpen", "onToggle", "eventKey", "trigger", "placement", "toggleAs", "toggleClassName", "classPrefix", "className", "disabled", "children", "menuStyle", "style"], _excluded2$d = ["active"], _excluded3$5 = ["open"], _excluded4$2 = ["open"];
+var _excluded$1F = ["as", "title", "onClose", "onOpen", "onToggle", "eventKey", "trigger", "placement", "toggleAs", "toggleClassName", "classPrefix", "className", "disabled", "children", "menuStyle", "style"], _excluded2$d = ["active"], _excluded3$5 = ["open"], _excluded4$2 = ["open"];
 var SidenavDropdown = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var sidenav = reactExports.useContext(SidenavContext);
   var nav = reactExports.useContext(NavContext);
@@ -24065,7 +24065,7 @@ var SidenavDropdown = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   if (!sidenav || !nav || !navMenu) {
     throw new Error("<Sidenav.Dropdown> must be rendered within a <Nav> component within a <Sidenav> component.");
   }
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, title = props.title, onClose = props.onClose, onOpen = props.onOpen, onToggle = props.onToggle, eventKey = props.eventKey, _props$trigger = props.trigger, trigger2 = _props$trigger === void 0 ? "click" : _props$trigger, _props$placement = props.placement, placement = _props$placement === void 0 ? "bottomStart" : _props$placement, toggleAs = props.toggleAs, toggleClassName = props.toggleClassName, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown" : _props$classPrefix, className = props.className, disabled = props.disabled, children = props.children, menuStyle = props.menuStyle, style2 = props.style, toggleProps = _objectWithoutPropertiesLoose(props, _excluded$1E);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, title = props.title, onClose = props.onClose, onOpen = props.onOpen, onToggle = props.onToggle, eventKey = props.eventKey, _props$trigger = props.trigger, trigger2 = _props$trigger === void 0 ? "click" : _props$trigger, _props$placement = props.placement, placement = _props$placement === void 0 ? "bottomStart" : _props$placement, toggleAs = props.toggleAs, toggleClassName = props.toggleClassName, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown" : _props$classPrefix, className = props.className, disabled = props.disabled, children = props.children, menuStyle = props.menuStyle, style2 = props.style, toggleProps = _objectWithoutPropertiesLoose(props, _excluded$1F);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix;
   var _useClassNames2 = useClassNames$2("dropdown-menu"), withMenuClassPrefix = _useClassNames2.withClassPrefix, mergeMenuClassName = _useClassNames2.merge;
   var _useClassNames3 = useClassNames$2("nav-item"), withNavItemClassPrefix = _useClassNames3.withClassPrefix, mergeNavItemClassNames = _useClassNames3.merge;
@@ -24183,19 +24183,19 @@ SidenavDropdown.propTypes = {
   onClick: PropTypes.func,
   renderToggle: PropTypes.func
 };
-var isArray = isArray_1;
+var isArray$1 = isArray_1;
 function castArray() {
   if (!arguments.length) {
     return [];
   }
   var value = arguments[0];
-  return isArray(value) ? value : [value];
+  return isArray$1(value) ? value : [value];
 }
 var castArray_1 = castArray;
 const castArray$1 = /* @__PURE__ */ getDefaultExportFromCjs(castArray_1);
-var _excluded$1D = ["as", "active", "disabled", "eventKey", "className", "classPrefix", "style", "children", "icon", "onClick", "onSelect"];
+var _excluded$1E = ["as", "active", "disabled", "eventKey", "className", "classPrefix", "style", "children", "icon", "onClick", "onSelect"];
 var NavbarItem = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? SafeAnchor : _props$as, activeProp = props.active, disabled = props.disabled, eventKey = props.eventKey, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "navbar-item" : _props$classPrefix, style2 = props.style, children = props.children, icon = props.icon, onClick = props.onClick, onSelectProp = props.onSelect, rest = _objectWithoutPropertiesLoose(props, _excluded$1D);
+  var _props$as = props.as, Component = _props$as === void 0 ? SafeAnchor : _props$as, activeProp = props.active, disabled = props.disabled, eventKey = props.eventKey, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "navbar-item" : _props$classPrefix, style2 = props.style, children = props.children, icon = props.icon, onClick = props.onClick, onSelectProp = props.onSelect, rest = _objectWithoutPropertiesLoose(props, _excluded$1E);
   var _ref = reactExports.useContext(NavContext), activeKey = _ref.activeKey, onSelectFromNav = _ref.onSelect;
   var active = activeProp !== null && activeProp !== void 0 ? activeProp : !isNil$1(eventKey) && shallowEqual(eventKey, activeKey);
   var emitSelect = reactExports.useCallback(function(event) {
@@ -24238,9 +24238,9 @@ NavbarItem.propTypes = {
   children: PropTypes.node,
   eventKey: PropTypes.any
 };
-var _excluded$1C = ["as", "className", "classPrefix", "renderToggle", "children", "noCaret"];
+var _excluded$1D = ["as", "className", "classPrefix", "renderToggle", "children", "noCaret"];
 var NavbarDropdownToggle = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? NavbarItem : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "navbar-item" : _props$classPrefix, renderToggle = props.renderToggle, children = props.children, noCaret = props.noCaret, rest = _objectWithoutPropertiesLoose(props, _excluded$1C);
+  var _props$as = props.as, Component = _props$as === void 0 ? NavbarItem : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "navbar-item" : _props$classPrefix, renderToggle = props.renderToggle, children = props.children, noCaret = props.noCaret, rest = _objectWithoutPropertiesLoose(props, _excluded$1D);
   var _useClassNames = useClassNames$2(classPrefix), prefix2 = _useClassNames.prefix, withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge;
   var classes = merge2(className, withClassPrefix({
     "no-caret": noCaret
@@ -24263,13 +24263,13 @@ NavbarDropdownToggle.propTypes = {
   renderToggle: PropTypes.func,
   placement: oneOf(["bottomStart", "bottomEnd", "topStart", "topEnd", "leftStart", "rightStart", "leftEnd", "rightEnd"])
 };
-var _excluded$1B = ["as", "title", "onClose", "onOpen", "onToggle", "trigger", "placement", "toggleAs", "toggleClassName", "classPrefix", "className", "disabled", "children", "menuStyle", "style"], _excluded2$c = ["open"];
+var _excluded$1C = ["as", "title", "onClose", "onOpen", "onToggle", "trigger", "placement", "toggleAs", "toggleClassName", "classPrefix", "className", "disabled", "children", "menuStyle", "style"], _excluded2$c = ["open"];
 var NavbarDropdown = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var navbar = reactExports.useContext(NavbarContext);
   if (!navbar) {
     throw new Error("<Navbar.Dropdown> should be used within a <Navbar> component.");
   }
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, title = props.title, onClose = props.onClose, onOpen = props.onOpen, _onToggle = props.onToggle, _props$trigger = props.trigger, trigger2 = _props$trigger === void 0 ? "click" : _props$trigger, _props$placement = props.placement, placement = _props$placement === void 0 ? "bottomStart" : _props$placement, toggleAs = props.toggleAs, toggleClassName = props.toggleClassName, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown" : _props$classPrefix, className = props.className, disabled = props.disabled, children = props.children, menuStyle = props.menuStyle, style2 = props.style, toggleProps = _objectWithoutPropertiesLoose(props, _excluded$1B);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, title = props.title, onClose = props.onClose, onOpen = props.onOpen, _onToggle = props.onToggle, _props$trigger = props.trigger, trigger2 = _props$trigger === void 0 ? "click" : _props$trigger, _props$placement = props.placement, placement = _props$placement === void 0 ? "bottomStart" : _props$placement, toggleAs = props.toggleAs, toggleClassName = props.toggleClassName, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown" : _props$classPrefix, className = props.className, disabled = props.disabled, children = props.children, menuStyle = props.menuStyle, style2 = props.style, toggleProps = _objectWithoutPropertiesLoose(props, _excluded$1C);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix;
   var _useClassNames2 = useClassNames$2("dropdown-menu"), withMenuClassPrefix = _useClassNames2.withClassPrefix, mergeMenuClassName = _useClassNames2.merge;
   return /* @__PURE__ */ React.createElement(Disclosure, {
@@ -24340,15 +24340,15 @@ NavbarDropdown.propTypes = {
   onClick: PropTypes.func,
   renderToggle: PropTypes.func
 };
-var _templateObject$b, _templateObject2$5;
-var _excluded$1A = ["onToggle", "eventKey", "title", "classPrefix", "children", "openDirection"], _excluded2$b = ["icon", "className", "disabled"], _excluded3$4 = ["open"], _excluded4$1 = ["open"];
+var _templateObject$c, _templateObject2$6;
+var _excluded$1B = ["onToggle", "eventKey", "title", "classPrefix", "children", "openDirection"], _excluded2$b = ["icon", "className", "disabled"], _excluded3$4 = ["open"], _excluded4$1 = ["open"];
 var NavbarDropdownMenu = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var navbar = reactExports.useContext(NavbarContext);
   var nav = reactExports.useContext(NavContext);
   if (!navbar || !nav) {
     throw new Error("<Navbar.Dropdown.Menu> must be rendered within a <Nav> within a <Navbar> component.");
   }
-  var _onToggle = props.onToggle, eventKey = props.eventKey, title = props.title, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-menu" : _props$classPrefix, children = props.children, _props$openDirection = props.openDirection, openDirection = _props$openDirection === void 0 ? "end" : _props$openDirection, rest = _objectWithoutPropertiesLoose(props, _excluded$1A);
+  var _onToggle = props.onToggle, eventKey = props.eventKey, title = props.title, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-menu" : _props$classPrefix, children = props.children, _props$openDirection = props.openDirection, openDirection = _props$openDirection === void 0 ? "end" : _props$openDirection, rest = _objectWithoutPropertiesLoose(props, _excluded$1B);
   var _useCustom = useCustom("DropdownMenu"), rtl = _useCustom.rtl;
   var _useClassNames = useClassNames$2(classPrefix), prefix2 = _useClassNames.prefix;
   var _useClassNames2 = useClassNames$2("dropdown-menu"), withMenuClassPrefix = _useClassNames2.withClassPrefix, mergeMenuClassName = _useClassNames2.merge;
@@ -24373,7 +24373,7 @@ var NavbarDropdownMenu = /* @__PURE__ */ React.forwardRef(function(props, ref) {
       className: classes
     }, props2), /* @__PURE__ */ React.createElement(Disclosure.Button, null, function(_ref2, buttonRef) {
       var open2 = _ref2.open, buttonProps = _objectWithoutPropertiesLoose(_ref2, _excluded4$1);
-      var classes2 = mergeItemClassNames(className, prefixItemClassName(_templateObject$b || (_templateObject$b = _taggedTemplateLiteralLoose(["toggle"]))), withItemClassPrefix({
+      var classes2 = mergeItemClassNames(className, prefixItemClassName(_templateObject$c || (_templateObject$c = _taggedTemplateLiteralLoose(["toggle"]))), withItemClassPrefix({
         "with-icon": icon,
         open: open2,
         disabled
@@ -24390,7 +24390,7 @@ var NavbarDropdownMenu = /* @__PURE__ */ React.forwardRef(function(props, ref) {
       }, dataAttributes, buttonProps), icon && /* @__PURE__ */ React.cloneElement(icon, {
         className: prefix2("menu-icon")
       }), title, /* @__PURE__ */ React.createElement(Icon2, {
-        className: prefix2(_templateObject2$5 || (_templateObject2$5 = _taggedTemplateLiteralLoose(["toggle-icon"])))
+        className: prefix2(_templateObject2$6 || (_templateObject2$6 = _taggedTemplateLiteralLoose(["toggle-icon"])))
       }));
     }), /* @__PURE__ */ React.createElement(Disclosure.Content, null, function(_ref3, elementRef) {
       var open2 = _ref3.open;
@@ -24675,14 +24675,14 @@ var ArrowRightLineExports = ArrowRightLine$2.exports;
   }
 })(ArrowRightLine$3);
 const ArrowRightLine = /* @__PURE__ */ getDefaultExportFromCjs(ArrowRightLine$3);
-var _templateObject$a;
-var _excluded$1z = ["as", "children", "disabled", "className", "style", "classPrefix", "tabIndex", "icon", "title", "eventKey", "onClick", "onSelect"];
+var _templateObject$b;
+var _excluded$1A = ["as", "children", "disabled", "className", "style", "classPrefix", "tabIndex", "icon", "title", "eventKey", "onClick", "onSelect"];
 var ExpandedSidenavDropdownMenu = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var sidenavContext = reactExports.useContext(SidenavContext);
   if (!sidenavContext) {
     throw new Error("<SidenavDropdownMenu> component is not supposed to be used standalone. Use <Nav.Menu> inside <Sidenav> instead.");
   }
-  var _props$as = props.as, Component = _props$as === void 0 ? "li" : _props$as, children = props.children, disabled = props.disabled, className = props.className, style2 = props.style, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-item" : _props$classPrefix, tabIndex = props.tabIndex, icon = props.icon, title = props.title, eventKey = props.eventKey, onClick = props.onClick, onSelect = props.onSelect, rest = _objectWithoutPropertiesLoose(props, _excluded$1z);
+  var _props$as = props.as, Component = _props$as === void 0 ? "li" : _props$as, children = props.children, disabled = props.disabled, className = props.className, style2 = props.style, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-item" : _props$classPrefix, tabIndex = props.tabIndex, icon = props.icon, title = props.title, eventKey = props.eventKey, onClick = props.onClick, onSelect = props.onSelect, rest = _objectWithoutPropertiesLoose(props, _excluded$1A);
   var _useCustom = useCustom("DropdownMenu"), rtl = _useCustom.rtl;
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix;
   var _sidenavContext$openK = sidenavContext.openKeys, openKeys = _sidenavContext$openK === void 0 ? [] : _sidenavContext$openK, onOpenChange = sidenavContext.onOpenChange, onSidenavSelect = sidenavContext.onSelect;
@@ -24716,7 +24716,7 @@ var ExpandedSidenavDropdownMenu = /* @__PURE__ */ React.forwardRef(function(prop
       className: classes
     }, menuitemEventHandlers), /* @__PURE__ */ React.createElement(Disclosure.Button, null, function(buttonProps) {
       return /* @__PURE__ */ React.createElement("button", _extends$1({
-        className: prefix2(_templateObject$a || (_templateObject$a = _taggedTemplateLiteralLoose(["toggle"]))),
+        className: prefix2(_templateObject$b || (_templateObject$b = _taggedTemplateLiteralLoose(["toggle"]))),
         onClick: handleClick
       }, omit$1(buttonProps, ["open"])), icon && /* @__PURE__ */ React.cloneElement(icon, {
         className: prefix2("menu-icon")
@@ -24749,15 +24749,15 @@ ExpandedSidenavDropdownMenu.propTypes = {
   onMouseOver: PropTypes.func,
   onMouseOut: PropTypes.func
 };
-var _templateObject$9, _templateObject2$4;
-var _excluded$1y = ["onToggle", "eventKey", "title", "classPrefix", "children"], _excluded2$a = ["icon", "className", "disabled"], _excluded3$3 = ["open"], _excluded4 = ["selected", "active"], _excluded5 = ["open"], _excluded6 = ["open"];
+var _templateObject$a, _templateObject2$5;
+var _excluded$1z = ["onToggle", "eventKey", "title", "classPrefix", "children"], _excluded2$a = ["icon", "className", "disabled"], _excluded3$3 = ["open"], _excluded4 = ["selected", "active"], _excluded5 = ["open"], _excluded6 = ["open"];
 var SidenavDropdownMenu = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var sidenav = reactExports.useContext(SidenavContext);
   var nav = reactExports.useContext(NavContext);
   if (!sidenav || !nav) {
     throw new Error("<Sidenav.Dropdown.Menu> must be rendered within a <Nav> within a <Sidenav> component.");
   }
-  var onToggle = props.onToggle, eventKey = props.eventKey, title = props.title, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-menu" : _props$classPrefix, children = props.children, rest = _objectWithoutPropertiesLoose(props, _excluded$1y);
+  var onToggle = props.onToggle, eventKey = props.eventKey, title = props.title, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-menu" : _props$classPrefix, children = props.children, rest = _objectWithoutPropertiesLoose(props, _excluded$1z);
   var _useCustom = useCustom("DropdownMenu"), rtl = _useCustom.rtl;
   var handleToggleSubmenu = reactExports.useCallback(function(open, event) {
     onToggle === null || onToggle === void 0 ? void 0 : onToggle(open, eventKey, event);
@@ -24780,7 +24780,7 @@ var SidenavDropdownMenu = /* @__PURE__ */ React.forwardRef(function(props, ref) 
         disabled
       }, function(_ref2, menuitemRef) {
         var selected = _ref2.selected, active = _ref2.active, menuitem = _objectWithoutPropertiesLoose(_ref2, _excluded4);
-        var classes = mergeItemClassNames(className, prefixItemClassName(_templateObject$9 || (_templateObject$9 = _taggedTemplateLiteralLoose(["toggle"]))), withItemClassPrefix({
+        var classes = mergeItemClassNames(className, prefixItemClassName(_templateObject$a || (_templateObject$a = _taggedTemplateLiteralLoose(["toggle"]))), withItemClassPrefix({
           "with-icon": icon,
           open,
           active: selected,
@@ -24795,7 +24795,7 @@ var SidenavDropdownMenu = /* @__PURE__ */ React.forwardRef(function(props, ref) 
         }, menuitem, omit$1(menuButtonProps, ["role"])), icon && /* @__PURE__ */ React.cloneElement(icon, {
           className: prefix2("menu-icon")
         }), title, /* @__PURE__ */ React.createElement(Icon2, {
-          className: prefix2(_templateObject2$4 || (_templateObject2$4 = _taggedTemplateLiteralLoose(["toggle-icon"])))
+          className: prefix2(_templateObject2$5 || (_templateObject2$5 = _taggedTemplateLiteralLoose(["toggle-icon"])))
         }));
       });
     },
@@ -24907,14 +24907,14 @@ var NavMenu = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   }, props));
 });
 NavMenu.displayName = "Nav.Menu";
-var _excluded$1x = ["classPrefix", "className", "active", "eventKey", "onSelect", "icon", "as", "divider", "panel", "children", "disabled"];
+var _excluded$1y = ["classPrefix", "className", "active", "eventKey", "onSelect", "icon", "as", "divider", "panel", "children", "disabled"];
 var NavbarDropdownItem = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var navbar = reactExports.useContext(NavbarContext);
   var nav = reactExports.useContext(NavContext);
   if (!navbar || !nav) {
     throw new Error("<Navbar.Dropdown.Item> must be rendered within a <Nav> component within a <Navbar> component.");
   }
-  var _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-item" : _props$classPrefix, className = props.className, activeProp = props.active, eventKey = props.eventKey, onSelect = props.onSelect, icon = props.icon, _props$as = props.as, Component = _props$as === void 0 ? "li" : _props$as, divider = props.divider, panel = props.panel, children = props.children, disabled = props.disabled, restProps = _objectWithoutPropertiesLoose(props, _excluded$1x);
+  var _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-item" : _props$classPrefix, className = props.className, activeProp = props.active, eventKey = props.eventKey, onSelect = props.onSelect, icon = props.icon, _props$as = props.as, Component = _props$as === void 0 ? "li" : _props$as, divider = props.divider, panel = props.panel, children = props.children, disabled = props.disabled, restProps = _objectWithoutPropertiesLoose(props, _excluded$1y);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix;
   var handleSelectItem = reactExports.useCallback(function(event) {
     var _nav$onSelect;
@@ -24991,14 +24991,14 @@ NavbarDropdownItem.propTypes = {
   classPrefix: PropTypes.string,
   tabIndex: PropTypes.number
 };
-var _excluded$1w = ["as", "active", "children", "disabled", "divider", "panel", "className", "style", "classPrefix", "icon", "eventKey", "onClick", "onSelect"];
+var _excluded$1x = ["as", "active", "children", "disabled", "divider", "panel", "className", "style", "classPrefix", "icon", "eventKey", "onClick", "onSelect"];
 var ExpandedSidenavDropdownItem = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var sidenav = reactExports.useContext(SidenavContext);
   var nav = reactExports.useContext(NavContext);
   if (!sidenav || !nav) {
     throw new Error("<SidenavDropdownItem> component is not supposed to be used standalone. Use <Nav.Item> within <Sidenav> instead.");
   }
-  var _props$as = props.as, Component = _props$as === void 0 ? "li" : _props$as, activeProp = props.active, children = props.children, disabled = props.disabled, divider = props.divider, panel = props.panel, className = props.className, style2 = props.style, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-item" : _props$classPrefix, icon = props.icon, eventKey = props.eventKey, onClick = props.onClick, onSelect = props.onSelect, rest = _objectWithoutPropertiesLoose(props, _excluded$1w);
+  var _props$as = props.as, Component = _props$as === void 0 ? "li" : _props$as, activeProp = props.active, children = props.children, disabled = props.disabled, divider = props.divider, panel = props.panel, className = props.className, style2 = props.style, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-item" : _props$classPrefix, icon = props.icon, eventKey = props.eventKey, onClick = props.onClick, onSelect = props.onSelect, rest = _objectWithoutPropertiesLoose(props, _excluded$1x);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix;
   var selected = activeProp !== null && activeProp !== void 0 ? activeProp : !isNil$1(eventKey) && (shallowEqual(eventKey, sidenav.activeKey) || shallowEqual(nav.activeKey, eventKey));
   var classes = merge2(className, withClassPrefix({
@@ -25069,14 +25069,14 @@ ExpandedSidenavDropdownItem.propTypes = {
   onMouseOver: PropTypes.func,
   onMouseOut: PropTypes.func
 };
-var _excluded$1v = ["classPrefix", "className", "active", "eventKey", "onSelect", "icon", "as", "divider", "panel", "children", "disabled"], _excluded2$9 = ["selected", "active"];
+var _excluded$1w = ["classPrefix", "className", "active", "eventKey", "onSelect", "icon", "as", "divider", "panel", "children", "disabled"], _excluded2$9 = ["selected", "active"];
 var SidenavDropdownItem = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var sidenav = reactExports.useContext(SidenavContext);
   var nav = reactExports.useContext(NavContext);
   if (!sidenav || !nav) {
     throw new Error("<Sidenav.Dropdown.Item> must be used within a <Nav> within a <Sidenav> component.");
   }
-  var _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-item" : _props$classPrefix, className = props.className, activeProp = props.active, eventKey = props.eventKey, onSelect = props.onSelect, icon = props.icon, _props$as = props.as, Component = _props$as === void 0 ? "li" : _props$as, divider = props.divider, panel = props.panel, children = props.children, disabled = props.disabled, restProps = _objectWithoutPropertiesLoose(props, _excluded$1v);
+  var _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-item" : _props$classPrefix, className = props.className, activeProp = props.active, eventKey = props.eventKey, onSelect = props.onSelect, icon = props.icon, _props$as = props.as, Component = _props$as === void 0 ? "li" : _props$as, divider = props.divider, panel = props.panel, children = props.children, disabled = props.disabled, restProps = _objectWithoutPropertiesLoose(props, _excluded$1w);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix;
   var handleSelectItem = reactExports.useCallback(function(event) {
     var _nav$onSelect;
@@ -25216,9 +25216,9 @@ var AdaptiveNavItem = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   }, props));
 });
 AdaptiveNavItem.displayName = "Nav.Item";
-var _excluded$1u = ["as", "classPrefix", "appearance", "vertical", "justified", "reversed", "pullRight", "className", "children", "activeKey", "defaultActiveKey", "onSelect"];
+var _excluded$1v = ["as", "classPrefix", "appearance", "vertical", "justified", "reversed", "pullRight", "className", "children", "activeKey", "defaultActiveKey", "onSelect"];
 var Nav = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "nav" : _props$classPrefix, _props$appearance = props.appearance, appearance = _props$appearance === void 0 ? "default" : _props$appearance, vertical = props.vertical, justified = props.justified, reversed = props.reversed, pullRight = props.pullRight, className = props.className, children = props.children, activeKeyProp = props.activeKey, defaultActiveKey = props.defaultActiveKey, onSelectProp = props.onSelect, rest = _objectWithoutPropertiesLoose(props, _excluded$1u);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "nav" : _props$classPrefix, _props$appearance = props.appearance, appearance = _props$appearance === void 0 ? "default" : _props$appearance, vertical = props.vertical, justified = props.justified, reversed = props.reversed, pullRight = props.pullRight, className = props.className, children = props.children, activeKeyProp = props.activeKey, defaultActiveKey = props.defaultActiveKey, onSelectProp = props.onSelect, rest = _objectWithoutPropertiesLoose(props, _excluded$1v);
   var sidenav = reactExports.useContext(SidenavContext);
   var navbar = reactExports.useContext(NavbarContext);
   var menubarRef = useEnsuredRef(ref);
@@ -25296,9 +25296,9 @@ Nav.propTypes = {
   activeKey: PropTypes.any,
   onSelect: PropTypes.func
 };
-var _excluded$1t = ["as", "classPrefix", "className", "inverse", "backdrop", "speed", "center", "vertical", "content", "size"];
+var _excluded$1u = ["as", "classPrefix", "className", "inverse", "backdrop", "speed", "center", "vertical", "content", "size"];
 var Loader = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "loader" : _props$classPrefix, className = props.className, inverse = props.inverse, backdrop = props.backdrop, _props$speed = props.speed, speed = _props$speed === void 0 ? "normal" : _props$speed, center = props.center, vertical = props.vertical, content = props.content, size2 = props.size, rest = _objectWithoutPropertiesLoose(props, _excluded$1t);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "loader" : _props$classPrefix, className = props.className, inverse = props.inverse, backdrop = props.backdrop, _props$speed = props.speed, speed = _props$speed === void 0 ? "normal" : _props$speed, center = props.center, vertical = props.vertical, content = props.content, size2 = props.size, rest = _objectWithoutPropertiesLoose(props, _excluded$1u);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix;
   var labelId = useUniqueId("loader-label-");
   var classes = merge2(className, prefix2("wrapper", "speed-" + speed, size2, {
@@ -25337,7 +25337,7 @@ Loader.propTypes = {
   size: oneOf(["lg", "md", "sm", "xs"]),
   speed: oneOf(["normal", "fast", "slow", "paused"])
 };
-var _excluded$1s = ["as", "classPrefix", "controlId", "className"];
+var _excluded$1t = ["as", "classPrefix", "controlId", "className"];
 var FormGroupContext = /* @__PURE__ */ React.createContext({});
 var useFormGroup = function useFormGroup2(controlId) {
   var context = React.useContext(FormGroupContext);
@@ -25366,7 +25366,7 @@ var useFormGroup = function useFormGroup2(controlId) {
   };
 };
 var FormGroup = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "form-group" : _props$classPrefix, controlIdProp = props.controlId, className = props.className, rest = _objectWithoutPropertiesLoose(props, _excluded$1s);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "form-group" : _props$classPrefix, controlIdProp = props.controlId, className = props.className, rest = _objectWithoutPropertiesLoose(props, _excluded$1t);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge;
   var classes = merge2(className, withClassPrefix());
   var controlId = useUniqueId("rs-", controlIdProp);
@@ -25389,9 +25389,9 @@ FormGroup.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string
 };
-var _excluded$1r = ["as", "classPrefix", "className", "disabled"];
+var _excluded$1s = ["as", "classPrefix", "className", "disabled"];
 var InputGroupAddon = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "span" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "input-group-addon" : _props$classPrefix, className = props.className, disabled = props.disabled, rest = _objectWithoutPropertiesLoose(props, _excluded$1r);
+  var _props$as = props.as, Component = _props$as === void 0 ? "span" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "input-group-addon" : _props$classPrefix, className = props.className, disabled = props.disabled, rest = _objectWithoutPropertiesLoose(props, _excluded$1s);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge;
   var classes = merge2(className, withClassPrefix({
     disabled
@@ -25407,9 +25407,9 @@ InputGroupAddon.propTypes = {
   classPrefix: PropTypes.string,
   disabled: PropTypes.bool
 };
-var _excluded$1q = ["classPrefix", "className"];
+var _excluded$1r = ["classPrefix", "className"];
 var InputGroupButton = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "input-group-btn" : _props$classPrefix, className = props.className, rest = _objectWithoutPropertiesLoose(props, _excluded$1q);
+  var _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "input-group-btn" : _props$classPrefix, className = props.className, rest = _objectWithoutPropertiesLoose(props, _excluded$1r);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge;
   var _useClassNames2 = useClassNames$2("input-group-addon"), withAddOnClassPrefix = _useClassNames2.withClassPrefix;
   var classes = merge2(withAddOnClassPrefix(), className, withClassPrefix());
@@ -25419,10 +25419,10 @@ var InputGroupButton = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   }));
 });
 InputGroupButton.displayName = "InputGroupButton";
-var _excluded$1p = ["as", "classPrefix", "className", "disabled", "inside", "size", "children"];
+var _excluded$1q = ["as", "classPrefix", "className", "disabled", "inside", "size", "children"];
 var InputGroupContext = /* @__PURE__ */ React.createContext(null);
 var InputGroup = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "input-group" : _props$classPrefix, className = props.className, disabled = props.disabled, inside = props.inside, size2 = props.size, children = props.children, rest = _objectWithoutPropertiesLoose(props, _excluded$1p);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "input-group" : _props$classPrefix, className = props.className, disabled = props.disabled, inside = props.inside, size2 = props.size, children = props.children, rest = _objectWithoutPropertiesLoose(props, _excluded$1q);
   var _useState = reactExports.useState(false), focus = _useState[0], setFocus = _useState[1];
   var handleFocus = reactExports.useCallback(function() {
     setFocus(true);
@@ -25472,10 +25472,10 @@ InputGroup.propTypes = {
 };
 InputGroup.Addon = InputGroupAddon;
 InputGroup.Button = InputGroupButton;
-var _excluded$1o = ["as", "classPrefix", "className", "children", "localeKey", "placeholder"];
+var _excluded$1p = ["as", "classPrefix", "className", "children", "localeKey", "placeholder"];
 var Plaintext = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var _useCustom = useCustom("Plaintext"), locale2 = _useCustom.locale;
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "plaintext" : _props$classPrefix, className = props.className, children = props.children, _props$localeKey = props.localeKey, localeKey = _props$localeKey === void 0 ? "" : _props$localeKey, _props$placeholder = props.placeholder, placeholder = _props$placeholder === void 0 ? locale2[localeKey] : _props$placeholder, rest = _objectWithoutPropertiesLoose(props, _excluded$1o);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "plaintext" : _props$classPrefix, className = props.className, children = props.children, _props$localeKey = props.localeKey, localeKey = _props$localeKey === void 0 ? "" : _props$localeKey, _props$placeholder = props.placeholder, placeholder = _props$placeholder === void 0 ? locale2[localeKey] : _props$placeholder, rest = _objectWithoutPropertiesLoose(props, _excluded$1p);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, merge2 = _useClassNames.merge;
   var classes = merge2(className, withClassPrefix({
     empty: !children
@@ -25488,9 +25488,9 @@ var Plaintext = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   }), children ? children : placeholder);
 });
 Plaintext.displayName = "Plaintext";
-var _excluded$1n = ["className", "classPrefix", "as", "type", "disabled", "value", "defaultValue", "inputRef", "id", "size", "htmlSize", "plaintext", "placeholder", "readOnly", "onPressEnter", "onFocus", "onBlur", "onKeyDown", "onChange"];
+var _excluded$1o = ["className", "classPrefix", "as", "type", "disabled", "value", "defaultValue", "inputRef", "id", "size", "htmlSize", "plaintext", "placeholder", "readOnly", "onPressEnter", "onFocus", "onBlur", "onKeyDown", "onChange"];
 var Input$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "input" : _props$classPrefix, _props$as = props.as, Component = _props$as === void 0 ? "input" : _props$as, _props$type = props.type, type = _props$type === void 0 ? "text" : _props$type, disabled = props.disabled, value = props.value, defaultValue = props.defaultValue, inputRef = props.inputRef, id2 = props.id, size2 = props.size, htmlSize = props.htmlSize, plaintext = props.plaintext, placeholder = props.placeholder, readOnly = props.readOnly, onPressEnter = props.onPressEnter, onFocus = props.onFocus, onBlur = props.onBlur, onKeyDown = props.onKeyDown, onChange = props.onChange, rest = _objectWithoutPropertiesLoose(props, _excluded$1n);
+  var className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "input" : _props$classPrefix, _props$as = props.as, Component = _props$as === void 0 ? "input" : _props$as, _props$type = props.type, type = _props$type === void 0 ? "text" : _props$type, disabled = props.disabled, value = props.value, defaultValue = props.defaultValue, inputRef = props.inputRef, id2 = props.id, size2 = props.size, htmlSize = props.htmlSize, plaintext = props.plaintext, placeholder = props.placeholder, readOnly = props.readOnly, onPressEnter = props.onPressEnter, onFocus = props.onFocus, onBlur = props.onBlur, onKeyDown = props.onKeyDown, onChange = props.onChange, rest = _objectWithoutPropertiesLoose(props, _excluded$1o);
   var handleKeyDown = function handleKeyDown2(event) {
     if (event.key === KEY_VALUES.ENTER) {
       onPressEnter === null || onPressEnter === void 0 ? void 0 : onPressEnter(event);
@@ -25553,14 +25553,14 @@ Input$1.propTypes = {
   onKeyDown: PropTypes.func,
   onPressEnter: PropTypes.func
 };
-var _excluded$1m = ["pickerProps", "speaker", "placement", "trigger", "id", "multiple", "popupType"];
+var _excluded$1n = ["pickerProps", "speaker", "placement", "trigger", "id", "multiple", "popupType"];
 var omitTriggerPropKeys = ["onEntered", "onExited", "onEnter", "onEntering", "onExit", "onExiting", "open", "onOpen", "defaultOpen", "onClose", "container", "containerPadding", "preventOverflow"];
 var pickTriggerPropKeys = [].concat(omitTriggerPropKeys, ["disabled", "plaintext", "readOnly", "loading", "label"]);
 var ComboboxContextContext = /* @__PURE__ */ React.createContext({
   popupType: "listbox"
 });
 var PickerToggleTrigger = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var pickerProps = props.pickerProps, speaker = props.speaker, placement = props.placement, _props$trigger = props.trigger, trigger2 = _props$trigger === void 0 ? "click" : _props$trigger, id2 = props.id, multiple = props.multiple, _props$popupType = props.popupType, popupType = _props$popupType === void 0 ? "listbox" : _props$popupType, rest = _objectWithoutPropertiesLoose(props, _excluded$1m);
+  var pickerProps = props.pickerProps, speaker = props.speaker, placement = props.placement, _props$trigger = props.trigger, trigger2 = _props$trigger === void 0 ? "click" : _props$trigger, id2 = props.id, multiple = props.multiple, _props$popupType = props.popupType, popupType = _props$popupType === void 0 ? "listbox" : _props$popupType, rest = _objectWithoutPropertiesLoose(props, _excluded$1n);
   var pickerTriggerProps = pick$1(pickerProps, pickTriggerPropKeys);
   var pickerId = useUniqueId("rs-", id2);
   var _useCustom = useCustom(), rtl = _useCustom.rtl;
@@ -25582,11 +25582,11 @@ var PickerToggleTrigger = /* @__PURE__ */ React.forwardRef(function(props, ref) 
 PickerToggleTrigger.displayName = "PickerToggleTrigger";
 var baseGetTag = _baseGetTag, isObjectLike = isObjectLike_1;
 var numberTag = "[object Number]";
-function isNumber$1(value) {
+function isNumber$2(value) {
   return typeof value == "number" || isObjectLike(value) && baseGetTag(value) == numberTag;
 }
-var isNumber_1 = isNumber$1;
-const isNumber$2 = /* @__PURE__ */ getDefaultExportFromCjs(isNumber_1);
+var isNumber_1 = isNumber$2;
+const isNumber$3 = /* @__PURE__ */ getDefaultExportFromCjs(isNumber_1);
 var baseFindIndex = _baseFindIndex, baseIteratee$1 = _baseIteratee, toInteger = toInteger_1;
 var nativeMax = Math.max;
 function findIndex$1(array, predicate, fromIndex) {
@@ -25602,9 +25602,9 @@ function findIndex$1(array, predicate, fromIndex) {
 }
 var findIndex_1 = findIndex$1;
 const findIndex$2 = /* @__PURE__ */ getDefaultExportFromCjs(findIndex_1);
-var _excluded$1l = ["children", "className", "disableHeight", "disableWidth", "defaultHeight", "defaultWidth", "style", "onResize"];
+var _excluded$1m = ["children", "className", "disableHeight", "disableWidth", "defaultHeight", "defaultWidth", "style", "onResize"];
 var AutoSizer = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var children = props.children, className = props.className, disableHeight = props.disableHeight, disableWidth = props.disableWidth, defaultHeight = props.defaultHeight, defaultWidth = props.defaultWidth, style2 = props.style, onResize = props.onResize, rest = _objectWithoutPropertiesLoose(props, _excluded$1l);
+  var children = props.children, className = props.className, disableHeight = props.disableHeight, disableWidth = props.disableWidth, defaultHeight = props.defaultHeight, defaultWidth = props.defaultWidth, style2 = props.style, onResize = props.onResize, rest = _objectWithoutPropertiesLoose(props, _excluded$1m);
   var _useState = reactExports.useState(defaultHeight || 0), height2 = _useState[0], setHeight = _useState[1];
   var _useState2 = reactExports.useState(defaultWidth || 0), width2 = _useState2[0], setWidth = _useState2[1];
   var rootRef = reactExports.useRef(null);
@@ -26364,9 +26364,9 @@ function useScrollState(scrollShadow) {
     bodyRef
   };
 }
-var _excluded$1k = ["as", "classPrefix", "className", "children", "scrollShadow", "customScrollbar", "height", "width", "style", "onScroll", "data-testid"];
+var _excluded$1l = ["as", "classPrefix", "className", "children", "scrollShadow", "customScrollbar", "height", "width", "style", "onScroll", "data-testid"];
 var ScrollView = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "scroll-view" : _props$classPrefix, className = props.className, children = props.children, scrollShadow = props.scrollShadow, customScrollbar = props.customScrollbar, height2 = props.height, width2 = props.width, style2 = props.style, onScroll = props.onScroll, dataTestId = props["data-testid"], rest = _objectWithoutPropertiesLoose(props, _excluded$1k);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "scroll-view" : _props$classPrefix, className = props.className, children = props.children, scrollShadow = props.scrollShadow, customScrollbar = props.customScrollbar, height2 = props.height, width2 = props.width, style2 = props.style, onScroll = props.onScroll, dataTestId = props["data-testid"], rest = _objectWithoutPropertiesLoose(props, _excluded$1l);
   var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, withClassPrefix = _useClassNames.withClassPrefix;
   var _useScrollState = useScrollState(scrollShadow), scrollState = _useScrollState.scrollState, handleScroll = _useScrollState.handleScroll, bodyRef = _useScrollState.bodyRef;
   var bodyStyles = _extends$1({
@@ -26389,7 +26389,7 @@ var ScrollView = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   }), children);
 });
 ScrollView.displayName = "ScrollView";
-var _excluded$1j = ["rowHeight", "as", "itemSize", "scrollShadow"];
+var _excluded$1k = ["rowHeight", "as", "itemSize", "scrollShadow"];
 var OuterElementType = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   return /* @__PURE__ */ React.createElement(ScrollView, _extends$1({
     scrollShadow: true,
@@ -26397,7 +26397,7 @@ var OuterElementType = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   }, props));
 });
 var List$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var rowHeight = props.rowHeight, _props$as = props.as, Component = _props$as === void 0 ? VariableSizeList : _props$as, itemSizeProp = props.itemSize, scrollShadow = props.scrollShadow, rest = _objectWithoutPropertiesLoose(props, _excluded$1j);
+  var rowHeight = props.rowHeight, _props$as = props.as, Component = _props$as === void 0 ? VariableSizeList : _props$as, itemSizeProp = props.itemSize, scrollShadow = props.scrollShadow, rest = _objectWithoutPropertiesLoose(props, _excluded$1k);
   var listRef = reactExports.useRef(null);
   var _useCustom = useCustom(), rtl = _useCustom.rtl;
   reactExports.useImperativeHandle(ref, function() {
@@ -26571,10 +26571,10 @@ var ArrowDownExports = ArrowDown$2.exports;
   }
 })(ArrowDown$3);
 const ArrowDown = /* @__PURE__ */ getDefaultExportFromCjs(ArrowDown$3);
-var _templateObject$8, _templateObject2$3;
-var _excluded$1i = ["as", "classPrefix", "children", "className"];
+var _templateObject$9, _templateObject2$4;
+var _excluded$1j = ["as", "classPrefix", "children", "className"];
 var ListItemGroup = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-menu-group" : _props$classPrefix, children = props.children, className = props.className, rest = _objectWithoutPropertiesLoose(props, _excluded$1i);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-menu-group" : _props$classPrefix, children = props.children, className = props.className, rest = _objectWithoutPropertiesLoose(props, _excluded$1j);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix, merge2 = _useClassNames.merge;
   var classes = merge2(className, withClassPrefix());
   return /* @__PURE__ */ React.createElement(Component, _extends$1({
@@ -26583,11 +26583,11 @@ var ListItemGroup = /* @__PURE__ */ React.forwardRef(function(props, ref) {
     ref,
     className: classes
   }), /* @__PURE__ */ React.createElement("div", {
-    className: prefix2(_templateObject$8 || (_templateObject$8 = _taggedTemplateLiteralLoose(["title"]))),
+    className: prefix2(_templateObject$9 || (_templateObject$9 = _taggedTemplateLiteralLoose(["title"]))),
     tabIndex: -1
   }, /* @__PURE__ */ React.createElement("span", null, children), /* @__PURE__ */ React.createElement(ArrowDown, {
     "aria-hidden": true,
-    className: prefix2(_templateObject2$3 || (_templateObject2$3 = _taggedTemplateLiteralLoose(["caret"])))
+    className: prefix2(_templateObject2$4 || (_templateObject2$4 = _taggedTemplateLiteralLoose(["caret"])))
   })));
 });
 ListItemGroup.displayName = "ListItemGroup";
@@ -26600,10 +26600,10 @@ function useCombobox() {
     labelId: hasLabel ? id2 + "-label" : void 0
   };
 }
-var _excluded$1h = ["data", "groupBy", "maxHeight", "activeItemValues", "disabledItemValues", "classPrefix", "valueKey", "labelKey", "virtualized", "listProps", "listRef", "className", "style", "focusItemValue", "listItemClassPrefix", "listItemAs", "listItemProps", "rowHeight", "rowGroupHeight", "query", "renderMenuGroup", "renderMenuItem", "onGroupTitleClick", "onSelect"];
+var _excluded$1i = ["data", "groupBy", "maxHeight", "activeItemValues", "disabledItemValues", "classPrefix", "valueKey", "labelKey", "virtualized", "listProps", "listRef", "className", "style", "focusItemValue", "listItemClassPrefix", "listItemAs", "listItemProps", "rowHeight", "rowGroupHeight", "query", "renderMenuGroup", "renderMenuItem", "onGroupTitleClick", "onSelect"];
 var _this = void 0;
 var Listbox = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$data = props.data, data = _props$data === void 0 ? [] : _props$data, groupBy2 = props.groupBy, _props$maxHeight = props.maxHeight, maxHeight2 = _props$maxHeight === void 0 ? 320 : _props$maxHeight, _props$activeItemValu = props.activeItemValues, activeItemValues = _props$activeItemValu === void 0 ? [] : _props$activeItemValu, _props$disabledItemVa = props.disabledItemValues, disabledItemValues = _props$disabledItemVa === void 0 ? [] : _props$disabledItemVa, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "listbox" : _props$classPrefix, _props$valueKey = props.valueKey, valueKey = _props$valueKey === void 0 ? "value" : _props$valueKey, _props$labelKey = props.labelKey, labelKey = _props$labelKey === void 0 ? "label" : _props$labelKey, virtualized = props.virtualized, listProps = props.listProps, virtualizedListRef = props.listRef, className = props.className, style2 = props.style, focusItemValue = props.focusItemValue, listItemClassPrefix = props.listItemClassPrefix, ListItem3 = props.listItemAs, listItemProps = props.listItemProps, _props$rowHeight = props.rowHeight, rowHeight = _props$rowHeight === void 0 ? 36 : _props$rowHeight, _props$rowGroupHeight = props.rowGroupHeight, rowGroupHeight = _props$rowGroupHeight === void 0 ? 48 : _props$rowGroupHeight, query = props.query, renderMenuGroup = props.renderMenuGroup, renderMenuItem = props.renderMenuItem, onGroupTitleClick = props.onGroupTitleClick, onSelect = props.onSelect, rest = _objectWithoutPropertiesLoose(props, _excluded$1h);
+  var _props$data = props.data, data = _props$data === void 0 ? [] : _props$data, groupBy2 = props.groupBy, _props$maxHeight = props.maxHeight, maxHeight2 = _props$maxHeight === void 0 ? 320 : _props$maxHeight, _props$activeItemValu = props.activeItemValues, activeItemValues = _props$activeItemValu === void 0 ? [] : _props$activeItemValu, _props$disabledItemVa = props.disabledItemValues, disabledItemValues = _props$disabledItemVa === void 0 ? [] : _props$disabledItemVa, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "listbox" : _props$classPrefix, _props$valueKey = props.valueKey, valueKey = _props$valueKey === void 0 ? "value" : _props$valueKey, _props$labelKey = props.labelKey, labelKey = _props$labelKey === void 0 ? "label" : _props$labelKey, virtualized = props.virtualized, listProps = props.listProps, virtualizedListRef = props.listRef, className = props.className, style2 = props.style, focusItemValue = props.focusItemValue, listItemClassPrefix = props.listItemClassPrefix, ListItem3 = props.listItemAs, listItemProps = props.listItemProps, _props$rowHeight = props.rowHeight, rowHeight = _props$rowHeight === void 0 ? 36 : _props$rowHeight, _props$rowGroupHeight = props.rowGroupHeight, rowGroupHeight = _props$rowGroupHeight === void 0 ? 48 : _props$rowGroupHeight, query = props.query, renderMenuGroup = props.renderMenuGroup, renderMenuItem = props.renderMenuItem, onGroupTitleClick = props.onGroupTitleClick, onSelect = props.onSelect, rest = _objectWithoutPropertiesLoose(props, _excluded$1i);
   var _useClassNames = useClassNames$2(classPrefix), withClassPrefix = _useClassNames.withClassPrefix, prefix2 = _useClassNames.prefix, merge2 = _useClassNames.merge;
   var groupable = typeof groupBy2 !== "undefined";
   var classes = merge2(className, withClassPrefix("items", {
@@ -26674,10 +26674,10 @@ var Listbox = /* @__PURE__ */ React.forwardRef(function(props, ref) {
       query,
       as: "span"
     }, itemLabel) : itemLabel;
-    if (isUndefined$2(label) && !item[RSUITE_PICKER_GROUP_KEY]) {
+    if (isUndefined$3(label) && !item[RSUITE_PICKER_GROUP_KEY]) {
       throw Error('labelKey "' + labelKey + '" is not defined in "data" : ' + index);
     }
-    var itemKey = isString$3(value) || isNumber$2(value) ? value : index;
+    var itemKey = isString$4(value) || isNumber$3(value) ? value : index;
     if (groupable && item[RSUITE_PICKER_GROUP_KEY]) {
       var groupValue = item[KEY_GROUP_TITLE];
       return /* @__PURE__ */ React.createElement(ListItemGroup, {
@@ -26691,7 +26691,7 @@ var Listbox = /* @__PURE__ */ React.forwardRef(function(props, ref) {
         key: "group-" + groupValue,
         onClick: handleGroupTitleClick.bind(null, groupValue)
       }, renderMenuGroup ? renderMenuGroup(groupValue, item) : groupValue);
-    } else if (isUndefined$2(value) && !isUndefined$2(item[RSUITE_PICKER_GROUP_KEY])) {
+    } else if (isUndefined$3(value) && !isUndefined$3(item[RSUITE_PICKER_GROUP_KEY])) {
       throw Error('valueKey "' + valueKey + '" is not defined in "data" : ' + index + " ");
     }
     var disabled = disabledItemValues === null || disabledItemValues === void 0 ? void 0 : disabledItemValues.some(function(disabledValue) {
@@ -26700,7 +26700,7 @@ var Listbox = /* @__PURE__ */ React.forwardRef(function(props, ref) {
     var active = activeItemValues === null || activeItemValues === void 0 ? void 0 : activeItemValues.some(function(v2) {
       return shallowEqual(v2, value);
     });
-    var focus = !isUndefined$2(focusItemValue) && shallowEqual(focusItemValue, value);
+    var focus = !isUndefined$3(focusItemValue) && shallowEqual(focusItemValue, value);
     return /* @__PURE__ */ React.createElement(ListItem3, _extends$1({
       "aria-posinset": index + 1,
       "aria-setsize": rowCount,
@@ -26758,10 +26758,10 @@ var Listbox = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   }));
 });
 Listbox.displayName = "Listbox";
-var _templateObject$7;
-var _excluded$1g = ["as", "role", "classPrefix", "active", "children", "className", "disabled", "focus", "value", "onKeyDown", "onSelect", "renderItem"];
+var _templateObject$8;
+var _excluded$1h = ["as", "role", "classPrefix", "active", "children", "className", "disabled", "focus", "value", "onKeyDown", "onSelect", "renderItem"];
 var ListItem$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$role = props.role, role = _props$role === void 0 ? "option" : _props$role, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-menu-item" : _props$classPrefix, active = props.active, children = props.children, className = props.className, disabled = props.disabled, focus = props.focus, value = props.value, onKeyDown = props.onKeyDown, onSelect = props.onSelect, renderItem = props.renderItem, rest = _objectWithoutPropertiesLoose(props, _excluded$1g);
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, _props$role = props.role, role = _props$role === void 0 ? "option" : _props$role, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "dropdown-menu-item" : _props$classPrefix, active = props.active, children = props.children, className = props.className, disabled = props.disabled, focus = props.focus, value = props.value, onKeyDown = props.onKeyDown, onSelect = props.onSelect, renderItem = props.renderItem, rest = _objectWithoutPropertiesLoose(props, _excluded$1h);
   var _useCombobox = useCombobox(), id2 = _useCombobox.id;
   var handleClick = useEventCallback$2(function(event) {
     event.preventDefault();
@@ -26783,7 +26783,7 @@ var ListItem$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
     "data-key": value
   }, rest, {
     ref,
-    className: merge2(className, rootPrefix(_templateObject$7 || (_templateObject$7 = _taggedTemplateLiteralLoose(["picker-list-item"])))),
+    className: merge2(className, rootPrefix(_templateObject$8 || (_templateObject$8 = _taggedTemplateLiteralLoose(["picker-list-item"])))),
     tabIndex: -1,
     onKeyDown: disabled ? null : onKeyDown,
     onClick: handleClick
@@ -26792,6 +26792,110 @@ var ListItem$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   }, renderItem ? renderItem(value) : children));
 });
 ListItem$1.displayName = "ListItem";
+var CheckboxGroupContext = /* @__PURE__ */ React.createContext(void 0);
+var _templateObject$7, _templateObject2$3, _templateObject3, _templateObject4;
+var _excluded$1g = ["as", "checked", "className", "children", "classPrefix", "checkable", "color", "defaultChecked", "title", "inputRef", "inputProps", "indeterminate", "labelClickable", "tabIndex", "disabled", "readOnly", "plaintext", "inline", "name", "value", "onClick", "onCheckboxClick", "onChange"];
+var Checkbox$1 = /* @__PURE__ */ React.forwardRef(function(props, ref) {
+  var checkboxGroupContext = reactExports.useContext(CheckboxGroupContext);
+  var _ref = checkboxGroupContext !== null && checkboxGroupContext !== void 0 ? checkboxGroupContext : {}, inlineContext = _ref.inline, nameContext = _ref.name, disabledContext = _ref.disabled, readOnlyContext = _ref.readOnly, plaintextContext = _ref.plaintext, onGroupChange = _ref.onChange;
+  var _props$as = props.as, Component = _props$as === void 0 ? "div" : _props$as, controlledChecked = props.checked, className = props.className, children = props.children, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "checkbox" : _props$classPrefix, _props$checkable = props.checkable, checkable = _props$checkable === void 0 ? true : _props$checkable, color2 = props.color, _props$defaultChecked = props.defaultChecked, defaultChecked = _props$defaultChecked === void 0 ? false : _props$defaultChecked, title = props.title, inputRef = props.inputRef, inputProps = props.inputProps, indeterminate = props.indeterminate, _props$labelClickable = props.labelClickable, labelClickable = _props$labelClickable === void 0 ? true : _props$labelClickable, _props$tabIndex = props.tabIndex, tabIndex = _props$tabIndex === void 0 ? 0 : _props$tabIndex, _props$disabled = props.disabled, disabled = _props$disabled === void 0 ? disabledContext : _props$disabled, _props$readOnly = props.readOnly, readOnly = _props$readOnly === void 0 ? readOnlyContext : _props$readOnly, _props$plaintext = props.plaintext, plaintext = _props$plaintext === void 0 ? plaintextContext : _props$plaintext, _props$inline = props.inline, inline = _props$inline === void 0 ? inlineContext : _props$inline, _props$name = props.name, name = _props$name === void 0 ? nameContext : _props$name, value = props.value, onClick = props.onClick, onCheckboxClick = props.onCheckboxClick, onChange = props.onChange, rest = _objectWithoutPropertiesLoose(props, _excluded$1g);
+  var _useControlled = useControlled$2(controlledChecked, defaultChecked), selfChecked = _useControlled[0], setSelfChecked = _useControlled[1], selfControlled = _useControlled[2];
+  var checked = reactExports.useMemo(function() {
+    var _checkboxGroupContext, _checkboxGroupContext2;
+    if (!checkboxGroupContext) {
+      return selfChecked;
+    }
+    return (_checkboxGroupContext = (_checkboxGroupContext2 = checkboxGroupContext.value) === null || _checkboxGroupContext2 === void 0 ? void 0 : _checkboxGroupContext2.some(function(checkedValue) {
+      return checkedValue === value;
+    })) !== null && _checkboxGroupContext !== void 0 ? _checkboxGroupContext : false;
+  }, [checkboxGroupContext, selfChecked, value]);
+  var _useClassNames = useClassNames$2(classPrefix), merge2 = _useClassNames.merge, prefix2 = _useClassNames.prefix, withClassPrefix = _useClassNames.withClassPrefix;
+  var classes = merge2(className, withClassPrefix(color2, {
+    inline,
+    indeterminate,
+    disabled,
+    checked
+  }));
+  var _partitionHTMLProps = partitionHTMLProps(rest), htmlInputProps2 = _partitionHTMLProps[0], restProps = _partitionHTMLProps[1];
+  var controlled = checkboxGroupContext ? true : selfControlled;
+  if (typeof controlled !== "undefined") {
+    htmlInputProps2[controlled ? "checked" : "defaultChecked"] = checked;
+  }
+  var checkboxRef = reactExports.useRef(null);
+  var handleChange = useEventCallback$2(function(event) {
+    var nextChecked = event.target.checked;
+    if (disabled || readOnly) {
+      return;
+    }
+    setSelfChecked(nextChecked);
+    onChange === null || onChange === void 0 ? void 0 : onChange(value, nextChecked, event);
+    onGroupChange === null || onGroupChange === void 0 ? void 0 : onGroupChange(value, nextChecked, event);
+  });
+  var handleLabelClick = useEventCallback$2(function(event) {
+    if (!labelClickable && event.target !== checkboxRef.current) {
+      event.preventDefault();
+    }
+  });
+  var labelId = useUniqueId("label-");
+  if (plaintext) {
+    return checked ? /* @__PURE__ */ React.createElement(Component, _extends$1({}, restProps, {
+      ref,
+      className: classes
+    }), children) : null;
+  }
+  var control = /* @__PURE__ */ React.createElement("span", {
+    className: prefix2(_templateObject$7 || (_templateObject$7 = _taggedTemplateLiteralLoose(["control"])))
+  }, /* @__PURE__ */ React.createElement("input", _extends$1({}, htmlInputProps2, inputProps, {
+    "aria-disabled": disabled,
+    "aria-checked": indeterminate ? "mixed" : checked,
+    "aria-labelledby": labelId,
+    name,
+    value,
+    type: "checkbox",
+    ref: mergeRefs(checkboxRef, inputRef),
+    tabIndex,
+    readOnly,
+    disabled,
+    onClick: onCheckboxClick,
+    onChange: handleChange
+  })), /* @__PURE__ */ React.createElement("span", {
+    className: prefix2(_templateObject2$3 || (_templateObject2$3 = _taggedTemplateLiteralLoose(["inner"]))),
+    "aria-hidden": true,
+    "data-testid": "checkbox-control-inner"
+  }));
+  return /* @__PURE__ */ React.createElement(Component, _extends$1({}, restProps, {
+    ref,
+    onClick,
+    className: classes
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: prefix2(_templateObject3 || (_templateObject3 = _taggedTemplateLiteralLoose(["checker"])))
+  }, /* @__PURE__ */ React.createElement("label", {
+    title,
+    onClick: handleLabelClick
+  }, checkable ? control : null, /* @__PURE__ */ React.createElement("span", {
+    className: prefix2(_templateObject4 || (_templateObject4 = _taggedTemplateLiteralLoose(["label"]))),
+    id: labelId
+  }, children))));
+});
+Checkbox$1.displayName = "Checkbox";
+Checkbox$1.propTypes = {
+  as: PropTypes.elementType,
+  checked: PropTypes.bool,
+  checkable: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  classPrefix: PropTypes.string,
+  disabled: PropTypes.bool,
+  defaultChecked: PropTypes.bool,
+  inline: PropTypes.bool,
+  indeterminate: PropTypes.bool,
+  inputProps: PropTypes.any,
+  inputRef: refType$1,
+  value: PropTypes.any,
+  onChange: PropTypes.func,
+  onClick: PropTypes.func,
+  onCheckboxClick: PropTypes.func
+};
 var _excluded$1f = ["as", "classPrefix", "autoWidth", "className", "placement", "target"];
 var omitProps = ["placement", "arrowOffsetLeft", "arrowOffsetTop", "positionLeft", "positionTop", "getPositionInstance", "getToggleInstance", "autoWidth"];
 var resizePlacement = ["topStart", "topEnd", "leftEnd", "rightEnd", "auto", "autoVerticalStart", "autoVerticalEnd", "autoHorizontalEnd"];
@@ -27167,9 +27271,9 @@ function charsStartIndex$1(strSymbols, chrSymbols) {
   return index;
 }
 var _charsStartIndex = charsStartIndex$1;
-var baseToString = _baseToString, baseTrim = _baseTrim, castSlice = _castSlice, charsEndIndex = _charsEndIndex, charsStartIndex = _charsStartIndex, stringToArray = _stringToArray, toString$1 = toString_1;
-function trim$1(string, chars2, guard) {
-  string = toString$1(string);
+var baseToString = _baseToString, baseTrim = _baseTrim, castSlice = _castSlice, charsEndIndex = _charsEndIndex, charsStartIndex = _charsStartIndex, stringToArray = _stringToArray, toString$2 = toString_1;
+function trim$2(string, chars2, guard) {
+  string = toString$2(string);
   if (string && (guard || chars2 === void 0)) {
     return baseTrim(string);
   }
@@ -27179,10 +27283,10 @@ function trim$1(string, chars2, guard) {
   var strSymbols = stringToArray(string), chrSymbols = stringToArray(chars2), start2 = charsStartIndex(strSymbols, chrSymbols), end2 = charsEndIndex(strSymbols, chrSymbols) + 1;
   return castSlice(strSymbols, start2, end2).join("");
 }
-var trim_1 = trim$1;
-const trim$2 = /* @__PURE__ */ getDefaultExportFromCjs(trim_1);
+var trim_1 = trim$2;
+const trim$3 = /* @__PURE__ */ getDefaultExportFromCjs(trim_1);
 function shouldDisplay(label, searchKeyword) {
-  if (!trim$2(searchKeyword)) {
+  if (!trim$3(searchKeyword)) {
     return true;
   }
   var keyword = searchKeyword.toLocaleLowerCase();
@@ -27233,14 +27337,14 @@ var useFocusItemValue = function useFocusItemValue2(defaultFocusItemValue, props
   var _useState3 = reactExports.useState([]), keys2 = _useState3[0], setKeys = _useState3[1];
   var focusCallback = useEventCallback$2(function(value, event) {
     if (focusToOption) {
-      var menu = isFunction$5(target) ? target() : target;
+      var menu = isFunction$6(target) ? target() : target;
       var focusElement = menu === null || menu === void 0 ? void 0 : menu.querySelector('[data-key="' + value + '"]');
       focusElement === null || focusElement === void 0 ? void 0 : focusElement.focus();
     }
     callback === null || callback === void 0 ? void 0 : callback(value, event);
   });
   var getScrollContainer = useEventCallback$2(function() {
-    var menu = isFunction$5(target) ? target() : target;
+    var menu = isFunction$6(target) ? target() : target;
     var subMenu = menu === null || menu === void 0 ? void 0 : menu.querySelector('[data-layer="' + layer + '"]');
     if (subMenu) {
       return subMenu;
@@ -27253,7 +27357,7 @@ var useFocusItemValue = function useFocusItemValue2(defaultFocusItemValue, props
     }
     var currentKeys = keys2;
     if (layer < 1) {
-      var popup = isFunction$5(target) ? target() : target;
+      var popup = isFunction$6(target) ? target() : target;
       var rootMenu = popup === null || popup === void 0 ? void 0 : popup.querySelector('[data-layer="0"]');
       if (rootMenu) {
         var _rootMenu$querySelect;
@@ -27306,7 +27410,7 @@ var useFocusItemValue = function useFocusItemValue2(defaultFocusItemValue, props
       var willOverflow = index + 2 > items.length;
       var nextIndex = willOverflow ? 0 : index + 1;
       var focusItem = items[nextIndex];
-      if (!isUndefined$2(focusItem)) {
+      if (!isUndefined$3(focusItem)) {
         setFocusItemValue(focusItem[valueKey]);
         focusCallback(focusItem[valueKey], event);
         scrollListItem("bottom", focusItem[valueKey], willOverflow);
@@ -27318,7 +27422,7 @@ var useFocusItemValue = function useFocusItemValue2(defaultFocusItemValue, props
       var willOverflow = index === 0;
       var nextIndex = willOverflow ? items.length - 1 : index - 1;
       var focusItem = items[nextIndex];
-      if (!isUndefined$2(focusItem)) {
+      if (!isUndefined$3(focusItem)) {
         setFocusItemValue(focusItem[valueKey]);
         focusCallback(focusItem[valueKey], event);
         scrollListItem("top", focusItem[valueKey], willOverflow);
@@ -27326,7 +27430,7 @@ var useFocusItemValue = function useFocusItemValue2(defaultFocusItemValue, props
     });
   });
   var getSubMenuKeys = function getSubMenuKeys2(nextLayer) {
-    var menu = isFunction$5(target) ? target() : target;
+    var menu = isFunction$6(target) ? target() : target;
     var subMenu = menu === null || menu === void 0 ? void 0 : menu.querySelector('[data-layer="' + nextLayer + '"]');
     if (subMenu) {
       var _Array$from;
@@ -27461,7 +27565,7 @@ function useSearch(data, props) {
   }, []);
   var checkShouldDisplay = reactExports.useCallback(function(item, keyword) {
     var checkValue = typeof item === "object" ? item === null || item === void 0 ? void 0 : item[labelKey] : String(item);
-    var _keyword = isUndefined$2(keyword) ? searchKeyword : keyword;
+    var _keyword = isUndefined$3(keyword) ? searchKeyword : keyword;
     if (typeof searchBy === "function") {
       return searchBy(_keyword, checkValue, item);
     }
@@ -27771,13 +27875,13 @@ var SelectPicker = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var activeItem = data.find(function(item) {
     return shallowEqual(item[valueKey], value);
   });
-  var hasValue2 = !!activeItem || !isNil$1(value) && isFunction$5(renderValue);
+  var hasValue2 = !!activeItem || !isNil$1(value) && isFunction$6(renderValue);
   var _useClassNames = useClassNames$2(classPrefix), prefix2 = _useClassNames.prefix, merge2 = _useClassNames.merge;
   var selectedElement = placeholder;
   if (activeItem !== null && activeItem !== void 0 && activeItem[labelKey]) {
     selectedElement = activeItem[labelKey];
   }
-  if (!isNil$1(value) && isFunction$5(renderValue)) {
+  if (!isNil$1(value) && isFunction$6(renderValue)) {
     selectedElement = renderValue(value, activeItem, selectedElement);
     if (isNil$1(selectedElement)) {
       hasValue2 = false;
@@ -27903,9 +28007,9 @@ var isobject = function isObject(val) {
  * Copyright (c) 2014-2018, Jon Schlinkert.
  * Released under the MIT License.
  */
-const isObject$3 = isobject;
+const isObject$4 = isobject;
 var getValue$1 = function(target, path, options) {
-  if (!isObject$3(options)) {
+  if (!isObject$4(options)) {
     options = { default: options };
   }
   if (!isValidObject(target)) {
@@ -27983,7 +28087,7 @@ function isValid(key, target, options) {
   return true;
 }
 function isValidObject(val) {
-  return isObject$3(val) || Array.isArray(val) || typeof val === "function";
+  return isObject$4(val) || Array.isArray(val) || typeof val === "function";
 }
 const get$1 = /* @__PURE__ */ getDefaultExportFromCjs(getValue$1);
 /*!
@@ -28004,11 +28108,11 @@ var isPrimitive$2 = function isPrimitive(val) {
  * Copyright (c) 2014-2017, Jon Schlinkert.
  * Released under the MIT License.
  */
-var isObject$2 = isobject;
+var isObject$3 = isobject;
 function isObjectObject(o) {
-  return isObject$2(o) === true && Object.prototype.toString.call(o) === "[object Object]";
+  return isObject$3(o) === true && Object.prototype.toString.call(o) === "[object Object]";
 }
-var isPlainObject$3 = function isPlainObject(o) {
+var isPlainObject$4 = function isPlainObject(o) {
   var ctor, prot;
   if (isObjectObject(o) === false) return false;
   ctor = o.constructor;
@@ -28028,8 +28132,8 @@ var isPlainObject$3 = function isPlainObject(o) {
  */
 const { deleteProperty } = Reflect;
 const isPrimitive$1 = isPrimitive$2;
-const isPlainObject$2 = isPlainObject$3;
-const isObject$1 = (value) => {
+const isPlainObject$3 = isPlainObject$4;
+const isObject$2 = (value) => {
   return typeof value === "object" && value !== null || typeof value === "function";
 };
 const isUnsafeKey = (key) => {
@@ -28109,7 +28213,7 @@ const assignProp = (obj, prop, value, options) => {
     deleteProperty(obj, prop);
   } else if (options && options.merge) {
     const merge2 = options.merge === "function" ? options.merge : Object.assign;
-    if (merge2 && isPlainObject$2(obj[prop]) && isPlainObject$2(value)) {
+    if (merge2 && isPlainObject$3(obj[prop]) && isPlainObject$3(value)) {
       obj[prop] = merge2(obj[prop], value);
     } else {
       obj[prop] = value;
@@ -28120,7 +28224,7 @@ const assignProp = (obj, prop, value, options) => {
   return obj;
 };
 const setValue = (target, path, value, options) => {
-  if (!path || !isObject$1(target)) return target;
+  if (!path || !isObject$2(target)) return target;
   const keys2 = split(path, options);
   let obj = target;
   for (let i2 = 0; i2 < keys2.length; i2++) {
@@ -28135,7 +28239,7 @@ const setValue = (target, path, value, options) => {
       obj = obj[key] = [];
       continue;
     }
-    if (!isObject$1(obj[key])) {
+    if (!isObject$2(obj[key])) {
       obj[key] = {};
     }
     obj = obj[key];
@@ -29182,11 +29286,11 @@ Form.propTypes = {
   disabled: PropTypes.bool
 };
 var _excluded$13 = ["as", "className", "classPrefix", "disabled", "decimalSeparator", "formatter", "readOnly", "plaintext", "value", "defaultValue", "size", "prefix", "postfix", "step", "buttonAppearance", "min", "max", "scrollable", "onChange", "onWheel", "onBlur", "onFocus"];
-var isNumber = function isNumber2(value) {
+var isNumber$1 = function isNumber(value) {
   return /(^-?|^\+?|^\d?)\d*\.\d+$/.test(value + "");
 };
 function getDecimalLength(value) {
-  if (isNumber(value)) {
+  if (isNumber$1(value)) {
     return value.toString().split(".")[1].length;
   }
   return 0;
@@ -30713,7 +30817,7 @@ var TimeDropdown = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   };
   var _useClassNames = useClassNames$2(classPrefix), prefix2 = _useClassNames.prefix, rootPrefix = _useClassNames.rootPrefix, merge2 = _useClassNames.merge;
   var renderColumn = function renderColumn2(type, active) {
-    if (!isNumber$2(active)) {
+    if (!isNumber$3(active)) {
       return null;
     }
     var _getRanges$type = getRanges$1(showMeridian)[type], start2 = _getRanges$type.start, end2 = _getRanges$type.end;
@@ -32515,7 +32619,7 @@ function combine$1() {
     });
   };
 }
-const utils$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const utils$3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   after,
   afterToday,
@@ -32526,8 +32630,8 @@ const utils$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePrope
   beforeToday,
   combine: combine$1
 }, Symbol.toStringTag, { value: "Module" }));
-Object.keys(utils$1).forEach(function(key) {
-  DateRangePicker[key] = utils$1[key];
+Object.keys(utils$3).forEach(function(key) {
+  DateRangePicker[key] = utils$3[key];
 });
 var Tab$1 = function Tab() {
   return /* @__PURE__ */ React.createElement(React.Fragment, null);
@@ -32724,15 +32828,15 @@ Tabs$1.propTypes = {
 };
 var Delete = {};
 var createSvgIcon$1 = {};
-function isPlainObject$1(item) {
+function isPlainObject$2(item) {
   if (typeof item !== "object" || item === null) {
     return false;
   }
-  const prototype = Object.getPrototypeOf(item);
-  return (prototype === null || prototype === Object.prototype || Object.getPrototypeOf(prototype) === null) && !(Symbol.toStringTag in item) && !(Symbol.iterator in item);
+  const prototype2 = Object.getPrototypeOf(item);
+  return (prototype2 === null || prototype2 === Object.prototype || Object.getPrototypeOf(prototype2) === null) && !(Symbol.toStringTag in item) && !(Symbol.iterator in item);
 }
 function deepClone(source) {
-  if (!isPlainObject$1(source)) {
+  if (!isPlainObject$2(source)) {
     return source;
   }
   const output = {};
@@ -32747,13 +32851,13 @@ function deepmerge(target, source, options = {
   const output = options.clone ? {
     ...target
   } : target;
-  if (isPlainObject$1(target) && isPlainObject$1(source)) {
+  if (isPlainObject$2(target) && isPlainObject$2(source)) {
     Object.keys(source).forEach((key) => {
-      if (isPlainObject$1(source[key]) && // Avoid prototype pollution
-      Object.prototype.hasOwnProperty.call(target, key) && isPlainObject$1(target[key])) {
+      if (isPlainObject$2(source[key]) && // Avoid prototype pollution
+      Object.prototype.hasOwnProperty.call(target, key) && isPlainObject$2(target[key])) {
         output[key] = deepmerge(target[key], source[key], options);
       } else if (options.clone) {
-        output[key] = isPlainObject$1(source[key]) ? deepClone(source[key]) : source[key];
+        output[key] = isPlainObject$2(source[key]) ? deepClone(source[key]) : source[key];
       } else {
         output[key] = source[key];
       }
@@ -32900,7 +33004,7 @@ function debounce$2(func, wait = 166) {
   };
   return debounced;
 }
-function deprecatedPropType(validator, reason) {
+function deprecatedPropType(validator2, reason) {
   {
     return () => null;
   }
@@ -33324,7 +33428,7 @@ function getReactNodeRef(element) {
     element.ref
   );
 }
-function merge(acc, item) {
+function merge$1(acc, item) {
   if (!item) {
     return acc;
   }
@@ -33686,7 +33790,7 @@ function resolveCssProperty(props, keys2, prop, transformer) {
 }
 function style$2(props, keys2) {
   const transformer = createUnarySpacing(props.theme);
-  return Object.keys(props).map((prop) => resolveCssProperty(props, keys2, prop, transformer)).reduce(merge, {});
+  return Object.keys(props).map((prop) => resolveCssProperty(props, keys2, prop, transformer)).reduce(merge$1, {});
 }
 function margin(props) {
   return style$2(props, marginKeys);
@@ -33708,7 +33812,7 @@ function compose(...styles2) {
   const fn2 = (props) => {
     return Object.keys(props).reduce((acc, prop) => {
       if (handlers[prop]) {
-        return merge(acc, handlers[prop](props));
+        return merge$1(acc, handlers[prop](props));
       }
       return acc;
     }, {});
@@ -34270,7 +34374,7 @@ function unstable_createStyleFunctionSx() {
         if (value !== null && value !== void 0) {
           if (typeof value === "object") {
             if (config2[styleKey]) {
-              css2 = merge(css2, getThemeValue(styleKey, value, theme, config2));
+              css2 = merge$1(css2, getThemeValue(styleKey, value, theme, config2));
             } else {
               const breakpointsValues = handleBreakpoints({
                 theme
@@ -34283,11 +34387,11 @@ function unstable_createStyleFunctionSx() {
                   theme
                 });
               } else {
-                css2 = merge(css2, breakpointsValues);
+                css2 = merge$1(css2, breakpointsValues);
               }
             }
           } else {
-            css2 = merge(css2, getThemeValue(styleKey, value, theme, config2));
+            css2 = merge$1(css2, getThemeValue(styleKey, value, theme, config2));
           }
         }
       });
@@ -34330,7 +34434,7 @@ function extendSxProp$1(props) {
   } else if (typeof inSx === "function") {
     finalSx = (...args) => {
       const result = inSx(...args);
-      if (!isPlainObject$1(result)) {
+      if (!isPlainObject$2(result)) {
         return systemProps;
       }
       return {
@@ -34459,7 +34563,7 @@ var assign = Object.assign;
 function hash$2(value, length2) {
   return charat(value, 0) ^ 45 ? (((length2 << 2 ^ charat(value, 0)) << 2 ^ charat(value, 1)) << 2 ^ charat(value, 2)) << 2 ^ charat(value, 3) : 0;
 }
-function trim(value) {
+function trim$1(value) {
   return value.trim();
 }
 function match(value, pattern) {
@@ -34564,7 +34668,7 @@ function dealloc(value) {
   return characters = "", value;
 }
 function delimit(type) {
-  return trim(slice(position - 1, delimiter(type === 91 ? type + 2 : type === 40 ? type + 1 : type)));
+  return trim$1(slice(position - 1, delimiter(type === 91 ? type + 2 : type === 40 ? type + 1 : type)));
 }
 function whitespace(type) {
   while (character = peek())
@@ -34733,7 +34837,7 @@ function ruleset(value, root2, parent2, index, offset2, rules, points, type, pro
   var size2 = sizeof(rule);
   for (var i2 = 0, j = 0, k3 = 0; i2 < index; ++i2)
     for (var x3 = 0, y4 = substr(value, post + 1, post = abs(j = points[i2])), z3 = value; x3 < size2; ++x3)
-      if (z3 = trim(j > 0 ? rule[x3] + " " + y4 : replace(y4, /&\f/g, rule[x3])))
+      if (z3 = trim$1(j > 0 ? rule[x3] + " " + y4 : replace(y4, /&\f/g, rule[x3])))
         props[k3++] = z3;
   return node(value, root2, parent2, offset2 === 0 ? RULESET : type, props, children, length2);
 }
@@ -35579,7 +35683,7 @@ var keyframes = function keyframes2() {
     name,
     styles: "@keyframes " + name + "{" + insertable.styles + "}",
     anim: 1,
-    toString: function toString2() {
+    toString: function toString3() {
       return "_EMO_" + this.name + "_" + this.styles + "_EMO_";
     }
   };
@@ -36198,7 +36302,7 @@ function createStyled2(input = {}) {
       ...options
     });
     const transformStyleArg = (style2) => {
-      if (typeof style2 === "function" && style2.__emotion_real !== style2 || isPlainObject$1(style2)) {
+      if (typeof style2 === "function" && style2.__emotion_real !== style2 || isPlainObject$2(style2)) {
         return (props) => processStyle(style2, attachTheme(props, themeId, defaultTheme2));
       }
       return style2;
@@ -37731,7 +37835,7 @@ const defaultGetSelector = (theme) => (colorScheme, css2) => {
   return ":root";
 };
 function isSerializable(val) {
-  return isPlainObject$1(val) || typeof val === "undefined" || typeof val === "string" || typeof val === "boolean" || typeof val === "number" || Array.isArray(val);
+  return isPlainObject$2(val) || typeof val === "undefined" || typeof val === "string" || typeof val === "boolean" || typeof val === "number" || Array.isArray(val);
 }
 function stringifyTheme(baseTheme = {}) {
   const serializableTheme = {
@@ -37743,7 +37847,7 @@ function stringifyTheme(baseTheme = {}) {
       const [key, value] = array[index];
       if (!isSerializable(value) || key.startsWith("unstable_")) {
         delete object[key];
-      } else if (isPlainObject$1(value)) {
+      } else if (isPlainObject$2(value)) {
         object[key] = {
           ...value
         };
@@ -38432,7 +38536,7 @@ const unstable_ClassNameGenerator = {
     ClassNameGenerator$1.configure(generator);
   }
 };
-const utils = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const utils$2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   capitalize: capitalize$1,
   createChainedFunction,
@@ -38453,7 +38557,7 @@ const utils = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePropert
   useEventCallback: useEventCallback$1,
   useForkRef: useForkRef$1
 }, Symbol.toStringTag, { value: "Module" }));
-const require$$0 = /* @__PURE__ */ getAugmentedNamespace(utils);
+const require$$0 = /* @__PURE__ */ getAugmentedNamespace(utils$2);
 var hasRequiredCreateSvgIcon;
 function requireCreateSvgIcon() {
   if (hasRequiredCreateSvgIcon) return createSvgIcon$1;
@@ -38517,7 +38621,7 @@ function makeStateUpdater(key, instance) {
     });
   };
 }
-function isFunction$1(d4) {
+function isFunction$2(d4) {
   return d4 instanceof Function;
 }
 function isNumberArray(d4) {
@@ -39090,7 +39194,7 @@ const ColumnFiltering = {
     };
     column2.getFilterFn = () => {
       var _table$options$filter, _table$options$filter2;
-      return isFunction$1(column2.columnDef.filterFn) ? column2.columnDef.filterFn : column2.columnDef.filterFn === "auto" ? column2.getAutoFilterFn() : (
+      return isFunction$2(column2.columnDef.filterFn) ? column2.columnDef.filterFn : column2.columnDef.filterFn === "auto" ? column2.getAutoFilterFn() : (
         // @ts-ignore
         (_table$options$filter = (_table$options$filter2 = table.options.filterFns) == null ? void 0 : _table$options$filter2[column2.columnDef.filterFn]) != null ? _table$options$filter : filterFns[column2.columnDef.filterFn]
       );
@@ -39146,11 +39250,11 @@ const ColumnFiltering = {
       const leafColumns = table.getAllLeafColumns();
       const updateFn = (old) => {
         var _functionalUpdate;
-        return (_functionalUpdate = functionalUpdate(updater, old)) == null ? void 0 : _functionalUpdate.filter((filter) => {
-          const column2 = leafColumns.find((d4) => d4.id === filter.id);
+        return (_functionalUpdate = functionalUpdate(updater, old)) == null ? void 0 : _functionalUpdate.filter((filter2) => {
+          const column2 = leafColumns.find((d4) => d4.id === filter2.id);
           if (column2) {
             const filterFn = column2.getFilterFn();
-            if (shouldAutoRemoveFilter(filterFn, filter.value, column2)) {
+            if (shouldAutoRemoveFilter(filterFn, filter2.value, column2)) {
               return false;
             }
           }
@@ -39332,7 +39436,7 @@ const ColumnGrouping = {
       if (!column2) {
         throw new Error();
       }
-      return isFunction$1(column2.columnDef.aggregationFn) ? column2.columnDef.aggregationFn : column2.columnDef.aggregationFn === "auto" ? column2.getAutoAggregationFn() : (_table$options$aggreg = (_table$options$aggreg2 = table.options.aggregationFns) == null ? void 0 : _table$options$aggreg2[column2.columnDef.aggregationFn]) != null ? _table$options$aggreg : aggregationFns[column2.columnDef.aggregationFn];
+      return isFunction$2(column2.columnDef.aggregationFn) ? column2.columnDef.aggregationFn : column2.columnDef.aggregationFn === "auto" ? column2.getAutoAggregationFn() : (_table$options$aggreg = (_table$options$aggreg2 = table.options.aggregationFns) == null ? void 0 : _table$options$aggreg2[column2.columnDef.aggregationFn]) != null ? _table$options$aggreg : aggregationFns[column2.columnDef.aggregationFn];
     };
   },
   createTable: (table) => {
@@ -39932,7 +40036,7 @@ const GlobalFiltering = {
       const {
         globalFilterFn
       } = table.options;
-      return isFunction$1(globalFilterFn) ? globalFilterFn : globalFilterFn === "auto" ? table.getGlobalAutoFilterFn() : (_table$options$filter = (_table$options$filter2 = table.options.filterFns) == null ? void 0 : _table$options$filter2[globalFilterFn]) != null ? _table$options$filter : filterFns[globalFilterFn];
+      return isFunction$2(globalFilterFn) ? globalFilterFn : globalFilterFn === "auto" ? table.getGlobalAutoFilterFn() : (_table$options$filter = (_table$options$filter2 = table.options.filterFns) == null ? void 0 : _table$options$filter2[globalFilterFn]) != null ? _table$options$filter : filterFns[globalFilterFn];
     };
     table.setGlobalFilter = (updater) => {
       table.options.onGlobalFilterChange == null || table.options.onGlobalFilterChange(updater);
@@ -40645,16 +40749,16 @@ function isSubRowSelected(row, selection, table) {
 }
 const reSplitAlphaNumeric = /([0-9]+)/gm;
 const alphanumeric = (rowA, rowB, columnId) => {
-  return compareAlphanumeric(toString(rowA.getValue(columnId)).toLowerCase(), toString(rowB.getValue(columnId)).toLowerCase());
+  return compareAlphanumeric(toString$1(rowA.getValue(columnId)).toLowerCase(), toString$1(rowB.getValue(columnId)).toLowerCase());
 };
 const alphanumericCaseSensitive = (rowA, rowB, columnId) => {
-  return compareAlphanumeric(toString(rowA.getValue(columnId)), toString(rowB.getValue(columnId)));
+  return compareAlphanumeric(toString$1(rowA.getValue(columnId)), toString$1(rowB.getValue(columnId)));
 };
 const text = (rowA, rowB, columnId) => {
-  return compareBasic(toString(rowA.getValue(columnId)).toLowerCase(), toString(rowB.getValue(columnId)).toLowerCase());
+  return compareBasic(toString$1(rowA.getValue(columnId)).toLowerCase(), toString$1(rowB.getValue(columnId)).toLowerCase());
 };
 const textCaseSensitive = (rowA, rowB, columnId) => {
-  return compareBasic(toString(rowA.getValue(columnId)), toString(rowB.getValue(columnId)));
+  return compareBasic(toString$1(rowA.getValue(columnId)), toString$1(rowB.getValue(columnId)));
 };
 const datetime = (rowA, rowB, columnId) => {
   const a3 = rowA.getValue(columnId);
@@ -40667,7 +40771,7 @@ const basic = (rowA, rowB, columnId) => {
 function compareBasic(a3, b3) {
   return a3 === b3 ? 0 : a3 > b3 ? 1 : -1;
 }
-function toString(a3) {
+function toString$1(a3) {
   if (typeof a3 === "number") {
     if (isNaN(a3) || a3 === Infinity || a3 === -Infinity) {
       return "";
@@ -40772,7 +40876,7 @@ const RowSorting = {
       if (!column2) {
         throw new Error();
       }
-      return isFunction$1(column2.columnDef.sortingFn) ? column2.columnDef.sortingFn : column2.columnDef.sortingFn === "auto" ? column2.getAutoSortingFn() : (_table$options$sortin = (_table$options$sortin2 = table.options.sortingFns) == null ? void 0 : _table$options$sortin2[column2.columnDef.sortingFn]) != null ? _table$options$sortin : sortingFns[column2.columnDef.sortingFn];
+      return isFunction$2(column2.columnDef.sortingFn) ? column2.columnDef.sortingFn : column2.columnDef.sortingFn === "auto" ? column2.getAutoSortingFn() : (_table$options$sortin = (_table$options$sortin2 = table.options.sortingFns) == null ? void 0 : _table$options$sortin2[column2.columnDef.sortingFn]) != null ? _table$options$sortin : sortingFns[column2.columnDef.sortingFn];
     };
     column2.toggleSorting = (desc, multi) => {
       const nextSortingOrder = column2.getNextSortingOrder();
@@ -42155,8 +42259,8 @@ function getClosenessRanking(testString, stringToRank) {
     }
     return -1;
   }
-  function getRanking(spread2) {
-    const spreadPercentage = 1 / spread2;
+  function getRanking(spread3) {
+    const spreadPercentage = 1 / spread3;
     const inOrderPercentage = matchingInOrderCharCount / stringToRank.length;
     const ranking = rankings.MATCHES + inOrderPercentage * spreadPercentage;
     return ranking;
@@ -42174,8 +42278,8 @@ function getClosenessRanking(testString, stringToRank) {
       return rankings.NO_MATCH;
     }
   }
-  const spread = charNumber - firstIndex;
-  return getRanking(spread);
+  const spread2 = charNumber - firstIndex;
+  return getRanking(spread2);
 }
 function compareItems(a3, b3) {
   return a3.rank === b3.rank ? 0 : a3.rank > b3.rank ? -1 : 1;
@@ -42568,7 +42672,7 @@ var Transition = /* @__PURE__ */ function(_React$Component) {
 }(React.Component);
 Transition.contextType = TransitionGroupContext;
 Transition.propTypes = {};
-function noop$1() {
+function noop$2() {
 }
 Transition.defaultProps = {
   in: false,
@@ -42577,12 +42681,12 @@ Transition.defaultProps = {
   appear: false,
   enter: true,
   exit: true,
-  onEnter: noop$1,
-  onEntering: noop$1,
-  onEntered: noop$1,
-  onExit: noop$1,
-  onExiting: noop$1,
-  onExited: noop$1
+  onEnter: noop$2,
+  onEntering: noop$2,
+  onEntered: noop$2,
+  onExit: noop$2,
+  onExiting: noop$2,
+  onExited: noop$2
 };
 Transition.UNMOUNTED = UNMOUNTED;
 Transition.EXITED = EXITED;
@@ -49758,15 +49862,15 @@ var _jsxRuntime$w = jsxRuntimeExports;
 default_1$w = ArrowRight.default = (0, _createSvgIcon$w.default)(/* @__PURE__ */ (0, _jsxRuntime$w.jsx)("path", {
   d: "m10 17 5-5-5-5z"
 }), "ArrowRight");
-var Cancel = {};
+var Cancel$1 = {};
 var _interopRequireDefault$v = interopRequireDefaultExports;
-Object.defineProperty(Cancel, "__esModule", {
+Object.defineProperty(Cancel$1, "__esModule", {
   value: true
 });
-var default_1$v = Cancel.default = void 0;
+var default_1$v = Cancel$1.default = void 0;
 var _createSvgIcon$v = _interopRequireDefault$v(requireCreateSvgIcon());
 var _jsxRuntime$v = jsxRuntimeExports;
-default_1$v = Cancel.default = (0, _createSvgIcon$v.default)(/* @__PURE__ */ (0, _jsxRuntime$v.jsx)("path", {
+default_1$v = Cancel$1.default = (0, _createSvgIcon$v.default)(/* @__PURE__ */ (0, _jsxRuntime$v.jsx)("path", {
   d: "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12z"
 }), "Cancel");
 var ChevronLeft = {};
@@ -55678,7 +55782,7 @@ function useAutocomplete(props) {
     setValueState(newValue);
   };
   const isTouch = reactExports.useRef(false);
-  const selectNewValue = (event, option, reasonProp = "selectOption", origin = "options") => {
+  const selectNewValue = (event, option, reasonProp = "selectOption", origin2 = "options") => {
     let reason = reasonProp;
     let newValue = option;
     if (multiple) {
@@ -55686,7 +55790,7 @@ function useAutocomplete(props) {
       const itemIndex = newValue.findIndex((valueItem) => isOptionEqualToValue(option, valueItem));
       if (itemIndex === -1) {
         newValue.push(option);
-      } else if (origin !== "freeSolo") {
+      } else if (origin2 !== "freeSolo") {
         newValue.splice(itemIndex, 1);
         reason = "removeOption";
       }
@@ -59521,7 +59625,7 @@ const usePickerValue = ({
   valueManager,
   valueType,
   wrapperVariant,
-  validator
+  validator: validator2
 }) => {
   const {
     onAccept,
@@ -59574,7 +59678,7 @@ const usePickerValue = ({
   useValidation(_extends$1({}, props, {
     value: dateState.draft,
     timezone
-  }), validator, valueManager.isSameError, valueManager.defaultErrorState);
+  }), validator2, valueManager.isSameError, valueManager.defaultErrorState);
   const updateDate = useEventCallback((action) => {
     const updaterParams = {
       action,
@@ -59595,7 +59699,7 @@ const usePickerValue = ({
     let cachedContext = null;
     const getContext = () => {
       if (!cachedContext) {
-        const validationError = action.name === "setValueFromField" ? action.context.validationError : validator({
+        const validationError = action.name === "setValueFromField" ? action.context.validationError : validator2({
           adapter,
           value: action.value,
           props: _extends$1({}, props, {
@@ -59713,7 +59817,7 @@ const usePickerValue = ({
     open: isOpen
   };
   const isValid2 = (testedValue) => {
-    const error = validator({
+    const error = validator2({
       adapter,
       value: testedValue,
       props: _extends$1({}, props, {
@@ -60017,7 +60121,7 @@ const usePicker = ({
   valueType,
   wrapperVariant,
   additionalViewProps,
-  validator,
+  validator: validator2,
   autoFocusView,
   rendererInterceptor: rendererInterceptor3,
   fieldRef
@@ -60027,7 +60131,7 @@ const usePicker = ({
     valueManager,
     valueType,
     wrapperVariant,
-    validator
+    validator: validator2
   });
   const pickerViewsResponse = usePickerViews({
     props,
@@ -61179,7 +61283,7 @@ const useFieldState = (params) => {
     valueManager,
     fieldValueManager,
     valueType,
-    validator,
+    validator: validator2,
     internalProps,
     internalProps: {
       value: valueProp,
@@ -61268,7 +61372,7 @@ const useFieldState = (params) => {
       return;
     }
     const context = {
-      validationError: validator({
+      validationError: validator2({
         adapter,
         value,
         props: _extends$1({}, internalProps, {
@@ -62297,7 +62401,7 @@ const useField = (params) => {
     },
     fieldValueManager,
     valueManager,
-    validator
+    validator: validator2
   } = params;
   const isRtl = useRtl();
   const stateResponse = useFieldState(params);
@@ -62412,7 +62516,7 @@ const useField = (params) => {
   const validationError = useValidation(_extends$1({}, internalProps, {
     value: state.value,
     timezone
-  }), validator, valueManager.isSameError, valueManager.defaultErrorState);
+  }), validator2, valueManager.isSameError, valueManager.defaultErrorState);
   const inputError = reactExports.useMemo(() => {
     if (error !== void 0) {
       return error;
@@ -64147,7 +64251,7 @@ const PickersDayFiller = styled("div", {
   opacity: 0,
   pointerEvents: "none"
 }));
-const noop = () => {
+const noop$1 = () => {
 };
 const PickersDayRaw = /* @__PURE__ */ reactExports.forwardRef(function PickersDay2(inProps, forwardedRef) {
   const props = useThemeProps({
@@ -64164,11 +64268,11 @@ const PickersDayRaw = /* @__PURE__ */ reactExports.forwardRef(function PickersDa
     isAnimating,
     onClick,
     onDaySelect,
-    onFocus = noop,
-    onBlur = noop,
-    onKeyDown = noop,
-    onMouseDown = noop,
-    onMouseEnter = noop,
+    onFocus = noop$1,
+    onBlur = noop$1,
+    onKeyDown = noop$1,
+    onMouseDown = noop$1,
+    onMouseEnter = noop$1,
     outsideCurrentMonth,
     selected = false,
     showDaysOutsideCurrentMonth = false,
@@ -76626,16 +76730,16 @@ const getValueAndLabel = (option) => {
   }
   return { label, value };
 };
-const getMRT_Rows = (table, all) => {
+const getMRT_Rows = (table, all3) => {
   const { getCenterRows, getPrePaginationRowModel, getRowModel, getState, getTopRows, options: { createDisplayMode, enablePagination, enableRowPinning, manualPagination, positionCreatingRow, rowPinningDisplayMode } } = table;
   const { creatingRow, pagination } = getState();
   const isRankingRows = getIsRankingRows(table);
   let rows = [];
   if (!isRankingRows) {
-    rows = !enableRowPinning || (rowPinningDisplayMode === null || rowPinningDisplayMode === void 0 ? void 0 : rowPinningDisplayMode.includes("sticky")) ? all ? getPrePaginationRowModel().rows : getRowModel().rows : getCenterRows();
+    rows = !enableRowPinning || (rowPinningDisplayMode === null || rowPinningDisplayMode === void 0 ? void 0 : rowPinningDisplayMode.includes("sticky")) ? all3 ? getPrePaginationRowModel().rows : getRowModel().rows : getCenterRows();
   } else {
     rows = getPrePaginationRowModel().rows.sort((a3, b3) => rankGlobalFuzzy(a3, b3));
-    if (enablePagination && !manualPagination && !all) {
+    if (enablePagination && !manualPagination && !all3) {
       const start2 = pagination.pageIndex * pagination.pageSize;
       rows = rows.slice(start2, start2 + pagination.pageSize);
     }
@@ -76914,11 +77018,11 @@ const startsWith = (row, id2, filterValue) => {
   return !!((_a2 = row.getValue(id2)) === null || _a2 === void 0 ? void 0 : _a2.toString().toLowerCase().trim().startsWith(filterValue.toString().toLowerCase().trim()));
 };
 startsWith.autoRemove = (val) => !val;
-const endsWith = (row, id2, filterValue) => {
+const endsWith$1 = (row, id2, filterValue) => {
   var _a2;
   return !!((_a2 = row.getValue(id2)) === null || _a2 === void 0 ? void 0 : _a2.toString().toLowerCase().trim().endsWith(filterValue.toString().toLowerCase().trim()));
 };
-endsWith.autoRemove = (val) => !val;
+endsWith$1.autoRemove = (val) => !val;
 const equals = (row, id2, filterValue) => {
   var _a2;
   return ((_a2 = row.getValue(id2)) === null || _a2 === void 0 ? void 0 : _a2.toString().toLowerCase().trim()) === filterValue.toString().toLowerCase().trim();
@@ -76962,7 +77066,7 @@ const MRT_FilterFns = Object.assign(Object.assign({}, filterFns), {
   betweenInclusive,
   contains: contains2,
   empty,
-  endsWith,
+  endsWith: endsWith$1,
   equals,
   fuzzy,
   greaterThan,
@@ -81020,6 +81124,11 @@ const isGOEWeek = (week) => {
   const weekStart = setToMidnight(week[0]);
   return isEqual(weekStart, actualWeekStart) || isAfter(weekStart, actualWeekStart);
 };
+const amountToLocal = (amount) => ({
+  amount: amount.amount,
+  confirmed: amount.confirmed,
+  realAmount: amount.real_amount
+});
 const collectRegisterToApi = (register) => {
   return {
     week_id: register.weekId,
@@ -81045,21 +81154,2491 @@ const collectRegisterToLocal = (data) => ({
   clientId: Number(data.client_id),
   clientName: data.client_name,
   weekId: Number(data.week_id),
-  monday: data.monday_amount,
-  tuesday: data.tuesday_amount,
-  wednesday: data.wednesday_amount,
-  thursday: data.thursday_amount,
-  friday: data.friday_amount,
-  saturday: data.saturday_amount,
+  monday: amountToLocal(data.monday_amount),
+  tuesday: amountToLocal(data.tuesday_amount),
+  wednesday: amountToLocal(data.wednesday_amount),
+  thursday: amountToLocal(data.thursday_amount),
+  friday: amountToLocal(data.friday_amount),
+  saturday: amountToLocal(data.saturday_amount),
   observations: data.observations,
   totalConfirmed: data.total_confirmed_amount
 });
 const collectConfirmationToApi = (confirmation) => ({
   collect_id: confirmation.itemId,
   day_of_week: confirmation.dayOfWeek,
-  confirmed: confirmation.confirmed
+  confirmed: confirmation.confirmed,
+  amount: confirmation.amount
 });
-const BASE_URL$4 = "./services/";
+function bind(fn2, thisArg) {
+  return function wrap() {
+    return fn2.apply(thisArg, arguments);
+  };
+}
+const { toString } = Object.prototype;
+const { getPrototypeOf } = Object;
+const kindOf = /* @__PURE__ */ ((cache2) => (thing) => {
+  const str = toString.call(thing);
+  return cache2[str] || (cache2[str] = str.slice(8, -1).toLowerCase());
+})(/* @__PURE__ */ Object.create(null));
+const kindOfTest = (type) => {
+  type = type.toLowerCase();
+  return (thing) => kindOf(thing) === type;
+};
+const typeOfTest = (type) => (thing) => typeof thing === type;
+const { isArray } = Array;
+const isUndefined$1 = typeOfTest("undefined");
+function isBuffer(val) {
+  return val !== null && !isUndefined$1(val) && val.constructor !== null && !isUndefined$1(val.constructor) && isFunction$1(val.constructor.isBuffer) && val.constructor.isBuffer(val);
+}
+const isArrayBuffer = kindOfTest("ArrayBuffer");
+function isArrayBufferView(val) {
+  let result;
+  if (typeof ArrayBuffer !== "undefined" && ArrayBuffer.isView) {
+    result = ArrayBuffer.isView(val);
+  } else {
+    result = val && val.buffer && isArrayBuffer(val.buffer);
+  }
+  return result;
+}
+const isString$1 = typeOfTest("string");
+const isFunction$1 = typeOfTest("function");
+const isNumber2 = typeOfTest("number");
+const isObject$1 = (thing) => thing !== null && typeof thing === "object";
+const isBoolean$1 = (thing) => thing === true || thing === false;
+const isPlainObject$1 = (val) => {
+  if (kindOf(val) !== "object") {
+    return false;
+  }
+  const prototype2 = getPrototypeOf(val);
+  return (prototype2 === null || prototype2 === Object.prototype || Object.getPrototypeOf(prototype2) === null) && !(Symbol.toStringTag in val) && !(Symbol.iterator in val);
+};
+const isDate = kindOfTest("Date");
+const isFile = kindOfTest("File");
+const isBlob = kindOfTest("Blob");
+const isFileList = kindOfTest("FileList");
+const isStream = (val) => isObject$1(val) && isFunction$1(val.pipe);
+const isFormData = (thing) => {
+  let kind;
+  return thing && (typeof FormData === "function" && thing instanceof FormData || isFunction$1(thing.append) && ((kind = kindOf(thing)) === "formdata" || // detect form-data instance
+  kind === "object" && isFunction$1(thing.toString) && thing.toString() === "[object FormData]"));
+};
+const isURLSearchParams = kindOfTest("URLSearchParams");
+const [isReadableStream, isRequest, isResponse, isHeaders] = ["ReadableStream", "Request", "Response", "Headers"].map(kindOfTest);
+const trim = (str) => str.trim ? str.trim() : str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
+function forEach(obj, fn2, { allOwnKeys = false } = {}) {
+  if (obj === null || typeof obj === "undefined") {
+    return;
+  }
+  let i2;
+  let l2;
+  if (typeof obj !== "object") {
+    obj = [obj];
+  }
+  if (isArray(obj)) {
+    for (i2 = 0, l2 = obj.length; i2 < l2; i2++) {
+      fn2.call(null, obj[i2], i2, obj);
+    }
+  } else {
+    const keys2 = allOwnKeys ? Object.getOwnPropertyNames(obj) : Object.keys(obj);
+    const len = keys2.length;
+    let key;
+    for (i2 = 0; i2 < len; i2++) {
+      key = keys2[i2];
+      fn2.call(null, obj[key], key, obj);
+    }
+  }
+}
+function findKey(obj, key) {
+  key = key.toLowerCase();
+  const keys2 = Object.keys(obj);
+  let i2 = keys2.length;
+  let _key;
+  while (i2-- > 0) {
+    _key = keys2[i2];
+    if (key === _key.toLowerCase()) {
+      return _key;
+    }
+  }
+  return null;
+}
+const _global = (() => {
+  if (typeof globalThis !== "undefined") return globalThis;
+  return typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : global;
+})();
+const isContextDefined = (context) => !isUndefined$1(context) && context !== _global;
+function merge() {
+  const { caseless } = isContextDefined(this) && this || {};
+  const result = {};
+  const assignValue2 = (val, key) => {
+    const targetKey = caseless && findKey(result, key) || key;
+    if (isPlainObject$1(result[targetKey]) && isPlainObject$1(val)) {
+      result[targetKey] = merge(result[targetKey], val);
+    } else if (isPlainObject$1(val)) {
+      result[targetKey] = merge({}, val);
+    } else if (isArray(val)) {
+      result[targetKey] = val.slice();
+    } else {
+      result[targetKey] = val;
+    }
+  };
+  for (let i2 = 0, l2 = arguments.length; i2 < l2; i2++) {
+    arguments[i2] && forEach(arguments[i2], assignValue2);
+  }
+  return result;
+}
+const extend = (a3, b3, thisArg, { allOwnKeys } = {}) => {
+  forEach(b3, (val, key) => {
+    if (thisArg && isFunction$1(val)) {
+      a3[key] = bind(val, thisArg);
+    } else {
+      a3[key] = val;
+    }
+  }, { allOwnKeys });
+  return a3;
+};
+const stripBOM = (content) => {
+  if (content.charCodeAt(0) === 65279) {
+    content = content.slice(1);
+  }
+  return content;
+};
+const inherits = (constructor, superConstructor, props, descriptors2) => {
+  constructor.prototype = Object.create(superConstructor.prototype, descriptors2);
+  constructor.prototype.constructor = constructor;
+  Object.defineProperty(constructor, "super", {
+    value: superConstructor.prototype
+  });
+  props && Object.assign(constructor.prototype, props);
+};
+const toFlatObject = (sourceObj, destObj, filter2, propFilter) => {
+  let props;
+  let i2;
+  let prop;
+  const merged = {};
+  destObj = destObj || {};
+  if (sourceObj == null) return destObj;
+  do {
+    props = Object.getOwnPropertyNames(sourceObj);
+    i2 = props.length;
+    while (i2-- > 0) {
+      prop = props[i2];
+      if ((!propFilter || propFilter(prop, sourceObj, destObj)) && !merged[prop]) {
+        destObj[prop] = sourceObj[prop];
+        merged[prop] = true;
+      }
+    }
+    sourceObj = filter2 !== false && getPrototypeOf(sourceObj);
+  } while (sourceObj && (!filter2 || filter2(sourceObj, destObj)) && sourceObj !== Object.prototype);
+  return destObj;
+};
+const endsWith = (str, searchString, position2) => {
+  str = String(str);
+  if (position2 === void 0 || position2 > str.length) {
+    position2 = str.length;
+  }
+  position2 -= searchString.length;
+  const lastIndex = str.indexOf(searchString, position2);
+  return lastIndex !== -1 && lastIndex === position2;
+};
+const toArray = (thing) => {
+  if (!thing) return null;
+  if (isArray(thing)) return thing;
+  let i2 = thing.length;
+  if (!isNumber2(i2)) return null;
+  const arr = new Array(i2);
+  while (i2-- > 0) {
+    arr[i2] = thing[i2];
+  }
+  return arr;
+};
+const isTypedArray = /* @__PURE__ */ ((TypedArray) => {
+  return (thing) => {
+    return TypedArray && thing instanceof TypedArray;
+  };
+})(typeof Uint8Array !== "undefined" && getPrototypeOf(Uint8Array));
+const forEachEntry = (obj, fn2) => {
+  const generator = obj && obj[Symbol.iterator];
+  const iterator = generator.call(obj);
+  let result;
+  while ((result = iterator.next()) && !result.done) {
+    const pair = result.value;
+    fn2.call(obj, pair[0], pair[1]);
+  }
+};
+const matchAll = (regExp, str) => {
+  let matches;
+  const arr = [];
+  while ((matches = regExp.exec(str)) !== null) {
+    arr.push(matches);
+  }
+  return arr;
+};
+const isHTMLForm = kindOfTest("HTMLFormElement");
+const toCamelCase = (str) => {
+  return str.toLowerCase().replace(
+    /[-_\s]([a-z\d])(\w*)/g,
+    function replacer(m4, p1, p2) {
+      return p1.toUpperCase() + p2;
+    }
+  );
+};
+const hasOwnProperty = (({ hasOwnProperty: hasOwnProperty2 }) => (obj, prop) => hasOwnProperty2.call(obj, prop))(Object.prototype);
+const isRegExp = kindOfTest("RegExp");
+const reduceDescriptors = (obj, reducer3) => {
+  const descriptors2 = Object.getOwnPropertyDescriptors(obj);
+  const reducedDescriptors = {};
+  forEach(descriptors2, (descriptor, name) => {
+    let ret;
+    if ((ret = reducer3(descriptor, name, obj)) !== false) {
+      reducedDescriptors[name] = ret || descriptor;
+    }
+  });
+  Object.defineProperties(obj, reducedDescriptors);
+};
+const freezeMethods = (obj) => {
+  reduceDescriptors(obj, (descriptor, name) => {
+    if (isFunction$1(obj) && ["arguments", "caller", "callee"].indexOf(name) !== -1) {
+      return false;
+    }
+    const value = obj[name];
+    if (!isFunction$1(value)) return;
+    descriptor.enumerable = false;
+    if ("writable" in descriptor) {
+      descriptor.writable = false;
+      return;
+    }
+    if (!descriptor.set) {
+      descriptor.set = () => {
+        throw Error("Can not rewrite read-only method '" + name + "'");
+      };
+    }
+  });
+};
+const toObjectSet = (arrayOrString, delimiter2) => {
+  const obj = {};
+  const define = (arr) => {
+    arr.forEach((value) => {
+      obj[value] = true;
+    });
+  };
+  isArray(arrayOrString) ? define(arrayOrString) : define(String(arrayOrString).split(delimiter2));
+  return obj;
+};
+const noop = () => {
+};
+const toFiniteNumber = (value, defaultValue) => {
+  return value != null && Number.isFinite(value = +value) ? value : defaultValue;
+};
+const ALPHA = "abcdefghijklmnopqrstuvwxyz";
+const DIGIT = "0123456789";
+const ALPHABET = {
+  DIGIT,
+  ALPHA,
+  ALPHA_DIGIT: ALPHA + ALPHA.toUpperCase() + DIGIT
+};
+const generateString = (size2 = 16, alphabet = ALPHABET.ALPHA_DIGIT) => {
+  let str = "";
+  const { length: length2 } = alphabet;
+  while (size2--) {
+    str += alphabet[Math.random() * length2 | 0];
+  }
+  return str;
+};
+function isSpecCompliantForm(thing) {
+  return !!(thing && isFunction$1(thing.append) && thing[Symbol.toStringTag] === "FormData" && thing[Symbol.iterator]);
+}
+const toJSONObject = (obj) => {
+  const stack = new Array(10);
+  const visit = (source, i2) => {
+    if (isObject$1(source)) {
+      if (stack.indexOf(source) >= 0) {
+        return;
+      }
+      if (!("toJSON" in source)) {
+        stack[i2] = source;
+        const target = isArray(source) ? [] : {};
+        forEach(source, (value, key) => {
+          const reducedValue = visit(value, i2 + 1);
+          !isUndefined$1(reducedValue) && (target[key] = reducedValue);
+        });
+        stack[i2] = void 0;
+        return target;
+      }
+    }
+    return source;
+  };
+  return visit(obj, 0);
+};
+const isAsyncFn = kindOfTest("AsyncFunction");
+const isThenable = (thing) => thing && (isObject$1(thing) || isFunction$1(thing)) && isFunction$1(thing.then) && isFunction$1(thing.catch);
+const _setImmediate = ((setImmediateSupported, postMessageSupported) => {
+  if (setImmediateSupported) {
+    return setImmediate;
+  }
+  return postMessageSupported ? ((token2, callbacks2) => {
+    _global.addEventListener("message", ({ source, data }) => {
+      if (source === _global && data === token2) {
+        callbacks2.length && callbacks2.shift()();
+      }
+    }, false);
+    return (cb2) => {
+      callbacks2.push(cb2);
+      _global.postMessage(token2, "*");
+    };
+  })(`axios@${Math.random()}`, []) : (cb2) => setTimeout(cb2);
+})(
+  typeof setImmediate === "function",
+  isFunction$1(_global.postMessage)
+);
+const asap = typeof queueMicrotask !== "undefined" ? queueMicrotask.bind(_global) : typeof process !== "undefined" && process.nextTick || _setImmediate;
+const utils$1 = {
+  isArray,
+  isArrayBuffer,
+  isBuffer,
+  isFormData,
+  isArrayBufferView,
+  isString: isString$1,
+  isNumber: isNumber2,
+  isBoolean: isBoolean$1,
+  isObject: isObject$1,
+  isPlainObject: isPlainObject$1,
+  isReadableStream,
+  isRequest,
+  isResponse,
+  isHeaders,
+  isUndefined: isUndefined$1,
+  isDate,
+  isFile,
+  isBlob,
+  isRegExp,
+  isFunction: isFunction$1,
+  isStream,
+  isURLSearchParams,
+  isTypedArray,
+  isFileList,
+  forEach,
+  merge,
+  extend,
+  trim,
+  stripBOM,
+  inherits,
+  toFlatObject,
+  kindOf,
+  kindOfTest,
+  endsWith,
+  toArray,
+  forEachEntry,
+  matchAll,
+  isHTMLForm,
+  hasOwnProperty,
+  hasOwnProp: hasOwnProperty,
+  // an alias to avoid ESLint no-prototype-builtins detection
+  reduceDescriptors,
+  freezeMethods,
+  toObjectSet,
+  toCamelCase,
+  noop,
+  toFiniteNumber,
+  findKey,
+  global: _global,
+  isContextDefined,
+  ALPHABET,
+  generateString,
+  isSpecCompliantForm,
+  toJSONObject,
+  isAsyncFn,
+  isThenable,
+  setImmediate: _setImmediate,
+  asap
+};
+function AxiosError$1(message, code, config2, request, response) {
+  Error.call(this);
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, this.constructor);
+  } else {
+    this.stack = new Error().stack;
+  }
+  this.message = message;
+  this.name = "AxiosError";
+  code && (this.code = code);
+  config2 && (this.config = config2);
+  request && (this.request = request);
+  if (response) {
+    this.response = response;
+    this.status = response.status ? response.status : null;
+  }
+}
+utils$1.inherits(AxiosError$1, Error, {
+  toJSON: function toJSON() {
+    return {
+      // Standard
+      message: this.message,
+      name: this.name,
+      // Microsoft
+      description: this.description,
+      number: this.number,
+      // Mozilla
+      fileName: this.fileName,
+      lineNumber: this.lineNumber,
+      columnNumber: this.columnNumber,
+      stack: this.stack,
+      // Axios
+      config: utils$1.toJSONObject(this.config),
+      code: this.code,
+      status: this.status
+    };
+  }
+});
+const prototype$1 = AxiosError$1.prototype;
+const descriptors = {};
+[
+  "ERR_BAD_OPTION_VALUE",
+  "ERR_BAD_OPTION",
+  "ECONNABORTED",
+  "ETIMEDOUT",
+  "ERR_NETWORK",
+  "ERR_FR_TOO_MANY_REDIRECTS",
+  "ERR_DEPRECATED",
+  "ERR_BAD_RESPONSE",
+  "ERR_BAD_REQUEST",
+  "ERR_CANCELED",
+  "ERR_NOT_SUPPORT",
+  "ERR_INVALID_URL"
+  // eslint-disable-next-line func-names
+].forEach((code) => {
+  descriptors[code] = { value: code };
+});
+Object.defineProperties(AxiosError$1, descriptors);
+Object.defineProperty(prototype$1, "isAxiosError", { value: true });
+AxiosError$1.from = (error, code, config2, request, response, customProps) => {
+  const axiosError = Object.create(prototype$1);
+  utils$1.toFlatObject(error, axiosError, function filter2(obj) {
+    return obj !== Error.prototype;
+  }, (prop) => {
+    return prop !== "isAxiosError";
+  });
+  AxiosError$1.call(axiosError, error.message, code, config2, request, response);
+  axiosError.cause = error;
+  axiosError.name = error.name;
+  customProps && Object.assign(axiosError, customProps);
+  return axiosError;
+};
+const httpAdapter = null;
+function isVisitable(thing) {
+  return utils$1.isPlainObject(thing) || utils$1.isArray(thing);
+}
+function removeBrackets(key) {
+  return utils$1.endsWith(key, "[]") ? key.slice(0, -2) : key;
+}
+function renderKey(path, key, dots) {
+  if (!path) return key;
+  return path.concat(key).map(function each(token2, i2) {
+    token2 = removeBrackets(token2);
+    return !dots && i2 ? "[" + token2 + "]" : token2;
+  }).join(dots ? "." : "");
+}
+function isFlatArray(arr) {
+  return utils$1.isArray(arr) && !arr.some(isVisitable);
+}
+const predicates = utils$1.toFlatObject(utils$1, {}, null, function filter(prop) {
+  return /^is[A-Z]/.test(prop);
+});
+function toFormData$1(obj, formData, options) {
+  if (!utils$1.isObject(obj)) {
+    throw new TypeError("target must be an object");
+  }
+  formData = formData || new FormData();
+  options = utils$1.toFlatObject(options, {
+    metaTokens: true,
+    dots: false,
+    indexes: false
+  }, false, function defined(option, source) {
+    return !utils$1.isUndefined(source[option]);
+  });
+  const metaTokens = options.metaTokens;
+  const visitor = options.visitor || defaultVisitor;
+  const dots = options.dots;
+  const indexes = options.indexes;
+  const _Blob = options.Blob || typeof Blob !== "undefined" && Blob;
+  const useBlob = _Blob && utils$1.isSpecCompliantForm(formData);
+  if (!utils$1.isFunction(visitor)) {
+    throw new TypeError("visitor must be a function");
+  }
+  function convertValue(value) {
+    if (value === null) return "";
+    if (utils$1.isDate(value)) {
+      return value.toISOString();
+    }
+    if (!useBlob && utils$1.isBlob(value)) {
+      throw new AxiosError$1("Blob is not supported. Use a Buffer instead.");
+    }
+    if (utils$1.isArrayBuffer(value) || utils$1.isTypedArray(value)) {
+      return useBlob && typeof Blob === "function" ? new Blob([value]) : Buffer.from(value);
+    }
+    return value;
+  }
+  function defaultVisitor(value, key, path) {
+    let arr = value;
+    if (value && !path && typeof value === "object") {
+      if (utils$1.endsWith(key, "{}")) {
+        key = metaTokens ? key : key.slice(0, -2);
+        value = JSON.stringify(value);
+      } else if (utils$1.isArray(value) && isFlatArray(value) || (utils$1.isFileList(value) || utils$1.endsWith(key, "[]")) && (arr = utils$1.toArray(value))) {
+        key = removeBrackets(key);
+        arr.forEach(function each(el2, index) {
+          !(utils$1.isUndefined(el2) || el2 === null) && formData.append(
+            // eslint-disable-next-line no-nested-ternary
+            indexes === true ? renderKey([key], index, dots) : indexes === null ? key : key + "[]",
+            convertValue(el2)
+          );
+        });
+        return false;
+      }
+    }
+    if (isVisitable(value)) {
+      return true;
+    }
+    formData.append(renderKey(path, key, dots), convertValue(value));
+    return false;
+  }
+  const stack = [];
+  const exposedHelpers = Object.assign(predicates, {
+    defaultVisitor,
+    convertValue,
+    isVisitable
+  });
+  function build(value, path) {
+    if (utils$1.isUndefined(value)) return;
+    if (stack.indexOf(value) !== -1) {
+      throw Error("Circular reference detected in " + path.join("."));
+    }
+    stack.push(value);
+    utils$1.forEach(value, function each(el2, key) {
+      const result = !(utils$1.isUndefined(el2) || el2 === null) && visitor.call(
+        formData,
+        el2,
+        utils$1.isString(key) ? key.trim() : key,
+        path,
+        exposedHelpers
+      );
+      if (result === true) {
+        build(el2, path ? path.concat(key) : [key]);
+      }
+    });
+    stack.pop();
+  }
+  if (!utils$1.isObject(obj)) {
+    throw new TypeError("data must be an object");
+  }
+  build(obj);
+  return formData;
+}
+function encode$1(str) {
+  const charMap = {
+    "!": "%21",
+    "'": "%27",
+    "(": "%28",
+    ")": "%29",
+    "~": "%7E",
+    "%20": "+",
+    "%00": "\0"
+  };
+  return encodeURIComponent(str).replace(/[!'()~]|%20|%00/g, function replacer(match2) {
+    return charMap[match2];
+  });
+}
+function AxiosURLSearchParams(params, options) {
+  this._pairs = [];
+  params && toFormData$1(params, this, options);
+}
+const prototype = AxiosURLSearchParams.prototype;
+prototype.append = function append2(name, value) {
+  this._pairs.push([name, value]);
+};
+prototype.toString = function toString2(encoder) {
+  const _encode = encoder ? function(value) {
+    return encoder.call(this, value, encode$1);
+  } : encode$1;
+  return this._pairs.map(function each(pair) {
+    return _encode(pair[0]) + "=" + _encode(pair[1]);
+  }, "").join("&");
+};
+function encode(val) {
+  return encodeURIComponent(val).replace(/%3A/gi, ":").replace(/%24/g, "$").replace(/%2C/gi, ",").replace(/%20/g, "+").replace(/%5B/gi, "[").replace(/%5D/gi, "]");
+}
+function buildURL(url, params, options) {
+  if (!params) {
+    return url;
+  }
+  const _encode = options && options.encode || encode;
+  const serializeFn = options && options.serialize;
+  let serializedParams;
+  if (serializeFn) {
+    serializedParams = serializeFn(params, options);
+  } else {
+    serializedParams = utils$1.isURLSearchParams(params) ? params.toString() : new AxiosURLSearchParams(params, options).toString(_encode);
+  }
+  if (serializedParams) {
+    const hashmarkIndex = url.indexOf("#");
+    if (hashmarkIndex !== -1) {
+      url = url.slice(0, hashmarkIndex);
+    }
+    url += (url.indexOf("?") === -1 ? "?" : "&") + serializedParams;
+  }
+  return url;
+}
+class InterceptorManager {
+  constructor() {
+    this.handlers = [];
+  }
+  /**
+   * Add a new interceptor to the stack
+   *
+   * @param {Function} fulfilled The function to handle `then` for a `Promise`
+   * @param {Function} rejected The function to handle `reject` for a `Promise`
+   *
+   * @return {Number} An ID used to remove interceptor later
+   */
+  use(fulfilled, rejected, options) {
+    this.handlers.push({
+      fulfilled,
+      rejected,
+      synchronous: options ? options.synchronous : false,
+      runWhen: options ? options.runWhen : null
+    });
+    return this.handlers.length - 1;
+  }
+  /**
+   * Remove an interceptor from the stack
+   *
+   * @param {Number} id The ID that was returned by `use`
+   *
+   * @returns {Boolean} `true` if the interceptor was removed, `false` otherwise
+   */
+  eject(id2) {
+    if (this.handlers[id2]) {
+      this.handlers[id2] = null;
+    }
+  }
+  /**
+   * Clear all interceptors from the stack
+   *
+   * @returns {void}
+   */
+  clear() {
+    if (this.handlers) {
+      this.handlers = [];
+    }
+  }
+  /**
+   * Iterate over all the registered interceptors
+   *
+   * This method is particularly useful for skipping over any
+   * interceptors that may have become `null` calling `eject`.
+   *
+   * @param {Function} fn The function to call for each interceptor
+   *
+   * @returns {void}
+   */
+  forEach(fn2) {
+    utils$1.forEach(this.handlers, function forEachHandler(h4) {
+      if (h4 !== null) {
+        fn2(h4);
+      }
+    });
+  }
+}
+const transitionalDefaults = {
+  silentJSONParsing: true,
+  forcedJSONParsing: true,
+  clarifyTimeoutError: false
+};
+const URLSearchParams$1 = typeof URLSearchParams !== "undefined" ? URLSearchParams : AxiosURLSearchParams;
+const FormData$1 = typeof FormData !== "undefined" ? FormData : null;
+const Blob$1 = typeof Blob !== "undefined" ? Blob : null;
+const platform$1 = {
+  isBrowser: true,
+  classes: {
+    URLSearchParams: URLSearchParams$1,
+    FormData: FormData$1,
+    Blob: Blob$1
+  },
+  protocols: ["http", "https", "file", "blob", "url", "data"]
+};
+const hasBrowserEnv = typeof window !== "undefined" && typeof document !== "undefined";
+const _navigator = typeof navigator === "object" && navigator || void 0;
+const hasStandardBrowserEnv = hasBrowserEnv && (!_navigator || ["ReactNative", "NativeScript", "NS"].indexOf(_navigator.product) < 0);
+const hasStandardBrowserWebWorkerEnv = (() => {
+  return typeof WorkerGlobalScope !== "undefined" && // eslint-disable-next-line no-undef
+  self instanceof WorkerGlobalScope && typeof self.importScripts === "function";
+})();
+const origin = hasBrowserEnv && window.location.href || "http://localhost";
+const utils = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  hasBrowserEnv,
+  hasStandardBrowserEnv,
+  hasStandardBrowserWebWorkerEnv,
+  navigator: _navigator,
+  origin
+}, Symbol.toStringTag, { value: "Module" }));
+const platform = {
+  ...utils,
+  ...platform$1
+};
+function toURLEncodedForm(data, options) {
+  return toFormData$1(data, new platform.classes.URLSearchParams(), Object.assign({
+    visitor: function(value, key, path, helpers) {
+      if (platform.isNode && utils$1.isBuffer(value)) {
+        this.append(key, value.toString("base64"));
+        return false;
+      }
+      return helpers.defaultVisitor.apply(this, arguments);
+    }
+  }, options));
+}
+function parsePropPath(name) {
+  return utils$1.matchAll(/\w+|\[(\w*)]/g, name).map((match2) => {
+    return match2[0] === "[]" ? "" : match2[1] || match2[0];
+  });
+}
+function arrayToObject(arr) {
+  const obj = {};
+  const keys2 = Object.keys(arr);
+  let i2;
+  const len = keys2.length;
+  let key;
+  for (i2 = 0; i2 < len; i2++) {
+    key = keys2[i2];
+    obj[key] = arr[key];
+  }
+  return obj;
+}
+function formDataToJSON(formData) {
+  function buildPath(path, value, target, index) {
+    let name = path[index++];
+    if (name === "__proto__") return true;
+    const isNumericKey = Number.isFinite(+name);
+    const isLast = index >= path.length;
+    name = !name && utils$1.isArray(target) ? target.length : name;
+    if (isLast) {
+      if (utils$1.hasOwnProp(target, name)) {
+        target[name] = [target[name], value];
+      } else {
+        target[name] = value;
+      }
+      return !isNumericKey;
+    }
+    if (!target[name] || !utils$1.isObject(target[name])) {
+      target[name] = [];
+    }
+    const result = buildPath(path, value, target[name], index);
+    if (result && utils$1.isArray(target[name])) {
+      target[name] = arrayToObject(target[name]);
+    }
+    return !isNumericKey;
+  }
+  if (utils$1.isFormData(formData) && utils$1.isFunction(formData.entries)) {
+    const obj = {};
+    utils$1.forEachEntry(formData, (name, value) => {
+      buildPath(parsePropPath(name), value, obj, 0);
+    });
+    return obj;
+  }
+  return null;
+}
+function stringifySafely(rawValue, parser, encoder) {
+  if (utils$1.isString(rawValue)) {
+    try {
+      (parser || JSON.parse)(rawValue);
+      return utils$1.trim(rawValue);
+    } catch (e3) {
+      if (e3.name !== "SyntaxError") {
+        throw e3;
+      }
+    }
+  }
+  return (encoder || JSON.stringify)(rawValue);
+}
+const defaults = {
+  transitional: transitionalDefaults,
+  adapter: ["xhr", "http", "fetch"],
+  transformRequest: [function transformRequest(data, headers) {
+    const contentType = headers.getContentType() || "";
+    const hasJSONContentType = contentType.indexOf("application/json") > -1;
+    const isObjectPayload = utils$1.isObject(data);
+    if (isObjectPayload && utils$1.isHTMLForm(data)) {
+      data = new FormData(data);
+    }
+    const isFormData2 = utils$1.isFormData(data);
+    if (isFormData2) {
+      return hasJSONContentType ? JSON.stringify(formDataToJSON(data)) : data;
+    }
+    if (utils$1.isArrayBuffer(data) || utils$1.isBuffer(data) || utils$1.isStream(data) || utils$1.isFile(data) || utils$1.isBlob(data) || utils$1.isReadableStream(data)) {
+      return data;
+    }
+    if (utils$1.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils$1.isURLSearchParams(data)) {
+      headers.setContentType("application/x-www-form-urlencoded;charset=utf-8", false);
+      return data.toString();
+    }
+    let isFileList2;
+    if (isObjectPayload) {
+      if (contentType.indexOf("application/x-www-form-urlencoded") > -1) {
+        return toURLEncodedForm(data, this.formSerializer).toString();
+      }
+      if ((isFileList2 = utils$1.isFileList(data)) || contentType.indexOf("multipart/form-data") > -1) {
+        const _FormData = this.env && this.env.FormData;
+        return toFormData$1(
+          isFileList2 ? { "files[]": data } : data,
+          _FormData && new _FormData(),
+          this.formSerializer
+        );
+      }
+    }
+    if (isObjectPayload || hasJSONContentType) {
+      headers.setContentType("application/json", false);
+      return stringifySafely(data);
+    }
+    return data;
+  }],
+  transformResponse: [function transformResponse(data) {
+    const transitional2 = this.transitional || defaults.transitional;
+    const forcedJSONParsing = transitional2 && transitional2.forcedJSONParsing;
+    const JSONRequested = this.responseType === "json";
+    if (utils$1.isResponse(data) || utils$1.isReadableStream(data)) {
+      return data;
+    }
+    if (data && utils$1.isString(data) && (forcedJSONParsing && !this.responseType || JSONRequested)) {
+      const silentJSONParsing = transitional2 && transitional2.silentJSONParsing;
+      const strictJSONParsing = !silentJSONParsing && JSONRequested;
+      try {
+        return JSON.parse(data);
+      } catch (e3) {
+        if (strictJSONParsing) {
+          if (e3.name === "SyntaxError") {
+            throw AxiosError$1.from(e3, AxiosError$1.ERR_BAD_RESPONSE, this, null, this.response);
+          }
+          throw e3;
+        }
+      }
+    }
+    return data;
+  }],
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
+  timeout: 0,
+  xsrfCookieName: "XSRF-TOKEN",
+  xsrfHeaderName: "X-XSRF-TOKEN",
+  maxContentLength: -1,
+  maxBodyLength: -1,
+  env: {
+    FormData: platform.classes.FormData,
+    Blob: platform.classes.Blob
+  },
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  },
+  headers: {
+    common: {
+      "Accept": "application/json, text/plain, */*",
+      "Content-Type": void 0
+    }
+  }
+};
+utils$1.forEach(["delete", "get", "head", "post", "put", "patch"], (method) => {
+  defaults.headers[method] = {};
+});
+const ignoreDuplicateOf = utils$1.toObjectSet([
+  "age",
+  "authorization",
+  "content-length",
+  "content-type",
+  "etag",
+  "expires",
+  "from",
+  "host",
+  "if-modified-since",
+  "if-unmodified-since",
+  "last-modified",
+  "location",
+  "max-forwards",
+  "proxy-authorization",
+  "referer",
+  "retry-after",
+  "user-agent"
+]);
+const parseHeaders = (rawHeaders) => {
+  const parsed = {};
+  let key;
+  let val;
+  let i2;
+  rawHeaders && rawHeaders.split("\n").forEach(function parser(line2) {
+    i2 = line2.indexOf(":");
+    key = line2.substring(0, i2).trim().toLowerCase();
+    val = line2.substring(i2 + 1).trim();
+    if (!key || parsed[key] && ignoreDuplicateOf[key]) {
+      return;
+    }
+    if (key === "set-cookie") {
+      if (parsed[key]) {
+        parsed[key].push(val);
+      } else {
+        parsed[key] = [val];
+      }
+    } else {
+      parsed[key] = parsed[key] ? parsed[key] + ", " + val : val;
+    }
+  });
+  return parsed;
+};
+const $internals = Symbol("internals");
+function normalizeHeader(header) {
+  return header && String(header).trim().toLowerCase();
+}
+function normalizeValue(value) {
+  if (value === false || value == null) {
+    return value;
+  }
+  return utils$1.isArray(value) ? value.map(normalizeValue) : String(value);
+}
+function parseTokens(str) {
+  const tokens = /* @__PURE__ */ Object.create(null);
+  const tokensRE = /([^\s,;=]+)\s*(?:=\s*([^,;]+))?/g;
+  let match2;
+  while (match2 = tokensRE.exec(str)) {
+    tokens[match2[1]] = match2[2];
+  }
+  return tokens;
+}
+const isValidHeaderName = (str) => /^[-_a-zA-Z0-9^`|~,!#$%&'*+.]+$/.test(str.trim());
+function matchHeaderValue(context, value, header, filter2, isHeaderNameFilter) {
+  if (utils$1.isFunction(filter2)) {
+    return filter2.call(this, value, header);
+  }
+  if (isHeaderNameFilter) {
+    value = header;
+  }
+  if (!utils$1.isString(value)) return;
+  if (utils$1.isString(filter2)) {
+    return value.indexOf(filter2) !== -1;
+  }
+  if (utils$1.isRegExp(filter2)) {
+    return filter2.test(value);
+  }
+}
+function formatHeader(header) {
+  return header.trim().toLowerCase().replace(/([a-z\d])(\w*)/g, (w3, char2, str) => {
+    return char2.toUpperCase() + str;
+  });
+}
+function buildAccessors(obj, header) {
+  const accessorName = utils$1.toCamelCase(" " + header);
+  ["get", "set", "has"].forEach((methodName) => {
+    Object.defineProperty(obj, methodName + accessorName, {
+      value: function(arg1, arg2, arg3) {
+        return this[methodName].call(this, header, arg1, arg2, arg3);
+      },
+      configurable: true
+    });
+  });
+}
+let AxiosHeaders$1 = class AxiosHeaders {
+  constructor(headers) {
+    headers && this.set(headers);
+  }
+  set(header, valueOrRewrite, rewrite) {
+    const self2 = this;
+    function setHeader(_value, _header, _rewrite) {
+      const lHeader = normalizeHeader(_header);
+      if (!lHeader) {
+        throw new Error("header name must be a non-empty string");
+      }
+      const key = utils$1.findKey(self2, lHeader);
+      if (!key || self2[key] === void 0 || _rewrite === true || _rewrite === void 0 && self2[key] !== false) {
+        self2[key || _header] = normalizeValue(_value);
+      }
+    }
+    const setHeaders = (headers, _rewrite) => utils$1.forEach(headers, (_value, _header) => setHeader(_value, _header, _rewrite));
+    if (utils$1.isPlainObject(header) || header instanceof this.constructor) {
+      setHeaders(header, valueOrRewrite);
+    } else if (utils$1.isString(header) && (header = header.trim()) && !isValidHeaderName(header)) {
+      setHeaders(parseHeaders(header), valueOrRewrite);
+    } else if (utils$1.isHeaders(header)) {
+      for (const [key, value] of header.entries()) {
+        setHeader(value, key, rewrite);
+      }
+    } else {
+      header != null && setHeader(valueOrRewrite, header, rewrite);
+    }
+    return this;
+  }
+  get(header, parser) {
+    header = normalizeHeader(header);
+    if (header) {
+      const key = utils$1.findKey(this, header);
+      if (key) {
+        const value = this[key];
+        if (!parser) {
+          return value;
+        }
+        if (parser === true) {
+          return parseTokens(value);
+        }
+        if (utils$1.isFunction(parser)) {
+          return parser.call(this, value, key);
+        }
+        if (utils$1.isRegExp(parser)) {
+          return parser.exec(value);
+        }
+        throw new TypeError("parser must be boolean|regexp|function");
+      }
+    }
+  }
+  has(header, matcher) {
+    header = normalizeHeader(header);
+    if (header) {
+      const key = utils$1.findKey(this, header);
+      return !!(key && this[key] !== void 0 && (!matcher || matchHeaderValue(this, this[key], key, matcher)));
+    }
+    return false;
+  }
+  delete(header, matcher) {
+    const self2 = this;
+    let deleted = false;
+    function deleteHeader(_header) {
+      _header = normalizeHeader(_header);
+      if (_header) {
+        const key = utils$1.findKey(self2, _header);
+        if (key && (!matcher || matchHeaderValue(self2, self2[key], key, matcher))) {
+          delete self2[key];
+          deleted = true;
+        }
+      }
+    }
+    if (utils$1.isArray(header)) {
+      header.forEach(deleteHeader);
+    } else {
+      deleteHeader(header);
+    }
+    return deleted;
+  }
+  clear(matcher) {
+    const keys2 = Object.keys(this);
+    let i2 = keys2.length;
+    let deleted = false;
+    while (i2--) {
+      const key = keys2[i2];
+      if (!matcher || matchHeaderValue(this, this[key], key, matcher, true)) {
+        delete this[key];
+        deleted = true;
+      }
+    }
+    return deleted;
+  }
+  normalize(format2) {
+    const self2 = this;
+    const headers = {};
+    utils$1.forEach(this, (value, header) => {
+      const key = utils$1.findKey(headers, header);
+      if (key) {
+        self2[key] = normalizeValue(value);
+        delete self2[header];
+        return;
+      }
+      const normalized = format2 ? formatHeader(header) : String(header).trim();
+      if (normalized !== header) {
+        delete self2[header];
+      }
+      self2[normalized] = normalizeValue(value);
+      headers[normalized] = true;
+    });
+    return this;
+  }
+  concat(...targets) {
+    return this.constructor.concat(this, ...targets);
+  }
+  toJSON(asStrings) {
+    const obj = /* @__PURE__ */ Object.create(null);
+    utils$1.forEach(this, (value, header) => {
+      value != null && value !== false && (obj[header] = asStrings && utils$1.isArray(value) ? value.join(", ") : value);
+    });
+    return obj;
+  }
+  [Symbol.iterator]() {
+    return Object.entries(this.toJSON())[Symbol.iterator]();
+  }
+  toString() {
+    return Object.entries(this.toJSON()).map(([header, value]) => header + ": " + value).join("\n");
+  }
+  get [Symbol.toStringTag]() {
+    return "AxiosHeaders";
+  }
+  static from(thing) {
+    return thing instanceof this ? thing : new this(thing);
+  }
+  static concat(first, ...targets) {
+    const computed = new this(first);
+    targets.forEach((target) => computed.set(target));
+    return computed;
+  }
+  static accessor(header) {
+    const internals = this[$internals] = this[$internals] = {
+      accessors: {}
+    };
+    const accessors = internals.accessors;
+    const prototype2 = this.prototype;
+    function defineAccessor(_header) {
+      const lHeader = normalizeHeader(_header);
+      if (!accessors[lHeader]) {
+        buildAccessors(prototype2, _header);
+        accessors[lHeader] = true;
+      }
+    }
+    utils$1.isArray(header) ? header.forEach(defineAccessor) : defineAccessor(header);
+    return this;
+  }
+};
+AxiosHeaders$1.accessor(["Content-Type", "Content-Length", "Accept", "Accept-Encoding", "User-Agent", "Authorization"]);
+utils$1.reduceDescriptors(AxiosHeaders$1.prototype, ({ value }, key) => {
+  let mapped = key[0].toUpperCase() + key.slice(1);
+  return {
+    get: () => value,
+    set(headerValue) {
+      this[mapped] = headerValue;
+    }
+  };
+});
+utils$1.freezeMethods(AxiosHeaders$1);
+function transformData(fns, response) {
+  const config2 = this || defaults;
+  const context = response || config2;
+  const headers = AxiosHeaders$1.from(context.headers);
+  let data = context.data;
+  utils$1.forEach(fns, function transform(fn2) {
+    data = fn2.call(config2, data, headers.normalize(), response ? response.status : void 0);
+  });
+  headers.normalize();
+  return data;
+}
+function isCancel$1(value) {
+  return !!(value && value.__CANCEL__);
+}
+function CanceledError$1(message, config2, request) {
+  AxiosError$1.call(this, message == null ? "canceled" : message, AxiosError$1.ERR_CANCELED, config2, request);
+  this.name = "CanceledError";
+}
+utils$1.inherits(CanceledError$1, AxiosError$1, {
+  __CANCEL__: true
+});
+function settle(resolve, reject, response) {
+  const validateStatus2 = response.config.validateStatus;
+  if (!response.status || !validateStatus2 || validateStatus2(response.status)) {
+    resolve(response);
+  } else {
+    reject(new AxiosError$1(
+      "Request failed with status code " + response.status,
+      [AxiosError$1.ERR_BAD_REQUEST, AxiosError$1.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4],
+      response.config,
+      response.request,
+      response
+    ));
+  }
+}
+function parseProtocol(url) {
+  const match2 = /^([-+\w]{1,25})(:?\/\/|:)/.exec(url);
+  return match2 && match2[1] || "";
+}
+function speedometer(samplesCount, min2) {
+  samplesCount = samplesCount || 10;
+  const bytes = new Array(samplesCount);
+  const timestamps = new Array(samplesCount);
+  let head = 0;
+  let tail = 0;
+  let firstSampleTS;
+  min2 = min2 !== void 0 ? min2 : 1e3;
+  return function push(chunkLength) {
+    const now2 = Date.now();
+    const startedAt = timestamps[tail];
+    if (!firstSampleTS) {
+      firstSampleTS = now2;
+    }
+    bytes[head] = chunkLength;
+    timestamps[head] = now2;
+    let i2 = tail;
+    let bytesCount = 0;
+    while (i2 !== head) {
+      bytesCount += bytes[i2++];
+      i2 = i2 % samplesCount;
+    }
+    head = (head + 1) % samplesCount;
+    if (head === tail) {
+      tail = (tail + 1) % samplesCount;
+    }
+    if (now2 - firstSampleTS < min2) {
+      return;
+    }
+    const passed = startedAt && now2 - startedAt;
+    return passed ? Math.round(bytesCount * 1e3 / passed) : void 0;
+  };
+}
+function throttle(fn2, freq) {
+  let timestamp = 0;
+  let threshold = 1e3 / freq;
+  let lastArgs;
+  let timer;
+  const invoke = (args, now2 = Date.now()) => {
+    timestamp = now2;
+    lastArgs = null;
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    fn2.apply(null, args);
+  };
+  const throttled = (...args) => {
+    const now2 = Date.now();
+    const passed = now2 - timestamp;
+    if (passed >= threshold) {
+      invoke(args, now2);
+    } else {
+      lastArgs = args;
+      if (!timer) {
+        timer = setTimeout(() => {
+          timer = null;
+          invoke(lastArgs);
+        }, threshold - passed);
+      }
+    }
+  };
+  const flush = () => lastArgs && invoke(lastArgs);
+  return [throttled, flush];
+}
+const progressEventReducer = (listener, isDownloadStream, freq = 3) => {
+  let bytesNotified = 0;
+  const _speedometer = speedometer(50, 250);
+  return throttle((e3) => {
+    const loaded = e3.loaded;
+    const total = e3.lengthComputable ? e3.total : void 0;
+    const progressBytes = loaded - bytesNotified;
+    const rate = _speedometer(progressBytes);
+    const inRange = loaded <= total;
+    bytesNotified = loaded;
+    const data = {
+      loaded,
+      total,
+      progress: total ? loaded / total : void 0,
+      bytes: progressBytes,
+      rate: rate ? rate : void 0,
+      estimated: rate && total && inRange ? (total - loaded) / rate : void 0,
+      event: e3,
+      lengthComputable: total != null,
+      [isDownloadStream ? "download" : "upload"]: true
+    };
+    listener(data);
+  }, freq);
+};
+const progressEventDecorator = (total, throttled) => {
+  const lengthComputable = total != null;
+  return [(loaded) => throttled[0]({
+    lengthComputable,
+    total,
+    loaded
+  }), throttled[1]];
+};
+const asyncDecorator = (fn2) => (...args) => utils$1.asap(() => fn2(...args));
+const isURLSameOrigin = platform.hasStandardBrowserEnv ? (
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+  function standardBrowserEnv() {
+    const msie = platform.navigator && /(msie|trident)/i.test(platform.navigator.userAgent);
+    const urlParsingNode = document.createElement("a");
+    let originURL;
+    function resolveURL(url) {
+      let href = url;
+      if (msie) {
+        urlParsingNode.setAttribute("href", href);
+        href = urlParsingNode.href;
+      }
+      urlParsingNode.setAttribute("href", href);
+      return {
+        href: urlParsingNode.href,
+        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, "") : "",
+        host: urlParsingNode.host,
+        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, "") : "",
+        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, "") : "",
+        hostname: urlParsingNode.hostname,
+        port: urlParsingNode.port,
+        pathname: urlParsingNode.pathname.charAt(0) === "/" ? urlParsingNode.pathname : "/" + urlParsingNode.pathname
+      };
+    }
+    originURL = resolveURL(window.location.href);
+    return function isURLSameOrigin2(requestURL) {
+      const parsed = utils$1.isString(requestURL) ? resolveURL(requestURL) : requestURL;
+      return parsed.protocol === originURL.protocol && parsed.host === originURL.host;
+    };
+  }()
+) : (
+  // Non standard browser envs (web workers, react-native) lack needed support.
+  /* @__PURE__ */ function nonStandardBrowserEnv() {
+    return function isURLSameOrigin2() {
+      return true;
+    };
+  }()
+);
+const cookies = platform.hasStandardBrowserEnv ? (
+  // Standard browser envs support document.cookie
+  {
+    write(name, value, expires, path, domain, secure) {
+      const cookie = [name + "=" + encodeURIComponent(value)];
+      utils$1.isNumber(expires) && cookie.push("expires=" + new Date(expires).toGMTString());
+      utils$1.isString(path) && cookie.push("path=" + path);
+      utils$1.isString(domain) && cookie.push("domain=" + domain);
+      secure === true && cookie.push("secure");
+      document.cookie = cookie.join("; ");
+    },
+    read(name) {
+      const match2 = document.cookie.match(new RegExp("(^|;\\s*)(" + name + ")=([^;]*)"));
+      return match2 ? decodeURIComponent(match2[3]) : null;
+    },
+    remove(name) {
+      this.write(name, "", Date.now() - 864e5);
+    }
+  }
+) : (
+  // Non-standard browser env (web workers, react-native) lack needed support.
+  {
+    write() {
+    },
+    read() {
+      return null;
+    },
+    remove() {
+    }
+  }
+);
+function isAbsoluteURL(url) {
+  return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
+}
+function combineURLs(baseURL, relativeURL) {
+  return relativeURL ? baseURL.replace(/\/?\/$/, "") + "/" + relativeURL.replace(/^\/+/, "") : baseURL;
+}
+function buildFullPath(baseURL, requestedURL) {
+  if (baseURL && !isAbsoluteURL(requestedURL)) {
+    return combineURLs(baseURL, requestedURL);
+  }
+  return requestedURL;
+}
+const headersToObject = (thing) => thing instanceof AxiosHeaders$1 ? { ...thing } : thing;
+function mergeConfig$1(config1, config2) {
+  config2 = config2 || {};
+  const config3 = {};
+  function getMergedValue(target, source, caseless) {
+    if (utils$1.isPlainObject(target) && utils$1.isPlainObject(source)) {
+      return utils$1.merge.call({ caseless }, target, source);
+    } else if (utils$1.isPlainObject(source)) {
+      return utils$1.merge({}, source);
+    } else if (utils$1.isArray(source)) {
+      return source.slice();
+    }
+    return source;
+  }
+  function mergeDeepProperties(a3, b3, caseless) {
+    if (!utils$1.isUndefined(b3)) {
+      return getMergedValue(a3, b3, caseless);
+    } else if (!utils$1.isUndefined(a3)) {
+      return getMergedValue(void 0, a3, caseless);
+    }
+  }
+  function valueFromConfig2(a3, b3) {
+    if (!utils$1.isUndefined(b3)) {
+      return getMergedValue(void 0, b3);
+    }
+  }
+  function defaultToConfig2(a3, b3) {
+    if (!utils$1.isUndefined(b3)) {
+      return getMergedValue(void 0, b3);
+    } else if (!utils$1.isUndefined(a3)) {
+      return getMergedValue(void 0, a3);
+    }
+  }
+  function mergeDirectKeys(a3, b3, prop) {
+    if (prop in config2) {
+      return getMergedValue(a3, b3);
+    } else if (prop in config1) {
+      return getMergedValue(void 0, a3);
+    }
+  }
+  const mergeMap = {
+    url: valueFromConfig2,
+    method: valueFromConfig2,
+    data: valueFromConfig2,
+    baseURL: defaultToConfig2,
+    transformRequest: defaultToConfig2,
+    transformResponse: defaultToConfig2,
+    paramsSerializer: defaultToConfig2,
+    timeout: defaultToConfig2,
+    timeoutMessage: defaultToConfig2,
+    withCredentials: defaultToConfig2,
+    withXSRFToken: defaultToConfig2,
+    adapter: defaultToConfig2,
+    responseType: defaultToConfig2,
+    xsrfCookieName: defaultToConfig2,
+    xsrfHeaderName: defaultToConfig2,
+    onUploadProgress: defaultToConfig2,
+    onDownloadProgress: defaultToConfig2,
+    decompress: defaultToConfig2,
+    maxContentLength: defaultToConfig2,
+    maxBodyLength: defaultToConfig2,
+    beforeRedirect: defaultToConfig2,
+    transport: defaultToConfig2,
+    httpAgent: defaultToConfig2,
+    httpsAgent: defaultToConfig2,
+    cancelToken: defaultToConfig2,
+    socketPath: defaultToConfig2,
+    responseEncoding: defaultToConfig2,
+    validateStatus: mergeDirectKeys,
+    headers: (a3, b3) => mergeDeepProperties(headersToObject(a3), headersToObject(b3), true)
+  };
+  utils$1.forEach(Object.keys(Object.assign({}, config1, config2)), function computeConfigValue(prop) {
+    const merge2 = mergeMap[prop] || mergeDeepProperties;
+    const configValue = merge2(config1[prop], config2[prop], prop);
+    utils$1.isUndefined(configValue) && merge2 !== mergeDirectKeys || (config3[prop] = configValue);
+  });
+  return config3;
+}
+const resolveConfig = (config2) => {
+  const newConfig = mergeConfig$1({}, config2);
+  let { data, withXSRFToken, xsrfHeaderName, xsrfCookieName, headers, auth } = newConfig;
+  newConfig.headers = headers = AxiosHeaders$1.from(headers);
+  newConfig.url = buildURL(buildFullPath(newConfig.baseURL, newConfig.url), config2.params, config2.paramsSerializer);
+  if (auth) {
+    headers.set(
+      "Authorization",
+      "Basic " + btoa((auth.username || "") + ":" + (auth.password ? unescape(encodeURIComponent(auth.password)) : ""))
+    );
+  }
+  let contentType;
+  if (utils$1.isFormData(data)) {
+    if (platform.hasStandardBrowserEnv || platform.hasStandardBrowserWebWorkerEnv) {
+      headers.setContentType(void 0);
+    } else if ((contentType = headers.getContentType()) !== false) {
+      const [type, ...tokens] = contentType ? contentType.split(";").map((token2) => token2.trim()).filter(Boolean) : [];
+      headers.setContentType([type || "multipart/form-data", ...tokens].join("; "));
+    }
+  }
+  if (platform.hasStandardBrowserEnv) {
+    withXSRFToken && utils$1.isFunction(withXSRFToken) && (withXSRFToken = withXSRFToken(newConfig));
+    if (withXSRFToken || withXSRFToken !== false && isURLSameOrigin(newConfig.url)) {
+      const xsrfValue = xsrfHeaderName && xsrfCookieName && cookies.read(xsrfCookieName);
+      if (xsrfValue) {
+        headers.set(xsrfHeaderName, xsrfValue);
+      }
+    }
+  }
+  return newConfig;
+};
+const isXHRAdapterSupported = typeof XMLHttpRequest !== "undefined";
+const xhrAdapter = isXHRAdapterSupported && function(config2) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    const _config = resolveConfig(config2);
+    let requestData = _config.data;
+    const requestHeaders = AxiosHeaders$1.from(_config.headers).normalize();
+    let { responseType, onUploadProgress, onDownloadProgress } = _config;
+    let onCanceled;
+    let uploadThrottled, downloadThrottled;
+    let flushUpload, flushDownload;
+    function done() {
+      flushUpload && flushUpload();
+      flushDownload && flushDownload();
+      _config.cancelToken && _config.cancelToken.unsubscribe(onCanceled);
+      _config.signal && _config.signal.removeEventListener("abort", onCanceled);
+    }
+    let request = new XMLHttpRequest();
+    request.open(_config.method.toUpperCase(), _config.url, true);
+    request.timeout = _config.timeout;
+    function onloadend() {
+      if (!request) {
+        return;
+      }
+      const responseHeaders = AxiosHeaders$1.from(
+        "getAllResponseHeaders" in request && request.getAllResponseHeaders()
+      );
+      const responseData = !responseType || responseType === "text" || responseType === "json" ? request.responseText : request.response;
+      const response = {
+        data: responseData,
+        status: request.status,
+        statusText: request.statusText,
+        headers: responseHeaders,
+        config: config2,
+        request
+      };
+      settle(function _resolve(value) {
+        resolve(value);
+        done();
+      }, function _reject(err) {
+        reject(err);
+        done();
+      }, response);
+      request = null;
+    }
+    if ("onloadend" in request) {
+      request.onloadend = onloadend;
+    } else {
+      request.onreadystatechange = function handleLoad() {
+        if (!request || request.readyState !== 4) {
+          return;
+        }
+        if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf("file:") === 0)) {
+          return;
+        }
+        setTimeout(onloadend);
+      };
+    }
+    request.onabort = function handleAbort() {
+      if (!request) {
+        return;
+      }
+      reject(new AxiosError$1("Request aborted", AxiosError$1.ECONNABORTED, config2, request));
+      request = null;
+    };
+    request.onerror = function handleError() {
+      reject(new AxiosError$1("Network Error", AxiosError$1.ERR_NETWORK, config2, request));
+      request = null;
+    };
+    request.ontimeout = function handleTimeout() {
+      let timeoutErrorMessage = _config.timeout ? "timeout of " + _config.timeout + "ms exceeded" : "timeout exceeded";
+      const transitional2 = _config.transitional || transitionalDefaults;
+      if (_config.timeoutErrorMessage) {
+        timeoutErrorMessage = _config.timeoutErrorMessage;
+      }
+      reject(new AxiosError$1(
+        timeoutErrorMessage,
+        transitional2.clarifyTimeoutError ? AxiosError$1.ETIMEDOUT : AxiosError$1.ECONNABORTED,
+        config2,
+        request
+      ));
+      request = null;
+    };
+    requestData === void 0 && requestHeaders.setContentType(null);
+    if ("setRequestHeader" in request) {
+      utils$1.forEach(requestHeaders.toJSON(), function setRequestHeader(val, key) {
+        request.setRequestHeader(key, val);
+      });
+    }
+    if (!utils$1.isUndefined(_config.withCredentials)) {
+      request.withCredentials = !!_config.withCredentials;
+    }
+    if (responseType && responseType !== "json") {
+      request.responseType = _config.responseType;
+    }
+    if (onDownloadProgress) {
+      [downloadThrottled, flushDownload] = progressEventReducer(onDownloadProgress, true);
+      request.addEventListener("progress", downloadThrottled);
+    }
+    if (onUploadProgress && request.upload) {
+      [uploadThrottled, flushUpload] = progressEventReducer(onUploadProgress);
+      request.upload.addEventListener("progress", uploadThrottled);
+      request.upload.addEventListener("loadend", flushUpload);
+    }
+    if (_config.cancelToken || _config.signal) {
+      onCanceled = (cancel) => {
+        if (!request) {
+          return;
+        }
+        reject(!cancel || cancel.type ? new CanceledError$1(null, config2, request) : cancel);
+        request.abort();
+        request = null;
+      };
+      _config.cancelToken && _config.cancelToken.subscribe(onCanceled);
+      if (_config.signal) {
+        _config.signal.aborted ? onCanceled() : _config.signal.addEventListener("abort", onCanceled);
+      }
+    }
+    const protocol = parseProtocol(_config.url);
+    if (protocol && platform.protocols.indexOf(protocol) === -1) {
+      reject(new AxiosError$1("Unsupported protocol " + protocol + ":", AxiosError$1.ERR_BAD_REQUEST, config2));
+      return;
+    }
+    request.send(requestData || null);
+  });
+};
+const composeSignals = (signals, timeout) => {
+  const { length: length2 } = signals = signals ? signals.filter(Boolean) : [];
+  if (timeout || length2) {
+    let controller = new AbortController();
+    let aborted;
+    const onabort = function(reason) {
+      if (!aborted) {
+        aborted = true;
+        unsubscribe();
+        const err = reason instanceof Error ? reason : this.reason;
+        controller.abort(err instanceof AxiosError$1 ? err : new CanceledError$1(err instanceof Error ? err.message : err));
+      }
+    };
+    let timer = timeout && setTimeout(() => {
+      timer = null;
+      onabort(new AxiosError$1(`timeout ${timeout} of ms exceeded`, AxiosError$1.ETIMEDOUT));
+    }, timeout);
+    const unsubscribe = () => {
+      if (signals) {
+        timer && clearTimeout(timer);
+        timer = null;
+        signals.forEach((signal2) => {
+          signal2.unsubscribe ? signal2.unsubscribe(onabort) : signal2.removeEventListener("abort", onabort);
+        });
+        signals = null;
+      }
+    };
+    signals.forEach((signal2) => signal2.addEventListener("abort", onabort));
+    const { signal } = controller;
+    signal.unsubscribe = () => utils$1.asap(unsubscribe);
+    return signal;
+  }
+};
+const streamChunk = function* (chunk, chunkSize) {
+  let len = chunk.byteLength;
+  if (!chunkSize || len < chunkSize) {
+    yield chunk;
+    return;
+  }
+  let pos = 0;
+  let end2;
+  while (pos < len) {
+    end2 = pos + chunkSize;
+    yield chunk.slice(pos, end2);
+    pos = end2;
+  }
+};
+const readBytes = async function* (iterable, chunkSize) {
+  for await (const chunk of readStream(iterable)) {
+    yield* streamChunk(chunk, chunkSize);
+  }
+};
+const readStream = async function* (stream) {
+  if (stream[Symbol.asyncIterator]) {
+    yield* stream;
+    return;
+  }
+  const reader = stream.getReader();
+  try {
+    for (; ; ) {
+      const { done, value } = await reader.read();
+      if (done) {
+        break;
+      }
+      yield value;
+    }
+  } finally {
+    await reader.cancel();
+  }
+};
+const trackStream = (stream, chunkSize, onProgress, onFinish) => {
+  const iterator = readBytes(stream, chunkSize);
+  let bytes = 0;
+  let done;
+  let _onFinish = (e3) => {
+    if (!done) {
+      done = true;
+      onFinish && onFinish(e3);
+    }
+  };
+  return new ReadableStream({
+    async pull(controller) {
+      try {
+        const { done: done2, value } = await iterator.next();
+        if (done2) {
+          _onFinish();
+          controller.close();
+          return;
+        }
+        let len = value.byteLength;
+        if (onProgress) {
+          let loadedBytes = bytes += len;
+          onProgress(loadedBytes);
+        }
+        controller.enqueue(new Uint8Array(value));
+      } catch (err) {
+        _onFinish(err);
+        throw err;
+      }
+    },
+    cancel(reason) {
+      _onFinish(reason);
+      return iterator.return();
+    }
+  }, {
+    highWaterMark: 2
+  });
+};
+const isFetchSupported = typeof fetch === "function" && typeof Request === "function" && typeof Response === "function";
+const isReadableStreamSupported = isFetchSupported && typeof ReadableStream === "function";
+const encodeText = isFetchSupported && (typeof TextEncoder === "function" ? /* @__PURE__ */ ((encoder) => (str) => encoder.encode(str))(new TextEncoder()) : async (str) => new Uint8Array(await new Response(str).arrayBuffer()));
+const test = (fn2, ...args) => {
+  try {
+    return !!fn2(...args);
+  } catch (e3) {
+    return false;
+  }
+};
+const supportsRequestStream = isReadableStreamSupported && test(() => {
+  let duplexAccessed = false;
+  const hasContentType = new Request(platform.origin, {
+    body: new ReadableStream(),
+    method: "POST",
+    get duplex() {
+      duplexAccessed = true;
+      return "half";
+    }
+  }).headers.has("Content-Type");
+  return duplexAccessed && !hasContentType;
+});
+const DEFAULT_CHUNK_SIZE = 64 * 1024;
+const supportsResponseStream = isReadableStreamSupported && test(() => utils$1.isReadableStream(new Response("").body));
+const resolvers = {
+  stream: supportsResponseStream && ((res) => res.body)
+};
+isFetchSupported && ((res) => {
+  ["text", "arrayBuffer", "blob", "formData", "stream"].forEach((type) => {
+    !resolvers[type] && (resolvers[type] = utils$1.isFunction(res[type]) ? (res2) => res2[type]() : (_, config2) => {
+      throw new AxiosError$1(`Response type '${type}' is not supported`, AxiosError$1.ERR_NOT_SUPPORT, config2);
+    });
+  });
+})(new Response());
+const getBodyLength = async (body) => {
+  if (body == null) {
+    return 0;
+  }
+  if (utils$1.isBlob(body)) {
+    return body.size;
+  }
+  if (utils$1.isSpecCompliantForm(body)) {
+    const _request = new Request(platform.origin, {
+      method: "POST",
+      body
+    });
+    return (await _request.arrayBuffer()).byteLength;
+  }
+  if (utils$1.isArrayBufferView(body) || utils$1.isArrayBuffer(body)) {
+    return body.byteLength;
+  }
+  if (utils$1.isURLSearchParams(body)) {
+    body = body + "";
+  }
+  if (utils$1.isString(body)) {
+    return (await encodeText(body)).byteLength;
+  }
+};
+const resolveBodyLength = async (headers, body) => {
+  const length2 = utils$1.toFiniteNumber(headers.getContentLength());
+  return length2 == null ? getBodyLength(body) : length2;
+};
+const fetchAdapter = isFetchSupported && (async (config2) => {
+  let {
+    url,
+    method,
+    data,
+    signal,
+    cancelToken,
+    timeout,
+    onDownloadProgress,
+    onUploadProgress,
+    responseType,
+    headers,
+    withCredentials = "same-origin",
+    fetchOptions
+  } = resolveConfig(config2);
+  responseType = responseType ? (responseType + "").toLowerCase() : "text";
+  let composedSignal = composeSignals([signal, cancelToken && cancelToken.toAbortSignal()], timeout);
+  let request;
+  const unsubscribe = composedSignal && composedSignal.unsubscribe && (() => {
+    composedSignal.unsubscribe();
+  });
+  let requestContentLength;
+  try {
+    if (onUploadProgress && supportsRequestStream && method !== "get" && method !== "head" && (requestContentLength = await resolveBodyLength(headers, data)) !== 0) {
+      let _request = new Request(url, {
+        method: "POST",
+        body: data,
+        duplex: "half"
+      });
+      let contentTypeHeader;
+      if (utils$1.isFormData(data) && (contentTypeHeader = _request.headers.get("content-type"))) {
+        headers.setContentType(contentTypeHeader);
+      }
+      if (_request.body) {
+        const [onProgress, flush] = progressEventDecorator(
+          requestContentLength,
+          progressEventReducer(asyncDecorator(onUploadProgress))
+        );
+        data = trackStream(_request.body, DEFAULT_CHUNK_SIZE, onProgress, flush);
+      }
+    }
+    if (!utils$1.isString(withCredentials)) {
+      withCredentials = withCredentials ? "include" : "omit";
+    }
+    const isCredentialsSupported = "credentials" in Request.prototype;
+    request = new Request(url, {
+      ...fetchOptions,
+      signal: composedSignal,
+      method: method.toUpperCase(),
+      headers: headers.normalize().toJSON(),
+      body: data,
+      duplex: "half",
+      credentials: isCredentialsSupported ? withCredentials : void 0
+    });
+    let response = await fetch(request);
+    const isStreamResponse = supportsResponseStream && (responseType === "stream" || responseType === "response");
+    if (supportsResponseStream && (onDownloadProgress || isStreamResponse && unsubscribe)) {
+      const options = {};
+      ["status", "statusText", "headers"].forEach((prop) => {
+        options[prop] = response[prop];
+      });
+      const responseContentLength = utils$1.toFiniteNumber(response.headers.get("content-length"));
+      const [onProgress, flush] = onDownloadProgress && progressEventDecorator(
+        responseContentLength,
+        progressEventReducer(asyncDecorator(onDownloadProgress), true)
+      ) || [];
+      response = new Response(
+        trackStream(response.body, DEFAULT_CHUNK_SIZE, onProgress, () => {
+          flush && flush();
+          unsubscribe && unsubscribe();
+        }),
+        options
+      );
+    }
+    responseType = responseType || "text";
+    let responseData = await resolvers[utils$1.findKey(resolvers, responseType) || "text"](response, config2);
+    !isStreamResponse && unsubscribe && unsubscribe();
+    return await new Promise((resolve, reject) => {
+      settle(resolve, reject, {
+        data: responseData,
+        headers: AxiosHeaders$1.from(response.headers),
+        status: response.status,
+        statusText: response.statusText,
+        config: config2,
+        request
+      });
+    });
+  } catch (err) {
+    unsubscribe && unsubscribe();
+    if (err && err.name === "TypeError" && /fetch/i.test(err.message)) {
+      throw Object.assign(
+        new AxiosError$1("Network Error", AxiosError$1.ERR_NETWORK, config2, request),
+        {
+          cause: err.cause || err
+        }
+      );
+    }
+    throw AxiosError$1.from(err, err && err.code, config2, request);
+  }
+});
+const knownAdapters = {
+  http: httpAdapter,
+  xhr: xhrAdapter,
+  fetch: fetchAdapter
+};
+utils$1.forEach(knownAdapters, (fn2, value) => {
+  if (fn2) {
+    try {
+      Object.defineProperty(fn2, "name", { value });
+    } catch (e3) {
+    }
+    Object.defineProperty(fn2, "adapterName", { value });
+  }
+});
+const renderReason = (reason) => `- ${reason}`;
+const isResolvedHandle = (adapter) => utils$1.isFunction(adapter) || adapter === null || adapter === false;
+const adapters = {
+  getAdapter: (adapters2) => {
+    adapters2 = utils$1.isArray(adapters2) ? adapters2 : [adapters2];
+    const { length: length2 } = adapters2;
+    let nameOrAdapter;
+    let adapter;
+    const rejectedReasons = {};
+    for (let i2 = 0; i2 < length2; i2++) {
+      nameOrAdapter = adapters2[i2];
+      let id2;
+      adapter = nameOrAdapter;
+      if (!isResolvedHandle(nameOrAdapter)) {
+        adapter = knownAdapters[(id2 = String(nameOrAdapter)).toLowerCase()];
+        if (adapter === void 0) {
+          throw new AxiosError$1(`Unknown adapter '${id2}'`);
+        }
+      }
+      if (adapter) {
+        break;
+      }
+      rejectedReasons[id2 || "#" + i2] = adapter;
+    }
+    if (!adapter) {
+      const reasons = Object.entries(rejectedReasons).map(
+        ([id2, state]) => `adapter ${id2} ` + (state === false ? "is not supported by the environment" : "is not available in the build")
+      );
+      let s3 = length2 ? reasons.length > 1 ? "since :\n" + reasons.map(renderReason).join("\n") : " " + renderReason(reasons[0]) : "as no adapter specified";
+      throw new AxiosError$1(
+        `There is no suitable adapter to dispatch the request ` + s3,
+        "ERR_NOT_SUPPORT"
+      );
+    }
+    return adapter;
+  },
+  adapters: knownAdapters
+};
+function throwIfCancellationRequested(config2) {
+  if (config2.cancelToken) {
+    config2.cancelToken.throwIfRequested();
+  }
+  if (config2.signal && config2.signal.aborted) {
+    throw new CanceledError$1(null, config2);
+  }
+}
+function dispatchRequest(config2) {
+  throwIfCancellationRequested(config2);
+  config2.headers = AxiosHeaders$1.from(config2.headers);
+  config2.data = transformData.call(
+    config2,
+    config2.transformRequest
+  );
+  if (["post", "put", "patch"].indexOf(config2.method) !== -1) {
+    config2.headers.setContentType("application/x-www-form-urlencoded", false);
+  }
+  const adapter = adapters.getAdapter(config2.adapter || defaults.adapter);
+  return adapter(config2).then(function onAdapterResolution(response) {
+    throwIfCancellationRequested(config2);
+    response.data = transformData.call(
+      config2,
+      config2.transformResponse,
+      response
+    );
+    response.headers = AxiosHeaders$1.from(response.headers);
+    return response;
+  }, function onAdapterRejection(reason) {
+    if (!isCancel$1(reason)) {
+      throwIfCancellationRequested(config2);
+      if (reason && reason.response) {
+        reason.response.data = transformData.call(
+          config2,
+          config2.transformResponse,
+          reason.response
+        );
+        reason.response.headers = AxiosHeaders$1.from(reason.response.headers);
+      }
+    }
+    return Promise.reject(reason);
+  });
+}
+const VERSION$1 = "1.7.7";
+const validators$1 = {};
+["object", "boolean", "number", "function", "string", "symbol"].forEach((type, i2) => {
+  validators$1[type] = function validator2(thing) {
+    return typeof thing === type || "a" + (i2 < 1 ? "n " : " ") + type;
+  };
+});
+const deprecatedWarnings = {};
+validators$1.transitional = function transitional(validator2, version, message) {
+  function formatMessage(opt, desc) {
+    return "[Axios v" + VERSION$1 + "] Transitional option '" + opt + "'" + desc + (message ? ". " + message : "");
+  }
+  return (value, opt, opts) => {
+    if (validator2 === false) {
+      throw new AxiosError$1(
+        formatMessage(opt, " has been removed" + (version ? " in " + version : "")),
+        AxiosError$1.ERR_DEPRECATED
+      );
+    }
+    if (version && !deprecatedWarnings[opt]) {
+      deprecatedWarnings[opt] = true;
+      console.warn(
+        formatMessage(
+          opt,
+          " has been deprecated since v" + version + " and will be removed in the near future"
+        )
+      );
+    }
+    return validator2 ? validator2(value, opt, opts) : true;
+  };
+};
+function assertOptions(options, schema, allowUnknown) {
+  if (typeof options !== "object") {
+    throw new AxiosError$1("options must be an object", AxiosError$1.ERR_BAD_OPTION_VALUE);
+  }
+  const keys2 = Object.keys(options);
+  let i2 = keys2.length;
+  while (i2-- > 0) {
+    const opt = keys2[i2];
+    const validator2 = schema[opt];
+    if (validator2) {
+      const value = options[opt];
+      const result = value === void 0 || validator2(value, opt, options);
+      if (result !== true) {
+        throw new AxiosError$1("option " + opt + " must be " + result, AxiosError$1.ERR_BAD_OPTION_VALUE);
+      }
+      continue;
+    }
+    if (allowUnknown !== true) {
+      throw new AxiosError$1("Unknown option " + opt, AxiosError$1.ERR_BAD_OPTION);
+    }
+  }
+}
+const validator = {
+  assertOptions,
+  validators: validators$1
+};
+const validators = validator.validators;
+let Axios$1 = class Axios {
+  constructor(instanceConfig) {
+    this.defaults = instanceConfig;
+    this.interceptors = {
+      request: new InterceptorManager(),
+      response: new InterceptorManager()
+    };
+  }
+  /**
+   * Dispatch a request
+   *
+   * @param {String|Object} configOrUrl The config specific for this request (merged with this.defaults)
+   * @param {?Object} config
+   *
+   * @returns {Promise} The Promise to be fulfilled
+   */
+  async request(configOrUrl, config2) {
+    try {
+      return await this._request(configOrUrl, config2);
+    } catch (err) {
+      if (err instanceof Error) {
+        let dummy;
+        Error.captureStackTrace ? Error.captureStackTrace(dummy = {}) : dummy = new Error();
+        const stack = dummy.stack ? dummy.stack.replace(/^.+\n/, "") : "";
+        try {
+          if (!err.stack) {
+            err.stack = stack;
+          } else if (stack && !String(err.stack).endsWith(stack.replace(/^.+\n.+\n/, ""))) {
+            err.stack += "\n" + stack;
+          }
+        } catch (e3) {
+        }
+      }
+      throw err;
+    }
+  }
+  _request(configOrUrl, config2) {
+    if (typeof configOrUrl === "string") {
+      config2 = config2 || {};
+      config2.url = configOrUrl;
+    } else {
+      config2 = configOrUrl || {};
+    }
+    config2 = mergeConfig$1(this.defaults, config2);
+    const { transitional: transitional2, paramsSerializer, headers } = config2;
+    if (transitional2 !== void 0) {
+      validator.assertOptions(transitional2, {
+        silentJSONParsing: validators.transitional(validators.boolean),
+        forcedJSONParsing: validators.transitional(validators.boolean),
+        clarifyTimeoutError: validators.transitional(validators.boolean)
+      }, false);
+    }
+    if (paramsSerializer != null) {
+      if (utils$1.isFunction(paramsSerializer)) {
+        config2.paramsSerializer = {
+          serialize: paramsSerializer
+        };
+      } else {
+        validator.assertOptions(paramsSerializer, {
+          encode: validators.function,
+          serialize: validators.function
+        }, true);
+      }
+    }
+    config2.method = (config2.method || this.defaults.method || "get").toLowerCase();
+    let contextHeaders = headers && utils$1.merge(
+      headers.common,
+      headers[config2.method]
+    );
+    headers && utils$1.forEach(
+      ["delete", "get", "head", "post", "put", "patch", "common"],
+      (method) => {
+        delete headers[method];
+      }
+    );
+    config2.headers = AxiosHeaders$1.concat(contextHeaders, headers);
+    const requestInterceptorChain = [];
+    let synchronousRequestInterceptors = true;
+    this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+      if (typeof interceptor.runWhen === "function" && interceptor.runWhen(config2) === false) {
+        return;
+      }
+      synchronousRequestInterceptors = synchronousRequestInterceptors && interceptor.synchronous;
+      requestInterceptorChain.unshift(interceptor.fulfilled, interceptor.rejected);
+    });
+    const responseInterceptorChain = [];
+    this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+      responseInterceptorChain.push(interceptor.fulfilled, interceptor.rejected);
+    });
+    let promise;
+    let i2 = 0;
+    let len;
+    if (!synchronousRequestInterceptors) {
+      const chain = [dispatchRequest.bind(this), void 0];
+      chain.unshift.apply(chain, requestInterceptorChain);
+      chain.push.apply(chain, responseInterceptorChain);
+      len = chain.length;
+      promise = Promise.resolve(config2);
+      while (i2 < len) {
+        promise = promise.then(chain[i2++], chain[i2++]);
+      }
+      return promise;
+    }
+    len = requestInterceptorChain.length;
+    let newConfig = config2;
+    i2 = 0;
+    while (i2 < len) {
+      const onFulfilled = requestInterceptorChain[i2++];
+      const onRejected = requestInterceptorChain[i2++];
+      try {
+        newConfig = onFulfilled(newConfig);
+      } catch (error) {
+        onRejected.call(this, error);
+        break;
+      }
+    }
+    try {
+      promise = dispatchRequest.call(this, newConfig);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+    i2 = 0;
+    len = responseInterceptorChain.length;
+    while (i2 < len) {
+      promise = promise.then(responseInterceptorChain[i2++], responseInterceptorChain[i2++]);
+    }
+    return promise;
+  }
+  getUri(config2) {
+    config2 = mergeConfig$1(this.defaults, config2);
+    const fullPath = buildFullPath(config2.baseURL, config2.url);
+    return buildURL(fullPath, config2.params, config2.paramsSerializer);
+  }
+};
+utils$1.forEach(["delete", "get", "head", "options"], function forEachMethodNoData(method) {
+  Axios$1.prototype[method] = function(url, config2) {
+    return this.request(mergeConfig$1(config2 || {}, {
+      method,
+      url,
+      data: (config2 || {}).data
+    }));
+  };
+});
+utils$1.forEach(["post", "put", "patch"], function forEachMethodWithData(method) {
+  function generateHTTPMethod(isForm) {
+    return function httpMethod(url, data, config2) {
+      return this.request(mergeConfig$1(config2 || {}, {
+        method,
+        headers: isForm ? {
+          "Content-Type": "multipart/form-data"
+        } : {},
+        url,
+        data
+      }));
+    };
+  }
+  Axios$1.prototype[method] = generateHTTPMethod();
+  Axios$1.prototype[method + "Form"] = generateHTTPMethod(true);
+});
+let CancelToken$1 = class CancelToken {
+  constructor(executor) {
+    if (typeof executor !== "function") {
+      throw new TypeError("executor must be a function.");
+    }
+    let resolvePromise;
+    this.promise = new Promise(function promiseExecutor(resolve) {
+      resolvePromise = resolve;
+    });
+    const token2 = this;
+    this.promise.then((cancel) => {
+      if (!token2._listeners) return;
+      let i2 = token2._listeners.length;
+      while (i2-- > 0) {
+        token2._listeners[i2](cancel);
+      }
+      token2._listeners = null;
+    });
+    this.promise.then = (onfulfilled) => {
+      let _resolve;
+      const promise = new Promise((resolve) => {
+        token2.subscribe(resolve);
+        _resolve = resolve;
+      }).then(onfulfilled);
+      promise.cancel = function reject() {
+        token2.unsubscribe(_resolve);
+      };
+      return promise;
+    };
+    executor(function cancel(message, config2, request) {
+      if (token2.reason) {
+        return;
+      }
+      token2.reason = new CanceledError$1(message, config2, request);
+      resolvePromise(token2.reason);
+    });
+  }
+  /**
+   * Throws a `CanceledError` if cancellation has been requested.
+   */
+  throwIfRequested() {
+    if (this.reason) {
+      throw this.reason;
+    }
+  }
+  /**
+   * Subscribe to the cancel signal
+   */
+  subscribe(listener) {
+    if (this.reason) {
+      listener(this.reason);
+      return;
+    }
+    if (this._listeners) {
+      this._listeners.push(listener);
+    } else {
+      this._listeners = [listener];
+    }
+  }
+  /**
+   * Unsubscribe from the cancel signal
+   */
+  unsubscribe(listener) {
+    if (!this._listeners) {
+      return;
+    }
+    const index = this._listeners.indexOf(listener);
+    if (index !== -1) {
+      this._listeners.splice(index, 1);
+    }
+  }
+  toAbortSignal() {
+    const controller = new AbortController();
+    const abort = (err) => {
+      controller.abort(err);
+    };
+    this.subscribe(abort);
+    controller.signal.unsubscribe = () => this.unsubscribe(abort);
+    return controller.signal;
+  }
+  /**
+   * Returns an object that contains a new `CancelToken` and a function that, when called,
+   * cancels the `CancelToken`.
+   */
+  static source() {
+    let cancel;
+    const token2 = new CancelToken(function executor(c3) {
+      cancel = c3;
+    });
+    return {
+      token: token2,
+      cancel
+    };
+  }
+};
+function spread$1(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+}
+function isAxiosError$1(payload) {
+  return utils$1.isObject(payload) && payload.isAxiosError === true;
+}
+const HttpStatusCode$1 = {
+  Continue: 100,
+  SwitchingProtocols: 101,
+  Processing: 102,
+  EarlyHints: 103,
+  Ok: 200,
+  Created: 201,
+  Accepted: 202,
+  NonAuthoritativeInformation: 203,
+  NoContent: 204,
+  ResetContent: 205,
+  PartialContent: 206,
+  MultiStatus: 207,
+  AlreadyReported: 208,
+  ImUsed: 226,
+  MultipleChoices: 300,
+  MovedPermanently: 301,
+  Found: 302,
+  SeeOther: 303,
+  NotModified: 304,
+  UseProxy: 305,
+  Unused: 306,
+  TemporaryRedirect: 307,
+  PermanentRedirect: 308,
+  BadRequest: 400,
+  Unauthorized: 401,
+  PaymentRequired: 402,
+  Forbidden: 403,
+  NotFound: 404,
+  MethodNotAllowed: 405,
+  NotAcceptable: 406,
+  ProxyAuthenticationRequired: 407,
+  RequestTimeout: 408,
+  Conflict: 409,
+  Gone: 410,
+  LengthRequired: 411,
+  PreconditionFailed: 412,
+  PayloadTooLarge: 413,
+  UriTooLong: 414,
+  UnsupportedMediaType: 415,
+  RangeNotSatisfiable: 416,
+  ExpectationFailed: 417,
+  ImATeapot: 418,
+  MisdirectedRequest: 421,
+  UnprocessableEntity: 422,
+  Locked: 423,
+  FailedDependency: 424,
+  TooEarly: 425,
+  UpgradeRequired: 426,
+  PreconditionRequired: 428,
+  TooManyRequests: 429,
+  RequestHeaderFieldsTooLarge: 431,
+  UnavailableForLegalReasons: 451,
+  InternalServerError: 500,
+  NotImplemented: 501,
+  BadGateway: 502,
+  ServiceUnavailable: 503,
+  GatewayTimeout: 504,
+  HttpVersionNotSupported: 505,
+  VariantAlsoNegotiates: 506,
+  InsufficientStorage: 507,
+  LoopDetected: 508,
+  NotExtended: 510,
+  NetworkAuthenticationRequired: 511
+};
+Object.entries(HttpStatusCode$1).forEach(([key, value]) => {
+  HttpStatusCode$1[value] = key;
+});
+function createInstance(defaultConfig) {
+  const context = new Axios$1(defaultConfig);
+  const instance = bind(Axios$1.prototype.request, context);
+  utils$1.extend(instance, Axios$1.prototype, context, { allOwnKeys: true });
+  utils$1.extend(instance, context, null, { allOwnKeys: true });
+  instance.create = function create(instanceConfig) {
+    return createInstance(mergeConfig$1(defaultConfig, instanceConfig));
+  };
+  return instance;
+}
+const axios = createInstance(defaults);
+axios.Axios = Axios$1;
+axios.CanceledError = CanceledError$1;
+axios.CancelToken = CancelToken$1;
+axios.isCancel = isCancel$1;
+axios.VERSION = VERSION$1;
+axios.toFormData = toFormData$1;
+axios.AxiosError = AxiosError$1;
+axios.Cancel = axios.CanceledError;
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+axios.spread = spread$1;
+axios.isAxiosError = isAxiosError$1;
+axios.mergeConfig = mergeConfig$1;
+axios.AxiosHeaders = AxiosHeaders$1;
+axios.formToJSON = (thing) => formDataToJSON(utils$1.isHTMLForm(thing) ? new FormData(thing) : thing);
+axios.getAdapter = adapters.getAdapter;
+axios.HttpStatusCode = HttpStatusCode$1;
+axios.default = axios;
+const {
+  Axios: Axios2,
+  AxiosError,
+  CanceledError,
+  isCancel,
+  CancelToken: CancelToken2,
+  VERSION,
+  all: all2,
+  Cancel,
+  isAxiosError,
+  spread,
+  toFormData,
+  AxiosHeaders: AxiosHeaders2,
+  HttpStatusCode,
+  formToJSON,
+  getAdapter,
+  mergeConfig
+} = axios;
+const formatCurrency = (value) => {
+  const numericValue = typeof value === "string" ? parseFloat(value) : value;
+  if (isNaN(numericValue)) {
+    return "";
+  }
+  return numericValue.toLocaleString("es-MX", {
+    style: "currency",
+    currency: "MXN",
+    minimumFractionDigits: 2,
+    // Mostrar siempre 2 decimales
+    maximumFractionDigits: 2
+    // No más de 2 decimales
+  });
+};
+const __vite_import_meta_env__ = { "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "SSR": false, "VITE_SERVER_URL": "./services/" };
+const getEnvVariables = () => {
+  const envs = __vite_import_meta_env__;
+  return {
+    ...envs
+  };
+};
+const getFakeAmount$1 = (amount) => ({
+  amount,
+  confirmed: false,
+  realAmount: 0
+});
+const getDefaultCollectRegister = (tempId, baseCollect) => {
+  const { clientId, weekId, day, mount } = baseCollect;
+  return {
+    id: tempId,
+    clientId,
+    clientName: "Pending...",
+    weekId,
+    monday: getFakeAmount$1(day === "monday" ? mount : 0),
+    tuesday: getFakeAmount$1(day === "tuesday" ? mount : 0),
+    wednesday: getFakeAmount$1(day === "wednesday" ? mount : 0),
+    thursday: getFakeAmount$1(day === "thursday" ? mount : 0),
+    friday: getFakeAmount$1(day === "friday" ? mount : 0),
+    saturday: getFakeAmount$1(day === "saturday" ? mount : 0),
+    observations: "",
+    totalConfirmed: 0
+  };
+};
+const getFakeAmount = (amount) => ({
+  amount,
+  confirmed: false,
+  realAmount: 0
+});
+const getDefaultPayment = (tempId, basePayment) => {
+  const { amount, concept, day, providerId, providerName, weekId } = basePayment;
+  return {
+    id: tempId,
+    concept,
+    weekId,
+    providerId,
+    providerName,
+    monday: getFakeAmount(day === "monday" ? amount : 0),
+    tuesday: getFakeAmount(day === "tuesday" ? amount : 0),
+    wednesday: getFakeAmount(day === "wednesday" ? amount : 0),
+    thursday: getFakeAmount(day === "thursday" ? amount : 0),
+    friday: getFakeAmount(day === "friday" ? amount : 0),
+    saturday: getFakeAmount(day === "saturday" ? amount : 0),
+    observations: "",
+    totalConfirmed: 0
+  };
+};
+const { VITE_SERVER_URL } = getEnvVariables();
+const phicargoApi = axios.create({
+  baseURL: VITE_SERVER_URL,
+  withCredentials: false
+});
+axios.defaults.withCredentials = true;
 class CollectServiceApi {
   /**
    * Obtener los registros de la semana
@@ -81067,17 +83646,19 @@ class CollectServiceApi {
    * @returns Array con los registros de la semana
    */
   static async getCollectRegisterByWeekId(weekId) {
-    const url = `${BASE_URL$4}collect/get_collect_registers.php?week_id=${weekId}`;
+    var _a2;
+    const url = `collect/get_collect_registers.php?week_id=${weekId}`;
     try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error("Error al obtener los registros");
-      }
-      return data.data.map(collectRegisterToLocal);
+      const response = await phicargoApi(url);
+      return response.data.map(collectRegisterToLocal);
     } catch (error) {
-      console.error(error);
-      return [];
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al obtener registros"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
     }
   }
   /**
@@ -81086,23 +83667,22 @@ class CollectServiceApi {
    * @returns True si se ha creado el registro correctamente
    */
   static async createRegister(newRegister) {
+    var _a2;
     const body = collectRegisterToApi(newRegister);
     try {
-      const response = await fetch(`${BASE_URL$4}collect/create_register.php`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-      });
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-      return response.ok;
+      const response = await phicargoApi.post(
+        "collect/create_register.php",
+        body
+      );
+      return collectRegisterToLocal(response.data);
     } catch (error) {
-      console.error(error);
-      return false;
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al crear registro"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
     }
   }
   /**
@@ -81111,41 +83691,44 @@ class CollectServiceApi {
    * @returns True si se ha actualizado el registro correctamente
    */
   static async updateRegister(register) {
+    var _a2;
     const body = collectRegisterToApiFull(register);
     try {
-      const response = await fetch(`${BASE_URL$4}collect/update_register.php`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-      });
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-      return response.ok;
+      const response = await phicargoApi.put(
+        "collect/update_register.php",
+        body
+      );
+      return collectRegisterToLocal(response.data);
     } catch (error) {
-      console.error(error);
-      return false;
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al actualizar registro"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
     }
   }
+  /**
+   * Eliminar un registro de collect
+   * @param registerId ID del registro a eliminar
+   * @returns True si se ha eliminado el registro correctamente
+   */
   static async deleteRegister(registerId) {
+    var _a2;
     try {
-      const response = await fetch(`${BASE_URL$4}collect/delete_register.php?collect_id=${registerId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-      return response.ok;
+      const response = await phicargoApi.delete(
+        `collect/delete_register.php?collect_id=${registerId}`
+      );
+      return response.data.success;
     } catch (error) {
-      console.error(error);
-      return false;
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al eliminar registro"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
     }
   }
   /**
@@ -81153,23 +83736,22 @@ class CollectServiceApi {
    * @param confirmation Objeto con los datos de la confirmación
    */
   static async confirmCollect(confirmation) {
+    var _a2;
     const body = collectConfirmationToApi(confirmation);
     try {
-      const response = await fetch(`${BASE_URL$4}collect/confirm_collect.php`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-      });
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-      return response.ok;
+      const response = await phicargoApi.post(
+        `collect/confirm_collect.php`,
+        body
+      );
+      return collectRegisterToLocal(response.data);
     } catch (error) {
-      console.error(error);
-      return false;
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al eliminar registro"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
     }
   }
 }
@@ -81188,60 +83770,88 @@ const useCollectRegisters = () => {
     queryKey: [registersKey, "weekId", activeWeekId],
     queryFn: () => CollectServiceApi.getCollectRegisterByWeekId(activeWeekId || 0),
     refetchOnWindowFocus: false,
-    staleTime: 1e3 * 60 * 5
+    staleTime: 1e3 * 60 * 5,
+    enabled: !!activeWeekId
   });
   const createCollectRegisterMutation = useMutation({
     mutationFn: CollectServiceApi.createRegister,
-    onSuccess: (response) => {
-      console.log(response);
+    onMutate: async (newRegister) => {
+      await queryClient2.cancelQueries({ queryKey: [registersKey, "weekId", activeWeekId] });
+      const previousRegisters = queryClient2.getQueryData([registersKey, "weekId", activeWeekId]);
+      const tempId = Math.random() + 1;
+      queryClient2.setQueryData([registersKey, "weekId", activeWeekId], (prev2) => [
+        ...prev2 || [],
+        { ...getDefaultCollectRegister(tempId, newRegister) }
+      ]);
+      return { previousRegisters, tempId };
+    },
+    onSuccess: (newRegister, _variables, context) => {
+      queryClient2.setQueryData(
+        [registersKey, "weekId", activeWeekId],
+        (prev2) => prev2 == null ? void 0 : prev2.map((r2) => r2.id === context.tempId ? newRegister : r2)
+      );
       Jt.success("Registro creado correctamente");
     },
-    onError: (err) => {
-      console.error(err);
-      Jt.error("Error al crear el registro");
-    },
-    onSettled: () => {
-      queryClient2.invalidateQueries({ queryKey: [registersKey, "weekId", activeWeekId] });
+    onError: (err, _newRegister, context) => {
+      queryClient2.setQueryData([registersKey, "weekId", activeWeekId], context == null ? void 0 : context.previousRegisters);
+      Jt.error(err.message);
     }
   });
   const updateCollectRegisterMutation = useMutation({
     mutationFn: CollectServiceApi.updateRegister,
-    onSuccess: () => {
+    onMutate: async () => {
+      await queryClient2.cancelQueries({ queryKey: [registersKey, "weekId", activeWeekId] });
+      const previousRegisters = queryClient2.getQueryData([registersKey, "weekId", activeWeekId]);
+      return { previousRegisters };
+    },
+    onSuccess: (newRegister) => {
+      queryClient2.setQueryData(
+        [registersKey, "weekId", activeWeekId],
+        (prev2) => prev2 == null ? void 0 : prev2.map((r2) => r2.id === newRegister.id ? newRegister : r2)
+      );
       Jt.success("Registro actualizado correctamente");
     },
-    onError: () => {
-      Jt.error("Error al actualizar el registro");
-    },
-    onSettled: () => {
-      queryClient2.invalidateQueries({ queryKey: [registersKey, "weekId", activeWeekId] });
+    onError: (err, _newRegister, context) => {
+      queryClient2.setQueryData([registersKey, "weekId", activeWeekId], context == null ? void 0 : context.previousRegisters);
+      Jt.error(err.message);
     }
   });
   const deleteCollectRegisterMutation = useMutation({
     mutationFn: CollectServiceApi.deleteRegister,
-    onSuccess: (response) => {
-      console.log(response);
+    onMutate: async (id2) => {
+      await queryClient2.cancelQueries({ queryKey: [registersKey, "weekId", activeWeekId] });
+      const previousRegisters = queryClient2.getQueryData([registersKey, "weekId", activeWeekId]);
+      queryClient2.setQueryData(
+        [registersKey, "weekId", activeWeekId],
+        (prev2) => prev2 == null ? void 0 : prev2.filter((r2) => r2.id !== id2)
+      );
+      return { previousRegisters };
+    },
+    onSuccess: () => {
       Jt.success("Registro eliminado correctamente");
     },
-    onError: (err) => {
-      console.error(err);
-      Jt.error("Error al eliminar el registro");
-    },
-    onSettled: () => {
-      queryClient2.invalidateQueries({ queryKey: [registersKey, "weekId", activeWeekId] });
+    onError: (err, _variables, context) => {
+      queryClient2.setQueryData([registersKey, "weekId", activeWeekId], context == null ? void 0 : context.previousRegisters);
+      Jt.error(err.message);
     }
   });
   const confirmCollectMutation = useMutation({
     mutationFn: CollectServiceApi.confirmCollect,
-    onSuccess: (response) => {
-      console.log(response);
-      Jt.success("Cobro confirmado");
+    onMutate: async () => {
+      await queryClient2.cancelQueries({ queryKey: [registersKey, "weekId", activeWeekId] });
+      const previousRegisters = queryClient2.getQueryData([registersKey, "weekId", activeWeekId]);
+      return { previousRegisters };
     },
-    onError: (err) => {
-      console.error(err);
-      Jt.error("Error al confirmar el cobro");
+    onSuccess: (newRegister) => {
+      queryClient2.setQueryData(
+        [registersKey, "weekId", activeWeekId],
+        (prev2) => prev2 == null ? void 0 : prev2.map((r2) => r2.id === newRegister.id ? newRegister : r2)
+      );
+      Jt.success("Monto confirmado correctamente");
     },
-    onSettled: () => {
-      queryClient2.invalidateQueries({ queryKey: [registersKey, "weekId", activeWeekId] });
+    onError: (err, _newRegister, context) => {
+      queryClient2.setQueryData([registersKey, "weekId", activeWeekId], context == null ? void 0 : context.previousRegisters);
+      Jt.error(err.message);
     }
   });
   return {
@@ -81252,20 +83862,6 @@ const useCollectRegisters = () => {
     deleteCollectRegisterMutation,
     confirmCollectMutation
   };
-};
-const formatCurrency = (value) => {
-  const numericValue = typeof value === "string" ? parseFloat(value) : value;
-  if (isNaN(numericValue)) {
-    return "";
-  }
-  return numericValue.toLocaleString("es-MX", {
-    style: "currency",
-    currency: "MXN",
-    minimumFractionDigits: 2,
-    // Mostrar siempre 2 decimales
-    maximumFractionDigits: 2
-    // No más de 2 decimales
-  });
 };
 const TotalFooterItem = ({ total }) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -81293,985 +83889,46 @@ const TotalFooterItem = ({ total }) => {
     }
   );
 };
-var Remind$2 = {};
-var Remind$1 = { exports: {} };
-var Remind = {};
-var hasRequiredRemind;
-function requireRemind() {
-  if (hasRequiredRemind) return Remind;
-  hasRequiredRemind = 1;
-  (function(exports) {
-    function _typeof2(obj) {
-      "@babel/helpers - typeof";
-      if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-        _typeof2 = function _typeof3(obj2) {
-          return typeof obj2;
-        };
-      } else {
-        _typeof2 = function _typeof3(obj2) {
-          return obj2 && typeof Symbol === "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
-        };
-      }
-      return _typeof2(obj);
-    }
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports["default"] = void 0;
-    var React2 = _interopRequireWildcard(reactExports);
-    function _getRequireWildcardCache() {
-      if (typeof WeakMap !== "function") return null;
-      var cache2 = /* @__PURE__ */ new WeakMap();
-      _getRequireWildcardCache = function _getRequireWildcardCache2() {
-        return cache2;
-      };
-      return cache2;
-    }
-    function _interopRequireWildcard(obj) {
-      if (obj && obj.__esModule) {
-        return obj;
-      }
-      if (obj === null || _typeof2(obj) !== "object" && typeof obj !== "function") {
-        return { "default": obj };
-      }
-      var cache2 = _getRequireWildcardCache();
-      if (cache2 && cache2.has(obj)) {
-        return cache2.get(obj);
-      }
-      var newObj = {};
-      var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-      for (var key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-          var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-          if (desc && (desc.get || desc.set)) {
-            Object.defineProperty(newObj, key, desc);
-          } else {
-            newObj[key] = obj[key];
-          }
-        }
-      }
-      newObj["default"] = obj;
-      if (cache2) {
-        cache2.set(obj, newObj);
-      }
-      return newObj;
-    }
-    function _extends2() {
-      _extends2 = Object.assign || function(target) {
-        for (var i2 = 1; i2 < arguments.length; i2++) {
-          var source = arguments[i2];
-          for (var key in source) {
-            if (Object.prototype.hasOwnProperty.call(source, key)) {
-              target[key] = source[key];
-            }
-          }
-        }
-        return target;
-      };
-      return _extends2.apply(this, arguments);
-    }
-    function Remind2(props, svgRef) {
-      return /* @__PURE__ */ React2.createElement("svg", _extends2({
-        width: "1em",
-        height: "1em",
-        viewBox: "0 0 14 14",
-        fill: "currentColor",
-        ref: svgRef
-      }, props), /* @__PURE__ */ React2.createElement("path", {
-        d: "M8.021 1.101l5.832 10.509a1.168 1.168 0 01-1.021 1.734H1.167a1.167 1.167 0 01-1.02-1.734L5.979 1.101a1.167 1.167 0 012.041 0zM7 12.177a1.167 1.167 0 100-2.334 1.167 1.167 0 000 2.334zm0-9.34c-.645 0-1.167.523-1.167 1.167v3.502a1.167 1.167 0 002.334 0V4.004c0-.645-.523-1.167-1.167-1.167z"
-      }));
-    }
-    var ForwardRef = /* @__PURE__ */ React2.forwardRef(Remind2);
-    var _default = ForwardRef;
-    exports["default"] = _default;
-  })(Remind);
-  return Remind;
-}
-(function(module, exports) {
-  var _interopRequireDefault2 = interopRequireDefaultExports;
-  exports.__esModule = true;
-  exports["default"] = void 0;
-  var _createSvgIcon2 = _interopRequireDefault2(requireCreateSvgIcon$1());
-  var _Remind = _interopRequireDefault2(requireRemind());
-  var Remind2 = (0, _createSvgIcon2["default"])({
-    as: _Remind["default"],
-    ariaLabel: "remind",
-    category: "legacy",
-    displayName: "Remind"
-  });
-  var _default = Remind2;
-  exports["default"] = _default;
-  module.exports = exports.default;
-})(Remind$1, Remind$1.exports);
-var RemindExports = Remind$1.exports;
-(function(exports) {
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, "default", {
-    enumerable: true,
-    get: function get2() {
-      return _Remind["default"];
-    }
-  });
-  var _Remind = _interopRequireDefault2(RemindExports);
-  function _interopRequireDefault2(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
-  }
-})(Remind$2);
-const RemindIcon = /* @__PURE__ */ getDefaultExportFromCjs(Remind$2);
-const paymentToLocal = (payment) => ({
-  id: payment.id,
-  monday: payment.monday_amount,
-  tuesday: payment.tuesday_amount,
-  wednesday: payment.wednesday_amount,
-  thursday: payment.thursday_amount,
-  friday: payment.friday_amount,
-  saturday: payment.saturday_amount,
-  providerId: payment.provider_id,
-  providerName: payment.provider,
-  weekId: payment.week_id,
-  observations: payment.observations,
-  concept: payment.concept,
-  totalConfirmed: payment.total_confirmed_amount
-});
-const paymentToApi = (payment) => ({
-  week_id: payment.weekId,
-  provider_id: payment.providerId,
-  provider: payment.providerName,
-  concept: payment.concept,
-  [`${payment.day}_amount`]: payment.amount
-});
-const paymentToApiFull = (payment) => ({
-  id: payment.id,
-  monday_amount: payment.monday,
-  tuesday_amount: payment.tuesday,
-  wednesday_amount: payment.wednesday,
-  thursday_amount: payment.thursday,
-  friday_amount: payment.friday,
-  saturday_amount: payment.saturday,
-  provider_id: payment.providerId,
-  provider: payment.providerName,
-  week_id: payment.weekId,
-  observations: payment.observations,
-  concept: payment.concept,
-  total_confirmed_amount: payment.totalConfirmed
-});
-const paymentConfirmationToApi = (confirmation) => ({
-  payment_id: confirmation.itemId,
-  day_of_week: confirmation.dayOfWeek,
-  confirmed: confirmation.confirmed
-});
-const BASE_URL$3 = "./services/";
-class PaymentServiceApi {
-  /**
-   * Obtiene los registros de pago de una semana
-   * @param weekId ID de la semana a buscar
-   * @returns Array de registros de pago
-   */
-  static async getRegisterByWeekId(weekId) {
-    var _a2;
-    const url = `${BASE_URL$3}payment/get_payments.php?week_id=${weekId}`;
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message || "Error al obtener los registros");
-      }
-      return ((_a2 = data.payments) == null ? void 0 : _a2.map(paymentToLocal)) || [];
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  }
-  /**
-   * Crea un registro de pago
-   * @param param0 Objeto con la información del registro a crear
-   * @returns Booleano indicando si se creó correctamente
-   */
-  static async createRegister(payment) {
-    const body = paymentToApi(payment);
-    try {
-      const response = await fetch(`${BASE_URL$3}payment/create_payment.php`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-      });
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-      return response.ok;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-  /**
-   * Actualiza un registro de pago
-   * @param register Objeto con la información del registro a actualizar
-   * @returns Booleano indicando si se actualizó correctamente
-   */
-  static async updateRegister(register) {
-    const body = paymentToApiFull(register);
-    try {
-      const response = await fetch(`${BASE_URL$3}payment/update_payment.php`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-      });
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-      return response.ok;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-  static async deleteRegister(id2) {
-    try {
-      const response = await fetch(`${BASE_URL$3}payment/delete_payment.php?payment_id=${id2}`, {
-        method: "DELETE"
-      });
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-      return response.ok;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-  /**
-  * Confirmar pago de un día
-  * @param confirmation Objeto con los datos de la confirmación
-  */
-  static async confirmPayment(confirmation) {
-    const body = paymentConfirmationToApi(confirmation);
-    try {
-      const response = await fetch(`${BASE_URL$3}payment/confirm_payment.php`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-      });
-      const data = await response.json();
-      if (!data.success) {
-        throw new Error(data.message);
-      }
-      return response.ok;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-}
-const mainKey$1 = "payments";
-const usePayments = () => {
-  const queryClient2 = useQueryClient();
-  const { activeWeekId } = useWeekContext();
-  const paymentsQuery = useQuery({
-    queryKey: [mainKey$1, "weekId", activeWeekId],
-    queryFn: () => PaymentServiceApi.getRegisterByWeekId(activeWeekId || 6),
-    refetchOnWindowFocus: false,
-    staleTime: 1e3 * 60 * 5
-  });
-  const createPaymentMutation = useMutation({
-    mutationFn: PaymentServiceApi.createRegister,
-    onSuccess: (response) => {
-      console.log(response);
-      Jt.success("Registro creado correctamente");
-    },
-    onError: (err) => {
-      console.error(err);
-      Jt.error("Error al crear el registro");
-    },
-    onSettled: () => {
-      queryClient2.invalidateQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
-    }
-  });
-  const updatePaymentMutation = useMutation({
-    mutationFn: PaymentServiceApi.updateRegister,
-    onSuccess: (response) => {
-      console.log(response);
-      Jt.success("Registro actualizado correctamente");
-    },
-    onError: (err) => {
-      console.error(err);
-      Jt.error("Error al actualizar el registro");
-    },
-    onSettled: () => {
-      queryClient2.invalidateQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
-    }
-  });
-  const deletePaymentMutation = useMutation({
-    mutationFn: PaymentServiceApi.deleteRegister,
-    onSuccess: (response) => {
-      console.log(response);
-      Jt.success("Registro eliminado correctamente");
-    },
-    onError: (err) => {
-      console.error(err);
-      Jt.error("Error al eliminar el registro");
-    },
-    onSettled: () => {
-      queryClient2.invalidateQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
-    }
-  });
-  const confirmPaymentMutation = useMutation({
-    mutationFn: PaymentServiceApi.confirmPayment,
-    onSuccess: (response) => {
-      console.log(response);
-      Jt.success("Pago confirmado");
-    },
-    onError: (err) => {
-      console.error(err);
-      Jt.error("Error al confirmar el pago");
-    },
-    onSettled: () => {
-      queryClient2.invalidateQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
-    }
-  });
-  return {
-    paymentsQuery,
-    createPaymentMutation,
-    updatePaymentMutation,
-    deletePaymentMutation,
-    confirmPaymentMutation
-  };
-};
-const style = {
-  display: "inline-block",
-  padding: "4px 8px",
-  borderRadius: "4px",
-  color: "#333",
-  fontSize: "14px",
-  fontWeight: "bold",
-  textAlign: "right",
-  userSelect: "none",
-  cursor: "pointer"
-};
-const CurrencyCell = (props) => {
-  const { value, customColor, type, dayOfWeek, itemId } = props;
-  const [open, setOpen] = reactExports.useState(false);
-  const {
-    confirmCollectMutation: { mutate: confirmCollect }
-  } = useCollectRegisters();
-  const {
-    confirmPaymentMutation: { mutate: confirmPayment }
-  } = usePayments();
-  const handleDoubleClick = (e3) => {
-    e3.stopPropagation();
-    if (!props.confirmationRequired) return;
-    setOpen(true);
-  };
-  const onConfirm = () => {
-    if (!type) return;
-    if (!dayOfWeek || !itemId) return;
-    if (type === "collect") {
-      confirmCollect({
-        itemId: props.itemId,
-        dayOfWeek: props.dayOfWeek,
-        confirmed: true
-      });
-    } else {
-      confirmPayment({
-        itemId: props.itemId,
-        dayOfWeek: props.dayOfWeek,
-        confirmed: true
-      });
-    }
-    setOpen(false);
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "span",
-      {
-        style: {
-          ...style,
-          backgroundColor: customColor || "#f0f8ff"
-        },
-        onDoubleClick: handleDoubleClick,
-        children: formatCurrency(value || 0)
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      Modal$1,
-      {
-        role: "alertdialog",
-        open,
-        onClose: () => setOpen(false),
-        size: "300px",
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Modal$1.Body, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "div",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center"
-              },
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx(
-                  RemindIcon,
-                  {
-                    style: { color: "#ffb300", fontSize: 24, marginRight: "8px" }
-                  }
-                ),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "¿Confirmar Pago?" })
-              ]
-            }
-          ) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(Modal$1.Footer, { children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Button$1, { onClick: onConfirm, appearance: "primary", children: "Confirmar" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Button$1, { onClick: () => setOpen(false), appearance: "subtle", children: "Cancelar" })
-          ] })
-        ]
-      }
-    )
-  ] });
-};
-const getTotalPerDay = (data, day) => {
-  return data.reduce((acc, curr) => {
-    const value = curr[day].amount;
-    return acc + (isNaN(value) ? 0 : value);
-  }, 0) || 0;
-};
-const getProjection = (data) => {
-  return data.monday.amount + data.tuesday.amount + data.wednesday.amount + data.thursday.amount + data.friday.amount + data.saturday.amount;
-};
-const useCollectTableColumns = (data) => {
-  const columns = reactExports.useMemo(() => {
-    return [
-      {
-        header: "Cliente",
-        accessorFn: (originalRow) => originalRow.clientName,
-        id: "client",
-        enableEditing: false
-      },
-      {
-        header: "Proyección",
-        filterFn: "between",
-        enableEditing: false,
-        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TotalFooterItem,
-          {
-            total: data.reduce((acc, curr) => acc + getProjection(curr), 0)
-          }
-        ),
-        Cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: getProjection(row.original) })
-      },
-      {
-        accessorFn: (originalRow) => originalRow.totalConfirmed,
-        id: "totalConfirmed",
-        filterFn: "between",
-        header: "Total Confirmado",
-        enableEditing: false,
-        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          TotalFooterItem,
-          {
-            total: data.reduce((acc, curr) => acc + curr.totalConfirmed, 0)
-          }
-        ),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
-      },
-      {
-        accessorFn: (originalRow) => originalRow.monday.amount,
-        filterFn: "between",
-        id: "monday",
-        muiEditTextFieldProps: {
-          type: "number",
-          helperText: "Cobrado el lunes"
-        },
-        header: "Lunes",
-        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "monday") }),
-        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          CurrencyCell,
-          {
-            value: cell.getValue() || 0,
-            confirmationRequired: cell.getValue() > 0 && !row.original.monday.confirmed,
-            type: "collect",
-            itemId: row.original.id,
-            dayOfWeek: "monday",
-            customColor: row.original.monday.confirmed ? "#d4edda" : "#ffcccb"
-          }
-        )
-      },
-      {
-        accessorFn: (originalRow) => originalRow.tuesday.amount,
-        id: "tuesday",
-        filterFn: "between",
-        header: "Martes",
-        muiEditTextFieldProps: {
-          type: "number",
-          helperText: "Cobrado el martes"
-        },
-        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "tuesday") }),
-        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          CurrencyCell,
-          {
-            value: cell.getValue() || 0,
-            confirmationRequired: cell.getValue() > 0 && !row.original.tuesday.confirmed,
-            type: "collect",
-            itemId: row.original.id,
-            dayOfWeek: "tuesday",
-            customColor: row.original.tuesday.confirmed ? "#d4edda" : "#ffcccb"
-          }
-        )
-      },
-      {
-        accessorFn: (originalRow) => originalRow.wednesday.amount,
-        id: "wednesday",
-        filterFn: "between",
-        header: "Miercoles",
-        muiEditTextFieldProps: {
-          type: "number",
-          helperText: "Cobrado el miercoles"
-        },
-        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "wednesday") }),
-        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          CurrencyCell,
-          {
-            value: cell.getValue() || 0,
-            confirmationRequired: cell.getValue() > 0 && !row.original.wednesday.confirmed,
-            type: "collect",
-            itemId: row.original.id,
-            dayOfWeek: "wednesday",
-            customColor: row.original.wednesday.confirmed ? "#d4edda" : "#ffcccb"
-          }
-        )
-      },
-      {
-        accessorFn: (originalRow) => originalRow.thursday.amount,
-        id: "thursday",
-        filterFn: "between",
-        header: "Jueves",
-        muiEditTextFieldProps: {
-          type: "number",
-          helperText: "Cobrado el jueves"
-        },
-        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "thursday") }),
-        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          CurrencyCell,
-          {
-            value: cell.getValue() || 0,
-            confirmationRequired: cell.getValue() > 0 && !row.original.thursday.confirmed,
-            type: "collect",
-            itemId: row.original.id,
-            dayOfWeek: "thursday",
-            customColor: row.original.thursday.confirmed ? "#d4edda" : "#ffcccb"
-          }
-        )
-      },
-      {
-        accessorFn: (originalRow) => originalRow.friday.amount,
-        id: "friday",
-        filterFn: "between",
-        header: "Viernes",
-        muiEditTextFieldProps: {
-          type: "number",
-          helperText: "Cobrado el viernes"
-        },
-        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "friday") }),
-        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          CurrencyCell,
-          {
-            value: cell.getValue() || 0,
-            confirmationRequired: cell.getValue() > 0 && !row.original.friday.confirmed,
-            type: "collect",
-            itemId: row.original.id,
-            dayOfWeek: "friday",
-            customColor: row.original.friday.confirmed ? "#d4edda" : "#ffcccb"
-          }
-        )
-      },
-      {
-        accessorFn: (originalRow) => originalRow.saturday.amount,
-        id: "saturday",
-        filterFn: "between",
-        header: "Sabado",
-        muiEditTextFieldProps: {
-          type: "number",
-          helperText: "Cobrado el sabado"
-        },
-        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "saturday") }),
-        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          CurrencyCell,
-          {
-            value: cell.getValue() || 0,
-            confirmationRequired: cell.getValue() > 0 && !row.original.saturday.confirmed,
-            type: "collect",
-            itemId: row.original.id,
-            dayOfWeek: "saturday",
-            customColor: row.original.saturday.confirmed ? "#d4edda" : "#ffcccb"
-          }
-        )
-      },
-      {
-        accessorKey: "observations",
-        header: "Observaciones",
-        filterVariant: "text"
-      }
-    ];
-  }, [data]);
-  return columns;
-};
-const CollectionTable = (props) => {
-  const { createFn } = props;
-  const { weekSelected } = useWeekContext();
-  const {
-    collectRegisterQuery: { data: registers, refetch },
-    updateCollectRegisterMutation: { mutate: updateRegister },
-    deleteCollectRegisterMutation: { mutate: deleteRegister }
-  } = useCollectRegisters();
-  const columns = useCollectTableColumns(registers || []);
-  const handleSaveRegisters = async ({ values: values2, table, row }) => {
-    updateRegister({ ...values2, id: Number(row.id) });
-    table.setEditingRow(null);
-  };
-  const handleDelete = (id2) => {
-    deleteRegister(id2);
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    MaterialTable,
-    {
-      data: registers || [],
-      columns,
-      initialState: {
-        columnPinning: {
-          right: ["mrt-row-actions"]
-        },
-        density: "compact"
-        // isLoading: isFetching,
-      },
-      enableCellActions: true,
-      enableRowActions: true,
-      enableClickToCopy: "context-menu",
-      editDisplayMode: "row",
-      enableEditing: true,
-      getRowId: (row) => row.id,
-      onEditingRowSave: handleSaveRegisters,
-      renderRowActions: ({ row, table }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-        display: "flex",
-        gap: "5px",
-        alignItems: "center",
-        padding: "2px 0px"
-      }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          IconButton$1,
-          {
-            circle: true,
-            icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$y, {}),
-            appearance: "primary",
-            size: "xs",
-            style: { padding: "5px" },
-            onClick: () => table.setEditingRow(row),
-            disabled: !isGOEWeek(weekSelected)
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          IconButton$1,
-          {
-            circle: true,
-            icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$z, {}),
-            appearance: "primary",
-            size: "xs",
-            onClick: () => handleDelete(Number(row.original.id)),
-            color: "red",
-            stye: { padding: "1px" },
-            disabled: !isGOEWeek(weekSelected)
-          }
-        )
-      ] }),
-      renderTopToolbarCustomActions: () => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
-        {
-          style: {
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: "1rem"
-          },
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              IconButton$1,
-              {
-                appearance: "primary",
-                icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1, {}),
-                style: { padding: "7px" },
-                onClick: () => refetch()
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Button$1,
-              {
-                appearance: "primary",
-                onClick: createFn,
-                disabled: !isGOEWeek(weekSelected),
-                children: "Crear Nuevo Registro"
-              }
-            )
-          ]
-        }
-      )
-    }
-  );
-};
-const Card = (props) => {
+const AmountDetailDialog = (props) => {
+  const { onClose, amount } = props;
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    "div",
+    Modal$1,
     {
-      style: {
-        backgroundColor: "#1F242A",
-        borderRadius: "12px",
-        padding: "7px 20px",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-        flex: "1",
-        maxWidth: "250px",
-        transition: "transform 0.2s, box-shadow 0.2s"
-      },
-      onMouseEnter: (e3) => {
-        e3.currentTarget.style.transform = "scale(1.05)";
-        e3.currentTarget.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.3)";
-      },
-      onMouseLeave: (e3) => {
-        e3.currentTarget.style.transform = "scale(1)";
-        e3.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.1)";
-      },
+      role: "alertdialog",
+      open: true,
+      onClose,
+      size: "xs",
       children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Modal$1.Header, { children: /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { style: { margin: 0 }, children: "Detalles de la Cantidad" }) }),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "p",
+          Modal$1.Body,
           {
             style: {
-              margin: "0",
-              color: "#CFD8DC",
-              fontSize: "1em",
-              fontWeight: "bold",
-              padding: "0"
+              padding: "15px",
+              maxHeight: "200px",
+              // Puedes ajustar la altura máxima
+              overflowY: "auto"
+              // Permitir scroll si el contenido es más grande
             },
-            children: props.title
+            children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { style: { width: "100%", borderCollapse: "collapse" }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { style: { backgroundColor: "#f0f0f0" }, children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { style: { padding: "8px", textAlign: "left", border: "1px solid #ccc" }, children: "Descripción" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("th", { style: { padding: "8px", textAlign: "left", border: "1px solid #ccc" }, children: "Cantidad" })
+              ] }) }),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("tbody", { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "8px", border: "1px solid #ccc" }, children: "Proyectado" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "8px", border: "1px solid #ccc" }, children: formatCurrency(amount.amount) })
+                ] }),
+                /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "8px", border: "1px solid #ccc" }, children: "Confirmado" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("td", { style: { padding: "8px", border: "1px solid #ccc" }, children: formatCurrency(amount.realAmount) })
+                ] })
+              ] })
+            ] })
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "hr",
-          {
-            style: {
-              border: "none",
-              borderTop: "1px solid #37474F",
-              margin: "10px 0"
-            }
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "p",
-          {
-            style: {
-              margin: "10px 0 0 0",
-              fontSize: "24px",
-              fontWeight: "bold",
-              color: "#4CAF50",
-              transition: "color 0.3s"
-            },
-            children: props.content
-          }
-        )
-      ]
-    }
-  );
-};
-const weekToApi = (startDate, endDate) => {
-  const setToMidnight2 = (date) => {
-    const adjustedDate = new Date(date);
-    adjustedDate.setHours(0, 0, 0, 0);
-    return adjustedDate;
-  };
-  const start2 = setToMidnight2(startDate);
-  const end2 = setToMidnight2(endDate);
-  return {
-    start_date: start2.toISOString().split("T")[0],
-    end_date: end2.toISOString().split("T")[0]
-  };
-};
-const weekToLocal = (week) => ({
-  success: week.success,
-  message: week.message,
-  weekId: week.week_id
-});
-const BASE_URL$2 = "./services/";
-class WeekServiceApi {
-  /**
-   * Cambiar de semana
-   * @param param0 Objeto con el rango de fechas
-   * @returns Objeto con el ID de la semana si el cambio es exitoso
-   */
-  static async changeWeek({
-    startDate,
-    endDate
-  }) {
-    const body = weekToApi(startDate, endDate);
-    try {
-      const response = await fetch(`${BASE_URL$2}week/change_week.php`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
-      });
-      let data;
-      try {
-        data = await response.json();
-      } catch (jsonError) {
-        console.error("Error al parsear la respuesta JSON:", jsonError);
-        throw new Error("Error al parsear la respuesta JSON");
-      }
-      if (response.ok) {
-        if (data && data.success) {
-          if (data.week_id !== void 0) {
-            return weekToLocal(data);
-          } else {
-            throw new Error("Respuesta inesperada: falta el ID de la semana");
-          }
-        } else {
-          throw new Error((data == null ? void 0 : data.message) || "Error desconocido");
-        }
-      } else {
-        throw new Error(
-          `Error HTTP ${response.status}: ${response.statusText}`
-        );
-      }
-    } catch (error) {
-      console.error("Error al cambiar la semana:", error);
-      return void 0;
-    }
-  }
-}
-const useWeek = () => {
-  const { onChangeWeek } = useWeekContext();
-  const changeWeekMutation = useMutation({
-    mutationFn: WeekServiceApi.changeWeek,
-    onSuccess: (response) => {
-      onChangeWeek(response.weekId);
-    },
-    onError: () => {
-      Jt.error("Error al crear la semana");
-    }
-  });
-  return {
-    changeWeekMutation
-  };
-};
-const Header = () => {
-  const [value, setValue2] = reactExports.useState(null);
-  const { onSetWeekSelected } = useWeekContext();
-  const {
-    collectRegisterQuery: { data: registers, isFetching: loadingCollect }
-  } = useCollectRegisters();
-  const {
-    paymentsQuery: { data: payments, isFetching: loadingPayments }
-  } = usePayments();
-  const {
-    changeWeekMutation: { mutate }
-  } = useWeek();
-  reactExports.useEffect(() => {
-    const [startOfWeek2, endOfWeek2] = getWeekRange();
-    setValue2([startOfWeek2, endOfWeek2]);
-    onSetWeekSelected([startOfWeek2, endOfWeek2]);
-    mutate({
-      startDate: startOfWeek2,
-      endDate: endOfWeek2
-    });
-  }, []);
-  const onChangeWeek = (week) => {
-    if (!week) return;
-    setValue2(week);
-    onSetWeekSelected(week);
-    mutate({
-      startDate: week[0],
-      endDate: week[1]
-    });
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    "div",
-    {
-      style: {
-        maxWidth: "100%",
-        margin: "0 auto",
-        backgroundColor: "#2B303A",
-        color: "#fff",
-        borderRadius: "10px",
-        padding: "10px",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center"
-      },
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Card,
-          {
-            title: "Total Cobrado",
-            content: loadingCollect ? "Cargando..." : formatCurrency(
-              (registers || []).reduce(
-                (acc, curr) => acc + curr.totalConfirmed,
-                0
-              )
-            )
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Card,
-          {
-            title: "Proyección de Cobro",
-            content: loadingCollect ? "Cargando..." : formatCurrency(
-              (registers || []).reduce((acc, curr) => acc + getProjection(curr), 0)
-            )
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Card,
-          {
-            title: "Total Pagado",
-            content: loadingPayments ? "Cargando..." : formatCurrency(
-              (payments || []).reduce(
-                (acc, curr) => acc + curr.totalConfirmed,
-                0
-              )
-            )
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Card,
-          {
-            title: "Proyección de Pago",
-            content: loadingCollect ? "Cargando..." : formatCurrency(
-              (payments || []).reduce((acc, curr) => acc + getProjection(curr), 0)
-            )
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { flexShrink: "0", width: "250px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          DateRangePicker,
-          {
-            oneTap: true,
-            showOneCalendar: true,
-            placeholder: "Selecciona la semana",
-            hoverRange: "week",
-            showWeekNumbers: true,
-            isoWeek: true,
-            ranges: [],
-            style: {
-              width: "100%"
-            },
-            value,
-            onChange: onChangeWeek
-          }
-        ) })
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Modal$1.Footer, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Button$1, { onClick: onClose, appearance: "primary", children: "OK" }) })
       ]
     }
   );
@@ -83907,6 +85564,31 @@ function useForm(props = {}) {
   _formControl.current.formState = getProxyFormState(formState, control);
   return _formControl.current;
 }
+const CheckboxInput = (props) => {
+  const { control, name, label, rules, style: style2 } = props;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    Controller,
+    {
+      control,
+      name,
+      rules,
+      render: ({ field: { name: name2, value, onChange }, fieldState }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Form.Group, { controlId: "checkboxId", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Checkbox$1,
+          {
+            name: name2,
+            defaultChecked: props.defaultChecked,
+            onChange: (_, checked) => onChange(checked),
+            value,
+            style: style2,
+            children: label
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Form.ErrorMessage, { show: fieldState.invalid, placement: "bottomStart", children: fieldState.error ? fieldState.error.message : null })
+      ] })
+    }
+  );
+};
 const NumberInput = (props) => {
   const { control, name, label, rules, style: style2 } = props;
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -83925,7 +85607,8 @@ const NumberInput = (props) => {
             style: style2,
             value,
             onChange,
-            prefix: "$"
+            prefix: "$",
+            disabled: props.isDisabled
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -83937,6 +85620,1114 @@ const NumberInput = (props) => {
           }
         )
       ] })
+    }
+  );
+};
+var Remind$2 = {};
+var Remind$1 = { exports: {} };
+var Remind = {};
+var hasRequiredRemind;
+function requireRemind() {
+  if (hasRequiredRemind) return Remind;
+  hasRequiredRemind = 1;
+  (function(exports) {
+    function _typeof2(obj) {
+      "@babel/helpers - typeof";
+      if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+        _typeof2 = function _typeof3(obj2) {
+          return typeof obj2;
+        };
+      } else {
+        _typeof2 = function _typeof3(obj2) {
+          return obj2 && typeof Symbol === "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
+        };
+      }
+      return _typeof2(obj);
+    }
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports["default"] = void 0;
+    var React2 = _interopRequireWildcard(reactExports);
+    function _getRequireWildcardCache() {
+      if (typeof WeakMap !== "function") return null;
+      var cache2 = /* @__PURE__ */ new WeakMap();
+      _getRequireWildcardCache = function _getRequireWildcardCache2() {
+        return cache2;
+      };
+      return cache2;
+    }
+    function _interopRequireWildcard(obj) {
+      if (obj && obj.__esModule) {
+        return obj;
+      }
+      if (obj === null || _typeof2(obj) !== "object" && typeof obj !== "function") {
+        return { "default": obj };
+      }
+      var cache2 = _getRequireWildcardCache();
+      if (cache2 && cache2.has(obj)) {
+        return cache2.get(obj);
+      }
+      var newObj = {};
+      var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+          if (desc && (desc.get || desc.set)) {
+            Object.defineProperty(newObj, key, desc);
+          } else {
+            newObj[key] = obj[key];
+          }
+        }
+      }
+      newObj["default"] = obj;
+      if (cache2) {
+        cache2.set(obj, newObj);
+      }
+      return newObj;
+    }
+    function _extends2() {
+      _extends2 = Object.assign || function(target) {
+        for (var i2 = 1; i2 < arguments.length; i2++) {
+          var source = arguments[i2];
+          for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      };
+      return _extends2.apply(this, arguments);
+    }
+    function Remind2(props, svgRef) {
+      return /* @__PURE__ */ React2.createElement("svg", _extends2({
+        width: "1em",
+        height: "1em",
+        viewBox: "0 0 14 14",
+        fill: "currentColor",
+        ref: svgRef
+      }, props), /* @__PURE__ */ React2.createElement("path", {
+        d: "M8.021 1.101l5.832 10.509a1.168 1.168 0 01-1.021 1.734H1.167a1.167 1.167 0 01-1.02-1.734L5.979 1.101a1.167 1.167 0 012.041 0zM7 12.177a1.167 1.167 0 100-2.334 1.167 1.167 0 000 2.334zm0-9.34c-.645 0-1.167.523-1.167 1.167v3.502a1.167 1.167 0 002.334 0V4.004c0-.645-.523-1.167-1.167-1.167z"
+      }));
+    }
+    var ForwardRef = /* @__PURE__ */ React2.forwardRef(Remind2);
+    var _default = ForwardRef;
+    exports["default"] = _default;
+  })(Remind);
+  return Remind;
+}
+(function(module, exports) {
+  var _interopRequireDefault2 = interopRequireDefaultExports;
+  exports.__esModule = true;
+  exports["default"] = void 0;
+  var _createSvgIcon2 = _interopRequireDefault2(requireCreateSvgIcon$1());
+  var _Remind = _interopRequireDefault2(requireRemind());
+  var Remind2 = (0, _createSvgIcon2["default"])({
+    as: _Remind["default"],
+    ariaLabel: "remind",
+    category: "legacy",
+    displayName: "Remind"
+  });
+  var _default = Remind2;
+  exports["default"] = _default;
+  module.exports = exports.default;
+})(Remind$1, Remind$1.exports);
+var RemindExports = Remind$1.exports;
+(function(exports) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function get2() {
+      return _Remind["default"];
+    }
+  });
+  var _Remind = _interopRequireDefault2(RemindExports);
+  function _interopRequireDefault2(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+  }
+})(Remind$2);
+const RemindIcon = /* @__PURE__ */ getDefaultExportFromCjs(Remind$2);
+const paymentToLocal = (payment) => ({
+  id: payment.id,
+  monday: amountToLocal(payment.monday_amount),
+  tuesday: amountToLocal(payment.tuesday_amount),
+  wednesday: amountToLocal(payment.wednesday_amount),
+  thursday: amountToLocal(payment.thursday_amount),
+  friday: amountToLocal(payment.friday_amount),
+  saturday: amountToLocal(payment.saturday_amount),
+  providerId: payment.provider_id,
+  providerName: payment.provider,
+  weekId: payment.week_id,
+  observations: payment.observations,
+  concept: payment.concept,
+  totalConfirmed: payment.total_confirmed_amount
+});
+const paymentToApi = (payment) => ({
+  week_id: payment.weekId,
+  provider_id: payment.providerId,
+  provider: payment.providerName,
+  concept: payment.concept,
+  [`${payment.day}_amount`]: payment.amount
+});
+const paymentToApiFull = (payment) => ({
+  id: payment.id,
+  monday_amount: payment.monday,
+  tuesday_amount: payment.tuesday,
+  wednesday_amount: payment.wednesday,
+  thursday_amount: payment.thursday,
+  friday_amount: payment.friday,
+  saturday_amount: payment.saturday,
+  provider_id: payment.providerId,
+  provider: payment.providerName,
+  week_id: payment.weekId,
+  observations: payment.observations,
+  concept: payment.concept,
+  total_confirmed_amount: payment.totalConfirmed
+});
+const paymentConfirmationToApi = (confirmation) => ({
+  payment_id: confirmation.itemId,
+  day_of_week: confirmation.dayOfWeek,
+  confirmed: confirmation.confirmed,
+  amount: confirmation.amount
+});
+class PaymentServiceApi {
+  /**
+   * Obtiene los registros de pago de una semana
+   * @param weekId ID de la semana a buscar
+   * @returns Array de registros de pago
+   */
+  static async getRegisterByWeekId(weekId) {
+    var _a2;
+    try {
+      const response = await phicargoApi.get(
+        `payment/get_payments.php?week_id=${weekId}`
+      );
+      return response.data.map(paymentToLocal);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al obtener registros"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
+    }
+  }
+  /**
+   * Crea un registro de pago
+   * @param param0 Objeto con la información del registro a crear
+   * @returns Booleano indicando si se creó correctamente
+   */
+  static async createRegister(payment) {
+    var _a2;
+    const body = paymentToApi(payment);
+    try {
+      const response = await phicargoApi.post(
+        "payment/create_payment.php",
+        body
+      );
+      console.log(response.data);
+      return paymentToLocal(response.data);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al crear registro"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
+    }
+  }
+  /**
+   * Actualiza un registro de pago
+   * @param register Objeto con la información del registro a actualizar
+   * @returns Booleano indicando si se actualizó correctamente
+   */
+  static async updateRegister(register) {
+    var _a2;
+    const body = paymentToApiFull(register);
+    try {
+      const response = await phicargoApi.put(
+        "payment/update_payment.php",
+        body
+      );
+      return paymentToLocal(response.data);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al actualizar registro"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
+    }
+  }
+  /**
+   * Elimina un registro de pago
+   * @param id ID del registro a eliminar
+   * @returns Booleano indicando si se eliminó correctamente
+   */
+  static async deleteRegister(id2) {
+    var _a2;
+    try {
+      const response = await phicargoApi.delete(
+        `payment/delete_payment.php?payment_id=${id2}`
+      );
+      return response.data.success;
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al eliminar registro"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
+    }
+  }
+  /**
+   * Confirmar pago de un día
+   * @param confirmation Objeto con los datos de la confirmación
+   */
+  static async confirmPayment(confirmation) {
+    var _a2;
+    const body = paymentConfirmationToApi(confirmation);
+    try {
+      const response = await phicargoApi.post(`payment/confirm_payment.php`, body);
+      return paymentToLocal(response.data);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al confirmar pago"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
+    }
+  }
+}
+const mainKey$1 = "payments";
+const usePayments = () => {
+  const queryClient2 = useQueryClient();
+  const { activeWeekId } = useWeekContext();
+  const paymentsQuery = useQuery({
+    queryKey: [mainKey$1, "weekId", activeWeekId],
+    queryFn: () => PaymentServiceApi.getRegisterByWeekId(activeWeekId || 6),
+    refetchOnWindowFocus: false,
+    staleTime: 1e3 * 60 * 5,
+    enabled: !!activeWeekId
+  });
+  const createPaymentMutation = useMutation({
+    mutationFn: PaymentServiceApi.createRegister,
+    onMutate(newPayment) {
+      queryClient2.cancelQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
+      const previousPayments = queryClient2.getQueryData([mainKey$1, "weekId", activeWeekId]);
+      const tempId = Math.random() + 1;
+      queryClient2.setQueryData([mainKey$1, "weekId", activeWeekId], (prev2) => [
+        ...prev2 || [],
+        { ...getDefaultPayment(tempId, newPayment) }
+      ]);
+      return { previousPayments, tempId };
+    },
+    onSuccess: (newRegister, _variables, context) => {
+      queryClient2.setQueryData(
+        [mainKey$1, "weekId", activeWeekId],
+        (prev2) => prev2 == null ? void 0 : prev2.map((r2) => r2.id === context.tempId ? newRegister : r2)
+      );
+      Jt.success("Registro creado correctamente");
+    },
+    onError: (err, _newRegister, context) => {
+      queryClient2.setQueryData([mainKey$1, "weekId", activeWeekId], context == null ? void 0 : context.previousPayments);
+      Jt.error(err.message);
+    }
+  });
+  const updatePaymentMutation = useMutation({
+    mutationFn: PaymentServiceApi.updateRegister,
+    onMutate: async () => {
+      await queryClient2.cancelQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
+      const previousPayments = queryClient2.getQueryData([mainKey$1, "weekId", activeWeekId]);
+      return { previousPayments };
+    },
+    onSuccess: (newRegister) => {
+      queryClient2.setQueryData(
+        [mainKey$1, "weekId", activeWeekId],
+        (prev2) => prev2 == null ? void 0 : prev2.map((r2) => r2.id === newRegister.id ? newRegister : r2)
+      );
+      Jt.success("Registro actualizado correctamente");
+    },
+    onError: (err, _newRegister, context) => {
+      queryClient2.setQueryData([mainKey$1, "weekId", activeWeekId], context == null ? void 0 : context.previousPayments);
+      Jt.error(err.message);
+    }
+  });
+  const deletePaymentMutation = useMutation({
+    mutationFn: PaymentServiceApi.deleteRegister,
+    onMutate: async (id2) => {
+      await queryClient2.cancelQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
+      const previousPayments = queryClient2.getQueryData([mainKey$1, "weekId", activeWeekId]);
+      queryClient2.setQueryData(
+        [mainKey$1, "weekId", activeWeekId],
+        (prev2) => prev2 == null ? void 0 : prev2.filter((r2) => r2.id !== id2)
+      );
+      return { previousPayments };
+    },
+    onSuccess: () => {
+      Jt.success("Registro eliminado correctamente");
+    },
+    onError: (err, _variables, context) => {
+      queryClient2.setQueryData([mainKey$1, "weekId", activeWeekId], context == null ? void 0 : context.previousPayments);
+      Jt.error(err.message);
+    }
+  });
+  const confirmPaymentMutation = useMutation({
+    mutationFn: PaymentServiceApi.confirmPayment,
+    onMutate: async () => {
+      await queryClient2.cancelQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
+      const previousPayments = queryClient2.getQueryData([mainKey$1, "weekId", activeWeekId]);
+      return { previousPayments };
+    },
+    onSuccess: (newRegister) => {
+      queryClient2.setQueryData(
+        [mainKey$1, "weekId", activeWeekId],
+        (prev2) => prev2 == null ? void 0 : prev2.map((r2) => r2.id === newRegister.id ? newRegister : r2)
+      );
+      Jt.success("Pago confirmado");
+    },
+    onError: (err, _newRegister, context) => {
+      queryClient2.setQueryData([mainKey$1, "weekId", activeWeekId], context == null ? void 0 : context.previousPayments);
+      Jt.error(err.message);
+    }
+  });
+  return {
+    paymentsQuery,
+    createPaymentMutation,
+    updatePaymentMutation,
+    deletePaymentMutation,
+    confirmPaymentMutation
+  };
+};
+const formInitialState = {
+  totalAmount: true,
+  realAmount: 0
+};
+const ConfirmDialog = (props) => {
+  const { onClose, item, type, dayOfWeek } = props;
+  const {
+    confirmCollectMutation: { mutate: confirmCollect }
+  } = useCollectRegisters();
+  const {
+    confirmPaymentMutation: { mutate: confirmPayment }
+  } = usePayments();
+  const { control, handleSubmit, watch } = useForm({
+    defaultValues: formInitialState
+  });
+  const totalAmount = watch("totalAmount");
+  const onConfirm = (data) => {
+    const confirmation = {
+      itemId: item.id,
+      dayOfWeek,
+      confirmed: true,
+      amount: data.totalAmount ? item[dayOfWeek].amount : data.realAmount
+    };
+    if (type === "collect") {
+      confirmCollect(confirmation);
+    } else {
+      confirmPayment(confirmation);
+    }
+    onClose();
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    Modal$1,
+    {
+      role: "alertdialog",
+      open: true,
+      onClose,
+      size: "300px",
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          Modal$1.Body,
+          {
+            style: {
+              overflow: "hidden",
+              height: "175px"
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(
+                "div",
+                {
+                  style: {
+                    display: "flex",
+                    alignItems: "center"
+                  },
+                  children: [
+                    /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      RemindIcon,
+                      {
+                        style: { color: "#ffb300", fontSize: 24, marginRight: "8px" }
+                      }
+                    ),
+                    /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "¿Confirmar Pago?" })
+                  ]
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs(Form, { children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "div",
+                  {
+                    style: {
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100%",
+                      marginTop: "10px"
+                    },
+                    children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+                      CheckboxInput,
+                      {
+                        control,
+                        name: "totalAmount",
+                        label: "Monto Total",
+                        defaultChecked: true
+                      }
+                    )
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  NumberInput,
+                  {
+                    control,
+                    name: "realAmount",
+                    label: "Monto a Confirmar",
+                    rules: totalAmount ? {} : {
+                      min: {
+                        value: 1,
+                        message: "La cantidad debe de ser mayor a 0"
+                      }
+                    },
+                    style: { maxWidth: "100%" },
+                    isDisabled: totalAmount
+                  }
+                )
+              ] })
+            ]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(Modal$1.Footer, { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Button$1, { onClick: handleSubmit(onConfirm), appearance: "primary", children: "Confirmar" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Button$1, { onClick: onClose, appearance: "subtle", children: "Cancelar" })
+        ] })
+      ]
+    }
+  ) });
+};
+const style = {
+  display: "inline-block",
+  padding: "4px 8px",
+  borderRadius: "4px",
+  color: "#333",
+  fontSize: "14px",
+  fontWeight: "bold",
+  textAlign: "right",
+  userSelect: "none",
+  cursor: "pointer"
+};
+const CurrencyCell = (props) => {
+  const { value, customColor, type, dayOfWeek, item } = props;
+  const [open, setOpen] = reactExports.useState(false);
+  const [openDetails, setOpenDetails] = reactExports.useState(false);
+  const handleDoubleClick = (e3) => {
+    e3.stopPropagation();
+    if (!item || !dayOfWeek) return;
+    if (item[dayOfWeek].confirmed) {
+      setOpenDetails(true);
+      return;
+    }
+    if (!props.confirmationRequired) return;
+    setOpen(true);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "span",
+      {
+        style: {
+          ...style,
+          backgroundColor: customColor || "#f0f8ff"
+        },
+        onDoubleClick: handleDoubleClick,
+        children: formatCurrency(value || 0)
+      }
+    ),
+    open && item && type && dayOfWeek && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      ConfirmDialog,
+      {
+        onClose: () => setOpen(false),
+        item,
+        type,
+        dayOfWeek
+      }
+    ),
+    openDetails && item && dayOfWeek && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AmountDetailDialog,
+      {
+        onClose: () => setOpenDetails(false),
+        amount: item[dayOfWeek]
+      }
+    )
+  ] });
+};
+const getTotalPerDay = (data, day) => {
+  return data.reduce((acc, curr) => {
+    const value = curr[day].amount;
+    return acc + (isNaN(value) ? 0 : value);
+  }, 0) || 0;
+};
+const getProjection = (data) => {
+  return data.monday.amount + data.tuesday.amount + data.wednesday.amount + data.thursday.amount + data.friday.amount + data.saturday.amount;
+};
+const useCollectTableColumns = (data) => {
+  const columns = reactExports.useMemo(() => {
+    return [
+      {
+        header: "Cliente",
+        accessorFn: (originalRow) => originalRow.clientName,
+        id: "client",
+        enableEditing: false
+      },
+      {
+        header: "Proyección",
+        filterFn: "between",
+        enableEditing: false,
+        maxSize: 150,
+        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TotalFooterItem,
+          {
+            total: data.reduce((acc, curr) => acc + getProjection(curr), 0)
+          }
+        ),
+        Cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: getProjection(row.original) })
+      },
+      {
+        accessorFn: (originalRow) => originalRow.totalConfirmed,
+        id: "totalConfirmed",
+        filterFn: "between",
+        header: "Total Confirmado",
+        enableEditing: false,
+        maxSize: 150,
+        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          TotalFooterItem,
+          {
+            total: data.reduce((acc, curr) => acc + curr.totalConfirmed, 0)
+          }
+        ),
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue() || 0,
+            customColor: cell.getValue() === getProjection(row.original) ? "#d4edda" : "#fff3cd"
+          }
+        )
+      },
+      {
+        accessorFn: (originalRow) => originalRow.monday.amount,
+        filterFn: "between",
+        id: "monday",
+        header: "Lunes",
+        maxSize: 150,
+        muiEditTextFieldProps: {
+          type: "number",
+          helperText: "Cobrado el lunes"
+        },
+        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "monday") }),
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0,
+            type: "collect",
+            item: row.original,
+            dayOfWeek: "monday",
+            customColor: row.original.monday.confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
+      },
+      {
+        accessorFn: (originalRow) => originalRow.tuesday.amount,
+        id: "tuesday",
+        filterFn: "between",
+        header: "Martes",
+        maxSize: 150,
+        muiEditTextFieldProps: {
+          type: "number",
+          helperText: "Cobrado el martes"
+        },
+        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "tuesday") }),
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.tuesday.confirmed,
+            type: "collect",
+            item: row.original,
+            dayOfWeek: "tuesday",
+            customColor: row.original.tuesday.confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
+      },
+      {
+        accessorFn: (originalRow) => originalRow.wednesday.amount,
+        id: "wednesday",
+        filterFn: "between",
+        header: "Miercoles",
+        maxSize: 150,
+        muiEditTextFieldProps: {
+          type: "number",
+          helperText: "Cobrado el miercoles"
+        },
+        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "wednesday") }),
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.wednesday.confirmed,
+            type: "collect",
+            item: row.original,
+            dayOfWeek: "wednesday",
+            customColor: row.original.wednesday.confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
+      },
+      {
+        accessorFn: (originalRow) => originalRow.thursday.amount,
+        id: "thursday",
+        filterFn: "between",
+        header: "Jueves",
+        maxSize: 150,
+        muiEditTextFieldProps: {
+          type: "number",
+          helperText: "Cobrado el jueves"
+        },
+        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "thursday") }),
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.thursday.confirmed,
+            type: "collect",
+            item: row.original,
+            dayOfWeek: "thursday",
+            customColor: row.original.thursday.confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
+      },
+      {
+        accessorFn: (originalRow) => originalRow.friday.amount,
+        id: "friday",
+        filterFn: "between",
+        header: "Viernes",
+        maxSize: 150,
+        muiEditTextFieldProps: {
+          type: "number",
+          helperText: "Cobrado el viernes"
+        },
+        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "friday") }),
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.friday.confirmed,
+            type: "collect",
+            item: row.original,
+            dayOfWeek: "friday",
+            customColor: row.original.friday.confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
+      },
+      {
+        accessorFn: (originalRow) => originalRow.saturday.amount,
+        id: "saturday",
+        filterFn: "between",
+        header: "Sabado",
+        maxSize: 150,
+        muiEditTextFieldProps: {
+          type: "number",
+          helperText: "Cobrado el sabado"
+        },
+        Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(TotalFooterItem, { total: getTotalPerDay(data, "saturday") }),
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue() || 0,
+            confirmationRequired: cell.getValue() > 0 && !row.original.saturday.confirmed,
+            type: "collect",
+            item: row.original,
+            dayOfWeek: "saturday",
+            customColor: row.original.saturday.confirmed ? "#d4edda" : "#ffcccb"
+          }
+        )
+      },
+      {
+        accessorKey: "observations",
+        header: "Observaciones",
+        filterVariant: "text"
+      }
+    ];
+  }, [data]);
+  return columns;
+};
+const CollectionTable = (props) => {
+  const { createFn } = props;
+  const { weekSelected } = useWeekContext();
+  const {
+    collectRegisterQuery: { data: registers, refetch, isFetching },
+    updateCollectRegisterMutation: { mutate: updateRegister, isPending: isSaving },
+    deleteCollectRegisterMutation: { mutate: deleteRegister }
+  } = useCollectRegisters();
+  const columns = useCollectTableColumns(registers || []);
+  const handleSaveRegisters = async ({ values: values2, table, row }) => {
+    updateRegister({ ...values2, id: Number(row.id) });
+    table.setEditingRow(null);
+  };
+  const handleDelete = (id2) => {
+    deleteRegister(id2);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    MaterialTable,
+    {
+      data: registers || [],
+      columns,
+      initialState: {
+        columnPinning: {
+          right: ["mrt-row-actions"]
+        },
+        density: "compact"
+      },
+      state: {
+        isLoading: isFetching,
+        isSaving
+      },
+      enableCellActions: true,
+      enableRowActions: true,
+      editDisplayMode: "row",
+      enableEditing: true,
+      getRowId: (row) => row.id,
+      onEditingRowSave: handleSaveRegisters,
+      renderRowActions: ({ row, table }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
+        display: "flex",
+        gap: "5px",
+        alignItems: "center",
+        padding: "2px 0px"
+      }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          IconButton$1,
+          {
+            circle: true,
+            icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$y, {}),
+            appearance: "primary",
+            size: "xs",
+            style: { padding: "5px" },
+            onClick: () => table.setEditingRow(row),
+            disabled: !isGOEWeek(weekSelected)
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          IconButton$1,
+          {
+            circle: true,
+            icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$z, {}),
+            appearance: "primary",
+            size: "xs",
+            onClick: () => handleDelete(Number(row.original.id)),
+            color: "red",
+            stye: { padding: "1px" },
+            disabled: !isGOEWeek(weekSelected)
+          }
+        )
+      ] }),
+      renderTopToolbarCustomActions: () => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          style: {
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "1rem"
+          },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              IconButton$1,
+              {
+                appearance: "primary",
+                icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1, {}),
+                style: { padding: "7px" },
+                onClick: () => refetch()
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              Button$1,
+              {
+                appearance: "primary",
+                onClick: createFn,
+                disabled: !isGOEWeek(weekSelected),
+                children: "Crear Nuevo Registro"
+              }
+            )
+          ]
+        }
+      )
+    }
+  );
+};
+const Card = (props) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      style: {
+        backgroundColor: "#1F242A",
+        borderRadius: "12px",
+        padding: "7px 20px",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+        flex: "1",
+        maxWidth: "250px",
+        transition: "transform 0.2s, box-shadow 0.2s"
+      },
+      onMouseEnter: (e3) => {
+        e3.currentTarget.style.transform = "scale(1.05)";
+        e3.currentTarget.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.3)";
+      },
+      onMouseLeave: (e3) => {
+        e3.currentTarget.style.transform = "scale(1)";
+        e3.currentTarget.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.1)";
+      },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "p",
+          {
+            style: {
+              margin: "0",
+              color: "#CFD8DC",
+              fontSize: "1em",
+              fontWeight: "bold",
+              padding: "0"
+            },
+            children: props.title
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "hr",
+          {
+            style: {
+              border: "none",
+              borderTop: "1px solid #37474F",
+              margin: "10px 0"
+            }
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "p",
+          {
+            style: {
+              margin: "10px 0 0 0",
+              fontSize: "24px",
+              fontWeight: "bold",
+              color: "#4CAF50",
+              transition: "color 0.3s"
+            },
+            children: props.content
+          }
+        )
+      ]
+    }
+  );
+};
+const weekToApi = (startDate, endDate) => {
+  const setToMidnight2 = (date) => {
+    const adjustedDate = new Date(date);
+    adjustedDate.setHours(0, 0, 0, 0);
+    return adjustedDate;
+  };
+  const start2 = setToMidnight2(startDate);
+  const end2 = setToMidnight2(endDate);
+  return {
+    start_date: start2.toISOString().split("T")[0],
+    end_date: end2.toISOString().split("T")[0]
+  };
+};
+const weekToLocal = (week) => ({
+  success: week.success,
+  message: week.message,
+  weekId: week.week_id
+});
+const BASE_URL$2 = "./services/";
+class WeekServiceApi {
+  /**
+   * Cambiar de semana
+   * @param param0 Objeto con el rango de fechas
+   * @returns Objeto con el ID de la semana si el cambio es exitoso
+   */
+  static async changeWeek({
+    startDate,
+    endDate
+  }) {
+    const body = weekToApi(startDate, endDate);
+    try {
+      const response = await fetch(`${BASE_URL$2}week/change_week.php`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error("Error al parsear la respuesta JSON:", jsonError);
+        throw new Error("Error al parsear la respuesta JSON");
+      }
+      if (response.ok) {
+        if (data && data.success) {
+          if (data.week_id !== void 0) {
+            return weekToLocal(data);
+          } else {
+            throw new Error("Respuesta inesperada: falta el ID de la semana");
+          }
+        } else {
+          throw new Error((data == null ? void 0 : data.message) || "Error desconocido");
+        }
+      } else {
+        throw new Error(
+          `Error HTTP ${response.status}: ${response.statusText}`
+        );
+      }
+    } catch (error) {
+      console.error("Error al cambiar la semana:", error);
+      return void 0;
+    }
+  }
+}
+const useWeek = () => {
+  const { onChangeWeek } = useWeekContext();
+  const changeWeekMutation = useMutation({
+    mutationFn: WeekServiceApi.changeWeek,
+    onSuccess: (response) => {
+      onChangeWeek(response.weekId);
+    },
+    onError: () => {
+      Jt.error("Error al crear la semana");
+    }
+  });
+  return {
+    changeWeekMutation
+  };
+};
+const Header = () => {
+  const [value, setValue2] = reactExports.useState(null);
+  const { onSetWeekSelected } = useWeekContext();
+  const {
+    collectRegisterQuery: { data: registers, isFetching: loadingCollect }
+  } = useCollectRegisters();
+  const {
+    paymentsQuery: { data: payments, isFetching: loadingPayments }
+  } = usePayments();
+  const {
+    changeWeekMutation: { mutate }
+  } = useWeek();
+  reactExports.useEffect(() => {
+    const [startOfWeek2, endOfWeek2] = getWeekRange();
+    setValue2([startOfWeek2, endOfWeek2]);
+    onSetWeekSelected([startOfWeek2, endOfWeek2]);
+    mutate({
+      startDate: startOfWeek2,
+      endDate: endOfWeek2
+    });
+  }, []);
+  const onChangeWeek = (week) => {
+    if (!week) return;
+    setValue2(week);
+    onSetWeekSelected(week);
+    mutate({
+      startDate: week[0],
+      endDate: week[1]
+    });
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      style: {
+        maxWidth: "100%",
+        margin: "0 auto",
+        backgroundColor: "#2B303A",
+        color: "#fff",
+        borderRadius: "10px",
+        padding: "10px",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+      },
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Card,
+          {
+            title: "Total Cobrado",
+            content: loadingCollect ? "Cargando..." : formatCurrency(
+              (registers || []).reduce(
+                (acc, curr) => acc + curr.totalConfirmed,
+                0
+              )
+            )
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Card,
+          {
+            title: "Proyección de Cobro",
+            content: loadingCollect ? "Cargando..." : formatCurrency(
+              (registers || []).reduce((acc, curr) => acc + getProjection(curr), 0)
+            )
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Card,
+          {
+            title: "Total Pagado",
+            content: loadingPayments ? "Cargando..." : formatCurrency(
+              (payments || []).reduce(
+                (acc, curr) => acc + curr.totalConfirmed,
+                0
+              )
+            )
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Card,
+          {
+            title: "Proyección de Pago",
+            content: loadingCollect ? "Cargando..." : formatCurrency(
+              (payments || []).reduce((acc, curr) => acc + getProjection(curr), 0)
+            )
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { flexShrink: "0", width: "250px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          DateRangePicker,
+          {
+            oneTap: true,
+            showOneCalendar: true,
+            placeholder: "Selecciona la semana",
+            hoverRange: "week",
+            showWeekNumbers: true,
+            isoWeek: true,
+            ranges: [],
+            style: {
+              width: "100%"
+            },
+            value,
+            onChange: onChangeWeek
+          }
+        ) })
+      ]
     }
   );
 };
@@ -84034,7 +86825,6 @@ const NewCollectForm = (props) => {
     createCollectRegisterMutation: { mutate: createRegister }
   } = useCollectRegisters();
   const onSubmit = (data2) => {
-    console.log(data2);
     if (!activeWeekId) {
       Jt.error("No hay una semana activa");
     }
@@ -84370,6 +87160,7 @@ const usePaymentTableColumns = (data) => {
         accessorKey: "projection",
         filterFn: "between",
         header: "Proyección",
+        maxSize: 200,
         enableEditing: false,
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(
           TotalFooterItem,
@@ -84383,6 +87174,7 @@ const usePaymentTableColumns = (data) => {
         accessorKey: "totalConfirmed",
         filterFn: "between",
         header: "Total Confirmado",
+        maxSize: 150,
         enableEditing: false,
         Footer: () => /* @__PURE__ */ jsxRuntimeExports.jsx(
           TotalFooterItem,
@@ -84390,13 +87182,20 @@ const usePaymentTableColumns = (data) => {
             total: data.reduce((acc, curr) => acc + curr.totalConfirmed, 0)
           }
         ),
-        Cell: ({ cell }) => /* @__PURE__ */ jsxRuntimeExports.jsx(CurrencyCell, { value: cell.getValue() || 0 })
+        Cell: ({ cell, row }) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+          CurrencyCell,
+          {
+            value: cell.getValue() || 0,
+            customColor: cell.getValue() >= getProjection(row.original) ? "#d4edda" : "#fff3cd"
+          }
+        )
       },
       {
         accessorFn: (originalRow) => originalRow.monday.amount,
         id: "monday",
         filterFn: "between",
         header: "Lunes",
+        maxSize: 150,
         muiEditTextFieldProps: {
           type: "number",
           helperText: "Cobrado el lunes"
@@ -84408,7 +87207,7 @@ const usePaymentTableColumns = (data) => {
             value: cell.getValue() || 0,
             confirmationRequired: cell.getValue() > 0 && !row.original.monday.confirmed,
             type: "payment",
-            itemId: row.original.id,
+            item: row.original,
             dayOfWeek: "monday",
             customColor: row.original.monday.confirmed ? "#d4edda" : "#ffcccb"
           }
@@ -84419,6 +87218,7 @@ const usePaymentTableColumns = (data) => {
         id: "tuesday",
         filterFn: "between",
         header: "Martes",
+        maxSize: 150,
         muiEditTextFieldProps: {
           type: "number",
           helperText: "Cobrado el martes"
@@ -84430,7 +87230,7 @@ const usePaymentTableColumns = (data) => {
             value: cell.getValue() || 0,
             confirmationRequired: cell.getValue() > 0 && !row.original.tuesday.confirmed,
             type: "payment",
-            itemId: row.original.id,
+            item: row.original,
             dayOfWeek: "tuesday",
             customColor: row.original.tuesday.confirmed ? "#d4edda" : "#ffcccb"
           }
@@ -84441,6 +87241,7 @@ const usePaymentTableColumns = (data) => {
         id: "wednesday",
         filterFn: "between",
         header: "Miercoles",
+        maxSize: 150,
         muiEditTextFieldProps: {
           type: "number",
           helperText: "Cobrado el miercoles"
@@ -84452,7 +87253,7 @@ const usePaymentTableColumns = (data) => {
             value: cell.getValue() || 0,
             confirmationRequired: cell.getValue() > 0 && !row.original.wednesday.confirmed,
             type: "payment",
-            itemId: row.original.id,
+            item: row.original,
             dayOfWeek: "wednesday",
             customColor: row.original.wednesday.confirmed ? "#d4edda" : "#ffcccb"
           }
@@ -84463,6 +87264,7 @@ const usePaymentTableColumns = (data) => {
         id: "thursday",
         filterFn: "between",
         header: "Jueves",
+        maxSize: 150,
         muiEditTextFieldProps: {
           type: "number",
           helperText: "Cobrado el jueves"
@@ -84474,7 +87276,7 @@ const usePaymentTableColumns = (data) => {
             value: cell.getValue() || 0,
             confirmationRequired: cell.getValue() > 0 && !row.original.thursday.confirmed,
             type: "payment",
-            itemId: row.original.id,
+            item: row.original,
             dayOfWeek: "thursday",
             customColor: row.original.thursday.confirmed ? "#d4edda" : "#ffcccb"
           }
@@ -84485,6 +87287,7 @@ const usePaymentTableColumns = (data) => {
         id: "friday",
         filterFn: "between",
         header: "Viernes",
+        maxSize: 200,
         muiEditTextFieldProps: {
           type: "number",
           helperText: "Cobrado el viernes"
@@ -84496,7 +87299,7 @@ const usePaymentTableColumns = (data) => {
             value: cell.getValue() || 0,
             confirmationRequired: cell.getValue() > 0 && !row.original.friday.confirmed,
             type: "payment",
-            itemId: row.original.id,
+            item: row.original,
             dayOfWeek: "friday",
             customColor: row.original.friday.confirmed ? "#d4edda" : "#ffcccb"
           }
@@ -84507,6 +87310,7 @@ const usePaymentTableColumns = (data) => {
         id: "saturday",
         filterFn: "between",
         header: "Sabado",
+        maxSize: 150,
         muiEditTextFieldProps: {
           type: "number",
           helperText: "Cobrado el sabado"
@@ -84518,7 +87322,7 @@ const usePaymentTableColumns = (data) => {
             value: cell.getValue() || 0,
             confirmationRequired: cell.getValue() > 0 && !row.original.saturday.confirmed,
             type: "payment",
-            itemId: row.original.id,
+            item: row.original,
             dayOfWeek: "saturday",
             customColor: row.original.saturday.confirmed ? "#d4edda" : "#ffcccb"
           }
