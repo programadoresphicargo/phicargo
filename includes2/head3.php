@@ -93,14 +93,18 @@ if (isset($_SESSION['userID'])) {
 
     <script src="../../assets/js/hs.theme-appearance.js"></script>
 
+    <!-- Header -->
     <header class="docs-navbar navbar navbar-expand-lg navbar-end navbar-light bg-white" style="height:60px">
         <div class="container">
             <div class="js-mega-menu navbar-nav-wrap">
+                <!-- Logo -->
                 <a class="navbar-brand" href="../../menu/principal/index.php" aria-label="Front">
                     <img class="" src="../../img/philogo-morado.png" alt="Logo" style="max-width: 35px;">
                     <img class="" src="../../img/logoazul.png" alt="Logo" style="max-width: 140px;">
                 </a>
+                <!-- End Logo -->
 
+                <!-- Toggle -->
                 <button type="button" class="navbar-toggler ms-auto" data-bs-toggle="collapse" data-bs-target="#navbarNavMenuWithMegaMenu" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarNavMenuWithMegaMenu">
                     <span class="navbar-toggler-default">
                         <i class="bi-list"></i>
@@ -109,11 +113,135 @@ if (isset($_SESSION['userID'])) {
                         <i class="bi-x"></i>
                     </span>
                 </button>
+                <!-- End Toggle -->
 
                 <nav class="navbar-nav-wrap-col collapse navbar-collapse" id="navbarNavMenuWithMegaMenu">
+                    <!-- Navbar -->
                     <ul class="navbar-nav">
 
+                        <?php if (comprobar_permiso(8) == true) { ?>
+                            <!-- Dashboards -->
+                            <li class="hs-has-sub-menu nav-item">
+                                <a id="dashboardsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle" href="#" role="button"><i class="bi bi-list-ol dropdown-item-icon"></i> Turnos</a>
+                                <!-- Mega Menu -->
+                                <div class="hs-sub-menu dropdown-menu" aria-labelledby="dashboardsMegaMenu" style="min-width: 14rem;">
+                                    <a class="dropdown-item" href="../../turnos/vista/index.php?sucursal=veracruz">Veracruz</a>
+                                    <a class="dropdown-item" href="../../turnos/vista/index.php?sucursal=manzanillo">Manzanillo</a>
+                                    <a class="dropdown-item" href="../../turnos/vista/index.php?sucursal=mexico">México</a>
+                                </div>
+                                <!-- End Mega Menu -->
+                            </li>
+                            <!-- End Dashboards -->
+                        <?php } ?>
+
+                        <!-- Dashboards -->
+                        <li class="hs-has-sub-menu nav-item">
+                            <a id="dashboardsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle" href="#" role="button"><i class="bi bi-truck dropdown-item-icon"></i> Gestión de fletes</a>
+
+                            <!-- Mega Menu -->
+                            <div class="hs-sub-menu dropdown-menu " aria-labelledby="dashboardsMegaMenu" style="min-width: 14rem;">
+                                <?php if (comprobar_permiso(101) == true) { ?>
+                                    <a class="dropdown-item" href="../../gestion_viajes/fletes/index.php">Viajes</a>
+                                <?php } ?>
+
+                                <?php if (comprobar_permiso(102) == true) { ?>
+                                    <a class="dropdown-item" href="../../gestion_viajes/finalizados/index.php">Finalizados</a>
+                                <?php } ?>
+
+                                <?php if (comprobar_permiso(103) == true) { ?>
+                                    <a class="dropdown-item" href="../../gestion_viajes/banco/index.php">Banco de correos</a>
+                                <?php } ?>
+
+                                <?php if (comprobar_permiso(104) == true) { ?>
+                                    <a class="dropdown-item" href="../../detenciones/vista/index.php">Detenciones</a>
+                                <?php } ?>
+
+                                <a class="dropdown-item" href="../../solicitudes/listado/index.php">Solicitudes</a>
+
+                                <div class="hs-has-sub-menu nav-item">
+                                    <a id="accountMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Checklist</a>
+
+                                    <div class="hs-sub-menu dropdown-menu " aria-labelledby="accountMegaMenu" style="min-width: 14rem;">
+                                        <a class="dropdown-item " href="../../viajes/checklist_vista_viajes/index.php">Viajes</a>
+                                        <a class="dropdown-item " href="../../viajes/checklist_vista_viajes/index.php">Maniobras</a>
+                                    </div>
+                                </div>
+
+                                <a class="dropdown-item" href="../../reportes/unidades/index.php">Control</a>
+                                <a class="dropdown-item" href="../../gestion_viajes/estadias/index.php">Estadías</a>
+                                <a class="dropdown-item" href="../../gestion_viajes/incidencias/index.php">Incidencias</a>
+
+                                <div class="hs-has-sub-menu nav-item">
+                                    <a id="accountMegaMenu" class="hs-mega-menu-invoker dropdown-item dropdown-toggle " href="#" role="button">Ajustes</a>
+
+                                    <div class="hs-sub-menu dropdown-menu " aria-labelledby="accountMegaMenu" style="min-width: 14rem;">
+                                        <a class="dropdown-item " href="../../control_estatus/panel/index.php">Registro de estatus</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- End Mega Menu -->
+                        </li>
+                        <!-- End Dashboards -->
+
+                        <!-- Apps -->
+                        <li class="hs-has-sub-menu nav-item">
+                            <a id="appsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button"><i class="bi bi-truck dropdown-item-icon"></i> Maniobras</a>
+
+                            <div class="hs-sub-menu dropdown-menu " aria-labelledby="appsMegaMenu" style="min-width: 14rem;">
+                                <a class="dropdown-item" href="../../maniobras/control/index.php">Control de maniobras</a>
+                                <a class="dropdown-item" href="../../maniobras/programadas/index.php">Maniobras programadas</a>
+                                <a class="dropdown-item" href="../../maniobras/finalizado/index.php">Finalizadas</a>
+                                <a class="dropdown-item" href="../../maniobras/contenedores/index.php">Contenedores</a>
+                                <a class="dropdown-item" href="../../maniobras/solicitudes_transporte/index.php">Solicitudes de transporte</a>
+                                <a class="dropdown-item" href="../../maniobras/cartas_porte/index.php">Cartas Porte</a>
+                                <a class="dropdown-item" href="../../maniobras/movedores/index.php">Movedores</a>
+                                <a class="dropdown-item" href="../../maniobras/nominas/index.php">Nominas</a>
+                            </div>
+                        </li>
+                        <!-- End Apps -->
+
+                        <!-- Apps -->
+                        <li class="hs-has-sub-menu nav-item">
+                            <a id="appsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button"><i class="bi bi-display dropdown-item-icon"></i> Monitoreo</a>
+
+                            <div class="hs-sub-menu dropdown-menu " aria-labelledby="appsMegaMenu" style="min-width: 14rem;">
+                                <a class="dropdown-item" href="../../monitoreo/entrega/index.php">Entrega de turno</a>
+                                <a class="dropdown-item" href="../reportes/index.php">Reportes</a>
+                            </div>
+                        </li>
+                        <!-- End Apps -->
+
+
+                        <!-- Apps -->
+                        <li class="hs-has-sub-menu nav-item">
+                            <a id="appsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button"><i class="bi bi-truck-flatbed dropdown-item-icon"></i> Disponibilidad</a>
+
+                            <div class="hs-sub-menu dropdown-menu" aria-labelledby="appsMegaMenu" style="min-width: 14rem;">
+                                <a class="dropdown-item" href="../../disponibilidad/equipos/index.php">Unidades</a>
+                                <a class="dropdown-item" href="../../disponibilidad/operadores/index.php">Operadores</a>
+                            </div>
+                        </li>
+                        <!-- End Apps -->
+
+                        <!-- Apps -->
+                        <li class="hs-has-sub-menu nav-item">
+                            <a id="appsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button"><i class="bi bi-person-circle dropdown-item-icon"></i> Operadores</a>
+
+                            <div class="hs-sub-menu dropdown-menu" aria-labelledby="appsMegaMenu" style="min-width: 14rem;">
+                                <a class="dropdown-item" href="../../operadores/contactos/index.php">Contactos</a>
+
+                                <?php if (comprobar_permiso(7) == true) { ?>
+                                    <a class="dropdown-item" href="../../operadores/cuentas/index.php">Cuentas</a>
+                                <?php } ?>
+
+                            </div>
+                        </li>
+                        <!-- End Apps -->
+
+
                         <li class="nav-item">
+                            <!-- Account -->
                             <div class="dropdown">
                                 <a class="navbar-dropdown-account-wrapper" href="javascript:;" id="accountNavbarDropdown" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside" data-bs-dropdown-animation>
                                     <div class="avatar avatar-sm avatar-circle">
@@ -140,9 +268,12 @@ if (isset($_SESSION['userID'])) {
                                     <a class="dropdown-item" id="logoutButton" type="button">Cerrar sesión</a>
                                 </div>
                             </div>
+                            <!-- End Account -->
                         </li>
                     </ul>
+                    <!-- End Navbar -->
                 </nav>
             </div>
         </div>
     </header>
+    <!-- End Header -->

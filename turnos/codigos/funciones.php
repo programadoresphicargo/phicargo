@@ -172,6 +172,7 @@
     });
 
     $("#abrir_ingresar_turno").click(function() {
+        $("#ultimas_maniobras").hide();
         const form = document.getElementById('FormEditar');
         form.reset();
         $("#modal_editar_turno").modal('toggle');

@@ -94,8 +94,8 @@ $resultado_eco = $mysqli->query($query_eco);
                             </div>
                         </div>
 
-                        <div class="col-5" style="height: 30rem;">
-                            <div id="ultimas_maniobras" style="height: 30rem; overflow: hidden;"></div>
+                        <div class="col-5">
+                            <div id="ultimas_maniobras"></div>
                         </div>
 
                         <div class="col-7">

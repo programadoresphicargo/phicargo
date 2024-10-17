@@ -91,13 +91,17 @@
                                         <table width="100%" align="center" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;">
                                             <tr>
                                                 <td align="center" style="padding-top:30px;padding-bottom:30px;padding-right:0;padding-left:0;word-break:break-word;font-family:'Inter', Helvetica, Arial, sans-serif;font-size:16px;line-height:24px;">
-                                                    <img src="http://phi-cargo.com/wp-content/uploads/2021/05/logo-phicargo-vertical.png" width="250px" class="margin-right:0;margin-left:0;line-height:28px">
+                                                    <img src="http://phi-cargo.com/wp-content/uploads/2021/05/logo-phicargo-vertical.png"
+                                                        width="250"
+                                                        style="max-width: 250px; height: auto; margin-right: 0; margin-left: 0; line-height: 28px;"
+                                                        alt="Logo Phicargo">
                                                 </td>
                                             </tr>
                                         </table>
 
-                                        <h1 style="margin-top:0;color:#111111;font-size:24px;line-height:36px;font-weight:600;margin-bottom:10px;">Contenedor: {{contenedor}}</h1>
-                                        <h3 style="margin-top:0;color:#111111;font-size:20px;line-height:36px;font-weight:600;margin-bottom:20px;">Actualización de Status: {{status}}</h3>
+                                        <h3 style="margin-top:0;color:#111111;font-size:20px;line-height:36px;font-weight:600;margin-bottom:5px;">Actualización de estatus para maniobra de {{tipo_maniobra}}</h3>
+                                        <h3 style="margin-top:0;color:#111111;font-size:20px;line-height:36px;font-weight:600;margin-bottom:5px;">Estatus: {{status}}</h3>
+                                        <h3 style="margin-top:0;color:#111111;font-size:20px;line-height:36px;font-weight:600;margin-bottom:5px;">Actualización: {{comentarios_estatus}}</h3>
 
                                         <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;">
                                             <tr>
@@ -106,36 +110,25 @@
                                                     <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;">
                                                         <tr>
                                                             <td style="word-break:break-word;font-family:'Inter', Helvetica, Arial, sans-serif;font-size:16px;line-height:24px;">
-                                                                <strong style="font-weight:600;">Status:
+                                                                <strong style="font-weight:600;">Referencia cliente:
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td style="word-break:break-word;font-family:'Inter', Helvetica, Arial, sans-serif;font-size:16px;line-height:24px;">
-                                                                <strong style="font-weight:600;">{{statusubicacion}}
+                                                                <strong style="font-weight:600;">{{referencia_cliente}}
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td style="word-break:break-word;font-family:'Inter', Helvetica, Arial, sans-serif;font-size:16px;line-height:24px;">
-                                                                <strong style="font-weight:600;">Contenedor:
+                                                                <strong style="font-weight:600;">Contenedores:
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td style="word-break:break-word;font-family:'Inter', Helvetica, Arial, sans-serif;font-size:16px;line-height:24px;">
-                                                                <strong style="font-weight:600;">{{contenedor}}
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="word-break:break-word;font-family:'Inter', Helvetica, Arial, sans-serif;font-size:16px;line-height:24px;">
-                                                                <strong style="font-weight:600;">Comentarios:
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td style="word-break:break-word;font-family:'Inter', Helvetica, Arial, sans-serif;font-size:16px;line-height:24px;">
-                                                                <strong style="font-weight:600;">{{comentarios}}
+                                                                <strong style="font-weight:600;">{{contenedores}}
                                                             </td>
                                                         </tr>
                                                     </table>
-
                                                 </td>
                                             </tr>
                                         </table>
@@ -156,10 +149,10 @@
 
                                                         <tr>
                                                             <td valign="middle" style="word-break:break-word;font-family:'Inter', Helvetica, Arial, sans-serif;font-size:16px;line-height:24px;padding-top:14px;padding-bottom:14px;padding-right:0;padding-left:0;border-top-width:1px;border-top-style:solid;border-top-color:#e2e8f0;">
-                                                                Referencia del Contenedor
+                                                                Contenedores
                                                             </td>
                                                             <td valign="middle" align="right" style="word-break:break-word;font-family:'Inter', Helvetica, Arial, sans-serif;font-size:16px;line-height:24px;padding-top:14px;padding-bottom:14px;padding-right:0;padding-left:0;border-top-width:1px;border-top-style:solid;border-top-color:#e2e8f0;">
-                                                                {{contenedor}}
+                                                                {{contenedores}}
                                                             </td>
                                                         </tr>
 
@@ -225,10 +218,10 @@
                             <table class="ms-footer" width="640" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;width:640px;margin-top:0;margin-bottom:0;margin-right:auto;margin-left:auto;">
                                 <tr>
                                     <td class="ms-content-body" align="center" style="word-break:break-word;font-family:'Inter', Helvetica, Arial, sans-serif;font-size:16px;line-height:24px;padding-top:40px;padding-bottom:40px;padding-right:50px;padding-left:50px;">
-                                        <p class="small" style="margin-top:20px;margin-bottom:20px;margin-right:0;margin-left:0;color:#96a2b3;font-size:14px;line-height:21px;">&copy; 2023 TRANSPORTES BELCHEZ S.A. DE C.V. TODOS LOS DERECHOS RESERVADOS.</p>
+                                        <p class="small" style="margin-top:20px;margin-bottom:20px;margin-right:0;margin-left:0;color:#96a2b3;font-size:14px;line-height:21px;">&copy; 2024 TRANSPORTES BELCHEZ S.A. DE C.V. TODOS LOS DERECHOS RESERVADOS.</p>
                                         <p class="small" style="margin-top:20px;margin-bottom:20px;margin-right:0;margin-left:0;color:#96a2b3;font-size:14px;line-height:21px;">
                                             Carretera veracruz cardel, Blvr. Portuario km 13.5, Condado Valle Dorado, 91808 Veracruz, Ver.
-                                            <br>Teléfono: 229 934 6497
+                                            <br>
                                         </p>
                                     </td>
                                 </tr>

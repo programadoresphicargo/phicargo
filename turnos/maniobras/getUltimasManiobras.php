@@ -5,7 +5,9 @@ $cn = conectarPostgresql();
 $operador_id = $_POST['operador_id'];
 if ($cn) {
     try {
-        $sql = "SELECT * FROM maniobras inner join fleet_vehicle on fleet_vehicle.id = maniobras.vehicle_id where operador_id = $operador_id order by inicio_programado desc";
+        $sql = "SELECT * FROM maniobras 
+        inner join maniobras_terminales on maniobras_terminales.id_terminal = maniobras.id_terminal
+        inner join fleet_vehicle on fleet_vehicle.id = maniobras.vehicle_id where operador_id = $operador_id order by inicio_programado desc limit 5";
         $stmt = $cn->prepare($sql);
         $stmt->execute();
         $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);

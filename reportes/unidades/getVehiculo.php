@@ -11,7 +11,7 @@ $domain[0][] = ['id', '=', $id_vehiculo];
 
 require_once('../../odoo/odoo-conexion.php');
 
-$kwargs = ['fields' => ['id', 'name', 'state_id', 'name2', 'x_tipo_vehiculo', 'x_sucursal', 'x_tipo_vehiculo', 'x_tipo_carga', 'x_modalidad', 'x_operador_asignado', 'state_id']];
+$kwargs = ['fields' => ['id', 'name', 'state_id', 'name2', 'x_tipo_vehiculo', 'company_id', 'x_sucursal', 'x_tipo_vehiculo', 'x_tipo_carga', 'x_modalidad', 'x_operador_asignado', 'state_id']];
 
 $ids = $models->execute_kw(
     $db,

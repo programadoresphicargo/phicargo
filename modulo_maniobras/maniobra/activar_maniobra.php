@@ -1,8 +1,9 @@
 <?php
 require_once('../codigos/cambiar_estados.php');
+require_once('../correos/metodos.php');
 
 try {
-    require_once('../../postgresql/conexion.php'); 
+    require_once('../../postgresql/conexion.php');
     session_start();
 
     $pdo = conectarPostgresql();
@@ -45,6 +46,7 @@ try {
         updateFlotaEstado($pdo, $id_maniobra, 'maniobra');
         $pdo->commit();
         echo json_encode(["success" => 1]);
+        guardar_base_datos($id_maniobra, false, 255, $id_usuario, 'Iniciando maniobra', null);
     } else {
         throw new Exception("Error al actualizar la tabla maniobra.");
     }
@@ -53,4 +55,4 @@ try {
     echo json_encode(["error" => $e->getMessage()]);
 }
 
-$pdo = null; 
+$pdo = null;

@@ -1,8 +1,6 @@
 <?php
-date_default_timezone_set('America/Mexico_City');
-$fecha_actual5 = date('Y-m-d H:i:s');
-
 require_once('../../mysql/conexion.php');
+
 require_once('../../usuarios/codigo/comprobar_permiso.php');
 session_start();
 $cn = conectar();
@@ -170,7 +168,7 @@ if (isset($_SESSION['userID'])) {
                                     </div>
                                 </div>
 
-                                <a class="dropdown-item" href="../../reportes/unidades/index.php">Control</a>
+                                <a class="dropdown-item" href="../../reportes/llegadas_tarde/index.html#/asignacion">Asignación de unidades</a>
                                 <a class="dropdown-item" href="../../gestion_viajes/estadias/index.php">Estadías</a>
                                 <a class="dropdown-item" href="../../gestion_viajes/incidencias/index.php">Incidencias</a>
 
@@ -192,12 +190,7 @@ if (isset($_SESSION['userID'])) {
                             <a id="appsMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle " href="#" role="button"><i class="bi bi-truck dropdown-item-icon"></i> Maniobras</a>
 
                             <div class="hs-sub-menu dropdown-menu " aria-labelledby="appsMegaMenu" style="min-width: 14rem;">
-                                <a class="dropdown-item" href="../../modulo_maniobras/react/index.html">Modulo Maniobras</a>
-                                <a class="dropdown-item" href="../../maniobras/control/index.php">Control de maniobras</a>
-                                <a class="dropdown-item" href="../../maniobras/programadas/index.php">Maniobras programadas</a>
-                                <a class="dropdown-item" href="../../maniobras/contenedores/index.php">Contenedores</a>
-                                <a class="dropdown-item" href="../../maniobras/solicitudes_transporte/index.php">Solicitudes de transporte</a>
-                                <a class="dropdown-item" href="../../maniobras/cartas_porte/index.php">Cartas Porte</a>
+                                <a class="dropdown-item" href="../../modulo_maniobras/react/index.html">Nuevo modulo maniobras</a>
                             </div>
                         </li>
                         <!-- End Apps -->

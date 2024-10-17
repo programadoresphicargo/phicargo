@@ -8,9 +8,9 @@ function conectar()
     //$password = "qljyLg=8";
     //$database = "u587079173_phicargo";
 
-    $servername = "db";
+    $servername = "localhost";
     $username = "root";
-    $password = "root";
+    $password = "";
     $database = "phicargo";
     $port = "3306";
 
