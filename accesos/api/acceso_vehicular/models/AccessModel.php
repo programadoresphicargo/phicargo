@@ -16,7 +16,7 @@ class AccessModel
   public function insert(array $data)
   {
     // Prepara la consulta
-    $query = "INSERT INTO phicargo.acceso_vehicular(
+    $query = "INSERT INTO acceso_vehicular(
                   nombre_operador, placas, tipo_transporte, contenedor1, contenedor2, 
                   tipo_identificacion, carga_descarga, id_empresa, sellos, areas, 
                   motivo, usuario_creacion, fecha_creacion, fecha_entrada, 
