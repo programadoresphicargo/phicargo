@@ -49,7 +49,6 @@ class UnitModel
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-
   public function __destruct()
   {
     $this->cn = null;
