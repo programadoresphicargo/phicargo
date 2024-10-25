@@ -36,7 +36,8 @@ if (isset($_GET['week_id'])) {
             p.thursday_amount, 
             p.friday_amount, 
             p.saturday_amount,
-            p.observations, 
+            p.observations,
+            p.migrated_from_week_id, 
             COALESCE(SUM(CASE WHEN apc.day_of_week = 'monday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_monday_amount,
             COALESCE(SUM(CASE WHEN apc.day_of_week = 'tuesday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_tuesday_amount,
             COALESCE(SUM(CASE WHEN apc.day_of_week = 'wednesday' AND apc.confirmed THEN apc.amount ELSE 0 END), 0) AS confirmed_wednesday_amount,
@@ -62,7 +63,9 @@ if (isset($_GET['week_id'])) {
             p.week_id = '$week_id'
           GROUP BY 
             p.id, p.client_id, c.nombre, p.week_id, p.monday_amount, p.tuesday_amount, p.wednesday_amount, 
-            p.thursday_amount, p.friday_amount, p.saturday_amount, p.observations;";
+            p.thursday_amount, p.friday_amount, p.saturday_amount, p.observations
+          ORDER BY
+            p.created_at DESC;";
 
   $result = $cn->query($sql);
 
