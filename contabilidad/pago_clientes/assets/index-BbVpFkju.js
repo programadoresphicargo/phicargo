@@ -25472,6 +25472,7 @@ InputGroup.propTypes = {
 };
 InputGroup.Addon = InputGroupAddon;
 InputGroup.Button = InputGroupButton;
+const InputGroup$1 = InputGroup;
 var _excluded$1p = ["as", "classPrefix", "className", "children", "localeKey", "placeholder"];
 var Plaintext = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   var _useCustom = useCustom("Plaintext"), locale2 = _useCustom.locale;
@@ -27033,8 +27034,102 @@ Icon.propTypes = {
   flip: PropTypes.oneOf(["horizontal", "vertical"]),
   fill: PropTypes.string
 };
+var PageEnd$2 = {};
+var hasRequiredPageEnd;
+function requirePageEnd() {
+  if (hasRequiredPageEnd) return PageEnd$2;
+  hasRequiredPageEnd = 1;
+  (function(exports) {
+    function _typeof2(obj) {
+      "@babel/helpers - typeof";
+      if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+        _typeof2 = function _typeof3(obj2) {
+          return typeof obj2;
+        };
+      } else {
+        _typeof2 = function _typeof3(obj2) {
+          return obj2 && typeof Symbol === "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
+        };
+      }
+      return _typeof2(obj);
+    }
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports["default"] = void 0;
+    var React2 = _interopRequireWildcard(reactExports);
+    function _getRequireWildcardCache() {
+      if (typeof WeakMap !== "function") return null;
+      var cache2 = /* @__PURE__ */ new WeakMap();
+      _getRequireWildcardCache = function _getRequireWildcardCache2() {
+        return cache2;
+      };
+      return cache2;
+    }
+    function _interopRequireWildcard(obj) {
+      if (obj && obj.__esModule) {
+        return obj;
+      }
+      if (obj === null || _typeof2(obj) !== "object" && typeof obj !== "function") {
+        return { "default": obj };
+      }
+      var cache2 = _getRequireWildcardCache();
+      if (cache2 && cache2.has(obj)) {
+        return cache2.get(obj);
+      }
+      var newObj = {};
+      var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+          if (desc && (desc.get || desc.set)) {
+            Object.defineProperty(newObj, key, desc);
+          } else {
+            newObj[key] = obj[key];
+          }
+        }
+      }
+      newObj["default"] = obj;
+      if (cache2) {
+        cache2.set(obj, newObj);
+      }
+      return newObj;
+    }
+    function _extends2() {
+      _extends2 = Object.assign || function(target) {
+        for (var i2 = 1; i2 < arguments.length; i2++) {
+          var source = arguments[i2];
+          for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      };
+      return _extends2.apply(this, arguments);
+    }
+    function PageEnd2(props, svgRef) {
+      return /* @__PURE__ */ React2.createElement("svg", _extends2({
+        width: "1em",
+        height: "1em",
+        viewBox: "0 0 16 16",
+        fill: "currentColor",
+        ref: svgRef
+      }, props), /* @__PURE__ */ React2.createElement("path", {
+        d: "M7.128 3.166a.5.5 0 01.634-.091l.072.054 5 4.5a.5.5 0 01.065.672l-.065.071-5 4.5a.5.5 0 01-.73-.677l.061-.066L11.751 8 7.165 3.873a.5.5 0 01-.091-.634l.054-.072z"
+      }), /* @__PURE__ */ React2.createElement("path", {
+        d: "M3.128 3.166a.5.5 0 01.634-.091l.072.054 5 4.5a.5.5 0 01.065.672l-.065.071-5 4.5a.5.5 0 01-.73-.677l.061-.066L7.751 8 3.165 3.873a.5.5 0 01-.091-.634l.054-.072z"
+      }));
+    }
+    var ForwardRef = /* @__PURE__ */ React2.forwardRef(PageEnd2);
+    var _default = ForwardRef;
+    exports["default"] = _default;
+  })(PageEnd$2);
+  return PageEnd$2;
+}
 var PickerIndicator = function PickerIndicator2(_ref) {
-  var loading = _ref.loading, caretAs = _ref.caretAs, onClose = _ref.onClose, showCleanButton = _ref.showCleanButton, _ref$as = _ref.as, Component = _ref$as === void 0 ? InputGroup.Addon : _ref$as, disabled = _ref.disabled;
+  var loading = _ref.loading, caretAs = _ref.caretAs, onClose = _ref.onClose, showCleanButton = _ref.showCleanButton, _ref$as = _ref.as, Component = _ref$as === void 0 ? InputGroup$1.Addon : _ref$as, disabled = _ref.disabled;
   var _useCustom = useCustom(), locale2 = _useCustom.locale;
   var _useClassNames = useClassNames$2("picker"), prefix2 = _useClassNames.prefix;
   var addon = function addon2() {
@@ -27059,14 +27154,14 @@ var PickerIndicator = function PickerIndicator2(_ref) {
       className: prefix2("caret-icon")
     });
   };
-  var props = Component === InputGroup.Addon ? {
+  var props = Component === InputGroup$1.Addon ? {
     disabled
   } : void 0;
   return /* @__PURE__ */ React.createElement(Component, props, addon());
 };
 var _excluded$1e = ["children", "className", "as"];
 var PickerLabel = function PickerLabel2(_ref) {
-  var children = _ref.children, className = _ref.className, _ref$as = _ref.as, Component = _ref$as === void 0 ? InputGroup.Addon : _ref$as, rest = _objectWithoutPropertiesLoose(_ref, _excluded$1e);
+  var children = _ref.children, className = _ref.className, _ref$as = _ref.as, Component = _ref$as === void 0 ? InputGroup$1.Addon : _ref$as, rest = _objectWithoutPropertiesLoose(_ref, _excluded$1e);
   return children ? /* @__PURE__ */ React.createElement(Component, _extends$1({
     "data-testid": "picker-label",
     className
@@ -27773,7 +27868,7 @@ var SearchBox = /* @__PURE__ */ React.forwardRef(function(props, ref) {
   return /* @__PURE__ */ React.createElement(Component, _extends$1({}, rest, {
     ref,
     className: classes
-  }), /* @__PURE__ */ React.createElement(InputGroup, {
+  }), /* @__PURE__ */ React.createElement(InputGroup$1, {
     inside: true
   }, /* @__PURE__ */ React.createElement(Input$1, {
     role: "searchbox",
@@ -27782,7 +27877,7 @@ var SearchBox = /* @__PURE__ */ React.forwardRef(function(props, ref) {
     onChange,
     placeholder,
     ref: inputRef
-  }), /* @__PURE__ */ React.createElement(InputGroup.Addon, null, /* @__PURE__ */ React.createElement(Search$1, {
+  }), /* @__PURE__ */ React.createElement(InputGroup$1.Addon, null, /* @__PURE__ */ React.createElement(Search$1, {
     className: prefix2(_templateObject2$2 || (_templateObject2$2 = _taggedTemplateLiteralLoose(["icon"])))
   }))));
 });
@@ -29315,7 +29410,7 @@ function valueReachesMin(value, min2) {
   return false;
 }
 var InputNumber = /* @__PURE__ */ React.forwardRef(function(props, ref) {
-  var _props$as = props.as, Component = _props$as === void 0 ? InputGroup : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "input-number" : _props$classPrefix, disabled = props.disabled, decimalSeparator = props.decimalSeparator, formatter = props.formatter, readOnly = props.readOnly, plaintext = props.plaintext, valueProp = props.value, defaultValue = props.defaultValue, size2 = props.size, prefixElement = props.prefix, postfix = props.postfix, _props$step = props.step, step = _props$step === void 0 ? 1 : _props$step, _props$buttonAppearan = props.buttonAppearance, buttonAppearance = _props$buttonAppearan === void 0 ? "subtle" : _props$buttonAppearan, minProp = props.min, maxProp = props.max, _props$scrollable = props.scrollable, scrollable = _props$scrollable === void 0 ? true : _props$scrollable, onChange = props.onChange, onWheel = props.onWheel, onBlur = props.onBlur, onFocus = props.onFocus, restProps = _objectWithoutPropertiesLoose(props, _excluded$13);
+  var _props$as = props.as, Component = _props$as === void 0 ? InputGroup$1 : _props$as, className = props.className, _props$classPrefix = props.classPrefix, classPrefix = _props$classPrefix === void 0 ? "input-number" : _props$classPrefix, disabled = props.disabled, decimalSeparator = props.decimalSeparator, formatter = props.formatter, readOnly = props.readOnly, plaintext = props.plaintext, valueProp = props.value, defaultValue = props.defaultValue, size2 = props.size, prefixElement = props.prefix, postfix = props.postfix, _props$step = props.step, step = _props$step === void 0 ? 1 : _props$step, _props$buttonAppearan = props.buttonAppearance, buttonAppearance = _props$buttonAppearan === void 0 ? "subtle" : _props$buttonAppearan, minProp = props.min, maxProp = props.max, _props$scrollable = props.scrollable, scrollable = _props$scrollable === void 0 ? true : _props$scrollable, onChange = props.onChange, onWheel = props.onWheel, onBlur = props.onBlur, onFocus = props.onFocus, restProps = _objectWithoutPropertiesLoose(props, _excluded$13);
   var min2 = minProp !== null && minProp !== void 0 ? minProp : -Infinity;
   var max2 = maxProp !== null && maxProp !== void 0 ? maxProp : Infinity;
   var _useControlled = useControlled$2(valueProp, defaultValue), value = _useControlled[0], setValue2 = _useControlled[1];
@@ -32465,7 +32560,7 @@ var DateRangePicker = /* @__PURE__ */ React.forwardRef(function(props, ref) {
     value,
     format: formatStr,
     plaintext
-  }) : /* @__PURE__ */ React.createElement(InputGroup, _extends$1({}, omit$1(rest, [].concat(omitTriggerPropKeys, usedClassNamePropKeys, calendarOnlyProps)), {
+  }) : /* @__PURE__ */ React.createElement(InputGroup$1, _extends$1({}, omit$1(rest, [].concat(omitTriggerPropKeys, usedClassNamePropKeys, calendarOnlyProps)), {
     inside: true,
     className: prefix2(_templateObject$1 || (_templateObject$1 = _taggedTemplateLiteralLoose(["input-group"]))),
     disabled,
@@ -32825,6 +32920,185 @@ Tabs$1.propTypes = {
   classPrefix: PropTypes.string,
   children: PropTypes.node,
   onSelect: PropTypes.func
+};
+var Remind$2 = {};
+var Remind$1 = { exports: {} };
+var Remind = {};
+var hasRequiredRemind;
+function requireRemind() {
+  if (hasRequiredRemind) return Remind;
+  hasRequiredRemind = 1;
+  (function(exports) {
+    function _typeof2(obj) {
+      "@babel/helpers - typeof";
+      if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+        _typeof2 = function _typeof3(obj2) {
+          return typeof obj2;
+        };
+      } else {
+        _typeof2 = function _typeof3(obj2) {
+          return obj2 && typeof Symbol === "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
+        };
+      }
+      return _typeof2(obj);
+    }
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports["default"] = void 0;
+    var React2 = _interopRequireWildcard(reactExports);
+    function _getRequireWildcardCache() {
+      if (typeof WeakMap !== "function") return null;
+      var cache2 = /* @__PURE__ */ new WeakMap();
+      _getRequireWildcardCache = function _getRequireWildcardCache2() {
+        return cache2;
+      };
+      return cache2;
+    }
+    function _interopRequireWildcard(obj) {
+      if (obj && obj.__esModule) {
+        return obj;
+      }
+      if (obj === null || _typeof2(obj) !== "object" && typeof obj !== "function") {
+        return { "default": obj };
+      }
+      var cache2 = _getRequireWildcardCache();
+      if (cache2 && cache2.has(obj)) {
+        return cache2.get(obj);
+      }
+      var newObj = {};
+      var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+          if (desc && (desc.get || desc.set)) {
+            Object.defineProperty(newObj, key, desc);
+          } else {
+            newObj[key] = obj[key];
+          }
+        }
+      }
+      newObj["default"] = obj;
+      if (cache2) {
+        cache2.set(obj, newObj);
+      }
+      return newObj;
+    }
+    function _extends2() {
+      _extends2 = Object.assign || function(target) {
+        for (var i2 = 1; i2 < arguments.length; i2++) {
+          var source = arguments[i2];
+          for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      };
+      return _extends2.apply(this, arguments);
+    }
+    function Remind2(props, svgRef) {
+      return /* @__PURE__ */ React2.createElement("svg", _extends2({
+        width: "1em",
+        height: "1em",
+        viewBox: "0 0 14 14",
+        fill: "currentColor",
+        ref: svgRef
+      }, props), /* @__PURE__ */ React2.createElement("path", {
+        d: "M8.021 1.101l5.832 10.509a1.168 1.168 0 01-1.021 1.734H1.167a1.167 1.167 0 01-1.02-1.734L5.979 1.101a1.167 1.167 0 012.041 0zM7 12.177a1.167 1.167 0 100-2.334 1.167 1.167 0 000 2.334zm0-9.34c-.645 0-1.167.523-1.167 1.167v3.502a1.167 1.167 0 002.334 0V4.004c0-.645-.523-1.167-1.167-1.167z"
+      }));
+    }
+    var ForwardRef = /* @__PURE__ */ React2.forwardRef(Remind2);
+    var _default = ForwardRef;
+    exports["default"] = _default;
+  })(Remind);
+  return Remind;
+}
+(function(module, exports) {
+  var _interopRequireDefault2 = interopRequireDefaultExports;
+  exports.__esModule = true;
+  exports["default"] = void 0;
+  var _createSvgIcon2 = _interopRequireDefault2(requireCreateSvgIcon$1());
+  var _Remind = _interopRequireDefault2(requireRemind());
+  var Remind2 = (0, _createSvgIcon2["default"])({
+    as: _Remind["default"],
+    ariaLabel: "remind",
+    category: "legacy",
+    displayName: "Remind"
+  });
+  var _default = Remind2;
+  exports["default"] = _default;
+  module.exports = exports.default;
+})(Remind$1, Remind$1.exports);
+var RemindExports = Remind$1.exports;
+(function(exports) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function get2() {
+      return _Remind["default"];
+    }
+  });
+  var _Remind = _interopRequireDefault2(RemindExports);
+  function _interopRequireDefault2(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+  }
+})(Remind$2);
+const RemindIcon = /* @__PURE__ */ getDefaultExportFromCjs(Remind$2);
+const AlertDialog = (props) => {
+  const { onClose, onConfirm, alert, description } = props;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Modal$1, { role: "alertdialog", open: true, onClose, size: "300px", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Modal$1.Body,
+      {
+        style: {
+          overflow: "hidden",
+          height: "175px"
+        },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              style: {
+                display: "flex",
+                alignItems: "center"
+              },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  RemindIcon,
+                  {
+                    style: { color: "#ffb300", fontSize: 24, marginRight: "8px" }
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: alert })
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              style: {
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "15px",
+                height: "100%",
+                textAlign: "center",
+                fontSize: "20px"
+              },
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: description })
+            }
+          )
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Modal$1.Footer, { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Button$1, { onClick: onConfirm, appearance: "primary", children: "Confirmar" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Button$1, { onClick: onClose, appearance: "subtle", children: "Cancelar" })
+    ] })
+  ] }) });
 };
 var Delete = {};
 var createSvgIcon$1 = {};
@@ -81161,7 +81435,8 @@ const collectRegisterToLocal = (data) => ({
   friday: amountToLocal(data.friday_amount),
   saturday: amountToLocal(data.saturday_amount),
   observations: data.observations,
-  totalConfirmed: data.total_confirmed_amount
+  totalConfirmed: data.total_confirmed_amount,
+  migratedFromWeekId: data == null ? void 0 : data.migrated_from_week_id
 });
 const collectConfirmationToApi = (confirmation) => ({
   collect_id: confirmation.itemId,
@@ -83607,7 +83882,8 @@ const getDefaultCollectRegister = (tempId, baseCollect) => {
     friday: getFakeAmount$1(day === "friday" ? mount : 0),
     saturday: getFakeAmount$1(day === "saturday" ? mount : 0),
     observations: "",
-    totalConfirmed: 0
+    totalConfirmed: 0,
+    migratedFromWeekId: null
   };
 };
 const getFakeAmount = (amount) => ({
@@ -83630,7 +83906,8 @@ const getDefaultPayment = (tempId, basePayment) => {
     friday: getFakeAmount(day === "friday" ? amount : 0),
     saturday: getFakeAmount(day === "saturday" ? amount : 0),
     observations: "",
-    totalConfirmed: 0
+    totalConfirmed: 0,
+    migratedFromWeekId: null
   };
 };
 const { VITE_SERVER_URL } = getEnvVariables();
@@ -83754,6 +84031,35 @@ class CollectServiceApi {
       throw new Error("Error inesperado con el servidor");
     }
   }
+  /**
+   * Cargo de registros de la semana anterior
+   * @param param0 Objeto con los IDs de las semanas a cargar
+   * @returns Booleano indicando si se cargaron los registros correctamente
+   */
+  static async loadPreviousWeek({
+    previousWeekId,
+    activeWeekId
+  }) {
+    var _a2;
+    try {
+      const response = await phicargoApi.post(
+        `collect/load_previous.php`,
+        {
+          previous_week_id: previousWeekId,
+          new_week_id: activeWeekId
+        }
+      );
+      return response.data.success;
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al cargar registros"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
+    }
+  }
 }
 const WeekContext = reactExports.createContext({});
 const useWeekContext = () => {
@@ -83780,8 +84086,8 @@ const useCollectRegisters = () => {
       const previousRegisters = queryClient2.getQueryData([registersKey, "weekId", activeWeekId]);
       const tempId = Math.random() + 1;
       queryClient2.setQueryData([registersKey, "weekId", activeWeekId], (prev2) => [
-        ...prev2 || [],
-        { ...getDefaultCollectRegister(tempId, newRegister) }
+        { ...getDefaultCollectRegister(tempId, newRegister) },
+        ...prev2 || []
       ]);
       return { previousRegisters, tempId };
     },
@@ -83854,13 +84160,26 @@ const useCollectRegisters = () => {
       Jt.error(err.message);
     }
   });
+  const loadPreviousWeekCollects = useMutation({
+    mutationFn: CollectServiceApi.loadPreviousWeek,
+    onSuccess: () => {
+      Jt.success("Pagos sin confirmar cargados correctamente");
+    },
+    onError: (err) => {
+      Jt.error(err.message);
+    },
+    onSettled: () => {
+      queryClient2.invalidateQueries({ queryKey: [registersKey, "weekId", activeWeekId] });
+    }
+  });
   return {
     collects: collectRegisterQuery.data || [],
     collectRegisterQuery,
     createCollectRegisterMutation,
     updateCollectRegisterMutation,
     deleteCollectRegisterMutation,
-    confirmCollectMutation
+    confirmCollectMutation,
+    loadPreviousWeekCollects
   };
 };
 const TotalFooterItem = ({ total }) => {
@@ -85623,133 +85942,6 @@ const NumberInput = (props) => {
     }
   );
 };
-var Remind$2 = {};
-var Remind$1 = { exports: {} };
-var Remind = {};
-var hasRequiredRemind;
-function requireRemind() {
-  if (hasRequiredRemind) return Remind;
-  hasRequiredRemind = 1;
-  (function(exports) {
-    function _typeof2(obj) {
-      "@babel/helpers - typeof";
-      if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-        _typeof2 = function _typeof3(obj2) {
-          return typeof obj2;
-        };
-      } else {
-        _typeof2 = function _typeof3(obj2) {
-          return obj2 && typeof Symbol === "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
-        };
-      }
-      return _typeof2(obj);
-    }
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports["default"] = void 0;
-    var React2 = _interopRequireWildcard(reactExports);
-    function _getRequireWildcardCache() {
-      if (typeof WeakMap !== "function") return null;
-      var cache2 = /* @__PURE__ */ new WeakMap();
-      _getRequireWildcardCache = function _getRequireWildcardCache2() {
-        return cache2;
-      };
-      return cache2;
-    }
-    function _interopRequireWildcard(obj) {
-      if (obj && obj.__esModule) {
-        return obj;
-      }
-      if (obj === null || _typeof2(obj) !== "object" && typeof obj !== "function") {
-        return { "default": obj };
-      }
-      var cache2 = _getRequireWildcardCache();
-      if (cache2 && cache2.has(obj)) {
-        return cache2.get(obj);
-      }
-      var newObj = {};
-      var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-      for (var key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-          var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-          if (desc && (desc.get || desc.set)) {
-            Object.defineProperty(newObj, key, desc);
-          } else {
-            newObj[key] = obj[key];
-          }
-        }
-      }
-      newObj["default"] = obj;
-      if (cache2) {
-        cache2.set(obj, newObj);
-      }
-      return newObj;
-    }
-    function _extends2() {
-      _extends2 = Object.assign || function(target) {
-        for (var i2 = 1; i2 < arguments.length; i2++) {
-          var source = arguments[i2];
-          for (var key in source) {
-            if (Object.prototype.hasOwnProperty.call(source, key)) {
-              target[key] = source[key];
-            }
-          }
-        }
-        return target;
-      };
-      return _extends2.apply(this, arguments);
-    }
-    function Remind2(props, svgRef) {
-      return /* @__PURE__ */ React2.createElement("svg", _extends2({
-        width: "1em",
-        height: "1em",
-        viewBox: "0 0 14 14",
-        fill: "currentColor",
-        ref: svgRef
-      }, props), /* @__PURE__ */ React2.createElement("path", {
-        d: "M8.021 1.101l5.832 10.509a1.168 1.168 0 01-1.021 1.734H1.167a1.167 1.167 0 01-1.02-1.734L5.979 1.101a1.167 1.167 0 012.041 0zM7 12.177a1.167 1.167 0 100-2.334 1.167 1.167 0 000 2.334zm0-9.34c-.645 0-1.167.523-1.167 1.167v3.502a1.167 1.167 0 002.334 0V4.004c0-.645-.523-1.167-1.167-1.167z"
-      }));
-    }
-    var ForwardRef = /* @__PURE__ */ React2.forwardRef(Remind2);
-    var _default = ForwardRef;
-    exports["default"] = _default;
-  })(Remind);
-  return Remind;
-}
-(function(module, exports) {
-  var _interopRequireDefault2 = interopRequireDefaultExports;
-  exports.__esModule = true;
-  exports["default"] = void 0;
-  var _createSvgIcon2 = _interopRequireDefault2(requireCreateSvgIcon$1());
-  var _Remind = _interopRequireDefault2(requireRemind());
-  var Remind2 = (0, _createSvgIcon2["default"])({
-    as: _Remind["default"],
-    ariaLabel: "remind",
-    category: "legacy",
-    displayName: "Remind"
-  });
-  var _default = Remind2;
-  exports["default"] = _default;
-  module.exports = exports.default;
-})(Remind$1, Remind$1.exports);
-var RemindExports = Remind$1.exports;
-(function(exports) {
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, "default", {
-    enumerable: true,
-    get: function get2() {
-      return _Remind["default"];
-    }
-  });
-  var _Remind = _interopRequireDefault2(RemindExports);
-  function _interopRequireDefault2(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
-  }
-})(Remind$2);
-const RemindIcon = /* @__PURE__ */ getDefaultExportFromCjs(Remind$2);
 const paymentToLocal = (payment) => ({
   id: payment.id,
   monday: amountToLocal(payment.monday_amount),
@@ -85763,7 +85955,8 @@ const paymentToLocal = (payment) => ({
   weekId: payment.week_id,
   observations: payment.observations,
   concept: payment.concept,
-  totalConfirmed: payment.total_confirmed_amount
+  totalConfirmed: payment.total_confirmed_amount,
+  migratedFromWeekId: payment == null ? void 0 : payment.migrated_from_week_id
 });
 const paymentToApi = (payment) => ({
   week_id: payment.weekId,
@@ -85895,13 +86088,45 @@ class PaymentServiceApi {
     var _a2;
     const body = paymentConfirmationToApi(confirmation);
     try {
-      const response = await phicargoApi.post(`payment/confirm_payment.php`, body);
+      const response = await phicargoApi.post(
+        `payment/confirm_payment.php`,
+        body
+      );
       return paymentToLocal(response.data);
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError) {
         throw new Error(
           ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al confirmar pago"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
+    }
+  }
+  /**
+   * Cargo de registros de la semana anterior
+   * @param param0 Objeto con los IDs de las semanas a cargar
+   * @returns Booleano indicando si se cargaron los registros correctamente
+   */
+  static async loadPreviousWeek({
+    previousWeekId,
+    activeWeekId
+  }) {
+    var _a2;
+    try {
+      const response = await phicargoApi.post(
+        `payment/load_previous.php`,
+        {
+          previous_week_id: previousWeekId,
+          new_week_id: activeWeekId
+        }
+      );
+      return response.data.success;
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al cargar registros"
         );
       }
       throw new Error("Error inesperado con el servidor");
@@ -85926,8 +86151,8 @@ const usePayments = () => {
       const previousPayments = queryClient2.getQueryData([mainKey$1, "weekId", activeWeekId]);
       const tempId = Math.random() + 1;
       queryClient2.setQueryData([mainKey$1, "weekId", activeWeekId], (prev2) => [
-        ...prev2 || [],
-        { ...getDefaultPayment(tempId, newPayment) }
+        { ...getDefaultPayment(tempId, newPayment) },
+        ...prev2 || []
       ]);
       return { previousPayments, tempId };
     },
@@ -86000,12 +86225,25 @@ const usePayments = () => {
       Jt.error(err.message);
     }
   });
+  const loadPreviousWeekPayments = useMutation({
+    mutationFn: PaymentServiceApi.loadPreviousWeek,
+    onSuccess: () => {
+      Jt.success("Pagos sin confirmar cargados correctamente");
+    },
+    onError: (err) => {
+      Jt.error(err.message);
+    },
+    onSettled: () => {
+      queryClient2.invalidateQueries({ queryKey: [mainKey$1, "weekId", activeWeekId] });
+    }
+  });
   return {
     paymentsQuery,
     createPaymentMutation,
     updatePaymentMutation,
     deletePaymentMutation,
-    confirmPaymentMutation
+    confirmPaymentMutation,
+    loadPreviousWeekPayments
   };
 };
 const formInitialState = {
@@ -86191,9 +86429,22 @@ const useCollectTableColumns = (data) => {
     return [
       {
         header: "Cliente",
-        accessorFn: (originalRow) => originalRow.clientName,
+        accessorFn: (originalRow) => originalRow == null ? void 0 : originalRow.clientName,
         id: "client",
-        enableEditing: false
+        enableEditing: false,
+        Cell: ({ cell, row }) => {
+          var _a2, _b2;
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "span",
+            {
+              style: {
+                color: ((_a2 = row.original) == null ? void 0 : _a2.migratedFromWeekId) ? "#ba5662" : "black",
+                fontWeight: ((_b2 = row.original) == null ? void 0 : _b2.migratedFromWeekId) ? "bold" : "normal"
+              },
+              children: cell.getValue()
+            }
+          );
+        }
       },
       {
         header: "Proyección",
@@ -86378,10 +86629,14 @@ const useCollectTableColumns = (data) => {
 };
 const CollectionTable = (props) => {
   const { createFn } = props;
+  const [deleteId, setDeleteId] = reactExports.useState(null);
   const { weekSelected } = useWeekContext();
   const {
     collectRegisterQuery: { data: registers, refetch, isFetching },
-    updateCollectRegisterMutation: { mutate: updateRegister, isPending: isSaving },
+    updateCollectRegisterMutation: {
+      mutate: updateRegister,
+      isPending: isSaving
+    },
     deleteCollectRegisterMutation: { mutate: deleteRegister }
   } = useCollectRegisters();
   const columns = useCollectTableColumns(registers || []);
@@ -86389,95 +86644,113 @@ const CollectionTable = (props) => {
     updateRegister({ ...values2, id: Number(row.id) });
     table.setEditingRow(null);
   };
-  const handleDelete = (id2) => {
-    deleteRegister(id2);
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    MaterialTable,
-    {
-      data: registers || [],
-      columns,
-      initialState: {
-        columnPinning: {
-          right: ["mrt-row-actions"]
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      MaterialTable,
+      {
+        data: registers || [],
+        columns,
+        initialState: {
+          columnPinning: {
+            right: ["mrt-row-actions"]
+          },
+          density: "compact",
+          pagination: { pageIndex: 0, pageSize: 50 }
         },
-        density: "compact"
-      },
-      state: {
-        isLoading: isFetching,
-        isSaving
-      },
-      enableCellActions: true,
-      enableRowActions: true,
-      editDisplayMode: "row",
-      enableEditing: true,
-      getRowId: (row) => row.id,
-      onEditingRowSave: handleSaveRegisters,
-      renderRowActions: ({ row, table }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-        display: "flex",
-        gap: "5px",
-        alignItems: "center",
-        padding: "2px 0px"
-      }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          IconButton$1,
+        state: {
+          isLoading: isFetching,
+          isSaving
+        },
+        enableCellActions: true,
+        enableRowActions: true,
+        editDisplayMode: "row",
+        enableEditing: true,
+        getRowId: (row) => row.id,
+        onEditingRowSave: handleSaveRegisters,
+        renderRowActions: ({ row, table }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
           {
-            circle: true,
-            icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$y, {}),
-            appearance: "primary",
-            size: "xs",
-            style: { padding: "5px" },
-            onClick: () => table.setEditingRow(row),
-            disabled: !isGOEWeek(weekSelected)
+            style: {
+              display: "flex",
+              gap: "5px",
+              alignItems: "center",
+              padding: "2px 0px"
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                IconButton$1,
+                {
+                  circle: true,
+                  icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$y, {}),
+                  appearance: "primary",
+                  size: "xs",
+                  style: { padding: "5px" },
+                  onClick: () => table.setEditingRow(row),
+                  disabled: !isGOEWeek(weekSelected)
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                IconButton$1,
+                {
+                  circle: true,
+                  icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$z, {}),
+                  appearance: "primary",
+                  size: "xs",
+                  onClick: () => setDeleteId(Number(row.original.id)),
+                  color: "red",
+                  stye: { padding: "1px" },
+                  disabled: !isGOEWeek(weekSelected)
+                }
+              )
+            ]
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          IconButton$1,
+        renderTopToolbarCustomActions: () => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
           {
-            circle: true,
-            icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$z, {}),
-            appearance: "primary",
-            size: "xs",
-            onClick: () => handleDelete(Number(row.original.id)),
-            color: "red",
-            stye: { padding: "1px" },
-            disabled: !isGOEWeek(weekSelected)
+            style: {
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: "1rem"
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                IconButton$1,
+                {
+                  appearance: "primary",
+                  icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1, {}),
+                  style: { padding: "7px" },
+                  onClick: () => refetch()
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Button$1,
+                {
+                  appearance: "primary",
+                  onClick: createFn,
+                  disabled: !isGOEWeek(weekSelected),
+                  children: "Crear Nuevo Registro"
+                }
+              )
+            ]
           }
         )
-      ] }),
-      renderTopToolbarCustomActions: () => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
-        {
-          style: {
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: "1rem"
-          },
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              IconButton$1,
-              {
-                appearance: "primary",
-                icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1, {}),
-                style: { padding: "7px" },
-                onClick: () => refetch()
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Button$1,
-              {
-                appearance: "primary",
-                onClick: createFn,
-                disabled: !isGOEWeek(weekSelected),
-                children: "Crear Nuevo Registro"
-              }
-            )
-          ]
-        }
-      )
-    }
-  );
+      }
+    ),
+    deleteId && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AlertDialog,
+      {
+        alert: "Eliminar Registro",
+        description: "¿Estás seguro de eliminar este registro?",
+        onConfirm: () => {
+          deleteRegister(deleteId);
+          setDeleteId(null);
+        },
+        onClose: () => setDeleteId(null)
+      }
+    )
+  ] });
 };
 const Card = (props) => {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -86541,6 +86814,99 @@ const Card = (props) => {
     }
   );
 };
+const HeaderCards = () => {
+  const {
+    collectRegisterQuery: { data: registers, isFetching: loadingCollect }
+  } = useCollectRegisters();
+  const {
+    paymentsQuery: { data: payments, isFetching: loadingPayments }
+  } = usePayments();
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Card,
+      {
+        title: "Total Cobrado",
+        content: loadingCollect ? "Cargando..." : formatCurrency(
+          (registers || []).reduce(
+            (acc, curr) => acc + curr.totalConfirmed,
+            0
+          )
+        )
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Card,
+      {
+        title: "Proyección de Cobro",
+        content: loadingCollect ? "Cargando..." : formatCurrency(
+          (registers || []).reduce(
+            (acc, curr) => acc + getProjection(curr),
+            0
+          )
+        )
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Card,
+      {
+        title: "Total Pagado",
+        content: loadingPayments ? "Cargando..." : formatCurrency(
+          (payments || []).reduce(
+            (acc, curr) => acc + curr.totalConfirmed,
+            0
+          )
+        )
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Card,
+      {
+        title: "Proyección de Pago",
+        content: loadingCollect ? "Cargando..." : formatCurrency(
+          (payments || []).reduce(
+            (acc, curr) => acc + getProjection(curr),
+            0
+          )
+        )
+      }
+    )
+  ] });
+};
+var PageEnd$1 = {};
+var PageEnd = { exports: {} };
+(function(module, exports) {
+  var _interopRequireDefault2 = interopRequireDefaultExports;
+  exports.__esModule = true;
+  exports["default"] = void 0;
+  var _createSvgIcon2 = _interopRequireDefault2(requireCreateSvgIcon$1());
+  var _PageEnd = _interopRequireDefault2(requirePageEnd());
+  var PageEnd2 = (0, _createSvgIcon2["default"])({
+    as: _PageEnd["default"],
+    ariaLabel: "page end",
+    category: "direction",
+    displayName: "PageEnd"
+  });
+  var _default = PageEnd2;
+  exports["default"] = _default;
+  module.exports = exports.default;
+})(PageEnd, PageEnd.exports);
+var PageEndExports = PageEnd.exports;
+(function(exports) {
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function get2() {
+      return _PageEnd["default"];
+    }
+  });
+  var _PageEnd = _interopRequireDefault2(PageEndExports);
+  function _interopRequireDefault2(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+  }
+})(PageEnd$1);
+const PageEndIcon = /* @__PURE__ */ getDefaultExportFromCjs(PageEnd$1);
 const weekToApi = (startDate, endDate) => {
   const setToMidnight2 = (date) => {
     const adjustedDate = new Date(date);
@@ -86606,6 +86972,27 @@ class WeekServiceApi {
       return void 0;
     }
   }
+  static async getWeekId({
+    startDate,
+    endDate
+  }) {
+    var _a2;
+    const start2 = startDate.toISOString().split("T")[0];
+    const end2 = endDate.toISOString().split("T")[0];
+    const url = `week/get_week_id.php?start_date=${start2}&end_date=${end2}`;
+    try {
+      const response = await phicargoApi.get(url);
+      return response.data.week_id;
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError) {
+        throw new Error(
+          ((_a2 = error.response) == null ? void 0 : _a2.data.message) || "Error al obtener registros"
+        );
+      }
+      throw new Error("Error inesperado con el servidor");
+    }
+  }
 }
 const useWeek = () => {
   const { onChangeWeek } = useWeekContext();
@@ -86622,15 +87009,9 @@ const useWeek = () => {
     changeWeekMutation
   };
 };
-const Header = () => {
+const WeekSelector = () => {
   const [value, setValue2] = reactExports.useState(null);
   const { onSetWeekSelected } = useWeekContext();
-  const {
-    collectRegisterQuery: { data: registers, isFetching: loadingCollect }
-  } = useCollectRegisters();
-  const {
-    paymentsQuery: { data: payments, isFetching: loadingPayments }
-  } = usePayments();
   const {
     changeWeekMutation: { mutate }
   } = useWeek();
@@ -86652,84 +87033,141 @@ const Header = () => {
       endDate: week[1]
     });
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    "div",
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    DateRangePicker,
     {
+      oneTap: true,
+      showOneCalendar: true,
+      placeholder: "Selecciona la semana",
+      hoverRange: "week",
+      showWeekNumbers: true,
+      isoWeek: true,
+      ranges: [],
       style: {
-        maxWidth: "100%",
-        margin: "0 auto",
-        backgroundColor: "#2B303A",
-        color: "#fff",
-        borderRadius: "10px",
-        padding: "10px",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center"
+        width: "100%"
       },
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Card,
-          {
-            title: "Total Cobrado",
-            content: loadingCollect ? "Cargando..." : formatCurrency(
-              (registers || []).reduce(
-                (acc, curr) => acc + curr.totalConfirmed,
-                0
-              )
-            )
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Card,
-          {
-            title: "Proyección de Cobro",
-            content: loadingCollect ? "Cargando..." : formatCurrency(
-              (registers || []).reduce((acc, curr) => acc + getProjection(curr), 0)
-            )
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Card,
-          {
-            title: "Total Pagado",
-            content: loadingPayments ? "Cargando..." : formatCurrency(
-              (payments || []).reduce(
-                (acc, curr) => acc + curr.totalConfirmed,
-                0
-              )
-            )
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          Card,
-          {
-            title: "Proyección de Pago",
-            content: loadingCollect ? "Cargando..." : formatCurrency(
-              (payments || []).reduce((acc, curr) => acc + getProjection(curr), 0)
-            )
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { flexShrink: "0", width: "250px" }, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          DateRangePicker,
-          {
-            oneTap: true,
-            showOneCalendar: true,
-            placeholder: "Selecciona la semana",
-            hoverRange: "week",
-            showWeekNumbers: true,
-            isoWeek: true,
-            ranges: [],
-            style: {
-              width: "100%"
-            },
-            value,
-            onChange: onChangeWeek
-          }
-        ) })
-      ]
+      value,
+      onChange: onChangeWeek
     }
   );
+};
+const getPreviousWeekRange = (date) => {
+  const actualWeekStart = date[0];
+  const previousWeekStart = new Date(actualWeekStart);
+  previousWeekStart.setDate(actualWeekStart.getDate() - 7);
+  const previousWeekEnd = new Date(actualWeekStart);
+  previousWeekEnd.setDate(actualWeekStart.getDate() - 1);
+  return [previousWeekStart, previousWeekEnd];
+};
+const ReportContext = reactExports.createContext({});
+const useReportContext = () => {
+  const context = reactExports.useContext(ReportContext);
+  return {
+    ...context
+  };
+};
+const useLoadPrevious = () => {
+  const { activeWeekId, weekSelected } = useWeekContext();
+  const { activeReport } = useReportContext();
+  const { loadPreviousWeekPayments } = usePayments();
+  const { loadPreviousWeekCollects } = useCollectRegisters();
+  const loadPrevious = reactExports.useCallback(async () => {
+    if (!weekSelected || !activeReport || !activeWeekId) return;
+    const [previousStart, previousEnd] = getPreviousWeekRange(weekSelected);
+    try {
+      const previousWeekId = await WeekServiceApi.getWeekId({
+        startDate: previousStart,
+        endDate: previousEnd
+      });
+      if (!previousWeekId) return;
+      const params = { previousWeekId, activeWeekId };
+      if (activeReport === "pay") {
+        loadPreviousWeekPayments.mutate(params);
+      } else {
+        loadPreviousWeekCollects.mutate(params);
+      }
+    } catch (error) {
+      console.error(error);
+      Jt.error("Error al cargar la semana anterior");
+    }
+  }, [
+    weekSelected,
+    activeReport,
+    activeWeekId,
+    loadPreviousWeekPayments,
+    loadPreviousWeekCollects
+  ]);
+  return {
+    loadPrevious,
+    isPending: loadPreviousWeekPayments.isPending || loadPreviousWeekCollects.isPending
+  };
+};
+const Header = () => {
+  const { activeWeekId, weekSelected } = useWeekContext();
+  const { loadPrevious, isPending } = useLoadPrevious();
+  const [loadPreviousConfirm, setLoadPreviousConfirm] = reactExports.useState(false);
+  const onLoadPreviousWeek = () => {
+    if (!weekSelected || !activeWeekId) return;
+    loadPrevious();
+    setLoadPreviousConfirm(false);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        style: {
+          maxWidth: "100%",
+          margin: "0 auto",
+          backgroundColor: "#2B303A",
+          color: "#fff",
+          borderRadius: "10px",
+          padding: "10px",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center"
+        },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(HeaderCards, {}),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              style: {
+                display: "flex",
+                flexDirection: "column",
+                flexShrink: "0",
+                width: "250px",
+                gap: "10px"
+              },
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(WeekSelector, {}),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  Button$1,
+                  {
+                    endIcon: /* @__PURE__ */ jsxRuntimeExports.jsx(PageEndIcon, {}),
+                    appearance: "primary",
+                    onClick: () => setLoadPreviousConfirm(true),
+                    loading: isPending,
+                    disabled: !isSameWeek(weekSelected),
+                    children: "Traer Anteriores"
+                  }
+                )
+              ]
+            }
+          )
+        ]
+      }
+    ),
+    loadPreviousConfirm && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AlertDialog,
+      {
+        alert: "¿Confirmar la carga?",
+        description: "¿Estás seguro cargar los pagos pendientes de la semana pasada?",
+        onConfirm: onLoadPreviousWeek,
+        onClose: () => setLoadPreviousConfirm(false)
+      }
+    )
+  ] });
 };
 const SelectInput = (props) => {
   const { control, name, label, rules, items, style: style2 } = props;
@@ -87148,7 +87586,20 @@ const usePaymentTableColumns = (data) => {
         header: "Proveedor",
         accessorFn: (originalRow) => originalRow.providerName,
         id: "providerId",
-        enableEditing: false
+        enableEditing: false,
+        Cell: ({ cell, row }) => {
+          var _a2, _b2;
+          return /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "span",
+            {
+              style: {
+                color: ((_a2 = row.original) == null ? void 0 : _a2.migratedFromWeekId) ? "#ba5662" : "black",
+                fontWeight: ((_b2 = row.original) == null ? void 0 : _b2.migratedFromWeekId) ? "bold" : "normal"
+              },
+              children: cell.getValue()
+            }
+          );
+        }
       },
       {
         header: "Concepto",
@@ -87339,106 +87790,127 @@ const usePaymentTableColumns = (data) => {
 };
 const PaymentTable = (props) => {
   const { createFn } = props;
+  const [deleteId, setDeleteId] = reactExports.useState(null);
   const { weekSelected } = useWeekContext();
   const {
-    updatePaymentMutation: { mutate: updateRegister },
+    paymentsQuery: { data: payments, refetch, isFetching },
+    updatePaymentMutation: { mutate: updateRegister, isPending: isSaving },
     deletePaymentMutation: { mutate: deleteRegister }
-  } = usePayments();
-  const {
-    paymentsQuery: { data: payments, refetch }
   } = usePayments();
   const columns = usePaymentTableColumns(payments || []);
   const handleSaveRegisters = async ({ values: values2, table, row }) => {
     updateRegister({ ...values2, id: Number(row.id) });
     table.setEditingRow(null);
   };
-  const handleDelete = (id2) => {
-    deleteRegister(id2);
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    MaterialTable,
-    {
-      data: payments || [],
-      columns,
-      initialState: {
-        columnPinning: {
-          right: ["mrt-row-actions"]
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      MaterialTable,
+      {
+        data: payments || [],
+        columns,
+        initialState: {
+          columnPinning: {
+            right: ["mrt-row-actions"]
+          },
+          density: "compact",
+          pagination: { pageIndex: 0, pageSize: 50 }
+          // isLoading: isFetching,
         },
-        density: "compact"
-        // isLoading: isFetching,
-      },
-      enableCellActions: true,
-      enableRowActions: true,
-      enableClickToCopy: "context-menu",
-      editDisplayMode: "row",
-      enableEditing: true,
-      getRowId: (row) => row.id,
-      onEditingRowSave: handleSaveRegisters,
-      renderRowActions: ({ row, table }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: {
-        display: "flex",
-        gap: "5px",
-        alignItems: "center",
-        padding: "2px 0px"
-      }, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          IconButton$1,
+        state: {
+          isLoading: isFetching,
+          isSaving
+        },
+        enableCellActions: true,
+        enableRowActions: true,
+        enableClickToCopy: "context-menu",
+        editDisplayMode: "row",
+        enableEditing: true,
+        getRowId: (row) => row.id,
+        onEditingRowSave: handleSaveRegisters,
+        renderRowActions: ({ row, table }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
           {
-            circle: true,
-            icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$y, {}),
-            appearance: "primary",
-            size: "xs",
-            style: { padding: "5px" },
-            onClick: () => table.setEditingRow(row),
-            disabled: !isSameWeek(weekSelected)
+            style: {
+              display: "flex",
+              gap: "5px",
+              alignItems: "center",
+              padding: "2px 0px"
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                IconButton$1,
+                {
+                  circle: true,
+                  icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$y, {}),
+                  appearance: "primary",
+                  size: "xs",
+                  style: { padding: "5px" },
+                  onClick: () => table.setEditingRow(row),
+                  disabled: !isSameWeek(weekSelected)
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                IconButton$1,
+                {
+                  circle: true,
+                  icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$z, {}),
+                  appearance: "primary",
+                  size: "xs",
+                  onClick: () => setDeleteId(Number(row.original.id)),
+                  color: "red",
+                  stye: { padding: "1px" },
+                  disabled: !isSameWeek(weekSelected)
+                }
+              )
+            ]
           }
         ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          IconButton$1,
+        renderTopToolbarCustomActions: () => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "div",
           {
-            circle: true,
-            icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$z, {}),
-            appearance: "primary",
-            size: "xs",
-            onClick: () => handleDelete(Number(row.original.id)),
-            color: "red",
-            stye: { padding: "1px" },
-            disabled: !isSameWeek(weekSelected)
+            style: {
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: "1rem"
+            },
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                IconButton$1,
+                {
+                  appearance: "primary",
+                  icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1, {}),
+                  style: { padding: "7px" },
+                  onClick: () => refetch()
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Button$1,
+                {
+                  appearance: "primary",
+                  onClick: createFn,
+                  disabled: !isSameWeek(weekSelected),
+                  children: "Crear Nuevo Registro"
+                }
+              )
+            ]
           }
         )
-      ] }),
-      renderTopToolbarCustomActions: () => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "div",
-        {
-          style: {
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: "1rem"
-          },
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              IconButton$1,
-              {
-                appearance: "primary",
-                icon: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1, {}),
-                style: { padding: "7px" },
-                onClick: () => refetch()
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              Button$1,
-              {
-                appearance: "primary",
-                onClick: createFn,
-                disabled: !isSameWeek(weekSelected),
-                children: "Crear Nuevo Registro"
-              }
-            )
-          ]
-        }
-      )
-    }
-  );
+      }
+    ),
+    deleteId && /* @__PURE__ */ jsxRuntimeExports.jsx(
+      AlertDialog,
+      {
+        alert: "Eliminar Registro",
+        description: "¿Estás seguro de eliminar este registro?",
+        onConfirm: () => {
+          deleteRegister(deleteId);
+          setDeleteId(null);
+        },
+        onClose: () => setDeleteId(null)
+      }
+    )
+  ] });
 };
 const PaymentReportView = () => {
   const [newRegister, setNewRegister] = reactExports.useState(false);
@@ -87462,12 +87934,12 @@ const PaymentReportView = () => {
   ] });
 };
 const BalanceReportPage = () => {
-  const [activeKey, setActiveKey] = reactExports.useState("collect");
+  const { activeReport, onActiveReportChange } = useReportContext();
   return /* @__PURE__ */ jsxRuntimeExports.jsx(BaseLayout, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
     Tabs$1,
     {
-      activeKey,
-      onSelect: (tab) => setActiveKey(tab),
+      activeKey: activeReport,
+      onSelect: (tab) => onActiveReportChange(tab),
       style: {
         fontSize: "1.2em",
         fontWeight: "bold"
@@ -87495,6 +87967,22 @@ const BalanceReportPage = () => {
 };
 var ReactQueryDevtools2 = function() {
   return null;
+};
+const ReportProvider = ({ children }) => {
+  const [activeKey, setActiveKey] = reactExports.useState("collect");
+  const onActiveReportChange = (report) => {
+    setActiveKey(report);
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    ReportContext.Provider,
+    {
+      value: {
+        activeReport: activeKey,
+        onActiveReportChange
+      },
+      children
+    }
+  );
 };
 const WeekProvider = ({ children }) => {
   const [activeWeekId, setActiveWeekId] = reactExports.useState(null);
@@ -87527,7 +88015,7 @@ var m3 = reactDomExports;
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")).render(
   /* @__PURE__ */ jsxRuntimeExports.jsx(reactExports.StrictMode, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(QueryClientProvider, { client: queryClient, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(CustomProvider, { theme: "light", children: /* @__PURE__ */ jsxRuntimeExports.jsx(WeekProvider, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(BalanceReportPage, {}) }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(CustomProvider, { theme: "light", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ReportProvider, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(WeekProvider, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(BalanceReportPage, {}) }) }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(ReactQueryDevtools2, { initialIsOpen: false })
   ] }) })
 );

@@ -19,6 +19,12 @@ if (!$cn) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
+  if (empty($_GET['branch_id'])) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Falta el id de la sucursal"]);
+    exit;
+  }
+
   $branchId = $_GET['branch_id'];
 
   $unitModel = new UnitModel($cn);

@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-  http_response_code(405); // Método no permitido
+  http_response_code(405);
   echo json_encode([
     "success" => false,
     "message" => "Método no permitido. Solo se permite POST."
@@ -18,8 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 require_once '../../base_path.php';
-require_once './utils/get_week_id.php';
-require_once './utils/create_week.php';
 require_once BASE_PATH . '/mysql/conexion.php';
 
 $cn = conectar();
@@ -35,47 +33,26 @@ if ($cn->connect_error) {
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-if (!isset($data['start_date']) || !isset($data['end_date'])) {
+if (!isset($data['previous_week_id']) || !isset($data['new_week_id'])) {
   http_response_code(400);
   echo json_encode([
     "success" => false,
-    "message" => "Faltan datos obligatorios (start_date o end_date)"
+    "message" => "Faltan datos obligatorios (previous_week_id o new_week_id)"
   ]);
   exit;
 }
 
-$start_date = $data['start_date'];
-$end_date = $data['end_date'];
+$previous_week_id = $data['previous_week_id'];
+$new_week_id = $data['new_week_id'];
 
 try {
-  $week_id = get_week_id($cn, $start_date, $end_date);
-
-  if ($week_id) {
-    http_response_code(200);
-    echo json_encode([
-      "success" => true,
-      "message" => "La semana ya existe",
-      "week_id" => $week_id
-    ]);
-  } else {
-    $week_id = create_week($cn, $start_date, $end_date);
-
-    if ($week_id) {
-      http_response_code(201);
-      echo json_encode([
-        "success" => true,
-        "message" => "Semana creada exitosamente",
-        "week_id" => $week_id
-      ]);
-    } else {
-      http_response_code(500);
-      echo json_encode([
-        "success" => false,
-        "message" => "No se pudo crear la semana"
-      ]);
-    }
-  }
-
+  $sql = "SELECT insert_pending_collects($previous_week_id, $new_week_id) AS affected_rows";
+  http_response_code(200);
+  echo json_encode([
+    "success" => true,
+    "message" => "Pagos pendientes cargados correctamente",
+    "affected_rows" => $cn->query($sql)->fetch_object()->affected_rows
+  ]);
 } catch (Exception $e) {
   http_response_code(500);
   echo json_encode([
