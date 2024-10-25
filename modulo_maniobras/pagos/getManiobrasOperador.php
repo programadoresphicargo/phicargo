@@ -10,7 +10,6 @@ function obtenerManiobras($operador_id, $fecha_inicio, $fecha_fin)
       fleet_vehicle.name AS unidad, 
       maniobras.*, 
       maniobras_terminales.terminal, 
-      tms_waybill.partner_id,
       -- Definimos tipo_armado y maniobra_peligrosa como columnas calculadas
       CASE 
         WHEN maniobras.trailer2_id IS NOT NULL THEN 'FULL' 
@@ -35,8 +34,17 @@ function obtenerManiobras($operador_id, $fecha_inicio, $fecha_fin)
       END AS maniobra_peligrosa,
       -- Concatenar todos los contenedores relacionados
       STRING_AGG(tms_waybill.x_reference, ', ') AS contenedores,
-      -- Columna clave simplificada
+      -- Columna clave modificada
       CASE 
+
+        WHEN maniobras.tipo_maniobra = 'local' AND maniobras.trailer2_id IS NULL THEN 'MLS'
+
+        WHEN maniobras.tipo_maniobra = 'local' AND maniobras.trailer2_id IS NOT NULL THEN 'MLF'
+
+        WHEN maniobras.tipo_maniobra = 'resguardo' AND maniobras.trailer2_id IS NULL THEN 'S'
+
+        WHEN maniobras.tipo_maniobra = 'resguardo' AND maniobras.trailer2_id IS NOT NULL THEN 'F'
+        -- Full + Peligroso
         WHEN maniobras.trailer2_id IS NOT NULL AND 
              EXISTS (
                SELECT 1
@@ -50,8 +58,10 @@ function obtenerManiobras($operador_id, $fecha_inicio, $fecha_fin)
                    (tw.x_modo_bel = 'imp' AND maniobras.tipo_maniobra = 'ingreso')
                  )
                )
-             ) THEN 'FP'  -- Full + Peligroso
-        WHEN maniobras.trailer2_id IS NOT NULL THEN 'F'  -- Full + No Peligroso
+             ) THEN 'FP'
+        -- Full + No Peligroso
+        WHEN maniobras.trailer2_id IS NOT NULL THEN 'F'
+        -- Sencillo + Peligroso
         WHEN EXISTS (
           SELECT 1
           FROM maniobras_contenedores mc
@@ -64,8 +74,9 @@ function obtenerManiobras($operador_id, $fecha_inicio, $fecha_fin)
               (tw.x_modo_bel = 'imp' AND maniobras.tipo_maniobra = 'ingreso')
             )
           )
-        ) THEN 'SP'  -- Sencillo + Peligroso
-        ELSE 'S'  -- Sencillo + No Peligroso
+        ) THEN 'SP'
+        -- Sencillo + No Peligroso
+        ELSE 'S'
       END AS clave
     FROM maniobras
     LEFT JOIN maniobras_terminales ON maniobras_terminales.id_terminal = maniobras.id_terminal
@@ -74,7 +85,7 @@ function obtenerManiobras($operador_id, $fecha_inicio, $fecha_fin)
     LEFT JOIN tms_waybill ON tms_waybill.id = maniobras_contenedores.id_cp
     WHERE maniobras.operador_id = :operador_id 
       AND DATE(maniobras.inicio_programado) BETWEEN :fecha_inicio AND :fecha_fin
-    GROUP BY maniobras.id_maniobra, fleet_vehicle.name, maniobras_terminales.*, fleet_vehicle.*, maniobras_terminales.terminal, tms_waybill.partner_id
+    GROUP BY maniobras.id_maniobra, fleet_vehicle.name, maniobras_terminales.*, fleet_vehicle.*, maniobras_terminales.terminal
 )
 SELECT 
     mc.*, 

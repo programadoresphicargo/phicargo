@@ -64,15 +64,15 @@ function enviar_correo($id_maniobra, $id_reporte, $files, $id_usuario)
         $mail->setFrom($MAIL, $USERREALNAME);
         $mail->addReplyTo($MAIL, $USERREALNAME);
 
-        //        while ($rowDestinatario = $stmtDestinatario->fetch(PDO::FETCH_ASSOC)) {
-        //           $mail->addAddress($rowDestinatario['correo']);
-        //            echo 'Destinatario: ' . $rowDestinatario['correo'] . '<br>';
-        //      }
+        while ($rowDestinatario = $stmtDestinatario->fetch(PDO::FETCH_ASSOC)) {
+            $mail->addAddress($rowDestinatario['correo']);
+            echo 'Destinatario: ' . $rowDestinatario['correo'] . '<br>';
+        }
 
-        //    while ($rowCC = $stmtCC->fetch(PDO::FETCH_ASSOC)) {
-        //      $mail->addCC($rowCC['correo']);
-        //     echo 'CC: ' . $rowCC['correo'] . '<br>';
-        // }
+        while ($rowCC = $stmtCC->fetch(PDO::FETCH_ASSOC)) {
+            $mail->addCC($rowCC['correo']);
+            echo 'CC: ' . $rowCC['correo'] . '<br>';
+        }
 
         $mail->addAddress('desarrollador@phi-cargo.com', '');
 

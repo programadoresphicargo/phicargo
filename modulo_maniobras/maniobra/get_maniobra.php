@@ -34,8 +34,9 @@ flota_motogenerador_1.name AS motogenerador_1_name,
 flota_motogenerador_2.id AS motogenerador_2,
 flota_motogenerador_2.name AS motogenerador_2_name,
 
-usuario_inicio.nombre as usuarioactivacion,
-usuario_finalizo.nombre as usuariofinalizacion
+ur.nombre AS usuarioregistro,
+usuario_inicio.nombre AS usuarioactivacion,
+usuario_finalizo.nombre AS usuariofinalizacion
 
 FROM maniobras
 LEFT JOIN hr_employee ON hr_employee.id = maniobras.operador_id
@@ -45,6 +46,7 @@ LEFT JOIN fleet_vehicle AS flota_trailer2 ON flota_trailer2.id = maniobras.trail
 LEFT JOIN fleet_vehicle AS flota_dolly ON flota_dolly.id = maniobras.dolly_id
 LEFT JOIN fleet_vehicle AS flota_motogenerador_1 ON flota_motogenerador_1.id = maniobras.motogenerador_1
 LEFT JOIN fleet_vehicle AS flota_motogenerador_2 ON flota_motogenerador_2.id = maniobras.motogenerador_2
+LEFT JOIN usuarios as ur on ur.id_usuario = maniobras.usuario_registro
 LEFT JOIN usuarios as usuario_inicio on usuario_inicio.id_usuario = maniobras.usuario_activacion
 LEFT JOIN usuarios as usuario_finalizo on usuario_finalizo.id_usuario = maniobras.usuario_finalizo
 

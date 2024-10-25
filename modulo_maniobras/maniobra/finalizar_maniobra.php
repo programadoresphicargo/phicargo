@@ -58,7 +58,6 @@ try {
 
         $pdo->commit();
         echo json_encode(["success" => 1]);
-        guardar_base_datos($id_maniobra, false, 256, $id_usuario, 'Finalizando maniobra', null);
     } else {
         throw new Exception("Error al actualizar la tabla maniobra.");
     }
