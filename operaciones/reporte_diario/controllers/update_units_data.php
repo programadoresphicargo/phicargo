@@ -1,6 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Methods: GET, PUT, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
 
@@ -8,8 +8,8 @@ require_once '../venv.php';
 require_once BASE_PATH . '/postgresql/conexion.php';
 
 require_once '../middlewares/auth_middleware.php';
+require_once '../services/record_fields_validator.php';
 require_once '../models/ReportModel.php';
-require_once '../services/mounth_date_validator.php';
 
 $cn = conectarPostgresql();
 if (!$cn) {
@@ -22,38 +22,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   return;
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
   http_response_code(405);
   echo json_encode(["success" => false, "message" => "Método no permitido"]);
   exit;
 }
 
-if (empty($_GET['start_date']) || empty($_GET['end_date']) || empty($_GET['branch_id'])) {
+if (!isset($_GET['branch_id'])) {
   http_response_code(400);
-  echo json_encode(["success" => false, "message" => "Falta el rango de fechas o el ID de la sucursal"]);
+  echo json_encode(["success" => false, "message" => "ID de sucursal del registro es requerido"]);
   exit;
 }
 
 $branch_id = intval($_GET['branch_id']);
-$start_date = $_GET['start_date'];
-$end_date = $_GET['end_date'];
-
-if (mounthDateValidator($start_date, $end_date)) {
-  http_response_code(400);
-  echo json_encode(["success" => false, "message" => "El rango de fechas debe ser dentro del mismo mes"]);
-  exit;
-}
 
 $reportModel = new ReportModel($cn);
 
 try {
-  $records = $reportModel->get_or_create_records_by_month(
-    $branch_id,
-    $start_date, 
-    $end_date
-  );
+  # Otenemos la fecha de hoy, para actualizar el registro del día actual
+  $today = date('Y-m-d');
+
+  $result = $reportModel->update_units($branch_id, $today);
   http_response_code(200);
-  echo json_encode($records);
+  echo json_encode(["success" => true, "message" => "Datos actualizados correctamente"]);
 } catch (Exception $e) {
   http_response_code(500);
   echo json_encode(["success" => false, "message" => $e->getMessage()]);

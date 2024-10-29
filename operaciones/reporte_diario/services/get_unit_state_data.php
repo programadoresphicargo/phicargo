@@ -18,6 +18,7 @@ function get_units_state_data(PDO $cn, int $branch_id)
     $units_state_data = [
       'simple_load' => 0,
       'full_load' => 0,
+      'total' => 0,
       'meta' => 0,
       'difference' => 0,
       'accumulated_difference' => 0,
