@@ -79,14 +79,15 @@ const Nomina_form = ({ show, handleClose, id_pago, id_operador, fecha_inicio, fe
     };
 
     const registrar_pago = () => {
+        toast.success('Registrando pagos, espere...');
         axios.post('/phicargo/modulo_maniobras/pagos/registrar_pago.php', form)
             .then((response) => {
                 var data = response.data;
-                if (data === 1) {
-                    toast.success('Registro guardado.');
+                if (data.mensaje) {
+                    toast.success(data.mensaje);
                     handleClose();
-                } else {
-                    toast.error('Respuesta inesperada del servidor: ' + response.data);
+                } else if (data.error) {
+                    toast.error(data.error);
                 }
             })
             .catch((error) => {

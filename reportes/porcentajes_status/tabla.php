@@ -23,37 +23,37 @@ viajes v ON v.id = rv.id_viaje
 INNER JOIN
 empleados e ON e.id = rv.id_usuario
 WHERE
-rv.id_estatus IN (3, 4, 5, 6,7, 8) 
+rv.id_estatus IN (3, 4, 5, 6,7,8) 
 and
 v.fecha_inicio BETWEEN '$fecha_inicio' and '$fecha_fin'
 GROUP BY
 rv.id_viaje,
 rv.id_usuario
-ORDER BY rv.id_estatus, v.fecha_inicio DESC";
+ORDER BY v.fecha_inicio DESC";
 
 $resultado = $cn->query($sql);
 ?>
 
-<table class="js-datatable table table-borderless table-thead-bordered table-nowrap table-align-middle card-table" id="tabla-datos">
-    <thead class="thead-light">
+<table class="table" id="tabla-datos">
+    <thead>
         <tr>
-            <th>Viaje</th>
-            <th>Operador</th>
-            <th>Fecha inicio de viaje</th>
-            <th>Estatus enviados</th>
-            <th>Número de estatus enviados</th>
-            <th style="width: 5px;">Porcentaje de cumplimiento</th>
+            <th scope="col">Referencia viaje</th>
+            <th scope="col">Nombre operador</th>
+            <th scope="col">Fecha inicio</th>
+            <th scope="col">Estatus enviados</th>
+            <th scope="col">Numero de estatus enviados</th>
+            <th scope="col">Porcentajed de cumplimiento</th>
         </tr>
     </thead>
     <tbody>
         <?php while ($row = $resultado->fetch_assoc()) { ?>
             <tr>
-                <td><?php echo $row['referencia'] ?></td>
-                <td><?php echo $row['name'] ?></td>
-                <td><?php echo $row['fecha_inicio'] ?></td>
-                <td><?php echo $row['estatus_enviados'] ?></td>
-                <td><?php echo $row['porcentaje_estatus'] ?></td>
-                <td style="width: 5px;"><?php echo $row['estatus_encontrados'] ?></td>
+                <td scope="col"><?php echo $row['referencia'] ?></td>
+                <td scope="col"><?php echo $row['name'] ?></td>
+                <td scope="col"><?php echo $row['fecha_inicio'] ?></td>
+                <td scope="col"><?php echo $row['estatus_enviados'] ?></td>
+                <td scope="col"><?php echo $row['porcentaje_estatus'] ?></td>
+                <td scope="col"><?php echo $row['estatus_encontrados'] ?></td>
             </tr>
         <?php } ?>
     </tbody>
@@ -62,8 +62,12 @@ $resultado = $cn->query($sql);
 <script>
     $(document).ready(function() {
         $('#tabla-datos').DataTable({
-            paging: false,
+            // Configuration options
+            paging: true,
             searching: true,
+            info: true,
+            responsive: true,
+            // Add any additional configuration you need here
         });
     });
 </script>

@@ -1,0 +1,51 @@
+2024-10-29 12:32:53 - File: C:\xampp\htdocs\phicargo\aplicacion\maniobras\funcion_envio_estatus.php - Line: 38 - SQL:  - Error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "ubicaciones_estatus_maniobras" does not exist
+LINE 1: INSERT INTO ubicaciones_estatus_maniobras VALUES(NULL, 'AHS'...
+                    ^ - Consulta -  - SQL: INSERT INTO ubicaciones_estatus_maniobras VALUES(NULL, 'AHS', 19.1469778, -96.1056013, 'Veracruz', 'Heriberto Kehoe Vicent', 'Torre 1519', 94299, '2024-10-29 12:32:52') - 42P01
+2024-10-29 12:36:10 - File: C:\xampp\htdocs\phicargo\aplicacion\maniobras\funcion_envio_estatus.php - Line: 49 - SQL:  - Error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "ubicaciones_estatus_maniobras" does not exist
+LINE 1: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, ...
+                    ^ - Consulta -  - SQL: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, longitud, localidad, sublocalidad, calle, codigo_postal, fecha_hora) 
+        VALUES (:placas, :latitud, :longitud, :localidad, :sublocalidad, :calle, :codigo_postal, :fecha_hora) 
+        RETURNING id - 42P01
+2024-10-29 12:36:22 - File: C:\xampp\htdocs\phicargo\aplicacion\maniobras\funcion_envio_estatus.php - Line: 49 - SQL:  - Error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "ubicaciones_estatus_maniobras" does not exist
+LINE 1: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, ...
+                    ^ - Consulta -  - SQL: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, longitud, localidad, sublocalidad, calle, codigo_postal, fecha_hora) 
+        VALUES (:placas, :latitud, :longitud, :localidad, :sublocalidad, :calle, :codigo_postal, :fecha_hora) 
+        RETURNING id - 42P01
+2024-10-29 12:36:46 - File: C:\xampp\htdocs\phicargo\aplicacion\maniobras\funcion_envio_estatus.php - Line: 49 - SQL:  - Error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "ubicaciones_estatus_maniobras" does not exist
+LINE 1: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, ...
+                    ^ - Consulta -  - SQL: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, longitud, localidad, sublocalidad, calle, codigo_postal, fecha_hora) 
+        VALUES (:placas, :latitud, :longitud, :localidad, :sublocalidad, :calle, :codigo_postal, :fecha_hora) 
+        RETURNING id - 42P01
+2024-10-29 12:42:28 - File: C:\xampp\htdocs\phicargo\aplicacion\maniobras\funcion_envio_estatus.php - Line: 49 - SQL:  - Error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "ubicaciones_estatus_maniobras" does not exist
+LINE 1: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, ...
+                    ^ - Consulta -  - SQL: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, longitud, localidad, sublocalidad, calle, codigo_postal, fecha_hora) 
+        VALUES (:placas, :latitud, :longitud, :localidad, :sublocalidad, :calle, :codigo_postal, :fecha_hora) 
+        RETURNING id - 42P01
+2024-10-29 12:43:11 - File: C:\xampp\htdocs\phicargo\aplicacion\maniobras\funcion_envio_estatus.php - Line: 49 - SQL:  - Error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "ubicaciones_estatus_maniobras" does not exist
+LINE 1: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, ...
+                    ^ - Consulta -  - SQL: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, longitud, localidad, sublocalidad, calle, codigo_postal, fecha_hora) 
+        VALUES (:placas, :latitud, :longitud, :localidad, :sublocalidad, :calle, :codigo_postal, :fecha_hora) 
+        RETURNING id - 42P01
+2024-10-29 12:43:23 - File: C:\xampp\htdocs\phicargo\aplicacion\maniobras\funcion_envio_estatus.php - Line: 49 - SQL:  - Error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "ubicaciones_estatus_maniobras" does not exist
+LINE 1: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, ...
+                    ^ - Consulta -  - SQL: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, longitud, localidad, sublocalidad, calle, codigo_postal, fecha_hora) 
+        VALUES (:placas, :latitud, :longitud, :localidad, :sublocalidad, :calle, :codigo_postal, :fecha_hora) 
+        RETURNING id - 42P01
+2024-10-29 12:43:40 - File: C:\xampp\htdocs\phicargo\aplicacion\maniobras\funcion_envio_estatus.php - Line: 49 - SQL:  - Error: SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "ubicaciones_estatus_maniobras" does not exist
+LINE 1: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, ...
+                    ^ - Consulta -  - SQL: INSERT INTO ubicaciones_estatus_maniobras (placas, latitud, longitud, localidad, sublocalidad, calle, codigo_postal, fecha_hora) 
+        VALUES (:placas, :latitud, :longitud, :localidad, :sublocalidad, :calle, :codigo_postal, :fecha_hora) 
+        RETURNING id_ubicacion - 42P01
+2024-10-29 12:45:20 - File: C:\xampp\htdocs\phicargo\aplicacion\maniobras\funcion_envio_estatus.php - Line: 68 - SQL:  - Error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "comentarios" of relation "reportes_estatus_maniobras" does not exist
+LINE 1: ...id_estatus, id_ubicacion, id_usuario, fecha_hora, comentario...
+                                                             ^ - Consulta -  - SQL: INSERT INTO reportes_estatus_maniobras (id_maniobra, id_estatus, id_ubicacion, id_usuario, fecha_hora, comentarios) 
+        VALUES (:id_maniobra, :id_estatus, :id_ubicacion, :id_usuario, :fecha_hora, :comentarios) 
+        RETURNING id - 42703
+2024-10-29 12:45:55 - File: C:\xampp\htdocs\phicargo\aplicacion\maniobras\funcion_envio_estatus.php - Line: 68 - SQL:  - Error: SQLSTATE[42703]: Undefined column: 7 ERROR:  column "id" does not exist
+LINE 3:         RETURNING id
+                          ^ - Consulta -  - SQL: INSERT INTO reportes_estatus_maniobras (id_maniobra, id_estatus, id_ubicacion, id_usuario, fecha_hora, comentarios_estatus) 
+        VALUES (:id_maniobra, :id_estatus, :id_ubicacion, :id_usuario, :fecha_hora, :comentarios_estatus) 
+        RETURNING id - 42703
+2024-10-29 12:46:07 - Function: actualizarEstadoViaje - Line: 30 - Success: Completed successfully with id_reporte = 200
+2024-10-29 12:46:18 - Function: actualizarEstadoViaje - Line: 30 - Success: Completed successfully with id_reporte = 201
+2024-10-29 12:46:42 - Function: actualizarEstadoViaje - Line: 30 - Success: Completed successfully with id_reporte = 202

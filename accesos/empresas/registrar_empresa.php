@@ -1,35 +1,40 @@
 <?php
 require_once('../../mysql/conexion.php');
-
-session_start();
-$id_usuario = $_SESSION['userID'];
-$nombre_empresa = $_POST['nombre_empresa'];
-$fechaHoraActual = date('Y-m-d H:i:s');
-
 $cn = conectar();
 
-// Verificar si la empresa ya existe
-$sql_verificar = "SELECT COUNT(*) as count FROM empresas_accesos WHERE nombre_empresa = '$nombre_empresa'";
-$resultado_verificacion = $cn->query($sql_verificar);
-if ($resultado_verificacion) {
-    $fila = $resultado_verificacion->fetch_assoc();
-    $cantidad_empresas = $fila['count'];
-    if ($cantidad_empresas > 0) {
-        // La empresa ya existe, no la insertes
-        echo json_encode(["success" => false, "message" => "La empresa ya existe"]);
-        exit(); // Salir del script
+if (isset($_GET['nombre_empresa'])) {
+    $nombre_empresa = $cn->real_escape_string($_GET['nombre_empresa']);
+    $sql_check = "SELECT * FROM empresas_accesos WHERE nombre_empresa like '%$nombre_empresa%'";
+    $result_check = $cn->query($sql_check);
+
+    if ($result_check->num_rows > 0) {
+        $response = array(
+            'success' => false,
+            'message' => 'La empresa ya está registrada'
+        );
+    } else {
+        $sql_insert = "INSERT INTO empresas_accesos (nombre_empresa) VALUES ('$nombre_empresa')";
+        if ($cn->query($sql_insert) === TRUE) {
+            $response = array(
+                'success' => true,
+                'message' => 'Empresa creada exitosamente',
+                'id_empresa' => $cn->insert_id
+            );
+        } else {
+            $response = array(
+                'success' => false,
+                'message' => 'Error al crear la empresa'
+            );
+        }
     }
+
+    $result_check->free();
 } else {
-    // Ocurrió un error al ejecutar la consulta de verificación
-    echo json_encode(["success" => false, "message" => "Error en la consulta de verificación"]);
-    exit(); // Salir del script
+    $response = array(
+        'success' => false,
+        'message' => 'No se proporcionó el nombre de la empresa'
+    );
 }
 
-// Insertar la empresa si no existe
-$sql_insertar = "INSERT INTO empresas_accesos VALUES(NULL, '$nombre_empresa', $id_usuario, '$fechaHoraActual')";
-if ($cn->query($sql_insertar)) {
-    $nuevo_id = $cn->insert_id; // Obtener el ID autoincremental generado
-    echo json_encode(["success" => true, "id" => $nuevo_id]);
-} else {
-    echo json_encode(["success" => false, "message" => "Error al insertar la empresa"]);
-}
+$cn->close();
+echo json_encode($response);

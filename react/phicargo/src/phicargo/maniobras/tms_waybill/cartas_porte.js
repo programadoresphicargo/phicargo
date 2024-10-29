@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import ContainerOutsideExample from '../../../navbar';
 import MonthSelector from '../../../mes';
 import Example2 from '../maniobras/modal';
 import { ThemeProvider } from '@mui/material/styles';
@@ -12,6 +11,7 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
+import ManiobrasNavBar from '../Navbar';
 
 const CartasPorte = () => {
 
@@ -167,7 +167,7 @@ const CartasPorte = () => {
 
   return (
     <div>
-      <ContainerOutsideExample />
+      <ManiobrasNavBar />
       <Box display="flex" alignItems="center" m={2}>
         <Box sx={{ flexGrow: 1, mr: 2 }}>
           <MonthSelector

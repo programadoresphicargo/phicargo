@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import ContainerOutsideExample from '../../../navbar';
 import { ThemeProvider } from '@mui/material/styles';
 import customFontTheme from '../../../theme';
 import Button from '@mui/material/Button';
@@ -8,6 +7,7 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
+import ManiobrasNavBar from '../Navbar';
 
 const Nominas = () => {
 
@@ -141,7 +141,7 @@ const Nominas = () => {
 
   return (
     <div>
-      <ContainerOutsideExample />
+      <ManiobrasNavBar />
       <div className='m-2'>
         < h1 className='text-white'>Nominas</h1>
         <Button variant="contained" onClick={handleShowModal}>Nuevo registro de pago</Button>
