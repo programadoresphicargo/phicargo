@@ -51,8 +51,9 @@ require_once('../../usuarios/codigo/comprobar_permiso.php');
 
                         <?php if (comprobar_permiso(198) == true) { ?>
                             <?php echo imprimirCard('Mantenimiento de Tractos', '../../mantenimiento/equipos/index.php', '../../img/icons/maintenance_icon.png'); ?>
-                        <?php } ?>
+                            <?php } ?>
 
+                        <?php echo imprimirCard('Reporte de Operaciones', '../../operaciones/reporte_diario/index.php', '../../img/icons/trailer_icon.png'); ?>
                     </div>
                 </div>
             </div>
