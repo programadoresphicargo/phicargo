@@ -32874,10 +32874,44 @@ const useRegister = (status = "pending") => {
     registersCountQuery
   };
 };
-const Header = () => {
+const defaultBranchCount = {
+  mexico: 0,
+  manzanillo: 0,
+  veracruz: 0
+};
+const BRANCH_IDS = {
+  mexico: 2,
+  manzanillo: 9,
+  veracruz: 1
+};
+const Header = (props) => {
+  const { status } = props;
+  const [branchCount, setBranchCount] = reactExports.useState(defaultBranchCount);
   const {
-    registersCountQuery: { data: count2, isFetching }
-  } = useRegister();
+    registersCountQuery: { data: count2, isFetching },
+    registersQuery: { data: registers, isFetching: isFetchingRegisters }
+  } = useRegister(status);
+  reactExports.useEffect(() => {
+    if (!isFetchingRegisters && registers) {
+      const veracruz = registers.filter((r2) => {
+        var _a2, _b2;
+        return ((_b2 = (_a2 = r2 == null ? void 0 : r2.tract) == null ? void 0 : _a2.branch) == null ? void 0 : _b2.id) === BRANCH_IDS.veracruz;
+      }).length;
+      const manzanillo = registers.filter((r2) => {
+        var _a2, _b2;
+        return ((_b2 = (_a2 = r2 == null ? void 0 : r2.tract) == null ? void 0 : _a2.branch) == null ? void 0 : _b2.id) === BRANCH_IDS.manzanillo;
+      }).length;
+      const mexico = registers.filter((r2) => {
+        var _a2, _b2;
+        return ((_b2 = (_a2 = r2 == null ? void 0 : r2.tract) == null ? void 0 : _a2.branch) == null ? void 0 : _b2.id) === BRANCH_IDS.mexico;
+      }).length;
+      setBranchCount({
+        veracruz,
+        manzanillo,
+        mexico
+      });
+    }
+  }, [isFetchingRegisters, registers]);
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
@@ -32901,7 +32935,7 @@ const Header = () => {
             flexWrap: "wrap"
           },
           children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { flex: "1" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { marginRight: "30px" }, children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { style: { margin: 0, padding: 0, fontSize: "30px" }, children: "Reporte de Mantenimiento de Tractos" }),
               /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { margin: "5px 0", fontSize: "14px", color: "#B0B3B8" }, children: "Información sobre el estado de los tractos en mantenimiento." })
             ] }),
@@ -32909,15 +32943,36 @@ const Header = () => {
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 Card,
                 {
+                  title: "Veracruz",
+                  content: isFetchingRegisters ? "..." : (branchCount == null ? void 0 : branchCount.veracruz) || 0
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Card,
+                {
+                  title: "Manzanillo",
+                  content: isFetchingRegisters ? "..." : (branchCount == null ? void 0 : branchCount.manzanillo) || 0
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Card,
+                {
+                  title: "México",
+                  content: isFetchingRegisters ? "..." : (branchCount == null ? void 0 : branchCount.mexico) || 0
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                Card,
+                {
                   title: "Tractos en Mantenimiento",
-                  content: isFetching ? "Cargando..." : (count2 == null ? void 0 : count2.pending) || 0
+                  content: isFetching ? "..." : (count2 == null ? void 0 : count2.pending) || 0
                 }
               ),
               /* @__PURE__ */ jsxRuntimeExports.jsx(
                 Card,
                 {
                   title: "Tractos Completados",
-                  content: isFetching ? "Cargando..." : (count2 == null ? void 0 : count2.completed) || 0
+                  content: isFetching ? "..." : (count2 == null ? void 0 : count2.completed) || 0
                 }
               )
             ] })
@@ -82231,6 +82286,9 @@ const MaterialTable = (props) => {
     ...props,
     columns,
     data,
+    columnFilterDisplayMode: "popover",
+    enableDensityToggle: false,
+    enableFullScreenToggle: false,
     muiTablePaperProps: {
       style: {
         borderRadius: "1em"
@@ -82802,7 +82860,7 @@ const useMaintenanceReportColumns = (data) => {
   return columns;
 };
 const MaintenanceReportTable = (props) => {
-  const { createFn } = props;
+  const { createFn, status, setStatus } = props;
   const [detail, setDetail] = reactExports.useState(false);
   const [completeModal, setCompleteModal] = reactExports.useState(false);
   const [reigsterToFinishId, setRegisterToFinishId] = reactExports.useState(
@@ -82812,7 +82870,6 @@ const MaintenanceReportTable = (props) => {
   const [columnFilters, setColumnFilters] = reactExports.useState(
     []
   );
-  const [status, setStatus] = reactExports.useState("pending");
   const {
     registersQuery: { data: registers, isFetching, refetch },
     editRegisterMutation: { mutate: updateRegister, isPending }
@@ -83340,7 +83397,8 @@ const NewRegisterForm = (props) => {
     addWorkshop && /* @__PURE__ */ jsxRuntimeExports.jsx(AddWorkshop, { onClose: () => setAddWorkshop(false) })
   ] });
 };
-const ReportView = () => {
+const ReportView = (props) => {
+  const { status, setStatus } = props;
   const [newRegister, setNewRegister] = reactExports.useState(false);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -83349,16 +83407,24 @@ const ReportView = () => {
         style: {
           paddingTop: "10px"
         },
-        children: /* @__PURE__ */ jsxRuntimeExports.jsx(MaintenanceReportTable, { createFn: () => setNewRegister(true) })
+        children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          MaintenanceReportTable,
+          {
+            status,
+            setStatus,
+            createFn: () => setNewRegister(true)
+          }
+        )
       }
     ),
     newRegister && /* @__PURE__ */ jsxRuntimeExports.jsx(NewRegisterForm, { handleClose: () => setNewRegister(false) })
   ] });
 };
 const ReportPage = () => {
+  const [status, setStatus] = reactExports.useState("pending");
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(BaseLayout, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Header, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(ReportView, {})
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Header, { status }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(ReportView, { status, setStatus })
   ] });
 };
 const MaintenanceReport = () => {
