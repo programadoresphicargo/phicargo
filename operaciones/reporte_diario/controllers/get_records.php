@@ -49,12 +49,20 @@ $reportModel = new ReportModel($cn);
 try {
   $records = $reportModel->get_or_create_records_by_month(
     $branch_id,
-    $start_date, 
+    $start_date,
     $end_date
   );
   http_response_code(200);
   echo json_encode($records);
 } catch (Exception $e) {
+  $errorMessage = $e->getMessage();
+
+  if (preg_match("/ERROR:\s*(.+?)\n/", $errorMessage, $matches)) {
+    $customMessage = trim($matches[1]);
+  } else {
+    $customMessage = "Error inesperado.";
+  }
+
   http_response_code(500);
-  echo json_encode(["success" => false, "message" => $e->getMessage()]);
+  echo json_encode(["success" => false, "message" => $customMessage]);
 }

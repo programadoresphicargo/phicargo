@@ -125,12 +125,12 @@ class ReportModel
   public function update_record(int $id, array $data)
   {
     // Validar que la fecha del registro sea mayor o igual a la fecha actual
-    $record = $this->get_record_by_id($id);
-    $recordDate = new DateTime($record['date']);
-    $currentDate = new DateTime();
-    if ($recordDate->format('Y-m-d') < $currentDate->format('Y-m-d')) {
-      throw new Exception("No se puede actualizar de días anteriores");
-    }
+    // $record = $this->get_record_by_id($id);
+    // $recordDate = new DateTime($record['date']);
+    // $currentDate = new DateTime();
+    // if ($recordDate->format('Y-m-d') < $currentDate->format('Y-m-d')) {
+    //   throw new Exception("No se puede actualizar de días anteriores");
+    // }
 
     // Definir los valores de los campos permitidos y asignar `NULL` a los faltantes
     $params = [
@@ -171,6 +171,38 @@ class ReportModel
     $params = [
       ':branch_id' => $branch_id,
       ':record_date' => $record_date,
+    ];
+
+    // Consulta para ejecutar la función de PostgreSQL
+    $sql = "SELECT public.update_unit_data_daily_report(
+                :branch_id,
+                :record_date
+            );";
+
+    try {
+      $stmt = $this->cn->prepare($sql);
+
+      foreach ($params as $key => $value) {
+        $stmt->bindValue($key, $value, PDO::PARAM_STR);
+      }
+
+      $stmt->execute();
+
+      return true;
+
+    } catch (PDOException $e) {
+      throw $e;
+    }
+  }
+
+  public function update_units_by_id(int $record_id)
+  {
+
+    $record = $this->get_record_by_id($record_id);
+
+    $params = [
+      ':branch_id' => $record['branch_id'],
+      ':record_date' => $record['date'],
     ];
 
     // Consulta para ejecutar la función de PostgreSQL

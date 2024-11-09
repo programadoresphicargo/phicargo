@@ -7,6 +7,7 @@ header("Content-Type: application/json");
 require_once '../venv.php';
 require_once BASE_PATH . '/postgresql/conexion.php';
 
+require_once '../middlewares/auth_middleware.php';
 require_once '../services/record_fields_validator.php';
 require_once '../models/ReportModel.php';
 
@@ -27,21 +28,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
   exit;
 }
 
-if (!isset($_GET['branch_id'])) {
+if (!isset($_GET['record_id'])) {
   http_response_code(400);
-  echo json_encode(["success" => false, "message" => "ID de sucursal del registro es requerido"]);
+  echo json_encode(["success" => false, "message" => "ID del registro del registro es requerido"]);
   exit;
 }
 
-$branch_id = intval($_GET['branch_id']);
+$record_id = intval($_GET['record_id']);
 
 $reportModel = new ReportModel($cn);
 
 try {
-  # Otenemos la fecha de hoy, para actualizar el registro del día actual
-  $today = date('Y-m-d');
-
-  $result = $reportModel->update_units($branch_id, $today);
+  $result = $reportModel->update_units_by_id($record_id);
   http_response_code(200);
   echo json_encode(["success" => true, "message" => "Datos actualizados correctamente"]);
 } catch (Exception $e) {
