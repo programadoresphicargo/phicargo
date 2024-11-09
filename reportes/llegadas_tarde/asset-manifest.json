@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/phicargo/reportes/llegadas_tarde/static/css/main.ddbac362.css",
+    "main.js": "/phicargo/reportes/llegadas_tarde/static/js/main.574a9ff7.js",
+    "static/js/453.c87e6f95.chunk.js": "/phicargo/reportes/llegadas_tarde/static/js/453.c87e6f95.chunk.js",
+    "index.html": "/phicargo/reportes/llegadas_tarde/index.html",
+    "main.ddbac362.css.map": "/phicargo/reportes/llegadas_tarde/static/css/main.ddbac362.css.map",
+    "main.574a9ff7.js.map": "/phicargo/reportes/llegadas_tarde/static/js/main.574a9ff7.js.map",
+    "453.c87e6f95.chunk.js.map": "/phicargo/reportes/llegadas_tarde/static/js/453.c87e6f95.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ddbac362.css",
+    "static/js/main.574a9ff7.js"
+  ]
+}

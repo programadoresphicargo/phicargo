@@ -87,7 +87,32 @@ foreach ($cps as $cp) {
         $motogenerador_2 =  0;
     }
 
-    $sql = "INSERT INTO viajes VALUES($id,'Disponible','$referencia','$palabras[1]',$employee_id,'$x_reference','$modo',$partner_id,NULL,NULL,NULL,NULL,NULL,'$store_id','$codigo_postal',$vehiculo,$trailer1_id,$trailer2_id,$dolly_id,'','$route_id','$date_order','$x_inicio_programado','$x_llegada_planta_programada',$motogenerador_1,$motogenerador_2,'$referencia_cliente','$x_etiqueta')";
+    $sql = "INSERT INTO viajes VALUES(
+        $id,
+        'Disponible',
+        '$referencia',
+        '$palabras[1]',
+        $employee_id,
+        '$x_reference',
+        '$modo',
+        $partner_id,
+        NULL, NULL, NULL, NULL, NULL,
+        '$store_id',
+        '$codigo_postal',
+        $vehiculo,
+        $trailer1_id,
+        $trailer2_id,
+        $dolly_id,
+        '',
+        '$route_id',
+        '$date_order',
+        " . (!empty($x_inicio_programado) ? "'$x_inicio_programado'" : "NULL") . ",
+        " . (!empty($x_llegada_planta_programada) ? "'$x_llegada_planta_programada'" : "NULL") . ",
+        $motogenerador_1,
+        $motogenerador_2,
+        '$referencia_cliente',
+        '$x_etiqueta'
+    )";
     try {
         $cn->query($sql);
     } catch (mysqli_sql_exception $e) {

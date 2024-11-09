@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/phicargo/reportes/porcentajes_status/static/css/main.e192fe62.css",
+    "main.js": "/phicargo/reportes/porcentajes_status/static/js/main.b44ddaf1.js",
+    "static/js/453.a047c9e7.chunk.js": "/phicargo/reportes/porcentajes_status/static/js/453.a047c9e7.chunk.js",
+    "index.html": "/phicargo/reportes/porcentajes_status/index.html",
+    "main.e192fe62.css.map": "/phicargo/reportes/porcentajes_status/static/css/main.e192fe62.css.map",
+    "main.b44ddaf1.js.map": "/phicargo/reportes/porcentajes_status/static/js/main.b44ddaf1.js.map",
+    "453.a047c9e7.chunk.js.map": "/phicargo/reportes/porcentajes_status/static/js/453.a047c9e7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e192fe62.css",
+    "static/js/main.b44ddaf1.js"
+  ]
+}

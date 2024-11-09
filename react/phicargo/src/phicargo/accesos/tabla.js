@@ -14,12 +14,14 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
+import AccesoCompo from './AccesoCompo';
 import AccesoForm from './formulario';
 
 import {
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
+import { width } from '@mui/system';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -35,25 +37,31 @@ const Maniobras = ({ estado_maniobra }) => {
 
   const handleClose = () => {
     setOpen(false);
+    fetchData();
+  };
+
+  const NuevoAcceso = () => {
+    setOpen(true);
+    setIDAcceso(null);
   };
 
   const [data, setData] = useState([]);
   const [isLoading2, setLoading] = useState();
 
+  const fetchData = async () => {
+
+    try {
+      setLoading(true);
+      const response = await fetch('/phicargo/accesos/accesos/getAccesos.php?estado_acceso=' + estado_maniobra);
+      const jsonData = await response.json();
+      setData(jsonData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error al obtener los datos:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-
-      try {
-        setLoading(true);
-        const response = await fetch('/phicargo/accesos/accesos/getAccesos.php?estado_maniobra=' + estado_maniobra);
-        const jsonData = await response.json();
-        setData(jsonData);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error al obtener los datos:', error);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -66,18 +74,72 @@ const Maniobras = ({ estado_maniobra }) => {
       {
         accessorKey: 'nombre_empresa',
         header: 'Empresa visitante',
+        Cell: ({ cell }) => cell.getValue()?.toUpperCase(),
       },
       {
         accessorKey: 'tipo_movimiento',
         header: 'Tipo de movimiento',
+        Cell: ({ cell }) => {
+          const tipoMovimiento = cell.getValue();
+          let badgeClass = 'badge rounded-pill ';
+
+          if (tipoMovimiento === 'entrada') {
+            badgeClass += 'bg-success';
+          } else if (tipoMovimiento === 'salida') {
+            badgeClass += 'bg-danger';
+          } else {
+            badgeClass += 'bg-primary';
+          }
+
+          return (
+            <span className={badgeClass} style={{ width: '130px' }}>
+              {tipoMovimiento.charAt(0).toUpperCase() + tipoMovimiento.slice(1)}
+            </span>
+          );
+        },
       },
       {
         accessorKey: 'fecha_entrada',
         header: 'Fecha de entrada',
+        Cell: ({ cell }) => {
+          const fechaOriginal = cell.getValue();
+          const fechaValida = dayjs(fechaOriginal, 'YYYY-MM-DD HH:mm:ss', true).isValid();
+          return fechaValida
+            ? dayjs(fechaOriginal).format('DD/MM/YYYY hh:mm A')
+            : 'Fecha inválida';
+        },
       },
       {
         accessorKey: 'nombre',
         header: 'Solicitado por',
+      },
+      {
+        accessorKey: 'empresa_visitada',
+        header: 'Empresa visitada',
+      },
+      {
+        accessorKey: 'estado_acceso',
+        header: 'Estado del acceso',
+        Cell: ({ cell }) => {
+          const tipoMovimiento = cell.getValue();
+          let badgeClass = 'badge rounded-pill ';
+
+          if (tipoMovimiento === 'espera') {
+            badgeClass += 'bg-secondary';
+          } else if (tipoMovimiento === 'validado') {
+            badgeClass += 'bg-success';
+          } else {
+            badgeClass += 'bg-primary';
+          }
+
+          const displayText = tipoMovimiento === 'espera' ? 'En espera de validación' : tipoMovimiento.charAt(0).toUpperCase() + tipoMovimiento.slice(1);
+
+          return (
+            <span className={badgeClass} style={{ width: '130px' }}>
+              {displayText}
+            </span>
+          );
+        },
       },
     ],
     [],
@@ -161,10 +223,15 @@ const Maniobras = ({ estado_maniobra }) => {
           </Button>
         </Toolbar>
       </AppBar>
-      <AccesoForm id_acceso={id_acceso}></AccesoForm>
+      <AccesoCompo>
+        <AccesoForm id_acceso={id_acceso} onClose={handleClose}
+        />
+      </AccesoCompo>
     </Dialog>
 
     <div>
+      <button className="btn btn-success" onClick={NuevoAcceso}>Nuevo registro</button>
+
       <div className="table-striped">
         <MaterialReactTable table={table} />
       </div>

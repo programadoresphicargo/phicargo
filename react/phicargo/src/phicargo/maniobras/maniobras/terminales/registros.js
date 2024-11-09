@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
 import Button from '@mui/material/Button';
-import OffcanvasExample from '../../../../navbar';
 import FormularioTerminales from './informacion';
+import ManiobrasNavBar from '../../Navbar';
 
 const Terminales = () => {
 
@@ -104,7 +104,7 @@ const Terminales = () => {
 
     return (
         <div>
-            <OffcanvasExample />
+            <ManiobrasNavBar />
             <div className="flex flex-wrap gap-2 items-center p-2">
                 <Button variant="contained" onClick={handleClickOpen}>
                     Ingresar terminal

@@ -1,12 +1,12 @@
 import React from "react";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import Maniobras from "./tabla";
-import ContainerOutsideExample from '../../../navbar';
+import ManiobrasNavBar from "../Navbar";
 
-export default function App() {
+export default function control_maniobras() {
     return (
         <div>
-            <ContainerOutsideExample />
+            <ManiobrasNavBar />
             <div className="m-1">
                 <Tabs aria-label="Options" color={'primary'} size="lg">
                     <Tab key="photos" title="Activas">

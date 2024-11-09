@@ -1,100 +1,259 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import axios from 'axios';
-import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
+import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Grid';
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from "@nextui-org/react";
-import { DatePicker } from "@nextui-org/react";
-import { now, getLocalTimeZone } from "@internationalized/date";
-import { Textarea } from "@nextui-org/input";
-import { Select, SelectItem } from "@nextui-org/react";
-import { Avatar } from "@nextui-org/react";
 import { toast } from 'react-toastify';
-import VehiculoForm from './vehiculoForm';
-import { parseDate } from "@internationalized/date";
-import { useDateFormatter } from "@react-aria/i18n";
-import { parseZonedDateTime, parseAbsoluteToLocal } from "@internationalized/date";
-import CustomDatePicker from './dateRange';
+import VehiculoForm from './vehiculos/vehiculoForm';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs from 'dayjs';
+import TextField from '@mui/material/TextField';
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
+import TimelineDot from '@mui/lab/TimelineDot';
+import LaptopMacIcon from '@mui/icons-material/LaptopMac';
+import Typography from '@mui/material/Typography';
+import Checkbox from '@mui/material/Checkbox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import Stack from '@mui/material/Stack';
+import Validador from './validacion';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import ModuloVehiculo from './vehiculos/modulo_vehiculo';
+import { AccesoContext } from './context';
+import AccesoCompo from './AccesoCompo';
 
-const AccesoForm = ({ id_acceso }) => {
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-    const [records, setRecords] = useState([]); // Estado para los registros de la tabla
+const AccesoForm = ({ id_acceso, onClose }) => {
 
-    const areas = [
-        'Edificio Administrativo',
-        'Comedor',
-        'Compras',
-        'Nave Mantenimiento',
-        'Servicontainer',
-        'Scania',
-        'Elektra',
-        'Patio Maniobras',
-        'Patio de Contenedores',
-        'Diesel y Urea',
-        'RFE (Comprobación y Revisión)',
-        'Estacionamiento Externo',
-        'Perímetro Interior',
-        'Perímetro Exterior',
-    ];
+    const { ActualizarIDAacceso, selectVehiculos, vehiculosAñadidos, vehiculosEliminados } = useContext(AccesoContext);
 
-    const [selectedKey, setSelectedKey] = React.useState(1);
-
-    const onSelectionChangeEmpresa = (id) => {
-        fetchVisitantes();
-        setSelectedKey(id);
+    const [disabledFom, setFormOptions] = useState(false);
+    const EditarForm = () => {
+        setFormOptions(false);
     };
 
-    const onSelectionChange = (item) => {
-        setSelectedKey(item);
-        console.log(item);
-        if (!records.some((selected) => selected.value === item.value)) {
-            setRecords([...records, item]);
+    const [errors, setErrors] = useState({});
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!formData.tipo_movimiento) {
+            newErrors.tipo_movimiento = 'Tipo de movimiento es obligatorio';
+        }
+        if (!formData.fecha_entrada) {
+            newErrors.fecha_entrada = 'Fecha de entrada es obligatoria';
+        }
+        if (!formData.fecha_salida) {
+            newErrors.fecha_salida = 'Fecha de salida es obligatoria';
+        }
+        if (!formData.id_empresa) {
+            newErrors.id_empresa = 'Empresa es obligatoria';
+        }
+        if (!formData.motivo) {
+            newErrors.motivo = 'Motivo es obligatorio';
+        }
+        if (!formData.id_empresa_visitada) {
+            newErrors.id_empresa_visitada = 'Empresa visitada es obligatorio';
+        }
+        if (!formData.tipo_identificacion) {
+            newErrors.tipo_identificacion = 'Tipo de identificación es obligatorio';
+        }
+        return newErrors;
+    };
+
+    const [formData, setFormData] = useState({
+        id_acceso: id_acceso,
+        estado_acceso: '',
+        id_empresa: '',
+        id_empresa_visitada: '',
+        fecha_entrada: '',
+        fecha_salida: '',
+        motivo: '',
+        notas: '',
+        tipo_identificacion: '',
+        tipo_movimiento: '',
+        areas: '',
+        usuario_creacion: '',
+        usuario_valido: '',
+        usuario_archivo: '',
+        fecha_creacion: '',
+        fecha_validacion: '',
+        fecha_archivado: ''
+    });
+
+    const areas = [
+        { value: 'edificio_administrativo', label: 'Edificio Administrativo' },
+        { value: 'comedor', label: 'Comedor' },
+        { value: 'compras', label: 'Compras' },
+        { value: 'nave_mantenimiento', label: 'Nave Mantenimiento' },
+        { value: 'servicontainer', label: 'Servicontainer' },
+        { value: 'scania', label: 'Scania' },
+        { value: 'elektra', label: 'Elektra' },
+        { value: 'patio_maniobras', label: 'Patio Maniobras' },
+        { value: 'patio_contenedores', label: 'Patio de Contenedores' },
+        { value: 'diesel_y_urea', label: 'Diesel y Urea' },
+        { value: 'rfe_comprobacion_revision', label: 'RFE (Comprobación y Revisión)' },
+        { value: 'estacionamiento_externo', label: 'Estacionamiento Externo' },
+        { value: 'perimetro_interior', label: 'Perímetro Interior' },
+        { value: 'perimetro_exterior', label: 'Perímetro Exterior' }
+    ];
+
+    const identificationOptions = [
+        { value: 'ine', label: 'Credencial para Votar (INE/IFE)' },
+        { value: 'pasaporte', label: 'Pasaporte Mexicano' },
+        { value: 'cartilla', label: 'Cartilla del Servicio Militar Nacional' },
+        { value: 'cedula', label: 'Cédula Profesional' },
+        { value: 'licencia', label: 'Licencia de Conducir' },
+        { value: 'residencia', label: 'Tarjeta de Residencia Temporal o Permanente' },
+        { value: 'laboral', label: 'Identificación Laboral' },
+        { value: 'residencia_carta', label: 'Carta de Residencia' },
+        { value: 'afiliacion', label: 'Tarjeta de Afiliación a Servicios de Salud' },
+        { value: 'escolar', label: 'Identificación Escolar' }
+    ];
+
+    const options_tipo_movimiento = [
+        { value: 'entrada', label: 'Entrada a las instalaciones' },
+        { value: 'salida', label: 'Salida de las instalaciones' },
+    ];
+
+    const [empresas, setOptions] = useState([]);
+    const [empresas_visitadas, setEmpresasVisitadasOptions] = useState([]);
+
+    const [inputValue, setInputValue] = useState('');
+    const [inputValueNuevoVisitante, setInputValueNuevoVisitante] = useState('');
+
+    const AñadirEmpresa = async (nombreEmpresa) => {
+        try {
+            const response = await axios.get('/phicargo/accesos/empresas/registrar_empresa.php', {
+                params: { nombre_empresa: nombreEmpresa },
+            });
+            if (response.data.success) {
+                toast.success(response.data.message);
+                fetchEmpresas();
+                handleChange('id_empresa', String(response.data.id_empresa));
+            } else {
+                toast.error(response.data.message);
+            }
+        } catch (error) {
+            toast.error("Error en la solicitud: " + error.message);
         }
     };
 
-    const deleteRecord = (recordToDelete) => {
-        setRecords((prevRecords) => prevRecords.filter(record => record !== recordToDelete));
+    const handleAddNewVisitante = async (newValue) => {
+        const dataToSend = {
+            id_empresa: formData.id_empresa,
+            nombre_visitante: newValue,
+        };
+
+        try {
+            const response = await axios.post('/phicargo/accesos/visitantes/ingresar.php', dataToSend);
+
+            if (response.data.success) {
+                toast.success(response.data.message);
+
+                const nuevoVisitante = { label: String(newValue), value: String(response.data.id_visitante) };
+                setVisitantes((prevOptions) => [...prevOptions, nuevoVisitante]);
+                setSelectedVisitantes((prevOptions) => [...prevOptions, nuevoVisitante]);
+            } else {
+                toast.error(response.data.message);
+            }
+
+        } catch (error) {
+            toast.error("Error al agregar el visitante: " + error.message);
+        }
     };
 
-    const saveChanges = () => {
-        console.log('Guardando cambios:', records);
-        alert('Cambios guardados correctamente.');
-    };
-
-    const [options2, setOptions] = useState([]);
 
     const getAcceso = async () => {
         try {
+            setFormOptions(true);
             const baseUrl = `/phicargo/accesos/accesos/getAcceso.php?id_acceso=${id_acceso}`;
             const response = await axios.get(baseUrl);
             const data = response.data[0];
-            setFormData({
-                id_maniobra: data.id_acceso || '',
-                tipo_movimiento: data.tipo_movimiento || '',
-                fecha_entrada: data.fecha_entrada || '',
-            });
+            if (data) {
 
+                getVisitantesAccceso();
+                setFormData({
+                    ...formData,
+                    estado_acceso: data.estado_acceso || '',
+                    id_empresa: data.id_empresa || '',
+                    id_empresa_visitada: data.id_empresa_visitada || '',
+                    tipo_movimiento: data.tipo_movimiento || '',
+                    fecha_entrada: data.fecha_entrada || '',
+                    fecha_salida: data.fecha_salida || '',
+                    tipo_identificacion: data.tipo_identificacion || '',
+                    motivo: data.motivo || '',
+                    notas: data.notas || '',
+                    usuario_creacion: data.usuario_creacion,
+                    usuario_valido: data.usuario_valido,
+                    usuario_archivo: data.usuario_archivo,
+                    fecha_creacion: data.fecha_creacion || '',
+                    fecha_validacion: data.fecha_validacion || '',
+                    fecha_archivado: data.fecha_archivado || '',
+                    areas: data.areas || '',
+                });
+            } else {
+                toast.error("No se encontraron datos para el acceso.");
+            }
         } catch (error) {
             console.error("Error obteniendo los datos:", error);
+            toast.error("Error al obtener datos del acceso.");
         }
     };
 
     useEffect(() => {
+        if (formData.id_empresa) {
+            fetchVisitantes();
+        }
+    }, [formData.id_empresa]);
+
+    useEffect(() => {
         if (id_acceso) {
+            fetchEmpresas();
+            fetchEmpresasVisitada();
             getAcceso();
+            ActualizarIDAacceso(id_acceso);
         }
     }, [id_acceso]);
 
-    const fetchFlota = () => {
+    const getVisitantesAccceso = () => {
+        const baseUrl = '/phicargo/accesos/accesos/getVisitantes.php?id_acceso=' + id_acceso;
+
+        axios.get(baseUrl)
+            .then(response => {
+                const data = response.data.map(item => ({
+                    value: item.id_visitante,
+                    label: item.nombre_visitante,
+                }));
+                setSelectedVisitantes(data);
+            })
+            .catch(err => {
+                console.error('Error al obtener la flota:', err);
+            });
+    };
+
+    const fetchEmpresas = () => {
         const baseUrl = '/phicargo/accesos/empresas/getEmpresas.php';
 
         axios.get(baseUrl)
             .then(response => {
                 const data = response.data.map(item => ({
-                    value: Number(item.id_empresa),
+                    value: item.id_empresa,
                     label: item.nombre_empresa,
                 }));
                 setOptions(data);
@@ -104,15 +263,34 @@ const AccesoForm = ({ id_acceso }) => {
             });
     };
 
-    const [visitantes, setVisitantes] = useState([]);
-
-    const fetchVisitantes = () => {
-        const baseUrl = '/phicargo/accesos/visitantes/getVisitantes.php?id_empresa=' + selectedKey;
+    const fetchEmpresasVisitada = () => {
+        const baseUrl = '/phicargo/accesos/empresas/getEmpresasVisitadas.php';
 
         axios.get(baseUrl)
             .then(response => {
                 const data = response.data.map(item => ({
-                    value: Number(item.id_visitante),
+                    value: item.id_empresa,
+                    label: item.nombre,
+                }));
+                setEmpresasVisitadasOptions(data);
+            })
+            .catch(err => {
+                console.error('Error al obtener la flota:', err);
+            });
+    };
+
+    const [visitantes, setVisitantes] = useState([]);
+    const [selectedVisitantes, setSelectedVisitantes] = useState([]);
+    const [addedVisitors, setAddedVisitors] = useState([]);
+    const [removedVisitors, setRemovedVisitors] = useState([]);
+
+    const fetchVisitantes = () => {
+        const baseUrl = '/phicargo/accesos/visitantes/getVisitantes.php?id_empresa=' + formData.id_empresa;
+
+        axios.get(baseUrl)
+            .then(response => {
+                const data = response.data.map(item => ({
+                    value: item.id_visitante,
                     label: item.nombre_visitante,
                 }));
                 setVisitantes(data);
@@ -123,32 +301,160 @@ const AccesoForm = ({ id_acceso }) => {
     };
 
     useEffect(() => {
-        fetchFlota();
+        fetchEmpresas();
+        fetchEmpresasVisitada();
     }, []);
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const handleOpen = () => {
-        onOpen();
-    }
-
-    const [formData, setFormData] = useState({
-        fecha_entrada: "2024-01-01 10:00:00", // Valor por defecto
-        fecha_salida: "2024-01-02 15:00:00", // Otro valor por defecto
-    });
-
-    const handleDateChange = (key) => (newDate) => {
+    const handleChange = (name, value) => {
         setFormData((prevData) => ({
             ...prevData,
-            [key]: newDate, // Actualiza la fecha correspondiente
+            [name]: value,
         }));
+    };
+
+    const handleDelete = (valueToDelete) => {
+        setSelectedVisitantes((prevVisitantes) => {
+            const visitanteAEliminar = prevVisitantes.find(visitor => visitor.value === valueToDelete);
+
+            if (visitanteAEliminar) {
+                setRemovedVisitors((prevRemoved) => [...prevRemoved, visitanteAEliminar]);
+            }
+
+            return prevVisitantes.filter(visitor => visitor.value !== valueToDelete);
+        });
+    };
+
+    useEffect(() => {
+        console.log("Visitantes añadidos:", addedVisitors);
+        console.log("Visitantes eliminados:", removedVisitors);
+    }, [addedVisitors, removedVisitors]);
+
+    const registrar_acceso = async (e) => {
+        console.log(formData);
+        const validationErrors = validateForm();
+
+        if (Object.keys(validationErrors).length === 0) {
+
+            if (selectedVisitantes.length > 0) {
+            } else {
+                toast.error("Debes añadir al menos un visitante al acceso.");
+                return;
+            }
+
+            const dataToSend = {
+                ...formData,
+                visitantes_seleccionados: selectedVisitantes,
+                vehiculos_seleccionados: selectVehiculos,
+            };
+
+            try {
+                const response = await axios.post('/phicargo/accesos/acceso/registrar.php', dataToSend);
+                console.log('Respuesta del servidor:', response.data);
+                if (response.data.status === 1) {
+                    toast.success(`Acceso registrado correctamente.`);
+                    onClose();
+                } else {
+                    toast.error("Error al actualizar los datos.");
+                }
+            } catch (error) {
+                console.error('Error al enviar los datos:', error);
+            }
+        } else {
+            setErrors(validationErrors);
+        }
+    };
+
+    const actualizar_acceso = async (e) => {
+        e.preventDefault();
+
+        const dataToSend = {
+            ...formData,
+            visitantesAñadidos: addedVisitors,
+            visitantesEliminados: removedVisitors,
+            vehiculosAñadidos: vehiculosAñadidos,
+            vehiculosEliminados: vehiculosEliminados
+        };
+
+        try {
+            const response = await axios.post('/phicargo/accesos/acceso/actualizar.php', dataToSend);
+            console.log('Respuesta del servidor:', response.data);
+            if (response.data.status === 1) {
+                toast.success(`Acceso A-${response.data.id_insertado} actualizado correctamente.`);
+                onClose();
+            } else {
+                toast.error("Error al actualizar los datos.");
+            }
+        } catch (error) {
+            console.error('Error en la petición', error);
+            toast.error('Error en la conexión o al procesar los datos. ' + error);
+        }
+    };
+
+    const [OpenValidador, setOpenValidador] = React.useState(false);
+
+    const handleClickOpenValidador = () => {
+        setOpenValidador(true);
+    };
+
+    const handleCloseValidador = () => {
+        setOpenValidador(false);
+        onClose();
+    };
+
+    const handleSelectionChange = (event, newValue) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            areas: JSON.stringify(newValue),
+        }));
+    };
+
+    const ClickVisitante = (name, value) => {
+        if (!value) return;
+
+        const selectedVisitor = visitantes.find(option => option.value === value);
+
+        if (selectedVisitor) {
+            setSelectedVisitantes((prevVisitantes) => {
+                const isSelected = prevVisitantes.some(v => v.value === selectedVisitor.value);
+
+                if (!isSelected) {
+                    setAddedVisitors((prevAdded) => {
+                        if (!prevAdded.some(v => v.value === selectedVisitor.value)) {
+                            return [...prevAdded, selectedVisitor];
+                        }
+                        return prevAdded;
+                    });
+                    return [...prevVisitantes, selectedVisitor];
+                }
+                return prevVisitantes;
+            });
+        }
     };
 
     return (
         <>
-            <div style={{ padding: '20px' }}>
-                <Button onClick={saveChanges} style={{ marginTop: '20px' }} color='primary'>Guardar Cambios</Button>
-            </div>
+            <Stack spacing={2} direction="row" style={{ padding: '20px' }}>
+                {id_acceso && (
+                    <Typography variant="h4" style={{ marginTop: '20px' }}>
+                        Acceso A-{id_acceso}
+                    </Typography>
+                )}
+                {!id_acceso && (
+                    <Button onClick={registrar_acceso} style={{ marginTop: '20px' }} color='primary'>Registrar</Button>
+                )}
+                {formData.estado_acceso !== 'archivado' && disabledFom && id_acceso && (
+                    <Button onClick={EditarForm} style={{ marginTop: '20px' }} color='primary'>Editar</Button>
+                )}
+                {id_acceso && !disabledFom && (
+                    <Button onClick={actualizar_acceso} style={{ marginTop: '20px' }} color='primary'>Guardar Cambios</Button>
+                )}
+                {formData.estado_acceso == 'espera' && (
+                    <Button onClick={handleClickOpenValidador} style={{ marginTop: '20px' }} color='primary'>Validar {formData.tipo_movimiento}</Button>
+                )}
+                {formData.estado_acceso == 'validado' && (
+                    <Button onClick={handleClickOpenValidador} style={{ marginTop: '20px' }} color='primary'>Archivar / Finalizar acceso</Button>
+                )}
+            </Stack >
 
             <Grid container spacing={2} style={{ padding: '20px' }}>
                 <Grid item xs={12} sm={4} md={8}>
@@ -164,101 +470,200 @@ const AccesoForm = ({ id_acceso }) => {
 
                             <Grid container spacing={2}>
 
-                                <CustomDatePicker
-                                    label="Fecha de entrada"
-                                    value={formData.fecha_entrada}
-                                    onChange={handleDateChange("fecha_entrada")}
-                                />
-                                <CustomDatePicker
-                                    label="Fecha de salida"
-                                    value={formData.fecha_entrada}
-                                    onChange={handleDateChange("fecha_salida")}
-                                />
+                                <Grid item xs={12} sm={6} md={4}>
+                                    <Autocomplete
+                                        id="tipo_movimiento"
+                                        name="tipo_movimiento"
+                                        value={options_tipo_movimiento.find(option => option.value === formData.tipo_movimiento) || null}
+                                        onChange={(event, newValue) => handleChange('tipo_movimiento', newValue ? newValue.value : '')}
+                                        getOptionLabel={(option) => option.label}
+                                        isOptionEqualToValue={(option, value) => option.value === value.value}
+                                        options={options_tipo_movimiento}
+                                        disabled={disabledFom}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Tipo de movimiento"
+                                                variant="outlined"
+                                                error={!!errors.tipo_movimiento}
+                                                helperText={errors.tipo_movimiento}
+                                            />
+                                        )}
+                                    />
+                                </Grid>
 
                                 <Grid item xs={12} sm={6} md={4}>
-                                    <select
-                                        id="tipo_mov"
-                                        name="tipo_mov"
-                                        label="Tipo de movimiento"
-                                        className='form-control'
-                                        value={formData.tipo_movimiento}
-                                    >
-                                        <option value="ingreso">Entrada a las instalaciones </option>
-                                        <option value="salida">Salida de las intalaciones </option>
-                                    </select>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DateTimePicker
+                                            slotProps={{
+                                                textField: {
+                                                    fullWidth: true,
+                                                    error: !!errors.fecha_entrada,
+                                                    helperText: errors.fecha_entrada,
+                                                }
+                                            }}
+                                            label="Fecha de entrada"
+                                            value={dayjs(formData.fecha_entrada)}
+                                            onChange={(newValue) => handleChange('fecha_entrada', newValue ? newValue.toISOString() : '')}
+                                            disabled={disabledFom}
+                                        />
+                                    </LocalizationProvider>
                                 </Grid>
+
                                 <Grid item xs={12} sm={6} md={4}>
-                                    <input
-                                        label="Fecha de entrada"
-                                        className='form-control'
-                                        type='datetime-local'
-                                        value={formData.fecha_entrada}
-                                    />
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DateTimePicker
+                                            slotProps={{
+                                                textField: {
+                                                    fullWidth: true,
+                                                    error: !!errors.fecha_salida,
+                                                    helperText: errors.fecha_salida,
+                                                }
+                                            }}
+                                            label="Fecha de salida"
+                                            value={dayjs(formData.fecha_salida)}
+                                            onChange={(newValue) => handleChange('fecha_salida', newValue ? newValue.toISOString() : '')}
+                                            disabled={disabledFom}
+                                        />
+                                    </LocalizationProvider>
                                 </Grid>
-                                <Grid item xs={12} sm={6} md={4}>
-                                    <DatePicker
-                                        label="Fecha de entrada"
-                                        variant='faded'
-                                        hideTimeZone
-                                        showMonthAndYearPickers
-                                        defaultValue={now(getLocalTimeZone())}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={4}>
-                                    <Autocomplete
-                                        defaultItems={options2}
-                                        label="Empresa"
-                                        size='sm'
-                                        variant='faded'
-                                        onSelectionChange={onSelectionChangeEmpresa} // Función que gestiona la selección
-                                    >
-                                        {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
-                                    </Autocomplete>
-                                </Grid>
+
                                 <Grid item xs={12} sm={6} md={4}>
                                     <Autocomplete
-                                        defaultItems={visitantes}
-                                        variant="faded" // Asegúrate de que 'faded' sea un valor válido para 'variant'
-                                        size="sm"
-                                        label="Visitantes"
-                                        placeholder="Selecciona los visitantes"
-                                        onSelectionChange={onSelectionChange} // Función que gestiona la selección
-                                    >
-                                        {(user) => (
-                                            <AutocompleteItem key={user.value} textValue={user.label}>
-                                                <div className="flex gap-2 items-center">
-                                                    <Avatar
-                                                        alt={user.label}
-                                                        className="flex-shrink-0"
-                                                        size="sm"
-                                                        src={"https://d2u8k2ocievbld.cloudfront.net/memojis/male/1.png"} // Verifica que los usuarios tengan una propiedad 'avatar'
-                                                    />
-                                                    <div className="flex flex-col">
-                                                        <span className="text-small">{user.label}</span>
-                                                        <span className="text-tiny text-default-400">{user.label}</span>
-                                                    </div>
-                                                </div>
-                                            </AutocompleteItem>
+                                        id="id_empresa"
+                                        name="id_empresa"
+                                        value={empresas.find(option => option.value === formData.id_empresa) || null}
+                                        onChange={(event, newValue) => {
+                                            if (typeof newValue === 'string') {
+                                                AñadirEmpresa(newValue);
+                                            } else if (newValue && newValue.inputValue) {
+                                                AñadirEmpresa(newValue.inputValue);
+                                            } else {
+                                                handleChange('id_empresa', newValue ? newValue.value : '');
+                                            }
+                                        }}
+                                        inputValue={inputValue}
+                                        onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+                                        getOptionLabel={(option) => option.label || ''}
+                                        isOptionEqualToValue={(option, value) => option.value === value.value}
+                                        options={empresas}
+                                        filterOptions={(options, params) => {
+                                            const filtered = options.filter(option =>
+                                                option.label.toLowerCase().includes(params.inputValue.toLowerCase())
+                                            );
+
+                                            if (params.inputValue !== '' && !filtered.some(option => option.label === params.inputValue)) {
+                                                filtered.push({
+                                                    label: `Añadir nueva empresa "${params.inputValue}"`,
+                                                    inputValue: params.inputValue
+                                                });
+                                            }
+
+                                            return filtered;
+                                        }}
+                                        disabled={disabledFom}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Empresa"
+                                                variant="outlined"
+                                                error={!!errors.id_empresa}
+                                                helperText={errors.id_empresa}
+                                            />
                                         )}
-                                    </Autocomplete>
+                                    />
                                 </Grid>
+
                                 <Grid item xs={12} sm={6} md={4}>
-                                    <Button color="primary" size='lg'>
-                                        Añadir visitante
-                                    </Button>
+                                    <Autocomplete
+                                        id="visitantes"
+                                        name="visitantes"
+                                        disabled={disabledFom}
+                                        value={visitantes.find(option => option.value === formData.visitantes) || null}
+                                        onChange={(event, newValue) => {
+                                            if (typeof newValue === 'string') {
+                                                // Si es un string, se está agregando una nueva opción
+                                                handleAddNewVisitante(newValue);
+                                            } else if (newValue && newValue.inputValue) {
+                                                // Si hay un `inputValue`, se está agregando una nueva opción personalizada
+                                                handleAddNewVisitante(newValue.inputValue);
+                                            } else {
+                                                // Si es una opción existente, actualizamos el estado
+                                                handleChange('visitantes', newValue ? newValue.value : '');
+                                                ClickVisitante('visitantes', newValue ? newValue.value : '');
+                                            }
+                                        }}
+                                        inputValue={inputValueNuevoVisitante}  // Se debe usar la variable 'inputValueNuevoVisitante'
+                                        onInputChange={(event, newInputValue) => setInputValueNuevoVisitante(newInputValue)}
+                                        getOptionLabel={(option) => option.label || ''}
+                                        isOptionEqualToValue={(option, value) => option.value === value.value}
+                                        options={visitantes}
+                                        filterOptions={(options, params) => {
+                                            const filtered = options.filter(option =>
+                                                option.label.toLowerCase().includes(params.inputValue.toLowerCase())
+                                            );
+
+                                            if (params.inputValue !== '' && !filtered.some(option => option.label === params.inputValue)) {
+                                                filtered.push({
+                                                    label: `Añadir nuevo visitante "${params.inputValue}"`,
+                                                    inputValue: params.inputValue
+                                                });
+                                            }
+
+                                            return filtered;
+                                        }}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Visitantes"
+                                                variant="outlined"
+                                            />
+                                        )}
+                                    />
                                 </Grid>
+
+                                <Grid item xs={12} sm={6} md={4}>
+                                    <Autocomplete
+                                        id="tipo_identificacion"
+                                        name="tipo_identificacion"
+                                        value={identificationOptions.find(option => option.value === formData.tipo_identificacion) || null}
+                                        onChange={(event, newValue) => handleChange('tipo_identificacion', newValue ? newValue.value : '')}
+                                        getOptionLabel={(option) => option.label}
+                                        isOptionEqualToValue={(option, value) => option.value === value.value}
+                                        options={identificationOptions}
+                                        disabled={disabledFom}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Documento con el que se identifica"
+                                                variant="outlined"
+                                                error={!!errors.tipo_identificacion}
+                                                helperText={errors.tipo_identificacion}
+                                            />
+                                        )}
+                                    />
+                                </Grid>
+
                                 <Grid item xs={12} sm={12} md={12}>
                                     <Table aria-label="Example static collection table" isStriped>
                                         <TableHeader>
-                                            <TableColumn>Nombre del visitante</TableColumn>
+                                            <TableColumn>ID del visitante</TableColumn>
+                                            <TableColumn>Visitante</TableColumn>
                                             <TableColumn>Acciones</TableColumn>
                                         </TableHeader>
                                         <TableBody>
-                                            {records.map((record, index) => (
+                                            {selectedVisitantes.map((visitor, index) => (
                                                 <TableRow key={index}>
-                                                    <TableCell>{record}</TableCell>
+                                                    <TableCell>{visitor.value}</TableCell>
+                                                    <TableCell>{visitor.label}</TableCell>
                                                     <TableCell>
-                                                        <Button color='primary' onClick={() => deleteRecord(record)}>Borrar</Button>
+                                                        <Button
+                                                            color="primary" size='sm'
+                                                            isDisabled={disabledFom}
+                                                            onClick={() => handleDelete(visitor.value)}
+                                                        >
+                                                            Borrar
+                                                        </Button>
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
@@ -266,55 +671,84 @@ const AccesoForm = ({ id_acceso }) => {
                                     </Table>
                                 </Grid>
 
-                                <Grid item xs={12} sm={6} md={6}>
-                                    <Select
-                                        label="Area a visitar"
-                                        placeholder="Selecciona una opción"
-                                        selectionMode="multiple"
-                                        variant='faded'
-                                    >
-                                        {areas.map((option, index) => (
-                                            <SelectItem key={index} value={option}>
-                                                {option}
-                                            </SelectItem>
-                                        ))}
-                                    </Select>
-                                </Grid>
-                                <Grid item xs={12} sm={6} md={6}>
-                                    <Textarea
-                                        label="Motivo de acceso o salida"
-                                        placeholder="Ingresa una descripción"
-                                        variant='faded'
+                                <Grid item xs={12} sm={6} md={4}>
+                                    <Autocomplete
+                                        id="id_empresa_visitada"
+                                        name="id_empresa_visitada"
+                                        value={empresas_visitadas.find(option => option.value === formData.id_empresa_visitada) || null}
+                                        onChange={(event, newValue) => handleChange('id_empresa_visitada', newValue ? newValue.value : '')}
+                                        getOptionLabel={(option) => option.label}
+                                        isOptionEqualToValue={(option, value) => option.value === value.value}
+                                        options={empresas_visitadas}
+                                        disabled={disabledFom}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Empresa visitada"
+                                                variant="outlined"
+                                                error={!!errors.id_empresa_visitada}
+                                                helperText={errors.id_empresa_visitada}
+                                            />
+                                        )}
                                     />
                                 </Grid>
-                            </Grid>
-                        </CardBody>
-                        <Divider />
-                        <CardFooter>
-                        </CardFooter>
-                    </Card>
 
-                    <Card>
-                        <CardHeader className="flex gap-3">
-                            <div className="flex flex-col">
-                                <p className="text-md">Añadir vehiculo</p>
-                            </div>
-                        </CardHeader>
-                        <Divider />
-                        <CardBody>
-
-                            <Grid container spacing={2}>
-                                <Grid item xs={4}>
-                                    <Button color="danger" size='lg' onClick={handleOpen}>
-                                        Añadir vehiculo
-                                    </Button>
+                                <Grid item xs={12} sm={6} md={4}>
+                                    <Autocomplete
+                                        multiple
+                                        id="areas"
+                                        name="areas"
+                                        options={areas}
+                                        disabled={disabledFom}
+                                        disableCloseOnSelect
+                                        getOptionLabel={(option) => option.label}
+                                        onChange={handleSelectionChange} // Llama a la función que maneja el cambio
+                                        value={formData.areas ? JSON.parse(formData.areas) : []} // Convierte el string a array
+                                        renderOption={(props, option, { selected }) => {
+                                            const { key, ...optionProps } = props;
+                                            return (
+                                                <li key={key} {...optionProps}>
+                                                    <Checkbox
+                                                        icon={<span />} // Reemplaza con tu ícono
+                                                        checkedIcon={<span />} // Reemplaza con tu ícono
+                                                        style={{ marginRight: 8 }}
+                                                        checked={selected}
+                                                    />
+                                                    {option.label}
+                                                </li>
+                                            );
+                                        }}
+                                        renderInput={(params) => (
+                                            <TextField {...params}
+                                                label="Áreas a visitar"
+                                                placeholder="Seleccionar áreas permitidas a transitar" />
+                                        )}
+                                    />
                                 </Grid>
+
+                                <Grid item xs={12} sm={6} md={4}>
+                                    <TextField
+                                        id="motivo"
+                                        name="motivo"
+                                        label="Motivo de entrada o salida"
+                                        placeholder="Ingresa una descripción"
+                                        disabled={disabledFom}
+                                        value={formData.motivo}
+                                        onChange={(event) => handleChange('motivo', event.target.value)}
+                                        fullWidth
+                                        error={!!errors.motivo}
+                                        helperText={errors.motivo}
+                                    />
+                                </Grid>
+
                             </Grid>
                         </CardBody>
                         <Divider />
                         <CardFooter>
                         </CardFooter>
                     </Card>
+
+                    <ModuloVehiculo disabled={disabledFom}></ModuloVehiculo>
 
                 </Grid>
 
@@ -327,12 +761,91 @@ const AccesoForm = ({ id_acceso }) => {
                         </CardHeader>
                         <Divider />
                         <CardBody>
-                            <Textarea
+
+                            <TextField
                                 label="Notas para vigilancia"
-                                placeholder="Ingresa tus notas"
-                                className="max-w-xs"
-                                variant='faded'
+                                placeholder="Ingresa tus notas para el personal de vigilancia"
+                                disabled={disabledFom}
+                                value={formData.notas}
+                                onChange={(event) => handleChange('notas', event.target.value)}
                             />
+
+                            <Timeline>
+                                <TimelineItem>
+                                    <TimelineOppositeContent
+                                        sx={{ m: 'auto 0' }}
+                                        align="right"
+                                        variant="body2"
+                                        color="text.secondary"
+                                    >
+                                        {formData.fecha_creacion}
+                                    </TimelineOppositeContent>
+                                    <TimelineSeparator>
+                                        <TimelineConnector />
+                                        <TimelineDot color="primary">
+                                            <LaptopMacIcon />
+                                        </TimelineDot>
+                                        <TimelineConnector />
+                                    </TimelineSeparator>
+                                    <TimelineContent sx={{ py: '12px', px: 2 }}>
+                                        <Typography variant="h6" component="span">
+                                            Creado por
+                                        </Typography>
+                                        <Typography> {formData.usuario_creacion}</Typography>
+                                    </TimelineContent>
+                                </TimelineItem>
+
+                                <TimelineItem>
+                                    <TimelineOppositeContent
+                                        sx={{ m: 'auto 0' }}
+                                        align="right"
+                                        variant="body2"
+                                        color="text.secondary"
+                                    >
+                                        {formData.fecha_validacion}
+                                    </TimelineOppositeContent>
+                                    <TimelineSeparator>
+                                        <TimelineConnector />
+                                        <TimelineDot color="primary">
+                                            <LaptopMacIcon />
+                                        </TimelineDot>
+                                        <TimelineConnector />
+                                    </TimelineSeparator>
+                                    <TimelineContent sx={{ py: '12px', px: 2 }}>
+                                        <Typography variant="h6" component="span">
+                                            Validado por
+                                        </Typography>
+                                        <Typography>
+                                            {formData.usuario_valido}
+                                        </Typography>
+                                    </TimelineContent>
+                                </TimelineItem>
+
+                                <TimelineItem>
+                                    <TimelineOppositeContent
+                                        sx={{ m: 'auto 0' }}
+                                        align="right"
+                                        variant="body2"
+                                        color="text.secondary"
+                                    >
+                                        {formData.fecha_archivado}
+                                    </TimelineOppositeContent>
+                                    <TimelineSeparator>
+                                        <TimelineConnector />
+                                        <TimelineDot color="primary">
+                                            <LaptopMacIcon />
+                                        </TimelineDot>
+                                        <TimelineConnector />
+                                    </TimelineSeparator>
+                                    <TimelineContent sx={{ py: '12px', px: 2 }}>
+                                        <Typography variant="h6" component="span">
+                                            Archivado por
+                                        </Typography>
+                                        <Typography>{formData.usuario_archivo}</Typography>
+                                    </TimelineContent>
+                                </TimelineItem>
+                            </Timeline>
+
                         </CardBody>
                         <Divider />
                         <CardFooter>
@@ -341,19 +854,9 @@ const AccesoForm = ({ id_acceso }) => {
                 </Grid>
             </Grid >
 
-            <Modal isOpen={isOpen}
-                onClose={onClose} >
-                <ModalContent>
-                    {(onClose) => (
-                        <>
-                            <ModalHeader className="flex flex-col gap-1">Nuevo vehiculo</ModalHeader>
-                            <ModalBody>
-                                <VehiculoForm></VehiculoForm>
-                            </ModalBody>
-                        </>
-                    )}
-                </ModalContent>
-            </Modal>
+            <Validador id_acceso={id_acceso} estado_acceso={formData.estado_acceso} open={OpenValidador} handleClose={handleCloseValidador}>
+            </Validador>
+
         </>
     );
 };

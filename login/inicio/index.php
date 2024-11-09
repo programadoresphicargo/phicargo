@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>Bienvenido | Phi-Cargo</title>
+    <title>Bienvenido | Phi-Cargo :)</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="../../img/philogo-morado.png">
@@ -150,12 +150,6 @@
         </div>
     </div>
 
-    <?php
-    require_once('../../includes2/footer.php');
-    require_once('funciones.php');
-    //require_once('funciones2.php');
-    ?>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js" integrity="sha512-IQLehpLoVS4fNzl7IfH8Iowfm5+RiMGtHykgZJl9AWMgqx0AmJ6cRWcB+GaGVtIsnC4voMfm8f2vwtY+6oPjpQ==" crossorigin="anonymous"></script>
 
     <!-- JS Implementing Plugins -->
@@ -163,6 +157,12 @@
     <script src="../../assets/js/vanilla-tilt.js"></script>
     <script src="../../js/jquery-3.6.1.min.js"></script>
     <script src="../../assets/js/apps.js"></script>
+
+    <?php
+    //require_once('../../includes2/footer.php');
+    require_once('funciones.php');
+    //require_once('funciones2.php');
+    ?>
 
     <script type="text/javascript">
         VanillaTilt.init(document.querySelector(".logo"), {

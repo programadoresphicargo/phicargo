@@ -1,6 +1,5 @@
 <?php
 require_once('../../mysql/conexion.php');
-
 require_once('../../usuarios/codigo/comprobar_permiso.php');
 session_start();
 $cn = conectar();

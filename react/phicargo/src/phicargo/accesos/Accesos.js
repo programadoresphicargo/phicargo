@@ -1,25 +1,29 @@
 import React from "react";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import Maniobras from "./tabla";
-import ContainerOutsideExample from '../../navbar';
+import ResponsiveAppBar from "./Navbar";
+import Typography from '@mui/material/Typography';
 
 export default function Accesos() {
     return (
         <div>
-            <ContainerOutsideExample />
+            <ResponsiveAppBar></ResponsiveAppBar>
+
+            <h2 className="p-2 text-primary">Modulo de entradas y salidas</h2>
+
             <div className="m-1">
                 <Tabs aria-label="Options" color={'primary'} size="lg">
                     <Tab key="photos" title="Movimiento peatonal">
                         <Maniobras
-                            estado_maniobra={'activa'} />
+                            estado_maniobra={'peatonal'} />
                     </Tab>
                     <Tab key="music" title="Movimiento vehicular">
                         <Maniobras
-                            estado_maniobra={'borrador'} />
+                            estado_maniobra={'vehicular'} />
                     </Tab>
-                    <Tab key="videos" title="Finalizadas">
+                    <Tab key="videos" title="Archivados">
                         <Maniobras
-                            estado_maniobra={'finalizada'} />
+                            estado_maniobra={'archivado'} />
                     </Tab>
                 </Tabs>
             </div>

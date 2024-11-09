@@ -1,22 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import ContainerOutsideExample from '../../../navbar';
-import MonthSelector from '../../../mes';
-import Example2 from '../maniobras/modal';
 import { ThemeProvider } from '@mui/material/styles';
 import customFontTheme from '../../../theme';
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownSection,
-  DropdownItem,
-} from "@nextui-org/dropdown";
-import { Button, ButtonGroup } from "@nextui-org/button";
 
 import {
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
+import ManiobrasNavBar from '../Navbar';
 
 const Precios_maniobras = () => {
 
@@ -135,7 +125,7 @@ const Precios_maniobras = () => {
 
   return (
     <div>
-      <ContainerOutsideExample />
+      <ManiobrasNavBar />
       <ThemeProvider theme={customFontTheme}>
         <MaterialReactTable table={table} />
       </ThemeProvider>

@@ -9,8 +9,6 @@ import {
     Select,
     CircularProgress,
 } from '@mui/material';
-import ContainerOutsideExample from '../../../navbar';
-import MonthSelector from '../../../mes';
 import { ThemeProvider } from '@mui/material/styles';
 import customFontTheme from '../../../theme';
 import {
@@ -18,6 +16,7 @@ import {
     useMaterialReactTable,
 } from 'material-react-table';
 import { toast } from 'react-toastify';
+import ManiobrasNavBar from '../../maniobras/Navbar';
 
 const Disponibilidad_unidades = () => {
     const [isLoading2, setLoading] = useState();
@@ -140,7 +139,7 @@ const Disponibilidad_unidades = () => {
 
     return (
         <div>
-            <ContainerOutsideExample />
+            <ManiobrasNavBar />
             <ThemeProvider theme={customFontTheme}>
                 <MaterialReactTable table={table} />
             </ThemeProvider>

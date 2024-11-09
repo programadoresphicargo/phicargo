@@ -3,3 +3,19 @@ Error: You have an error in your SQL syntax; check the manual that corresponds t
 Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' NULL,'2024-09-17 17:50:06','estatus operador')' at line 1 - Línea: 52 - Consulta: INSERT INTO notificaciones VALUES(NULL,'Nuevo estatus: Unidad registrada (CALT)',, NULL,'2024-09-17 17:50:06','estatus operador')
 Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' NULL,'2024-09-17 17:51:07','estatus operador')' at line 1 - Línea: 52 - Consulta: INSERT INTO notificaciones VALUES(NULL,'Nuevo estatus: Unidad registrada (CALT)',, NULL,'2024-09-17 17:51:07','estatus operador')
 Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' NULL,'2024-09-17 17:51:32','estatus operador')' at line 1 - Línea: 52 - Consulta: INSERT INTO notificaciones VALUES(NULL,'Nuevo estatus: Unidad registrada (CALT)',, NULL,'2024-09-17 17:51:32','estatus operador')
+Proceso exitoso - Notificación ID: 35288
+Proceso exitoso - Notificación ID: 35289
+Proceso exitoso - Notificación ID: 35290
+Proceso exitoso - Notificación ID: 35291
+Proceso exitoso - Notificación ID: 35292
+Proceso exitoso - Notificación ID: 35293
+Proceso exitoso - Notificación ID: 35294
+Proceso exitoso - Notificación ID: 35295
+Proceso exitoso - Notificación ID: 35296
+Proceso exitoso - Notificación ID: 35297
+Proceso exitoso - Notificación ID: 35298
+Proceso exitoso - Notificación ID: 35299
+Proceso exitoso - Notificación ID: 35300
+Proceso exitoso - Notificación ID: 35301
+Proceso exitoso - Notificación ID: 35302
+Proceso exitoso - Notificación ID: 35303

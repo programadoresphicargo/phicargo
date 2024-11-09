@@ -10,6 +10,7 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
+import { width } from '@mui/system';
 
 const Maniobras = ({ estado_maniobra }) => {
 
@@ -82,14 +83,22 @@ const Maniobras = ({ estado_maniobra }) => {
             variant = 'success';
             text = 'Retiro';
           } else if (value === 'ingreso') {
-            variant = 'warning';
+            variant = 'primary';
             text = 'Ingreso';
           } else if (value === 'cancelada') {
             variant = 'danger';
+            text = 'Cancelada';
+          } else {
+            text = 'Desconocido';
           }
 
-          return <span className="badge">{text}</span>;
+          return (
+            <span className={`badge bg-${variant} rounded-pill`} style={{ width: '120px' }}>
+              {text}
+            </span>
+          );
         },
+
       },
       {
         accessorKey: 'terminal',

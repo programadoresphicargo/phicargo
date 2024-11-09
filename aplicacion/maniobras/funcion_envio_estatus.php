@@ -2,17 +2,17 @@
 
 function actualizarEstadoViaje($datos, $archivos)
 {
-    $cn = conectar();
+    $cn = conectarPostgresql();
     $log_file = 'errors_log.txt'; // Ruta al archivo de registro de errores
 
     try {
         // Iniciar transacción
-        $cn->begin_transaction();
+        $cn->beginTransaction();
 
         // Extracción de datos del array asociativo
-        $id_viaje = $datos['id_viaje'];
-        $id_status = $datos['id_status'];
-        $status_nombre = $datos['status_nombre'];
+        $id_maniobra = $datos['id_maniobra'];
+        $id_estatus = $datos['id_estatus'];
+        $estatus_nombre = $datos['estatus_nombre'];
         $id_usuario = $datos['id_operador'];
         $id_vehiculo = $datos['id_vehiculo'];
         $latitud = $datos['latitud'];
@@ -27,30 +27,53 @@ function actualizarEstadoViaje($datos, $archivos)
         }
         $comentarios = $datos['comentarios'];
 
-        // Extracción de placas
-        $partes = explode(' [', $id_vehiculo);
-        $placas = rtrim($partes[1], ']');
+        $placas = rtrim('AHS');
 
-        // Fecha y hora actual
         $fecha_hora = date("Y-m-d H:i:s");
 
-        // Insertar en ubicaciones_estatus
-        $sqlInsert = "INSERT INTO ubicaciones_estatus VALUES(NULL, '$placas', $latitud, $longitud, '$localidad', '$sublocalidad', '$calle', $codigo_postal, '$fecha_hora')";
-        if (!$cn->query($sqlInsert)) {
-            throw new Exception("Error al insertar en ubicaciones_estatus: " . $cn->error, 0, null, $sqlInsert);
-        }
-        $id_ubicacion = $cn->insert_id;
+        $sqlInsert = "INSERT INTO ubicaciones_maniobras (placas, latitud, longitud, localidad, sublocalidad, calle, codigo_postal, fecha_hora) 
+        VALUES (:placas, :latitud, :longitud, :localidad, :sublocalidad, :calle, :codigo_postal, :fecha_hora) 
+        RETURNING id_ubicacion";
 
-        // Insertar en reportes_estatus_viajes
-        $sqlInsert = "INSERT INTO reportes_estatus_viajes VALUES(NULL, $id_viaje, $id_status, $id_ubicacion, $id_usuario, '$fecha_hora', '$comentarios')";
-        if (!$cn->query($sqlInsert)) {
-            throw new Exception("Error al insertar en reportes_estatus_viajes: " . $cn->error, 0, null, $sqlInsert);
+        $stmt = $cn->prepare($sqlInsert);
+
+        $stmt->bindParam(':placas', $placas);
+        $stmt->bindParam(':latitud', $latitud);
+        $stmt->bindParam(':longitud', $longitud);
+        $stmt->bindParam(':localidad', $localidad);
+        $stmt->bindParam(':sublocalidad', $sublocalidad);
+        $stmt->bindParam(':calle', $calle);
+        $stmt->bindParam(':codigo_postal', $codigo_postal, PDO::PARAM_INT);
+        $stmt->bindParam(':fecha_hora', $fecha_hora);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error al insertar en ubicaciones_estatus_maniobras: " . implode(" ", $stmt->errorInfo()));
         }
-        $id_reporte = $cn->insert_id;
+
+        $id_ubicacion = $stmt->fetchColumn();
+
+        $sqlInsert = "INSERT INTO reportes_estatus_maniobras (id_maniobra, id_estatus, id_ubicacion, id_usuario, fecha_hora, comentarios_estatus) 
+        VALUES (:id_maniobra, :id_estatus, :id_ubicacion, :id_usuario, :fecha_hora, :comentarios_estatus) 
+        RETURNING id_reporte";
+
+        $stmt = $cn->prepare($sqlInsert);
+
+        $stmt->bindParam(':id_maniobra', $id_maniobra, PDO::PARAM_INT);
+        $stmt->bindParam(':id_estatus', $id_estatus, PDO::PARAM_INT);
+        $stmt->bindParam(':id_ubicacion', $id_ubicacion, PDO::PARAM_INT);
+        $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
+        $stmt->bindParam(':fecha_hora', $fecha_hora);
+        $stmt->bindParam(':comentarios_estatus', $comentarios);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error al insertar en reportes_estatus_maniobras: " . implode(" ", $stmt->errorInfo()));
+        }
+
+        $id_reporte = $stmt->fetchColumn();
 
         $uploaded_images = array();
         if (!empty($archivos)) {
-            $target_dir = "../../gestion_viajes/adjuntos_estatus/$id_viaje/";
+            $target_dir = "../../gestion_viajes/adjuntos_estatus/$id_maniobra/";
             if (!file_exists($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
@@ -77,37 +100,12 @@ function actualizarEstadoViaje($datos, $archivos)
             }
         }
 
-        global $models, $db, $uid, $password;
-        if (!empty($uid)) {
-            $values = [
-                'travel_id' => $id_viaje,
-                'status' => $status_nombre,
-                'location' => $latitud . ',' . $longitud,
-                'name' => $comentarios,
-                'x_envio' => 'Operador',
-            ];
-            $partners = $models->execute_kw(
-                $db,
-                $uid,
-                $password,
-                'tms.travel.history.events',
-                'create',
-                [$values]
-            );
-        }
-
-        // Confirmar transacción
         $cn->commit();
-
-        // Registrar éxito
         logSuccess($log_file, $id_reporte);
 
         return 1;
     } catch (Exception $e) {
-        // Revertir transacción en caso de error
         $cn->rollback();
-
-        // Registrar error
         logError($log_file, $e->getMessage(), $e->getCode(), $e->getPrevious(), $e->getTrace(), $sqlInsert);
         echo $e->getMessage();
         return 0;
